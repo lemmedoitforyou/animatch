@@ -10,6 +10,7 @@ namespace animatch
     {
         static void Main(string[] args)
         {
+            System.Console.WriteLine("hello animatch");
         }
     }
 }
