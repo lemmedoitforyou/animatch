@@ -1,0 +1,209 @@
+-- Table: public.anime
+
+-- DROP TABLE IF EXISTS public.anime;
+
+CREATE TABLE IF NOT EXISTS public.anime
+(
+    id integer NOT NULL,
+    name character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    text text COLLATE pg_catalog."default",
+    imdbrate double precision,
+    photo character varying(255) COLLATE pg_catalog."default",
+    year integer,
+    CONSTRAINT anime_pkey PRIMARY KEY (id),
+    CONSTRAINT anime_name_key UNIQUE (name)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.anime
+    OWNER to postgres;
+
+-- Table: public.genres
+
+-- DROP TABLE IF EXISTS public.genres;
+
+CREATE TABLE IF NOT EXISTS public.genres
+(
+    id integer NOT NULL,
+    name character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT genres_pkey PRIMARY KEY (id),
+    CONSTRAINT genres_name_key UNIQUE (name)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.genres
+    OWNER to postgres;
+
+-- Table: public.animegenres
+
+-- DROP TABLE IF EXISTS public.animegenres;
+
+CREATE TABLE IF NOT EXISTS public.animegenres
+(
+    anime_id integer NOT NULL,
+    genre_id integer NOT NULL,
+    CONSTRAINT animegenres_pkey PRIMARY KEY (anime_id, genre_id),
+    CONSTRAINT animegenres_anime_id_fkey FOREIGN KEY (anime_id)
+        REFERENCES public.anime (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT animegenres_genre_id_fkey FOREIGN KEY (genre_id)
+        REFERENCES public.genres (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.animegenres
+    OWNER to postgres;
+
+-- Table: public.userifro
+
+-- DROP TABLE IF EXISTS public.userinfo;
+
+CREATE TABLE IF NOT EXISTS public.userinfo
+(
+    id integer NOT NULL,
+    username character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    password character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    email character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    name character varying(255) COLLATE pg_catalog."default",
+    level integer,
+    text text COLLATE pg_catalog."default",
+    photo character varying(255) COLLATE pg_catalog."default",
+    watchedcount integer,
+    CONSTRAINT userinfo_pkey PRIMARY KEY (id),
+    CONSTRAINT userinfo_email_key UNIQUE (email),
+    CONSTRAINT userinfo_username_key UNIQUE (username)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.userinfo
+    OWNER to postgres;
+
+-- Table: public.added
+
+-- DROP TABLE IF EXISTS public.added;
+
+CREATE TABLE IF NOT EXISTS public.added
+(
+    user_id integer NOT NULL,
+    anime_id integer NOT NULL,
+    CONSTRAINT added_pkey PRIMARY KEY (user_id, anime_id),
+    CONSTRAINT added_anime_id_fkey FOREIGN KEY (anime_id)
+        REFERENCES public.anime (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT added_user_id_fkey FOREIGN KEY (user_id)
+        REFERENCES public.userinfo (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.added
+    OWNER to postgres;
+
+-- Table: public.disliked
+
+-- DROP TABLE IF EXISTS public.disliked;
+
+CREATE TABLE IF NOT EXISTS public.disliked
+(
+    user_id integer NOT NULL,
+    anime_id integer NOT NULL,
+    CONSTRAINT disliked_pkey PRIMARY KEY (user_id, anime_id),
+    CONSTRAINT disliked_anime_id_fkey FOREIGN KEY (anime_id)
+        REFERENCES public.anime (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT disliked_user_id_fkey FOREIGN KEY (user_id)
+        REFERENCES public.userinfo (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.disliked
+    OWNER to postgres;
+
+-- Table: public.liked
+
+-- DROP TABLE IF EXISTS public.liked;
+
+CREATE TABLE IF NOT EXISTS public.liked
+(
+    user_id integer NOT NULL,
+    anime_id integer NOT NULL,
+    CONSTRAINT liked_pkey PRIMARY KEY (user_id, anime_id),
+    CONSTRAINT liked_anime_id_fkey FOREIGN KEY (anime_id)
+        REFERENCES public.anime (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT liked_user_id_fkey FOREIGN KEY (user_id)
+        REFERENCES public.userinfo (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.liked
+    OWNER to postgres;
+
+-- Table: public.watched
+
+-- DROP TABLE IF EXISTS public.watched;
+
+CREATE TABLE IF NOT EXISTS public.watched
+(
+    user_id integer NOT NULL,
+    anime_id integer NOT NULL,
+    CONSTRAINT watched_pkey PRIMARY KEY (user_id, anime_id),
+    CONSTRAINT watched_anime_id_fkey FOREIGN KEY (anime_id)
+        REFERENCES public.anime (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT watched_user_id_fkey FOREIGN KEY (user_id)
+        REFERENCES public.userinfo (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.watched
+    OWNER to postgres;
+
+-- Table: public.review
+
+-- DROP TABLE IF EXISTS public.review;
+
+CREATE TABLE IF NOT EXISTS public.review
+(
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    anime_id integer NOT NULL,
+    text text COLLATE pg_catalog."default",
+    rate integer,
+    CONSTRAINT review_pkey PRIMARY KEY (id),
+    CONSTRAINT review_anime_id_fkey FOREIGN KEY (anime_id)
+        REFERENCES public.anime (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT review_user_id_fkey FOREIGN KEY (user_id)
+        REFERENCES public.userinfo (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.review
+    OWNER to postgres;
