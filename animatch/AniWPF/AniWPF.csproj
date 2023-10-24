@@ -7,4 +7,9 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\AniBLL\AniBLL.csproj" />
+    <ProjectReference Include="..\AniDAL\AniDAL.csproj" />
+  </ItemGroup>
+
 </Project>
