@@ -17,5 +17,9 @@ namespace AniBLL.Services
         {
             return _animeRepository.GetAll();
         }
+        public Anime GetAnimeById(int animeId)
+        {
+            return _animeRepository.GetById(animeId);
+        }
     }
 }
