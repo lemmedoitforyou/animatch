@@ -10,7 +10,7 @@ namespace AniDAL.Repositories
     public interface IAnimeRepository
     {
         Anime GetById(int id);
-        IEnumerable<Anime> GetAll();
+        List<Anime> GetAll();
         void Add(Anime anime);
         void Update(Anime anime);
         void Delete(Anime anime);
@@ -29,7 +29,7 @@ namespace AniDAL.Repositories
             return _context.Anime.FirstOrDefault(a => a.Id == id);
         }
 
-        public IEnumerable<Anime> GetAll()
+        public List<Anime> GetAll()
         {
             return _context.Anime.ToList();
         }

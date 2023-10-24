@@ -11,7 +11,7 @@ namespace AniDAL.Repositories
     {
         UserInfo GetById(int id);
         UserInfo GetByUsername(string username);
-        IEnumerable<UserInfo> GetAll();
+        List<UserInfo> GetAll();
         void Add(UserInfo userInfo);
         void Update(UserInfo userInfo);
         void Delete(UserInfo userInfo);
@@ -35,7 +35,7 @@ namespace AniDAL.Repositories
             return _context.UserInfo.FirstOrDefault(u => u.Username == username);
         }
 
-        public IEnumerable<UserInfo> GetAll()
+        public List<UserInfo> GetAll()
         {
             return _context.UserInfo.ToList();
         }

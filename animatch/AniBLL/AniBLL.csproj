@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\AniDAL\AniDAL.csproj" />
+  </ItemGroup>
+
 </Project>

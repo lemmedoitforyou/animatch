@@ -9,7 +9,7 @@ namespace AniDAL.Repositories
 {
     public interface IDislikedRepository
     {
-        IEnumerable<Disliked> GetDislikedAnimesForUser(int userId);
+        List<Disliked> GetDislikedAnimesForUser(int userId);
         void Add(Disliked disliked);
         void Delete(Disliked disliked);
     }
@@ -22,7 +22,7 @@ namespace AniDAL.Repositories
             _context = context;
         }
 
-        public IEnumerable<Disliked> GetDislikedAnimesForUser(int userId)
+        public List<Disliked> GetDislikedAnimesForUser(int userId)
         {
             return _context.Disliked.Where(d => d.UserId == userId).ToList();
         }

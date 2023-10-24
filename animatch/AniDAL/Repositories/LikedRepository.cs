@@ -9,7 +9,7 @@ namespace AniDAL.Repositories
 {
     public interface ILikedRepository
     {
-        IEnumerable<Liked> GetLikedAnimesForUser(int userId);
+        List<Liked> GetLikedAnimesForUser(int userId);
         void Add(Liked liked);
         void Delete(Liked liked);
     }
@@ -22,7 +22,7 @@ namespace AniDAL.Repositories
             _context = context;
         }
 
-        public IEnumerable<Liked> GetLikedAnimesForUser(int userId)
+        public List<Liked> GetLikedAnimesForUser(int userId)
         {
             return _context.Liked.Where(l => l.UserId == userId).ToList();
         }

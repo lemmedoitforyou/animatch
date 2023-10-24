@@ -10,7 +10,7 @@ namespace AniDAL.Repositories
     public interface IGenresRepository
     {
         Genres GetById(int id);
-        IEnumerable<Genres> GetAll();
+        List<Genres> GetAll();
         void Add(Genres genres);
         void Update(Genres genres);
         void Delete(Genres genres);
@@ -29,7 +29,7 @@ namespace AniDAL.Repositories
             return _context.Genres.FirstOrDefault(g => g.Id == id);
         }
 
-        public IEnumerable<Genres> GetAll()
+        public List<Genres> GetAll()
         {
             return _context.Genres.ToList();
         }

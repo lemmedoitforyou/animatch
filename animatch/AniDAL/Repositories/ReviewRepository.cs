@@ -10,7 +10,7 @@ namespace AniDAL.Repositories
     public interface IReviewRepository
     {
         Review GetById(int id);
-        IEnumerable<Review> GetReviewsForAnime(int animeId);
+        List<Review> GetReviewsForAnime(int animeId);
         void Add(Review review);
         void Update(Review review);
         void Delete(Review review);
@@ -29,7 +29,7 @@ namespace AniDAL.Repositories
             return _context.Review.FirstOrDefault(r => r.Id == id);
         }
 
-        public IEnumerable<Review> GetReviewsForAnime(int animeId)
+        public List<Review> GetReviewsForAnime(int animeId)
         {
             return _context.Review.Where(r => r.AnimeId == animeId).ToList();
         }

@@ -9,7 +9,7 @@ namespace AniDAL.Repositories
 {
     public interface IWatchedRepository
     {
-        IEnumerable<Watched> GetWatchedAnimesForUser(int userId);
+        List<Watched> GetWatchedAnimesForUser(int userId);
         void Add(Watched watched);
         void Delete(Watched watched);
     }
@@ -22,7 +22,7 @@ namespace AniDAL.Repositories
             _context = context;
         }
 
-        public IEnumerable<Watched> GetWatchedAnimesForUser(int userId)
+        public List<Watched> GetWatchedAnimesForUser(int userId)
         {
             return _context.Watched.Where(w => w.UserId == userId).ToList();
         }
