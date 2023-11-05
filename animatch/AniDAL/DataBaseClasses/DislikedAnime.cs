@@ -1,6 +1,6 @@
 ﻿namespace AniDAL.DataBaseClasses
 {
-    public class Disliked
+    public class DislikedAnime
     {
         public int UserId { get; set; }
 

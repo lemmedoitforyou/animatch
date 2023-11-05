@@ -10,7 +10,7 @@ namespace AniBLL.Services
 {
     public class ReviewService
     {
-        private readonly IReviewRepository _reviewRepository; // Підключення до репозиторію відгуків
+        private readonly IReviewRepository _reviewRepository;
 
         public ReviewService(IReviewRepository reviewRepository)
         {
@@ -26,7 +26,5 @@ namespace AniBLL.Services
         {
             _reviewRepository.Add(review);
         }
-
-        // Інші методи для роботи з відгуками
     }
 }

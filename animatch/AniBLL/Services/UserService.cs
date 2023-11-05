@@ -10,7 +10,7 @@ namespace AniBLL.Services
 {
     public class UserService
     {
-        private readonly IUserInfoRepository _userRepository; // Підключення до репозиторію користувачів
+        private readonly IUserInfoRepository _userRepository; 
 
         public UserService(IUserInfoRepository userRepository)
         {
@@ -26,7 +26,5 @@ namespace AniBLL.Services
         {
             return _userRepository.GetByUsername(username);
         }
-
-        // Інші методи для роботи з користувачами
     }
 }

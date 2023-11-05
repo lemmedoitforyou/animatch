@@ -4,6 +4,7 @@ using System.Windows;
 using AniDAL.DataBaseClasses;
 using AniDAL.Repositories;
 using AniDAL;
+using AniDAL.DbContext;
 
 namespace AniWPF;
 

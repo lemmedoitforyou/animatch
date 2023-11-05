@@ -10,20 +10,16 @@ namespace AniBLL.Services
 {
     public class WatchedService
     {
-        private readonly IWatchedRepository _watchedRepository; // Підключення до репозиторію "watched"
+        private readonly IWatchedAnimeRepository _watchedAnimeRepository; 
 
-        public WatchedService(IWatchedRepository watchedRepository)
+        public WatchedService(IWatchedAnimeRepository watchedAnimeRepository)
         {
-            _watchedRepository = watchedRepository;
+            _watchedAnimeRepository = watchedAnimeRepository;
         }
 
-        public List<Watched> GetWatchedAnimeByUser(int userId)
+        public List<WatchedAnime> GetWatchedAnimeByUser(int userId)
         {
-            return _watchedRepository.GetWatchedAnimesForUser(userId);
+            return _watchedAnimeRepository.GetWatchedAnimesForUser(userId);
         }
-
-        
-
-        // Інші методи для роботи з переглянутим аніме користувачами
     }
 }

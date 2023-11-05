@@ -1,14 +1,14 @@
 ﻿namespace AniDAL.DataBaseClasses
 {
-    public class AnimeGenres
+    public class AddedAnime
     {
+        public int UserId { get; set; }
+
         public int AnimeId { get; set; }
 
-        public int GenreId { get; set; }
+        public UserInfo UserInfo { get; set; }
 
         public Anime Anime { get; set; }
-
-        public Genres Genre { get; set; }
     }
 
 }
