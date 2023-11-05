@@ -12,8 +12,10 @@ namespace animatch
     {
         static void Main(string[] args)
         {
-            Insert();
-            Console.WriteLine("yes");
+            DisplayAllData();
+            //Insert();
+
+            Console.ReadLine();
         }
 
         private static void Insert()
@@ -21,13 +23,15 @@ namespace animatch
             using (NpgsqlConnection con = GetConnection())
             {
                 con.Open();
+
+                Random random = new Random();
                 int rowCount = 50;
                 for (int i = 1; i < rowCount; i++)
                 {
                     // Дані для таблиці anime
                     string animeName = "AnimeName" + i;
-                    int animeYear = 2023;
-                    double animeImdbRate = 7.5;
+                    int animeYear = random.Next(1950, 2024);
+                    double animeImdbRate = random.NextDouble()*10.0;
                     string animeText = "AnimeDescription" + i;
                     string animePhoto = "Path" + i;
 
@@ -207,6 +211,167 @@ namespace animatch
                 command.Parameters.AddWithValue("@animeId", animeId);
 
                 command.ExecuteNonQuery();
+            }
+        }
+
+        static void DisplayAllData()
+        {
+            using (NpgsqlConnection con = GetConnection())
+            {
+                con.Open();
+                DisplayAnimeData(con);
+                DisplayGenresData(con);
+                DisplayUserInfoData(con);
+                DisplayReviewData(con);
+                DisplayAnimeGenresData(con);
+                DisplayAddedData(con);
+                DisplayDislikedData(con);
+                DisplayLikedData(con);
+                DisplayWatchedData(con);
+            }
+        }
+
+        static void DisplayAnimeData(NpgsqlConnection connection)
+        {
+            string query = "SELECT * FROM public.anime";
+            using (NpgsqlCommand command = new NpgsqlCommand(query, connection))
+            {
+                using (NpgsqlDataReader reader = command.ExecuteReader())
+                {
+                    Console.WriteLine("Anime Table Data:");
+                    while (reader.Read())
+                    {
+                        Console.WriteLine($"ID: {reader["id"]}, Name: {reader["name"]}, Year: {reader["year"]}, IMDb Rate: {reader["imdbrate"]}");
+                    }
+                }
+            }
+        }
+
+        static void DisplayGenresData(NpgsqlConnection connection)
+        {
+            string query = "SELECT * FROM public.genres";
+            using (NpgsqlCommand command = new NpgsqlCommand(query, connection))
+            {
+                using (NpgsqlDataReader reader = command.ExecuteReader())
+                {
+                    Console.WriteLine("\n\nGenres Table Data:");
+                    while (reader.Read())
+                    {
+                        Console.WriteLine($"ID: {reader["id"]}, Name: {reader["name"]}");
+                    }
+                }
+            }
+        }
+
+        static void DisplayUserInfoData(NpgsqlConnection connection)
+        {
+            string query = "SELECT * FROM public.userinfo";
+            using (NpgsqlCommand command = new NpgsqlCommand(query, connection))
+            {
+                using (NpgsqlDataReader reader = command.ExecuteReader())
+                {
+                    Console.WriteLine("\n\nUserInfo Table Data:");
+                    while (reader.Read())
+                    {
+                        Console.WriteLine($"ID: {reader["id"]}, Username: {reader["username"]}, Email: {reader["email"]}, Level: {reader["level"]}");
+                    }
+                }
+            }
+        }
+
+        static void DisplayReviewData(NpgsqlConnection connection)
+        {
+            string query = "SELECT * FROM public.review";
+            using (NpgsqlCommand command = new NpgsqlCommand(query, connection))
+            {
+                using (NpgsqlDataReader reader = command.ExecuteReader())
+                {
+                    Console.WriteLine("\n\nReview Table Data:");
+                    while (reader.Read())
+                    {
+                        Console.WriteLine($"ID: {reader["id"]}, User ID: {reader["user_id"]}, Anime ID: {reader["anime_id"]}, Rate: {reader["rate"]}");
+                    }
+                }
+            }
+        }
+
+        static void DisplayAddedData(NpgsqlConnection connection)
+        {
+            string query = "SELECT * FROM public.added";
+            using (NpgsqlCommand command = new NpgsqlCommand(query, connection))
+            {
+                using (NpgsqlDataReader reader = command.ExecuteReader())
+                {
+                    Console.WriteLine("\n\nAdded Table Data:");
+                    while (reader.Read())
+                    {
+                        Console.WriteLine($"User ID: {reader["user_id"]}, Anime ID: {reader["anime_id"]}");
+                    }
+                }
+            }
+        }
+
+        static void DisplayWatchedData(NpgsqlConnection connection)
+        {
+            string query = "SELECT * FROM public.watched";
+            using (NpgsqlCommand command = new NpgsqlCommand(query, connection))
+            {
+                using (NpgsqlDataReader reader = command.ExecuteReader())
+                {
+                    Console.WriteLine("\n\nWatched Table Data:");
+                    while (reader.Read())
+                    {
+                        Console.WriteLine($"User ID: {reader["user_id"]}, Anime ID: {reader["anime_id"]}");
+                    }
+                }
+            }
+        }
+
+        static void DisplayLikedData(NpgsqlConnection connection)
+        {
+            string query = "SELECT * FROM public.liked";
+            using (NpgsqlCommand command = new NpgsqlCommand(query, connection))
+            {
+                using (NpgsqlDataReader reader = command.ExecuteReader())
+                {
+                    Console.WriteLine("\n\nLiked Table Data:");
+                    while (reader.Read())
+                    {
+                        Console.WriteLine($"User ID: {reader["user_id"]}, Anime ID: {reader["anime_id"]}");
+                    }
+                }
+            }
+        }
+
+        static void DisplayDislikedData(NpgsqlConnection connection)
+        {
+            string query = "SELECT * FROM public.disliked";
+            using (NpgsqlCommand command = new NpgsqlCommand(query, connection))
+            {
+                using (NpgsqlDataReader reader = command.ExecuteReader())
+                {
+                    Console.WriteLine("\n\nDisliked Table Data:");
+                    while (reader.Read())
+                    {
+                        Console.WriteLine($"User ID: {reader["user_id"]}, Anime ID: {reader["anime_id"]}");
+                    }
+                }
+            }
+        }
+
+        static void DisplayAnimeGenresData(NpgsqlConnection connection)
+        {
+            string query = "SELECT * FROM public.animegenres";
+            using (NpgsqlCommand command = new NpgsqlCommand(query, connection))
+            {
+                using (NpgsqlDataReader reader = command.ExecuteReader())
+                {
+                    Console.WriteLine("\n\nAnimeGenres Table Data:");
+                    while (reader.Read())
+                    {
+                        Console.WriteLine($"Anime ID: {reader["anime_id"]}, Genre ID: {reader["genre_id"]}");
+                    }
+                }
             }
         }
 

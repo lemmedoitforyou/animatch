@@ -7,6 +7,10 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+            <TextBlock x:Name="data"></TextBlock>
+            <Button x:Name="getAnime" Padding="10" Click="getAnime_Click">Get Data</Button>
+            <Button x:Name="openChildForm" Padding="10" Click="openChildForm_Click">Open Child Form</Button>        </StackPanel>
     </Grid>
 </Window>
