@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AniDAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231105232537_InitialData")]
+    [Migration("20231105234352_InitialData")]
     partial class InitialData
     {
         /// <inheritdoc />
