@@ -10,18 +10,16 @@ using AniDAL;
 
 namespace AniWPF
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         private readonly IAnimeRepository _animeRepository;
-        private readonly ChildForm __childForm;
+        private readonly ChildForm _childForm;
 
         public MainWindow(IAnimeRepository animeAccess, ChildForm childForm)
         {
             InitializeComponent();
             _animeRepository = animeAccess;
+            _childForm = childForm;
         }
 
         private void getAnime_Click(object sender, RoutedEventArgs e)
@@ -31,7 +29,7 @@ namespace AniWPF
 
         private void openChildForm_Click(object sender, RoutedEventArgs e)
         {
-            __childForm.Show();
+            _childForm.Show();
         }
     }
 }
