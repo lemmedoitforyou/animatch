@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AniDAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231105234352_InitialData")]
+    [Migration("20231106214756_InitialData")]
     partial class InitialData
     {
         /// <inheritdoc />
@@ -31,13 +31,6 @@ namespace AniDAL.Migrations
 
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
-
-                    b.Property<int>("UserInfoId")
-                        .HasColumnType("integer");
-
-                    b.HasIndex("AnimeId");
-
-                    b.HasIndex("UserInfoId");
 
                     b.ToTable("AddedAnime");
                 });
@@ -83,10 +76,6 @@ namespace AniDAL.Migrations
                     b.Property<int>("GenreId")
                         .HasColumnType("integer");
 
-                    b.HasIndex("AnimeId");
-
-                    b.HasIndex("GenreId");
-
                     b.ToTable("AnimeGenre");
                 });
 
@@ -97,13 +86,6 @@ namespace AniDAL.Migrations
 
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
-
-                    b.Property<int>("UserInfoId")
-                        .HasColumnType("integer");
-
-                    b.HasIndex("AnimeId");
-
-                    b.HasIndex("UserInfoId");
 
                     b.ToTable("DislikedAnime");
                 });
@@ -134,13 +116,6 @@ namespace AniDAL.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("UserInfoId")
-                        .HasColumnType("integer");
-
-                    b.HasIndex("AnimeId");
-
-                    b.HasIndex("UserInfoId");
-
                     b.ToTable("LikedAnime");
                 });
 
@@ -169,8 +144,6 @@ namespace AniDAL.Migrations
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AnimeId");
 
                     b.HasIndex("UserInfoId");
 
@@ -233,126 +206,16 @@ namespace AniDAL.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("UserInfoId")
-                        .HasColumnType("integer");
-
-                    b.HasIndex("AnimeId");
-
-                    b.HasIndex("UserInfoId");
-
                     b.ToTable("WatchedAnime");
-                });
-
-            modelBuilder.Entity("AniDAL.DataBaseClasses.AddedAnime", b =>
-                {
-                    b.HasOne("AniDAL.DataBaseClasses.Anime", "Anime")
-                        .WithMany()
-                        .HasForeignKey("AnimeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("AniDAL.DataBaseClasses.UserInfo", "UserInfo")
-                        .WithMany()
-                        .HasForeignKey("UserInfoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Anime");
-
-                    b.Navigation("UserInfo");
-                });
-
-            modelBuilder.Entity("AniDAL.DataBaseClasses.AnimeGenre", b =>
-                {
-                    b.HasOne("AniDAL.DataBaseClasses.Anime", "Anime")
-                        .WithMany()
-                        .HasForeignKey("AnimeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("AniDAL.DataBaseClasses.Genre", "Genre")
-                        .WithMany()
-                        .HasForeignKey("GenreId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Anime");
-
-                    b.Navigation("Genre");
-                });
-
-            modelBuilder.Entity("AniDAL.DataBaseClasses.DislikedAnime", b =>
-                {
-                    b.HasOne("AniDAL.DataBaseClasses.Anime", "Anime")
-                        .WithMany()
-                        .HasForeignKey("AnimeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("AniDAL.DataBaseClasses.UserInfo", "UserInfo")
-                        .WithMany()
-                        .HasForeignKey("UserInfoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Anime");
-
-                    b.Navigation("UserInfo");
-                });
-
-            modelBuilder.Entity("AniDAL.DataBaseClasses.LikedAnime", b =>
-                {
-                    b.HasOne("AniDAL.DataBaseClasses.Anime", "Anime")
-                        .WithMany()
-                        .HasForeignKey("AnimeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("AniDAL.DataBaseClasses.UserInfo", "UserInfo")
-                        .WithMany()
-                        .HasForeignKey("UserInfoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Anime");
-
-                    b.Navigation("UserInfo");
                 });
 
             modelBuilder.Entity("AniDAL.DataBaseClasses.Review", b =>
                 {
-                    b.HasOne("AniDAL.DataBaseClasses.Anime", "Anime")
-                        .WithMany()
-                        .HasForeignKey("AnimeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("AniDAL.DataBaseClasses.UserInfo", "UserInfo")
                         .WithMany()
                         .HasForeignKey("UserInfoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Anime");
-
-                    b.Navigation("UserInfo");
-                });
-
-            modelBuilder.Entity("AniDAL.DataBaseClasses.WatchedAnime", b =>
-                {
-                    b.HasOne("AniDAL.DataBaseClasses.Anime", "Anime")
-                        .WithMany()
-                        .HasForeignKey("AnimeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("AniDAL.DataBaseClasses.UserInfo", "UserInfo")
-                        .WithMany()
-                        .HasForeignKey("UserInfoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Anime");
 
                     b.Navigation("UserInfo");
                 });
