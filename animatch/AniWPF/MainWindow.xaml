@@ -5,12 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AniWPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="MainWindow" Height="1024" Width="1440">
+    <Grid Background="LightPink">
         <StackPanel Orientation="Vertical" HorizontalAlignment="Center"
                     VerticalAlignment="Center">
             <TextBlock x:Name="data"></TextBlock>
-            <Button x:Name="getAnime" Padding="10" Click="getAnime_Click">Get Data</Button>
-            <Button x:Name="openChildForm" Padding="10" Click="openChildForm_Click">Open Child Form</Button>        </StackPanel>
+        </StackPanel>
+        <TextBox x:Name="login" TextWrapping="Wrap" Text="" Margin="494,457,465,496" TextChanged="login"/>
     </Grid>
 </Window>

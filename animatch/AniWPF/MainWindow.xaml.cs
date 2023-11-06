@@ -31,5 +31,10 @@ namespace AniWPF
         {
             _childForm.Show();
         }
+
+        private void textBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+
+        }
     }
 }
