@@ -17,7 +17,7 @@ namespace AniDAL.DataBaseClasses
 
         public UserInfo UserInfo { get; set; }
 
-        public Anime Anime { get; set; }
+       
     }
 }
 

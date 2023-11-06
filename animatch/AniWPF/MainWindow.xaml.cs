@@ -24,7 +24,7 @@ namespace AniWPF
 
         private void getAnime_Click(object sender, RoutedEventArgs e)
         {
-            data.Text = _animeRepository.GetAll().ToString();
+            data.Text = _animeRepository.GetById(1).ToString();
         }
 
         private void openChildForm_Click(object sender, RoutedEventArgs e)
