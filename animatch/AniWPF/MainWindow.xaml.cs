@@ -22,13 +22,15 @@ namespace AniWPF
     public partial class MainWindow : Window
     {
         private readonly IUserService _userService;
-        private readonly IAbstractFactory<main> _factory;
+        private readonly IAbstractFactory<main> _main_factory;
+        private readonly IAbstractFactory<ChildForm> _child_factory;
 
-        public MainWindow(IUserService userService, IAbstractFactory<main> factory)
+        public MainWindow(IUserService userService, IAbstractFactory<main> mfactory, IAbstractFactory<ChildForm> cfactory)
         {
             InitializeComponent();
             _userService = userService;
-            _factory = factory;
+            _main_factory = mfactory;
+            _child_factory = cfactory;
         }
 
         private void buttonEnter_Click(object sender, RoutedEventArgs e)
@@ -42,6 +44,7 @@ namespace AniWPF
                 if (user.Password == passwordValue)
                 {
                     MessageBox.Show("Користувача знайдено");
+                    _main_factory.Create().Show();
                 }
                 else
                 {
@@ -56,7 +59,7 @@ namespace AniWPF
 
         private void buttonRegister_Click(object sender, RoutedEventArgs e)
         {
-            _factory.Create().Show();
+            _child_factory.Create().Show();
         }
     }
 }
