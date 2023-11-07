@@ -98,6 +98,13 @@ namespace AniWPF
             Random randomForAnime = new Random();
             _viewModel = new AnimeViewModel(_animeService, randomForAnime.Next(1, 50));
         }
+
+        private void random_Click(object sender, RoutedEventArgs e)
+        {
+            Random randomForAnime = new Random();
+            _viewModel = new AnimeViewModel(_animeService, randomForAnime.Next(1, 50));
+            DataContext = _viewModel;
+        }
     }
 }
 

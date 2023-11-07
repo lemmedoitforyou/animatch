@@ -28,6 +28,6 @@
                 <!-- Інші блоки тексту -->
             </StackPanel>
         </Grid>
-        <Button Content="random" Width="100" Height="40" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,943,0,0" Click="Button_Click"/>
+        <Button Content="рандом" Width="100" Height="40" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,10" Click="random_Click"/>
     </Grid>
 </Window>
