@@ -8,7 +8,15 @@ using AniDAL.DataBaseClasses;
 
 namespace AniBLL.Services
 {
-    public class GenreService
+    public interface IGenreService
+    {
+        Genre GetById(int id);
+        List<Genre> GetAll();
+        void Add(Genre genres);
+        void Update(Genre genres);
+        void Delete(Genre genres);
+    }
+    public class GenreService : IGenreService
     {
         private readonly IGenreRepository _genreRepository; 
 
@@ -17,14 +25,26 @@ namespace AniBLL.Services
             _genreRepository = genreRepository;
         }
 
-        public List<Genre> GetAllGenres()
+        public List<Genre> GetAll()
         {
             return _genreRepository.GetAll();
         }
 
-        public Genre GetGenreById(int genreId)
+        public Genre GetById(int genreId)
         {
             return _genreRepository.GetById(genreId);
+        }
+        public void Add(Genre genres)
+        {
+            _genreRepository.Add(genres);
+        }
+        public void Update(Genre genres)
+        {
+            _genreRepository.Update(genres);
+        }
+        public void Delete(Genre genres)
+        {
+            _genreRepository.Delete(genres);
         }
     }
 }

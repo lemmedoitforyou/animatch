@@ -8,7 +8,13 @@ using AniDAL.DataBaseClasses;
 
 namespace AniBLL.Services
 {
-    public class WatchedService
+    public interface IWatchedAnimeService
+    {
+        List<WatchedAnime> GetWatchedAnimesForUser(int userId);
+        void Add(WatchedAnime watched);
+        void Delete(WatchedAnime watched);
+    }
+    public class WatchedService : IWatchedAnimeService
     {
         private readonly IWatchedAnimeRepository _watchedAnimeRepository; 
 
@@ -17,9 +23,18 @@ namespace AniBLL.Services
             _watchedAnimeRepository = watchedAnimeRepository;
         }
 
-        public List<WatchedAnime> GetWatchedAnimeByUser(int userId)
+        public List<WatchedAnime> GetWatchedAnimesForUser(int userId)
         {
             return _watchedAnimeRepository.GetWatchedAnimesForUser(userId);
+        }
+        public void Add(WatchedAnime watched)
+        {
+            _watchedAnimeRepository.Add(watched);
+        }
+
+        public void Delete(WatchedAnime watched)
+        {
+            _watchedAnimeRepository.Delete(watched);
         }
     }
 }

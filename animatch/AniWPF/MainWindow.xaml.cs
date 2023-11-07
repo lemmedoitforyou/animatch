@@ -7,29 +7,31 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows;
 using AniDAL;
+using AniWPF.StartupHelper;
+using AniBLL.Services;
 
 namespace AniWPF
 {
     public partial class MainWindow : Window
     {
-        private readonly IAnimeRepository _animeRepository;
-        private readonly ChildForm _childForm;
+        private readonly IAnimeService _animeService;
+        private readonly IAbstractFactory<ChildForm> _factory;
 
-        public MainWindow(IAnimeRepository animeAccess, ChildForm childForm)
+        public MainWindow(IAnimeService animeService, IAbstractFactory<ChildForm> factory)
         {
             InitializeComponent();
-            _animeRepository = animeAccess;
-            _childForm = childForm;
+            _animeService = animeService;
+            _factory = factory;
         }
 
         private void getAnime_Click(object sender, RoutedEventArgs e)
         {
-            data.Text = _animeRepository.GetById(1).ToString();
+            data.Text = _animeService.GetById(1).ToString();
         }
 
         private void openChildForm_Click(object sender, RoutedEventArgs e)
         {
-            _childForm.Show();
+            _factory.Create().Show();
         }
     }
 }

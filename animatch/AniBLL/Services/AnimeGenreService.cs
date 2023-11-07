@@ -8,7 +8,14 @@ using AniDAL.DataBaseClasses;
 
 namespace AniBLL.Services
 {
-    public class AnimeGenreService
+    public interface IAnimeGenreService
+    {
+        List<AnimeGenre> GetGenresForAnime(int animeId);
+        List<AnimeGenre> GetAnimesForGenre(int genreId);
+        void Add(AnimeGenre animeGenres);
+        void Delete(AnimeGenre animeGenres);
+    }
+    public class AnimeGenreService : IAnimeGenreService
     {
         private readonly IAnimeGenreRepository _animeGenreRepository; 
 
@@ -17,14 +24,22 @@ namespace AniBLL.Services
             _animeGenreRepository = animeGenreRepository;
         }
 
-        public List<AnimeGenre> GetGenreByAnime(int animeId)
+        public List<AnimeGenre> GetGenresForAnime(int animeId)
         {
             return _animeGenreRepository.GetGenresForAnime(animeId);
         }
 
-        public List<AnimeGenre> GetAnimeByGenre(int genreId)
+        public List<AnimeGenre> GetAnimesForGenre(int genreId)
         {
             return _animeGenreRepository.GetAnimesForGenre(genreId);
+        }
+        public void Add(AnimeGenre animeGenres)
+        {
+            _animeGenreRepository.Add(animeGenres);
+        }
+        public void Delete(AnimeGenre animeGenres)
+        {
+            _animeGenreRepository.Delete(animeGenres);
         }
     }
 }
