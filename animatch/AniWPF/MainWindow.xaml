@@ -8,12 +8,13 @@
         Title="MainWindow" Height="1024" Width="1440">
     <Grid Background="LightPink">
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Image x:Name="biglogo" HorizontalAlignment="Center" Height="185" Width="656" Source="/big_logo_white.png"/>
             <Label x:Name="labelLogin" Content="логін" FontFamily="Comic Sans MS"/>
             <TextBox x:Name="login" TextWrapping="Wrap" Text="" Width="369" Height="37" Margin="0,0,0,10"/>
             <Label x:Name="labelPassword" Content="пароль:" FontFamily="Comic Sans MS"/>
             <PasswordBox x:Name="password" Width="369" Height="37" Margin="0,0,0,10"/>
-            <Button x:Name="buttonEnter" Content="увійти" FontSize="20" FontFamily="Comic Sans MS" Click="buttonEnter_Click"/>
-            <Button x:Name="buttonRegister" Content="зареєструватись" FontSize="20" FontFamily="Comic Sans MS" Click="buttonRegister_Click"/>
+            <Button x:Name="buttonEnter" Content="увійти" FontSize="20" Width="369" Height="37" FontFamily="Comic Sans MS" Click="buttonEnter_Click"/>
+            <Button x:Name="buttonRegister" Content="зареєструватись" Width="369" Height="37" FontSize="20" FontFamily="Comic Sans MS" Click="buttonRegister_Click"/>
         </StackPanel>
         
     </Grid>

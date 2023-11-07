@@ -15,17 +15,20 @@ using System.Windows.Shapes;
 using AniBLL.Services;
 using AniDAL.DataBaseClasses;
 using AniDAL.Repositories;
+using AniWPF.StartupHelper;
 
 namespace AniWPF
 {
     public partial class ChildForm : Window
     {
         private readonly IUserService _userService;
+        private readonly IAbstractFactory<MainWindow> _Main_factory;
 
-        public ChildForm(IUserService userService)
+        public ChildForm(IUserService userService, IAbstractFactory<MainWindow> Mfactory)
         {
             InitializeComponent();
             _userService = userService;
+            _Main_factory = Mfactory;
         }
 
         private void registration_Click(object sender, RoutedEventArgs e)
@@ -56,6 +59,7 @@ namespace AniWPF
 
                 _userService.Add(Id, Username, Email, Password, Name, Level, Text, Photo, WatchedCount);
                 MessageBox.Show("Реєстрація пройшла успішно!");
+                _Main_factory.Create().Show();
             }
         }
     }

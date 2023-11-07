@@ -58,6 +58,11 @@ namespace AniWPF
                 {
                     return _animeService.GetById(1).Imdbrate;
                 }
+                set
+                {
+                    // Встановлюємо значення rate в джерелі даних або де зручно.
+                    OnPropertyChanged(nameof(AnimeRate)); // Сповіщаємо систему про зміну значення
+                }
             }
             public string AnimePhoto
             {

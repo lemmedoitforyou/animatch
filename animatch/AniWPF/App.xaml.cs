@@ -20,6 +20,7 @@ public partial class App : Application
             services.AddSingleton<MainWindow>();
             services.AddFormFactory<main>();
             services.AddFormFactory<ChildForm>();
+            services.AddFormFactory<MainWindow>();
             services.AddTransient<IAnimeRepository, AnimeRepository>();
             services.AddTransient<IAnimeService, AnimeService>();
             services.AddTransient<IUserInfoRepository, UserInfoRepository>();

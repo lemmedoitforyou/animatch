@@ -20,6 +20,11 @@
                 <!-- Тут можна додавати блоки тексту -->
                 <TextBlock Text="{Binding AnimeName}" FontSize="50"/>
                 <TextBlock Text="{Binding AnimeText}" FontSize="30"/>
+                <TextBlock FontSize="30">
+                    <Run Text="IMDB рейтинг " />
+                    <Run Text="{Binding AnimeRate}" />
+                    <Run Text="/10 " />
+                </TextBlock>
                 <!-- Інші блоки тексту -->
             </StackPanel>
         </Grid>

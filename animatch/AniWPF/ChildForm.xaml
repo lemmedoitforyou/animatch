@@ -7,8 +7,8 @@
         mc:Ignorable="d" FontSize="20"
         Title="ChildForm" Height="1024" Width="1440">
     <Grid Background="LightPink">
-        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
-            <Image x:Name="biglogo" HorizontalAlignment="Center" Height="185" Width="656" Source="../photo/big_logo_white.png"/>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Image x:Name="biglogo" HorizontalAlignment="Center" Height="185" Width="656" Source="/big_logo_white.png"/>
             <TextBlock Text="логін" Height="26" Width="60"/>
             <TextBox x:Name="in_login" Width="453" Height="53" />
             <TextBlock Text="пошта" Height="26" Width="60" />
