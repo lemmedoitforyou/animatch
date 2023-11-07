@@ -35,7 +35,7 @@ namespace AniWPF
         {
             string loginValue = login.Text;
             string passwordValue = password.Password;
-            var user = _userService.GetUserByUsername(loginValue);
+            var user = _userService.GetByUsername(loginValue);
 
             if (user != null)
             {
