@@ -1,16 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AniDAL.DataBaseClasses;
 using AniDAL.Repositories;
-using AniDAL.DataBaseClasses;
 
 namespace AniBLL.Services
 {
-    public class UserService
+    public interface IUserService
     {
-        private readonly IUserInfoRepository _userRepository; 
+        UserInfo GetUserById(int userId);
+        UserInfo GetUserByUsername(string username);
+    }
+
+    public class UserService : IUserService
+    {
+        private readonly IUserInfoRepository _userRepository;
 
         public UserService(IUserInfoRepository userRepository)
         {

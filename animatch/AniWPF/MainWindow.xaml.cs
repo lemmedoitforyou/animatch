@@ -1,54 +1,53 @@
-﻿using AniDAL.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows;
-using AniDAL;
+﻿using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
+using AniDAL.Repositories;
 using AniWPF.StartupHelper;
 using System.Windows.Controls;
+using System.ComponentModel;
+using AniBLL.Services;
+using System.Windows;
+using AniWPF;
+using System;
 
 namespace AniWPF
 {
     public partial class MainWindow : Window
     {
-        private readonly IAnimeRepository _animeRepository;
-        private readonly IUserInfoRepository _userInfoRepository;
-        private readonly IAbstractFactory<ChildForm> _factory;
-       
+        private readonly IUserService _userService;
+        private readonly IAbstractFactory<main> _factory;
 
-        public MainWindow(IAnimeRepository animeAccess,IUserInfoRepository userInfoAccess, IAbstractFactory<ChildForm> factory)
+        public MainWindow(IUserService userService, IAbstractFactory<main> factory)
         {
             InitializeComponent();
-            _animeRepository = animeAccess;
-            _userInfoRepository = userInfoAccess;
-
+            _userService = userService;
             _factory = factory;
-        }
-
-        private void login_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            
-        }
-
-        private void login_TextChanged_1(object sender, TextChangedEventArgs e)
-        {
-
         }
 
         private void buttonEnter_Click(object sender, RoutedEventArgs e)
         {
-            string Login = login.Text;
-            string Password = password.Password;
-            if (_userInfoRepository.GetByUsername(Login).Password == Password)
+            string loginValue = login.Text;
+            string passwordValue = password.Password;
+            var user = _userService.GetUserByUsername(loginValue);
+
+            if (user != null)
             {
-                MessageBox.Show("користувача знайдено");
+                if (user.Password == passwordValue)
+                {
+                    MessageBox.Show("Користувача знайдено");
+                }
+                else
+                {
+                    MessageBox.Show("Пароль неправильний");
+                }
             }
             else
             {
-                MessageBox.Show("користувача не знайдено");
+                MessageBox.Show("Користувача не знайдено");
             }
         }
 

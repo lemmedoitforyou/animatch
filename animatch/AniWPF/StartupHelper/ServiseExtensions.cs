@@ -10,7 +10,7 @@ namespace AniWPF.StartupHelper
     public static class ServiseExtensions
     {
         public static void AddFormFactory<TForm>(this IServiceCollection services)
-            where TForm : class
+    where TForm : class
         {
             services.AddTransient<TForm>();
             services.AddSingleton<Func<TForm>>(x => () => x.GetService<TForm>()!);

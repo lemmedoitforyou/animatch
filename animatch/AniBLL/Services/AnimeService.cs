@@ -4,7 +4,12 @@ using AniDAL.DataBaseClasses;
 
 namespace AniBLL.Services
 {
-    public class AnimeService
+    public interface IAnimeService
+    {
+        List<Anime> GetAll();
+        Anime GetById(int animeId);
+    }
+    public class AnimeService: IAnimeService
     {
         private readonly IAnimeRepository _animeRepository;
 
@@ -13,11 +18,11 @@ namespace AniBLL.Services
             _animeRepository = animeRepository;
         }
 
-        public List<Anime> GetAllAnime()
+        public List<Anime> GetAll()
         {
             return _animeRepository.GetAll();
         }
-        public Anime GetAnimeById(int animeId)
+        public Anime GetById(int animeId)
         {
             return _animeRepository.GetById(animeId);
         }
