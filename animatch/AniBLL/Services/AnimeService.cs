@@ -13,6 +13,7 @@ namespace AniBLL.Services
         void Delete(Anime anime);
     }
     public class AnimeService : IAnimeService
+
     {
         private readonly IAnimeRepository _animeRepository;
 
@@ -25,7 +26,7 @@ namespace AniBLL.Services
         {
             return _animeRepository.GetAll();
         }
-
+        
         public Anime GetById(int animeId)
         {
             return _animeRepository.GetById(animeId);

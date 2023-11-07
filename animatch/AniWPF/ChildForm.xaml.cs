@@ -16,7 +16,6 @@ using AniBLL.Services;
 using AniDAL.DataBaseClasses;
 using AniDAL.Repositories;
 
-
 namespace AniWPF
 {
     public partial class ChildForm : Window

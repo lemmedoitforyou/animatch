@@ -24,7 +24,18 @@ namespace AniDAL.Repositories
     }
     public class UserInfoRepository : IUserInfoRepository
     {
+
         private readonly ApplicationDbContext _context;
+
+        public bool IsExistUsername(string username)
+        {
+            return _context.UserInfo.Any(u => u.Username == username);
+        }
+
+        public bool IsExistEmail(string email)
+        {
+            return _context.UserInfo.Any(u => u.Email == email);
+        }
 
         public UserInfoRepository(ApplicationDbContext context)
         {

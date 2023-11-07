@@ -1,11 +1,18 @@
-﻿using AniDAL.Repositories;
+﻿using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
+using AniDAL.Repositories;
+using AniWPF.StartupHelper;
+using System.Windows.Controls;
+using System.ComponentModel;
+using AniBLL.Services;
+using System.Windows;
+using AniWPF;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows;
 using AniDAL;
 using AniWPF.StartupHelper;
 using AniBLL.Services;
@@ -14,22 +21,40 @@ namespace AniWPF
 {
     public partial class MainWindow : Window
     {
-        private readonly IAnimeService _animeService;
-        private readonly IAbstractFactory<ChildForm> _factory;
+        private readonly IUserService _userService;
+        private readonly IAbstractFactory<main> _factory;
 
-        public MainWindow(IAnimeService animeService, IAbstractFactory<ChildForm> factory)
+        public MainWindow(IUserService userService, IAbstractFactory<main> factory)
         {
             InitializeComponent();
-            _animeService = animeService;
+            _userService = userService;
             _factory = factory;
         }
 
-        private void getAnime_Click(object sender, RoutedEventArgs e)
+        private void buttonEnter_Click(object sender, RoutedEventArgs e)
         {
-            data.Text = _animeService.GetById(1).ToString();
+            string loginValue = login.Text;
+            string passwordValue = password.Password;
+            var user = _userService.GetUserByUsername(loginValue);
+
+            if (user != null)
+            {
+                if (user.Password == passwordValue)
+                {
+                    MessageBox.Show("Користувача знайдено");
+                }
+                else
+                {
+                    MessageBox.Show("Пароль неправильний");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Користувача не знайдено");
+            }
         }
 
-        private void openChildForm_Click(object sender, RoutedEventArgs e)
+        private void buttonRegister_Click(object sender, RoutedEventArgs e)
         {
             _factory.Create().Show();
         }
