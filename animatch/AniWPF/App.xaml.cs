@@ -5,6 +5,7 @@ using AniDAL.DataBaseClasses;
 using AniDAL.Repositories;
 using AniDAL;
 using AniDAL.DbContext;
+using AniWPF.StartupHelper;
 
 namespace AniWPF;
 
@@ -16,9 +17,11 @@ public partial class App : Application
         AppHost = Host.CreateDefaultBuilder().ConfigureServices((hostContext, services) =>
         {
             services.AddSingleton<MainWindow>();
-            services.AddTransient<ChildForm>();
+            services.AddFormFactory<ChildForm>();
             services.AddTransient<IAnimeRepository, AnimeRepository>();
+            services.AddTransient<IUserInfoRepository, UserInfoRepository>();
             services.AddTransient<ApplicationDbContext>();
+           
         }).Build();
     }
     protected override async void OnStartup(StartupEventArgs e)

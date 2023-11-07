@@ -13,17 +13,17 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using AniDAL.Repositories;
 
-
 namespace AniWPF
 {
-    /// <summary>
-    /// Interaction logic for ChildForm.xaml
-    /// </summary>
+    
     public partial class ChildForm : Window
     {
-        public ChildForm()
+        private readonly IAnimeRepository _animeRepository;
+
+        public ChildForm(IAnimeRepository animeRepository)
         {
             InitializeComponent();
+            _animeRepository = animeRepository;
         }
     }
 }

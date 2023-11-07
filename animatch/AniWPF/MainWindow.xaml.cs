@@ -7,34 +7,54 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows;
 using AniDAL;
+using AniWPF.StartupHelper;
+using System.Windows.Controls;
 
 namespace AniWPF
 {
     public partial class MainWindow : Window
     {
         private readonly IAnimeRepository _animeRepository;
-        private readonly ChildForm _childForm;
+        private readonly IUserInfoRepository _userInfoRepository;
+        private readonly IAbstractFactory<ChildForm> _factory;
+       
 
-        public MainWindow(IAnimeRepository animeAccess, ChildForm childForm)
+        public MainWindow(IAnimeRepository animeAccess,IUserInfoRepository userInfoAccess, IAbstractFactory<ChildForm> factory)
         {
             InitializeComponent();
             _animeRepository = animeAccess;
-            _childForm = childForm;
+            _userInfoRepository = userInfoAccess;
+
+            _factory = factory;
         }
 
-        private void getAnime_Click(object sender, RoutedEventArgs e)
+        private void login_TextChanged(object sender, TextChangedEventArgs e)
         {
-            data.Text = _animeRepository.GetById(1).ToString();
+            
         }
 
-        private void openChildForm_Click(object sender, RoutedEventArgs e)
+        private void login_TextChanged_1(object sender, TextChangedEventArgs e)
         {
-            _childForm.Show();
+
         }
 
-        private void textBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        private void buttonEnter_Click(object sender, RoutedEventArgs e)
         {
+            string Login = login.Text;
+            string Password = password.Password;
+            if (_userInfoRepository.GetByUsername(Login).Password == Password)
+            {
+                MessageBox.Show("користувача знайдено");
+            }
+            else
+            {
+                MessageBox.Show("користувача не знайдено");
+            }
+        }
 
+        private void buttonRegister_Click(object sender, RoutedEventArgs e)
+        {
+            _factory.Create().Show();
         }
     }
 }
