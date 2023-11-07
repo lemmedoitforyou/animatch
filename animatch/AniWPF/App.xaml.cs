@@ -21,6 +21,7 @@ public partial class App : Application
             services.AddFormFactory<main>();
             services.AddFormFactory<ChildForm>();
             services.AddFormFactory<MainWindow>();
+            services.AddFormFactory<random>();
             services.AddTransient<IAnimeRepository, AnimeRepository>();
             services.AddTransient<IAnimeService, AnimeService>();
             services.AddTransient<IUserInfoRepository, UserInfoRepository>();

@@ -19,23 +19,22 @@ using AniBLL.Services;
 
 namespace AniWPF
 {
-    
-    public partial class main : Window
+   
+    public partial class random : Window
     {
+
         private readonly IAnimeService _animeService;
         private AnimeViewModel _viewModel;
-        private readonly IAbstractFactory<random> _random_factory;
-
-
-        public main(IAnimeService animeService, IAbstractFactory<random> rfactory)
+        public random(IAnimeService animeService)
         {
+
+
             InitializeComponent();
             _animeService = animeService;
-            _random_factory = rfactory;
-            
-            
-        // Створюємо екземпляр ViewModel і встановлюємо його як DataContext
-            _viewModel = new AnimeViewModel(_animeService,1);
+
+            Random randomForAnime = new Random();
+            // Створюємо екземпляр ViewModel і встановлюємо його як DataContext
+            _viewModel = new AnimeViewModel(_animeService, randomForAnime.Next(1,50));
             DataContext = _viewModel;
         }
         public class AnimeViewModel : INotifyPropertyChanged
@@ -94,20 +93,11 @@ namespace AniWPF
             }
         }
 
-        private void random_Click(object sender, RoutedEventArgs e)
-        {
-            _random_factory.Create().Show();
-        }
-
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            _random_factory.Create().Show();
-        }
-
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-            _random_factory.Create().Show();
+            Random randomForAnime = new Random();
+            _viewModel = new AnimeViewModel(_animeService, randomForAnime.Next(1, 50));
         }
     }
-    
 }
+
