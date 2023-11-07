@@ -19,10 +19,11 @@ public partial class App : Application
         {
             services.AddSingleton<MainWindow>();
             services.AddFormFactory<main>();
-            services.AddTransient<IUserService, UserService>(); // Додайте IUserService
-            services.AddTransient<IAnimeService, AnimeService>(); // Додайте IUserService
+            services.AddFormFactory<ChildForm>();
             services.AddTransient<IAnimeRepository, AnimeRepository>();
+            services.AddTransient<IAnimeService, AnimeService>();
             services.AddTransient<IUserInfoRepository, UserInfoRepository>();
+            services.AddTransient<IUserService, UserService>();
             services.AddTransient<ApplicationDbContext>();
         }).Build();
     }

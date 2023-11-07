@@ -8,7 +8,13 @@ using AniDAL.DataBaseClasses;
 
 namespace AniBLL.Services
 {
-    public class DislikedAnimeService
+    public interface IDislikedAnimeService
+    {
+        List<DislikedAnime> GetDislikedAnimesForUser(int userId);
+        void Add(DislikedAnime disliked);
+        void Delete(DislikedAnime disliked);
+    }
+    public class DislikedAnimeService : IDislikedAnimeService
     {
         private readonly IDislikedAnimeRepository _dislikedAnimeRepository; 
 
@@ -17,9 +23,17 @@ namespace AniBLL.Services
             _dislikedAnimeRepository = dislikedAnimeRepository;
         }
 
-        public List<DislikedAnime> GetDislikedAnimeByUser(int userId)
+        public List<DislikedAnime> GetDislikedAnimesForUser(int userId)
         {
             return _dislikedAnimeRepository.GetDislikedAnimesForUser(userId);
+        }
+        public void Add(DislikedAnime disliked)
+        {
+            _dislikedAnimeRepository.Add(disliked);
+        }
+        public void Delete(DislikedAnime disliked)
+        {
+            _dislikedAnimeRepository.Delete(disliked);
         }
     }
 }

@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using AniDAL.DataBaseClasses;
 using AniDAL.DbContext;
+using Microsoft.EntityFrameworkCore;
 
 namespace AniDAL.Repositories
 {
@@ -13,11 +15,12 @@ namespace AniDAL.Repositories
         UserInfo GetById(int id);
         UserInfo GetByUsername(string username);
         List<UserInfo> GetAll();
-        void Add(UserInfo userInfo);
+        void Add(int id, string username, string email, string password, string name, int level, string text, string photo, int watchedCount);
         void Update(UserInfo userInfo);
         void Delete(UserInfo userInfo);
-        public bool IsExistUsername(string username);
-        public bool IsExistEmail(string email);
+        bool IsExistUsername(string username);
+        bool IsExistEmail(string email);
+        int GetLastUserId();
     }
     public class UserInfoRepository : IUserInfoRepository
     {
@@ -54,10 +57,23 @@ namespace AniDAL.Repositories
             return _context.UserInfo.ToList();
         }
 
-        public void Add(UserInfo userInfo)
+        public void Add(int id, string username, string email, string password, string name, int level, string text, string photo, int watchedCount)
         {
-            _context.UserInfo.Add(userInfo);
-            _context.SaveChanges();
+            UserInfo user = new UserInfo
+            {
+                Id = id,
+                Username = username,
+                Email = email,
+                Password = password,
+                Name = "додати ім'я",
+                Level = 0,
+                Text = "додати підпис",
+                Photo = "defaultphoto.jpg",
+                WatchedCount = 0
+            };
+                _context.UserInfo.Add(user);
+                _context.SaveChanges();
+          
         }
 
         public void Update(UserInfo userInfo)
@@ -70,6 +86,22 @@ namespace AniDAL.Repositories
         {
             _context.UserInfo.Remove(userInfo);
             _context.SaveChanges();
+        }
+
+        public bool IsExistUsername(string username)
+        {
+            return _context.UserInfo.Any(u => u.Username == username);
+        }
+
+        public bool IsExistEmail(string email)
+        {
+            return _context.UserInfo.Any(u => u.Email == email);
+        }
+
+        public int GetLastUserId()
+        {
+            int lastUserId = _context.UserInfo.Max(u => u.Id);
+            return lastUserId;
         }
     }
 }

@@ -13,6 +13,9 @@ using AniBLL.Services;
 using System.Windows;
 using AniWPF;
 using System;
+using AniDAL;
+using AniWPF.StartupHelper;
+using AniBLL.Services;
 
 namespace AniWPF
 {
