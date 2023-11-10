@@ -18,10 +18,10 @@ public partial class App : Application
         AppHost = Host.CreateDefaultBuilder().ConfigureServices((hostContext, services) =>
         {
             services.AddSingleton<MainWindow>();
-            services.AddFormFactory<main>();
+            services.AddFormFactory<Main>();
             services.AddFormFactory<ChildForm>();
             services.AddFormFactory<MainWindow>();
-            services.AddFormFactory<random>();
+            services.AddFormFactory<Random>();
             services.AddTransient<IAnimeRepository, AnimeRepository>();
             services.AddTransient<IAnimeService, AnimeService>();
             services.AddTransient<IUserInfoRepository, UserInfoRepository>();

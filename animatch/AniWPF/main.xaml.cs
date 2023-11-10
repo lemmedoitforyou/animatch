@@ -1,80 +1,68 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using AniDAL.Repositories;
-using AniWPF.StartupHelper;
-using System.Windows.Controls;
-using System.ComponentModel;
 using AniBLL.Services;
+using AniWPF.StartupHelper;
 
 namespace AniWPF
 {
-    
-    public partial class main : Window
+    public partial class Main : Window
     {
-        private readonly IAnimeService _animeService;
-        private AnimeViewModel _viewModel;
-        private readonly IAbstractFactory<random> _random_factory;
+        private readonly IAbstractFactory<Random> randomFactory;
+        private readonly IAnimeService animeService;
+        private AnimeViewModel viewModel;
 
-
-        public main(IAnimeService animeService, IAbstractFactory<random> rfactory)
+        public Main(IAnimeService animeService, IAbstractFactory<Random> rfactory, IAbstractFactory<Random> randomFactory)
         {
-            InitializeComponent();
-            _animeService = animeService;
-            _random_factory = rfactory;
-            
-            
-        // Створюємо екземпляр ViewModel і встановлюємо його як DataContext
-            _viewModel = new AnimeViewModel(_animeService,1);
-            DataContext = _viewModel;
+            this.InitializeComponent();
+            this.animeService = animeService;
+            randomFactory = rfactory;
+
+            // Створюємо екземпляр ViewModel і встановлюємо його як DataContext
+            this.viewModel = new AnimeViewModel(this.animeService, 1);
+            this.DataContext = this.viewModel;
+            this.randomFactory = randomFactory;
         }
+
         public class AnimeViewModel : INotifyPropertyChanged
         {
-            private readonly IAnimeService _animeService;
+            private readonly IAnimeService animeService;
             private int id;
 
             public AnimeViewModel(IAnimeService animeService, int id)
             {
-                _animeService = animeService;
+                this.animeService = animeService;
                 this.id = id;
             }
+
             public string AnimeName
             {
-                get { return _animeService.GetById(id).Name; }
+                get { return this.animeService.GetById(this.id).Name; }
             }
 
             public string AnimeText
             {
-                get { return _animeService.GetById(id).Text; }
-
+                get { return this.animeService.GetById(this.id).Text; }
             }
+
             public double AnimeRate
             {
                 get
                 {
-                    return _animeService.GetById(id).Imdbrate;
+                    return this.animeService.GetById(this.id).Imdbrate;
                 }
+
                 set
                 {
                     // Встановлюємо значення rate в джерелі даних або де зручно.
-                    OnPropertyChanged(nameof(AnimeRate)); // Сповіщаємо систему про зміну значення
+                    this.OnPropertyChanged(nameof(this.AnimeRate)); // Сповіщаємо систему про зміну значення
                 }
             }
+
             public string AnimePhoto
             {
                 get
                 {
-                    return _animeService.GetById(id).Photo;
+                    return this.animeService.GetById(this.id).Photo;
                 }
             }
 
@@ -82,7 +70,7 @@ namespace AniWPF
             {
                 get
                 {
-                    return _animeService.GetById(id).Year;
+                    return this.animeService.GetById(this.id).Year;
                 }
             }
 
@@ -90,24 +78,23 @@ namespace AniWPF
 
             protected virtual void OnPropertyChanged(string propertyName)
             {
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
             }
         }
 
-        private void random_Click(object sender, RoutedEventArgs e)
+        private void Random_Click(object sender, RoutedEventArgs e)
         {
-            _random_factory.Create().Show();
+            this.randomFactory.Create().Show();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            _random_factory.Create().Show();
+            this.randomFactory.Create().Show();
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            _random_factory.Create().Show();
+            this.randomFactory.Create().Show();
         }
     }
-    
 }

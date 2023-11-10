@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Npgsql;
-
-namespace animatch
+﻿namespace Animatch
 {
-    internal class Program
+    using System;
+    using Npgsql;
+
+    public class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
-            //DisplayAllData();
+            // DisplayAllData();
             Insert();
 
             Console.ReadLine();
@@ -29,7 +24,6 @@ namespace animatch
                 for (int i = 1; i < rowCount; i++)
                 {
                     // Дані для таблиці anime
-                    
                     string animeName = "AnimeName" + i;
                     int animeYear = random.Next(1950, 2024);
                     double animeImdbRate = random.NextDouble()*10.0;
@@ -89,7 +83,7 @@ namespace animatch
             }
         }
 
-        static void InsertDataIntoAnime(NpgsqlConnection connection,int id, string name, int year, double imdbrate, string text, string photo)
+        private static void InsertDataIntoAnime(NpgsqlConnection connection,int id, string name, int year, double imdbrate, string text, string photo)
         {
             string insertQuery = "INSERT INTO public.\"Anime\" (\"Id\", \"Name\", \"Text\", \"Imdbrate\", \"Photo\", \"Year\") VALUES (@id, @name, @text, @imdbrate, @photo, @year)";
 
@@ -106,7 +100,7 @@ namespace animatch
             }
         }
 
-        static void InsertDataIntoGenres(NpgsqlConnection connection,int id, string name)
+        private static void InsertDataIntoGenres(NpgsqlConnection connection,int id, string name)
         {
             string insertQuery = "INSERT INTO public.\"Genre\" (\"Id\",\"Name\") VALUES (@id, @name)";
 
@@ -119,7 +113,7 @@ namespace animatch
             }
         }
 
-        static void InsertDataIntoUserInfo(NpgsqlConnection connection, int id, string username, string password, string email, string name, string text, string photo, int level, int watchedcount)
+        private static void InsertDataIntoUserInfo(NpgsqlConnection connection, int id, string username, string password, string email, string name, string text, string photo, int level, int watchedcount)
         {
             string insertQuery = "INSERT INTO public.\"UserInfo\"(\"Id\", \"Username\", \"Password\", \"Email\", \"Name\", \"Level\", \"Text\", \"Photo\", \"WatchedCount\") VALUES (@id, @username, @password, @email, @name, @level, @text, @photo, @watchedcount)";
 
@@ -139,7 +133,7 @@ namespace animatch
             }
         }
 
-        static void InsertDataIntoReview(NpgsqlConnection connection,int id, int userId, int animeId, string text, int rate)
+        private static void InsertDataIntoReview(NpgsqlConnection connection,int id, int userId, int animeId, string text, int rate)
         {
             string insertQuery = "INSERT INTO public.\"Review\" (\"Id\", \"UserId\", \"AnimeId\", \"Text\", \"Rate\") VALUES (@id, @userId, @animeId, @text, @rate)";
 
@@ -155,7 +149,7 @@ namespace animatch
             }
         }
 
-        static void InsertDataIntoAnimeGenres(NpgsqlConnection connection, int animeId, int genreId)
+        private static void InsertDataIntoAnimeGenres(NpgsqlConnection connection, int animeId, int genreId)
         {
             string insertQuery = "INSERT INTO public.\"AnimeGenre\" (\"AnimeId\", \"GenreId\") VALUES (@animeId, @genreId)";
 
@@ -168,7 +162,7 @@ namespace animatch
             }
         }
 
-        static void InsertDataIntoAdded(NpgsqlConnection connection, int userId, int animeId)
+        private static void InsertDataIntoAdded(NpgsqlConnection connection, int userId, int animeId)
         {
             string insertQuery = "INSERT INTO public.\"AddedAnime\" (\"UserId\", \"AnimeId\") VALUES (@userId, @animeId)";
 
@@ -181,7 +175,7 @@ namespace animatch
             }
         }
 
-        static void InsertDataIntoLiked(NpgsqlConnection connection, int userId, int animeId)
+        private static void InsertDataIntoLiked(NpgsqlConnection connection, int userId, int animeId)
         {
             string insertQuery = "INSERT INTO public.\"LikedAnime\" (\"UserId\", \"AnimeId\") VALUES (@userId, @animeId)";
 
@@ -194,7 +188,7 @@ namespace animatch
             }
         }
 
-        static void InsertDataIntoDisLiked(NpgsqlConnection connection, int userId, int animeId)
+        private static void InsertDataIntoDisLiked(NpgsqlConnection connection, int userId, int animeId)
         {
             string insertQuery = "INSERT INTO public.\"DislikedAnime\" (\"UserId\", \"AnimeId\") VALUES (@userId, @animeId)";
 
@@ -207,7 +201,7 @@ namespace animatch
             }
         }
 
-        static void InsertDataIntoWatched(NpgsqlConnection connection, int userId, int animeId)
+        private static void InsertDataIntoWatched(NpgsqlConnection connection, int userId, int animeId)
         {
             string insertQuery = "INSERT INTO public.\"WatchedAnime\" (\"UserId\", \"AnimeId\") VALUES (@userId, @animeId)";
 
@@ -220,7 +214,7 @@ namespace animatch
             }
         }
 
-        static void DisplayAllData()
+        private static void DisplayAllData()
         {
             using (NpgsqlConnection con = GetConnection())
             {
@@ -237,7 +231,7 @@ namespace animatch
             }
         }
 
-        static void DisplayAnimeData(NpgsqlConnection connection)
+        private static void DisplayAnimeData(NpgsqlConnection connection)
         {
             string query = "SELECT * FROM public.anime";
             using (NpgsqlCommand command = new NpgsqlCommand(query, connection))
@@ -253,7 +247,7 @@ namespace animatch
             }
         }
 
-        static void DisplayGenresData(NpgsqlConnection connection)
+        private static void DisplayGenresData(NpgsqlConnection connection)
         {
             string query = "SELECT * FROM public.genres";
             using (NpgsqlCommand command = new NpgsqlCommand(query, connection))
@@ -269,7 +263,7 @@ namespace animatch
             }
         }
 
-        static void DisplayUserInfoData(NpgsqlConnection connection)
+        private static void DisplayUserInfoData(NpgsqlConnection connection)
         {
             string query = "SELECT * FROM public.userinfo";
             using (NpgsqlCommand command = new NpgsqlCommand(query, connection))
@@ -285,7 +279,7 @@ namespace animatch
             }
         }
 
-        static void DisplayReviewData(NpgsqlConnection connection)
+        private static void DisplayReviewData(NpgsqlConnection connection)
         {
             string query = "SELECT * FROM public.review";
             using (NpgsqlCommand command = new NpgsqlCommand(query, connection))
@@ -301,7 +295,7 @@ namespace animatch
             }
         }
 
-        static void DisplayAddedData(NpgsqlConnection connection)
+        private static void DisplayAddedData(NpgsqlConnection connection)
         {
             string query = "SELECT * FROM public.added";
             using (NpgsqlCommand command = new NpgsqlCommand(query, connection))
@@ -317,7 +311,7 @@ namespace animatch
             }
         }
 
-        static void DisplayWatchedData(NpgsqlConnection connection)
+        private static void DisplayWatchedData(NpgsqlConnection connection)
         {
             string query = "SELECT * FROM public.watched";
             using (NpgsqlCommand command = new NpgsqlCommand(query, connection))
@@ -333,7 +327,7 @@ namespace animatch
             }
         }
 
-        static void DisplayLikedData(NpgsqlConnection connection)
+        private static void DisplayLikedData(NpgsqlConnection connection)
         {
             string query = "SELECT * FROM public.liked";
             using (NpgsqlCommand command = new NpgsqlCommand(query, connection))
@@ -349,7 +343,7 @@ namespace animatch
             }
         }
 
-        static void DisplayDislikedData(NpgsqlConnection connection)
+        private static void DisplayDislikedData(NpgsqlConnection connection)
         {
             string query = "SELECT * FROM public.disliked";
             using (NpgsqlCommand command = new NpgsqlCommand(query, connection))
@@ -365,7 +359,7 @@ namespace animatch
             }
         }
 
-        static void DisplayAnimeGenresData(NpgsqlConnection connection)
+        private static void DisplayAnimeGenresData(NpgsqlConnection connection)
         {
             string query = "SELECT * FROM public.animegenres";
             using (NpgsqlCommand command = new NpgsqlCommand(query, connection))

@@ -22,10 +22,10 @@ namespace AniWPF
     public partial class MainWindow : Window
     {
         private readonly IUserService _userService;
-        private readonly IAbstractFactory<main> _main_factory;
+        private readonly IAbstractFactory<Main> _main_factory;
         private readonly IAbstractFactory<ChildForm> _child_factory;
 
-        public MainWindow(IUserService userService, IAbstractFactory<main> mfactory, IAbstractFactory<ChildForm> cfactory)
+        public MainWindow(IUserService userService, IAbstractFactory<Main> mfactory, IAbstractFactory<ChildForm> cfactory)
         {
             InitializeComponent();
             _userService = userService;

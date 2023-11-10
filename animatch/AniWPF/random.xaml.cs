@@ -1,79 +1,67 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using AniDAL.Repositories;
-using AniWPF.StartupHelper;
-using System.Windows.Controls;
 using System.ComponentModel;
+using System.Windows;
 using AniBLL.Services;
 
 namespace AniWPF
 {
-   
-    public partial class random : Window
+    public partial class Random : Window
     {
+        private readonly IAnimeService animeService;
+        private AnimeViewModel viewModel;
 
-        private readonly IAnimeService _animeService;
-        private AnimeViewModel _viewModel;
-        public random(IAnimeService animeService)
+        public Random(IAnimeService animeService)
         {
+            this.InitializeComponent();
+            this.animeService = animeService;
 
+            System.Random randomForAnime = new System.Random();
 
-            InitializeComponent();
-            _animeService = animeService;
-
-            Random randomForAnime = new Random();
             // Створюємо екземпляр ViewModel і встановлюємо його як DataContext
-            _viewModel = new AnimeViewModel(_animeService, randomForAnime.Next(1,50));
-            DataContext = _viewModel;
+            this.viewModel = new AnimeViewModel(this.animeService, randomForAnime.Next(1, 50));
+            this.DataContext = this.viewModel;
         }
+
         public class AnimeViewModel : INotifyPropertyChanged
         {
-            private readonly IAnimeService _animeService;
+            private readonly IAnimeService animeService;
             private int id;
 
             public AnimeViewModel(IAnimeService animeService, int id)
             {
-                _animeService = animeService;
+                this.animeService = animeService;
                 this.id = id;
             }
+
             public string AnimeName
             {
-                get { return _animeService.GetById(id).Name; }
+                get { return this.animeService.GetById(this.id).Name; }
             }
 
             public string AnimeText
             {
-                get { return _animeService.GetById(id).Text; }
-
+                get { return this.animeService.GetById(this.id).Text; }
             }
+
             public double AnimeRate
             {
                 get
                 {
-                    return _animeService.GetById(id).Imdbrate;
+                    return this.animeService.GetById(this.id).Imdbrate;
                 }
+
                 set
                 {
                     // Встановлюємо значення rate в джерелі даних або де зручно.
-                    OnPropertyChanged(nameof(AnimeRate)); // Сповіщаємо систему про зміну значення
+                    this.OnPropertyChanged(nameof(this.AnimeRate)); // Сповіщаємо систему про зміну значення
                 }
             }
+
             public string AnimePhoto
             {
                 get
                 {
-                    return _animeService.GetById(id).Photo;
+                    return this.animeService.GetById(this.id).Photo;
                 }
             }
 
@@ -81,7 +69,7 @@ namespace AniWPF
             {
                 get
                 {
-                    return _animeService.GetById(id).Year;
+                    return this.animeService.GetById(this.id).Year;
                 }
             }
 
@@ -89,22 +77,21 @@ namespace AniWPF
 
             protected virtual void OnPropertyChanged(string propertyName)
             {
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
             }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Random randomForAnime = new Random();
-            _viewModel = new AnimeViewModel(_animeService, randomForAnime.Next(1, 50));
+            System.Random randomForAnime = new System.Random();
+            this.viewModel = new AnimeViewModel(this.animeService, randomForAnime.Next(1, 50));
         }
 
-        private void random_Click(object sender, RoutedEventArgs e)
+        private void Random_Click(object sender, RoutedEventArgs e)
         {
-            Random randomForAnime = new Random();
-            _viewModel = new AnimeViewModel(_animeService, randomForAnime.Next(1, 50));
-            DataContext = _viewModel;
+            System.Random randomForAnime = new System.Random();
+            this.viewModel = new AnimeViewModel(this.animeService, randomForAnime.Next(1, 50));
+            this.DataContext = this.viewModel;
         }
     }
 }
-

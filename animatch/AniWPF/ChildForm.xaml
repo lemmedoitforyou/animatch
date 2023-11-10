@@ -15,7 +15,7 @@
             <TextBox x:Name="in_email" Width="453" Height="53" />
             <TextBlock Text="пароль" Height="26" Width="70" />
             <TextBox x:Name="in_password" Width="453" Height="53" />
-            <Button x:Name="registration" Content="зареєструватися" Width="258" Height="53" Click="registration_Click"/>
+            <Button x:Name="registration" Content="зареєструватися" Width="258" Height="53" Click="Registration_Click"/>
         </StackPanel>
     </Grid>
 </Window>
