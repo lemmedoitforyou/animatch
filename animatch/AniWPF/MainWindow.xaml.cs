@@ -12,14 +12,14 @@ namespace AniWPF
         private readonly IAbstractFactory<ChildForm> childFactory;
 
         public MainWindow(IUserService uService, IAbstractFactory<Main> mfactory, IAbstractFactory<ChildForm> cfactory)
-        {
+            {
             this.InitializeComponent();
             this.userService = uService;
             this.mainFactory = mfactory;
             this.childFactory = cfactory;
         }
 
-        private void ButtonEnter_Click(object sender, RoutedEventArgs e)
+        private void buttonEnter_Click(object sender, RoutedEventArgs e)
         {
             string loginValue = this.login.Text;
             string passwordValue = this.password.Password;
