@@ -19,7 +19,7 @@ namespace AniWPF
             this.childFactory = cfactory;
         }
 
-        private void buttonEnter_Click(object sender, RoutedEventArgs e)
+        private void ButtonEnter_Click(object sender, RoutedEventArgs e)
         {
             string loginValue = this.login.Text;
             string passwordValue = this.password.Password;
