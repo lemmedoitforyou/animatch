@@ -1,18 +1,19 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using System.Windows;
-using AniDAL.DataBaseClasses;
-using AniDAL.Repositories;
-using AniDAL;
-using AniDAL.DbContext;
-using AniWPF.StartupHelper;
+﻿using System.Windows;
 using AniBLL.Services;
+using AniDAL;
+using AniDAL.DataBaseClasses;
+using AniDAL.DbContext;
+using AniDAL.Repositories;
+using AniWPF.StartupHelper;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace AniWPF;
 
 public partial class App : Application
 {
     public static IHost? AppHost { get; private set; }
+
     public App()
     {
         AppHost = Host.CreateDefaultBuilder().ConfigureServices((hostContext, services) =>
@@ -29,6 +30,7 @@ public partial class App : Application
             services.AddTransient<ApplicationDbContext>();
         }).Build();
     }
+
     protected override async void OnStartup(StartupEventArgs e)
     {
         await AppHost!.StartAsync();
@@ -38,6 +40,7 @@ public partial class App : Application
 
         base.OnStartup(e);
     }
+
     protected override async void OnExit(ExitEventArgs e)
     {
         await AppHost!.StopAsync();

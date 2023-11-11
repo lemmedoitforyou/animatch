@@ -14,7 +14,7 @@
             <Label x:Name="labelPassword" Content="пароль:" FontFamily="Comic Sans MS"/>
             <PasswordBox x:Name="password" Width="369" Height="37" Margin="0,0,0,10"/>
             <Button x:Name="buttonEnter" Content="увійти" FontSize="20" Width="369" Height="37" FontFamily="Comic Sans MS" Click="buttonEnter_Click"/>
-            <Button x:Name="buttonRegister" Content="зареєструватись" Width="369" Height="37" FontSize="20" FontFamily="Comic Sans MS" Click="buttonRegister_Click"/>
+            <Button x:Name="buttonRegister" Content="зареєструватись" Width="369" Height="37" FontSize="20" FontFamily="Comic Sans MS" Click="ButtonRegister_Click"/>
         </StackPanel>
         
     </Grid>
