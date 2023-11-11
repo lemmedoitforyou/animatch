@@ -11,8 +11,12 @@ namespace AniWPF
         private readonly IAbstractFactory<Main> mainFactory;
         private readonly IAbstractFactory<ChildForm> childFactory;
 
+        private readonly IUserService userService;
+        private readonly IAbstractFactory<Main> mainFactory;
+        private readonly IAbstractFactory<ChildForm> childFactory;
+
         public MainWindow(IUserService uService, IAbstractFactory<Main> mfactory, IAbstractFactory<ChildForm> cfactory)
-        {
+            {
             this.InitializeComponent();
             this.userService = uService;
             this.mainFactory = mfactory;
