@@ -1,4 +1,4 @@
-﻿<Window x:Class="AniWPF.main"
+﻿<Window x:Class="AniWPF.Main"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -29,6 +29,6 @@
                 <!-- Інші блоки тексту -->
             </StackPanel>
         </Grid>
-        <Button Content="рандом" Width="100" Height="40" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,10" Click="random_Click"/>
+        <Button Content="рандом" Width="100" Height="40" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,10" Click="Random_Click"/>
     </Grid>
 </Window>

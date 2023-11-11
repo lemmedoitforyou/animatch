@@ -1,50 +1,36 @@
-﻿using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using AniDAL.Repositories;
-using AniWPF.StartupHelper;
-using System.Windows.Controls;
-using System.ComponentModel;
-using AniBLL.Services;
+﻿using System;
 using System.Windows;
-using AniWPF;
-using System;
-using AniDAL;
-using AniWPF.StartupHelper;
 using AniBLL.Services;
+using AniWPF.StartupHelper;
 
 namespace AniWPF
 {
     public partial class MainWindow : Window
     {
-        private readonly IUserService _userService;
-        private readonly IAbstractFactory<main> _main_factory;
-        private readonly IAbstractFactory<ChildForm> _child_factory;
+        private readonly IUserService userService;
+        private readonly IAbstractFactory<Main> mainFactory;
+        private readonly IAbstractFactory<ChildForm> childFactory;
 
-        public MainWindow(IUserService userService, IAbstractFactory<main> mfactory, IAbstractFactory<ChildForm> cfactory)
+        public MainWindow(IUserService uService, IAbstractFactory<Main> mfactory, IAbstractFactory<ChildForm> cfactory)
         {
-            InitializeComponent();
-            _userService = userService;
-            _main_factory = mfactory;
-            _child_factory = cfactory;
+            this.InitializeComponent();
+            this.userService = uService;
+            this.mainFactory = mfactory;
+            this.childFactory = cfactory;
         }
 
-        private void buttonEnter_Click(object sender, RoutedEventArgs e)
+        private void ButtonEnter_Click(object sender, RoutedEventArgs e)
         {
-            string loginValue = login.Text;
-            string passwordValue = password.Password;
-            var user = _userService.GetByUsername(loginValue);
+            string loginValue = this.login.Text;
+            string passwordValue = this.password.Password;
+            var user = this.userService.GetByUsername(loginValue);
 
             if (user != null)
             {
                 if (user.Password == passwordValue)
                 {
                     MessageBox.Show("Користувача знайдено");
-                    _main_factory.Create().Show();
+                    this.mainFactory.Create().Show();
                 }
                 else
                 {
@@ -57,9 +43,9 @@ namespace AniWPF
             }
         }
 
-        private void buttonRegister_Click(object sender, RoutedEventArgs e)
+        private void ButtonRegister_Click(object sender, RoutedEventArgs e)
         {
-            _child_factory.Create().Show();
+            this.childFactory.Create().Show();
         }
     }
 }

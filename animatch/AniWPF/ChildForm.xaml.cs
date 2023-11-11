@@ -21,45 +21,44 @@ namespace AniWPF
 {
     public partial class ChildForm : Window
     {
-        private readonly IUserService _userService;
-        private readonly IAbstractFactory<MainWindow> _Main_factory;
+        private readonly IUserService userService;
+        private readonly IAbstractFactory<MainWindow> mainFactory;
 
-        public ChildForm(IUserService userService, IAbstractFactory<MainWindow> Mfactory)
+        public ChildForm(IUserService userService, IAbstractFactory<MainWindow> mfactory)
         {
-            InitializeComponent();
-            _userService = userService;
-            _Main_factory = Mfactory;
+            this.InitializeComponent();
+            this.userService = userService;
+            this.mainFactory = mfactory;
         }
 
-        private void registration_Click(object sender, RoutedEventArgs e)
+        private void Registration_Click(object sender, RoutedEventArgs e)
         {
-            string Username = in_login.Text;
-            string Email = in_email.Text;
-            string Password = in_password.Text;
+            string username = this.in_login.Text;
+            string email = this.in_email.Text;
+            string password = this.in_password.Text;
 
-            if (_userService.IsExistUsername(Username))
+            if (this.userService.IsExistUsername(username))
             {
                 MessageBox.Show("користувач з таким логіном вже існує");
             }
-            else if (_userService.IsExistEmail(Email))
+            else if (this.userService.IsExistEmail(email))
             {
                 MessageBox.Show("користувач з такою поштою вже існує");
             }
             else
             {
-                int currentid = _userService.GetLastUserId() + 1;
+                int currentid = this.userService.GetLastUserId() + 1;
 
-                int Id = currentid;
-                string Name = "додати ім'я";
-                int Level = 0;
-                string Text = "додати підпис";
-                string Photo = "defaultphoto.jpg";
-                int WatchedCount = 0;
-               
+                int id = currentid;
+                string name = "додати ім'я";
+                int level = 0;
+                string text = "додати підпис";
+                string photo = "defaultphoto.jpg";
+                int watchedCount = 0;
 
-                _userService.Add(Id, Username, Email, Password, Name, Level, Text, Photo, WatchedCount);
+                this.userService.Add(id, username, email, password, name, level, text, photo, watchedCount);
                 MessageBox.Show("Реєстрація пройшла успішно!");
-                _Main_factory.Create().Show();
+                this.mainFactory.Create().Show();
             }
         }
     }
