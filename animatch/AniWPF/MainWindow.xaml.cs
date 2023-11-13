@@ -5,32 +5,33 @@ using AniWPF.StartupHelper;
 
 namespace AniWPF
 {
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, IWindowAware
     {
+        public Window ParentWindow { get; set; }
         private readonly IUserService userService;
         private readonly IAbstractFactory<Main> mainFactory;
         private readonly IAbstractFactory<ChildForm> childFactory;
 
         public MainWindow(IUserService uService, IAbstractFactory<Main> mfactory, IAbstractFactory<ChildForm> cfactory)
-            {
-            this.InitializeComponent();
-            this.userService = uService;
-            this.mainFactory = mfactory;
-            this.childFactory = cfactory;
+        {
+            InitializeComponent();
+            userService = uService;
+            mainFactory = mfactory;
+            childFactory = cfactory;
         }
 
         private void ButtonEnter_Click(object sender, RoutedEventArgs e)
         {
-            string loginValue = this.login.Text;
-            string passwordValue = this.password.Password;
-            var user = this.userService.GetByUsername(loginValue);
+            string loginValue = login.Text;
+            string passwordValue = password.Password;
+            var user = userService.GetByUsername(loginValue);
 
             if (user != null)
             {
                 if (user.Password == passwordValue)
                 {
                     MessageBox.Show("Користувача знайдено");
-                    this.mainFactory.Create().Show();
+                    mainFactory.Create(this).Show(); // Передаємо поточне вікно як батьківське
                 }
                 else
                 {
@@ -45,7 +46,7 @@ namespace AniWPF
 
         private void ButtonRegister_Click(object sender, RoutedEventArgs e)
         {
-            this.childFactory.Create().Show();
+            childFactory.Create(this).Show(); // Передаємо поточне вікно як батьківське
         }
     }
 }

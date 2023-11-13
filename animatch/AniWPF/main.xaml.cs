@@ -5,8 +5,9 @@ using AniWPF.StartupHelper;
 
 namespace AniWPF
 {
-    public partial class Main : Window
+    public partial class Main : Window, IWindowAware
     {
+        public Window ParentWindow { get; set; }
         private readonly IAbstractFactory<Random> randomFactory;
         private readonly IAnimeService animeService;
         private AnimeViewModel viewModel;
@@ -83,17 +84,17 @@ namespace AniWPF
 
         private void Random_Click(object sender, RoutedEventArgs e)
         {
-            this.randomFactory.Create().Show();
+            this.randomFactory.Create(this.ParentWindow).Show();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            this.randomFactory.Create().Show();
+            this.randomFactory.Create(this.ParentWindow).Show();
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            this.randomFactory.Create().Show();
+            this.randomFactory.Create(this.ParentWindow).Show();
         }
     }
 }

@@ -1,7 +1,10 @@
-﻿namespace AniWPF.StartupHelper
+﻿using System.Windows;
+
+namespace AniWPF.StartupHelper
 {
     public interface IAbstractFactory<T>
     {
-        T Create();
+        
+        T Create(Window parentWindow);
     }
 }

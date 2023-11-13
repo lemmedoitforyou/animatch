@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AniWPF.StartupHelper
@@ -9,7 +10,7 @@ namespace AniWPF.StartupHelper
             where TForm : class
         {
             services.AddTransient<TForm>();
-            services.AddSingleton<Func<TForm>>(x => () =>
+            services.AddSingleton<Func<Window, TForm>>(x => (parentWindow) =>
             {
                 var formService = x.GetService<TForm>();
                 if (formService == null)
@@ -17,9 +18,19 @@ namespace AniWPF.StartupHelper
                     throw new InvalidOperationException($"Could not resolve service for {typeof(TForm)}");
                 }
 
+                if (formService is IWindowAware windowAware)
+                {
+                    windowAware.ParentWindow = parentWindow;
+                }
+
                 return formService;
             });
             services.AddSingleton<IAbstractFactory<TForm>, AbstractFactory<TForm>>();
         }
     }
+    public interface IWindowAware
+    {
+        Window ParentWindow { get; set; }
+    }
 }
+ 

@@ -1,19 +1,20 @@
 ﻿using System;
+using System.Windows;
 
 namespace AniWPF.StartupHelper
 {
     public class AbstractFactory<T> : IAbstractFactory<T>
     {
-        private readonly Func<T> factory;
+        private readonly Func<Window, T> factory;
 
-        public AbstractFactory(Func<T> factory)
+        public AbstractFactory(Func<Window, T> factory)
         {
             this.factory = factory;
         }
-
-        public T Create()
+       
+        public T Create(Window parentWindow)
         {
-            return this.factory();
+            return this.factory(parentWindow);
         }
     }
 }
