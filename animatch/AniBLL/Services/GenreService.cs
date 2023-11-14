@@ -12,7 +12,7 @@ namespace AniBLL.Services
     {
         Genre GetById(int id);
         List<Genre> GetAll();
-        void Add(Genre genres);
+        void Insert(Genre genres);
         void Update(Genre genres);
         void Delete(Genre genres);
     }
@@ -27,16 +27,16 @@ namespace AniBLL.Services
 
         public List<Genre> GetAll()
         {
-            return _genreRepository.GetAll();
+            return _genreRepository.GetAll().ToList();
         }
 
         public Genre GetById(int genreId)
         {
             return _genreRepository.GetById(genreId);
         }
-        public void Add(Genre genres)
+        public void Insert(Genre genres)
         {
-            _genreRepository.Add(genres);
+            _genreRepository.Insert(genres);
         }
         public void Update(Genre genres)
         {

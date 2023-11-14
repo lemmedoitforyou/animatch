@@ -8,7 +8,7 @@ namespace AniBLL.Services
     {
         Anime GetById(int id);
         List<Anime> GetAll();
-        void Add(Anime anime);
+        void Insert(Anime anime);
         void Update(Anime anime);
         void Delete(Anime anime);
     }
@@ -24,7 +24,7 @@ namespace AniBLL.Services
 
         public List<Anime> GetAll()
         {
-            return _animeRepository.GetAll();
+            return _animeRepository.GetAll().ToList();
         }
         
         public Anime GetById(int animeId)
@@ -32,9 +32,9 @@ namespace AniBLL.Services
             return _animeRepository.GetById(animeId);
         }
 
-        public void Add(Anime anime)
+        public void Insert(Anime anime)
         {
-            _animeRepository.Add(anime);
+            _animeRepository.Insert(anime);
         }
         public void Update(Anime anime)
         {

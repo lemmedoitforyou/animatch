@@ -12,7 +12,7 @@ namespace AniBLL.Services
     {
         Review GetById(int id);
         List<Review> GetReviewsForAnime(int animeId);
-        void Add(Review review);
+        void Insert(Review review);
         void Update(Review review);
         void Delete(Review review);
     }
@@ -36,9 +36,9 @@ namespace AniBLL.Services
             return _reviewRepository.GetReviewsForAnime(animeId);
         }
 
-        public void Add(Review review)
+        public void Insert(Review review)
         {
-            _reviewRepository.Add(review);
+            _reviewRepository.Insert(review);
         }
         public void Update(Review review)
         {

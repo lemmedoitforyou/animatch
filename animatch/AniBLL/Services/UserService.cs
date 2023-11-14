@@ -14,7 +14,7 @@ namespace AniBLL.Services
         UserInfo GetById(int id);
         UserInfo GetByUsername(string username);
         List<UserInfo> GetAll();
-        void Add(int id, string username, string email, string password, string name, int level, string text, string photo, int watchedCount);
+        void Insert(UserInfo userInfo);
         void Update(UserInfo userInfo);
         void Delete(UserInfo userInfo);
         bool IsExistUsername(string username);
@@ -43,12 +43,12 @@ namespace AniBLL.Services
 
         public List<UserInfo> GetAll()
         {
-            return _userRepository.GetAll();
+            return _userRepository.GetAll().ToList();
         }
 
-        public void Add(int id, string username, string email, string password, string name, int level, string text, string photo, int watchedCount)
+        public void Insert(UserInfo userInfo)
         {
-            _userRepository.Add(id, username, email, password, name, level, text, photo, watchedCount);
+            _userRepository.Insert(userInfo);
         }
 
         public void Update(UserInfo userInfo)

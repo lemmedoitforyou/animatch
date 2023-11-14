@@ -12,7 +12,7 @@ namespace AniBLL.Services
     {
         List<AnimeGenre> GetGenresForAnime(int animeId);
         List<AnimeGenre> GetAnimesForGenre(int genreId);
-        void Add(AnimeGenre animeGenres);
+        void Insert(AnimeGenre animeGenres);
         void Delete(AnimeGenre animeGenres);
     }
     public class AnimeGenreService : IAnimeGenreService
@@ -33,9 +33,9 @@ namespace AniBLL.Services
         {
             return _animeGenreRepository.GetAnimesForGenre(genreId);
         }
-        public void Add(AnimeGenre animeGenres)
+        public void Insert(AnimeGenre animeGenres)
         {
-            _animeGenreRepository.Add(animeGenres);
+            _animeGenreRepository.Insert(animeGenres);
         }
         public void Delete(AnimeGenre animeGenres)
         {

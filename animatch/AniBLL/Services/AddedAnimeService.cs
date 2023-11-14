@@ -29,7 +29,7 @@ namespace AniBLL.Services
         }
         public void Add(AddedAnime added)
         {
-            _addedAnimeRepository.Add(added);
+            _addedAnimeRepository.Insert(added);
         }
         public void Delete(AddedAnime added)
         {

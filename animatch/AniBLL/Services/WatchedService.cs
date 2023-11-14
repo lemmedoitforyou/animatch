@@ -11,7 +11,7 @@ namespace AniBLL.Services
     public interface IWatchedAnimeService
     {
         List<WatchedAnime> GetWatchedAnimesForUser(int userId);
-        void Add(WatchedAnime watched);
+        void Insert(WatchedAnime watched);
         void Delete(WatchedAnime watched);
     }
     public class WatchedService : IWatchedAnimeService
@@ -27,9 +27,9 @@ namespace AniBLL.Services
         {
             return _watchedAnimeRepository.GetWatchedAnimesForUser(userId);
         }
-        public void Add(WatchedAnime watched)
+        public void Insert(WatchedAnime watched)
         {
-            _watchedAnimeRepository.Add(watched);
+            _watchedAnimeRepository.Insert(watched);
         }
 
         public void Delete(WatchedAnime watched)

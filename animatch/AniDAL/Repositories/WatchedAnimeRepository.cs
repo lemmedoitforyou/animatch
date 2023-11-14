@@ -8,36 +8,15 @@ using AniDAL.DbContext;
 
 namespace AniDAL.Repositories
 {
-    public interface IWatchedAnimeRepository
+    public interface IWatchedAnimeRepository: IGenericRepository<WatchedAnime>
     {
         List<WatchedAnime> GetWatchedAnimesForUser(int userId);
-        void Add(WatchedAnime watched);
-        void Delete(WatchedAnime watched);
     }
-    public class WatchedAnimeRepository : IWatchedAnimeRepository
+    public class WatchedAnimeRepository : GenericRepository<WatchedAnime>, IWatchedAnimeRepository
     {
-        private readonly ApplicationDbContext _context;
-
-        public WatchedAnimeRepository(ApplicationDbContext context)
-        {
-            _context = context;
-        }
-
         public List<WatchedAnime> GetWatchedAnimesForUser(int userId)
         {
             return _context.WatchedAnime.Where(w => w.UserId == userId).ToList();
-        }
-
-        public void Add(WatchedAnime watched)
-        {
-            _context.WatchedAnime.Add(watched);
-            _context.SaveChanges();
-        }
-
-        public void Delete(WatchedAnime watched)
-        {
-            _context.WatchedAnime.Remove(watched);
-            _context.SaveChanges();
         }
     }
 }

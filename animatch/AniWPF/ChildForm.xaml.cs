@@ -49,15 +49,16 @@ namespace AniWPF
             else
             {
                 int currentid = userService.GetLastUserId() + 1;
+                UserInfo newUser= new UserInfo() {
+                 Id = currentid,
+                 Name = "додати ім'я",
+                 Level = 0,
+                 Text = "додати підпис",
+                 Photo = "defaultphoto.jpg",
+                 WatchedCount = 0
+                };
 
-                int id = currentid;
-                string name = "додати ім'я";
-                int level = 0;
-                string text = "додати підпис";
-                string photo = "defaultphoto.jpg";
-                int watchedCount = 0;
-
-                userService.Add(id, username, email, password, name, level, text, photo, watchedCount);
+                userService.Insert(newUser);
                 MessageBox.Show("Реєстрація пройшла успішно!");
                 mainFactory.Create(this.ParentWindow).Show(); // Передаємо батьківське вікно як батьківське
             }

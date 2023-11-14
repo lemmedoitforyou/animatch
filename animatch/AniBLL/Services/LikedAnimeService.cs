@@ -11,7 +11,7 @@ namespace AniBLL.Services
     public interface ILikedAnimeService
     {
         List<LikedAnime> GetLikedAnimesForUser(int userId);
-        void Add(LikedAnime liked);
+        void Insert(LikedAnime liked);
         void Delete(LikedAnime liked);
     }
     public class LikedAnimeService : ILikedAnimeService
@@ -27,9 +27,9 @@ namespace AniBLL.Services
         {
             return _likedAnimeRepository.GetLikedAnimesForUser(userId);
         }
-        public void Add(LikedAnime liked)
+        public void Insert(LikedAnime liked)
         {
-            _likedAnimeRepository.Add(liked);
+            _likedAnimeRepository.Insert(liked);
         }
         public void Delete(LikedAnime liked)
         {
