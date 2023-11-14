@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.ComponentModel;
 using System.Windows;
 using AniBLL.Services;
 using AniWPF.StartupHelper;
@@ -8,45 +8,93 @@ namespace AniWPF
     public partial class MainWindow : Window, IWindowAware
     {
         public Window ParentWindow { get; set; }
-        private readonly IUserService userService;
-        private readonly IAbstractFactory<Main> mainFactory;
-        private readonly IAbstractFactory<ChildForm> childFactory;
+        private readonly IAbstractFactory<RandomWindow> randomFactory;
+        private readonly IAnimeService animeService;
+        private AnimeViewModel viewModel;
 
-        public MainWindow(IUserService uService, IAbstractFactory<Main> mfactory, IAbstractFactory<ChildForm> cfactory)
+        public MainWindow(IAnimeService animeService, IAbstractFactory<RandomWindow> rfactory)
         {
-            InitializeComponent();
-            userService = uService;
-            mainFactory = mfactory;
-            childFactory = cfactory;
+            this.InitializeComponent();
+            this.animeService = animeService;
+            this.randomFactory = rfactory;
+
+            // Створюємо екземпляр ViewModel і встановлюємо його як DataContext
+            this.viewModel = new AnimeViewModel(this.animeService, 1);
+            this.DataContext = this.viewModel;
         }
 
-        private void ButtonEnter_Click(object sender, RoutedEventArgs e)
+        public class AnimeViewModel : INotifyPropertyChanged
         {
-            string loginValue = login.Text;
-            string passwordValue = password.Password;
-            var user = userService.GetByUsername(loginValue);
+            private readonly IAnimeService animeService;
+            private int id;
 
-            if (user != null)
+            public AnimeViewModel(IAnimeService animeService, int id)
             {
-                if (user.Password == passwordValue)
+                this.animeService = animeService;
+                this.id = id;
+            }
+
+            public string AnimeName
+            {
+                get { return this.animeService.GetById(this.id).Name; }
+            }
+
+            public string AnimeText
+            {
+                get { return this.animeService.GetById(this.id).Text; }
+            }
+
+            public double AnimeRate
+            {
+                get
                 {
-                    MessageBox.Show("Користувача знайдено");
-                    mainFactory.Create(this).Show(); // Передаємо поточне вікно як батьківське
+                    return this.animeService.GetById(this.id).Imdbrate;
                 }
-                else
+
+                set
                 {
-                    MessageBox.Show("Пароль неправильний");
+                    // Встановлюємо значення rate в джерелі даних або де зручно.
+                    this.OnPropertyChanged(nameof(this.AnimeRate)); // Сповіщаємо систему про зміну значення
                 }
             }
-            else
+
+            public string AnimePhoto
             {
-                MessageBox.Show("Користувача не знайдено");
+                get
+                {
+                    return this.animeService.GetById(this.id).Photo;
+                }
+            }
+
+            public int AnimeYear
+            {
+                get
+                {
+                    return this.animeService.GetById(this.id).Year;
+                }
+            }
+
+            public event PropertyChangedEventHandler? PropertyChanged;
+
+            protected virtual void OnPropertyChanged(string propertyName)
+            {
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
             }
         }
 
-        private void ButtonRegister_Click(object sender, RoutedEventArgs e)
+        private void Random_Click(object sender, RoutedEventArgs e)
         {
-            childFactory.Create(this).Show(); // Передаємо поточне вікно як батьківське
+            this.randomFactory.Create(this.ParentWindow).Show();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            this.randomFactory.Create(this.ParentWindow).Show();
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            this.randomFactory.Create(this.ParentWindow).Show();
         }
     }
 }

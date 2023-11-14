@@ -18,11 +18,11 @@ public partial class App : Application
     {
         AppHost = Host.CreateDefaultBuilder().ConfigureServices((hostContext, services) =>
         {
-            services.AddSingleton<MainWindow>();
-            services.AddFormFactory<Main>();
-            services.AddFormFactory<ChildForm>();
+            services.AddSingleton<LogInWindow>();
             services.AddFormFactory<MainWindow>();
-            services.AddFormFactory<Random>();
+            services.AddFormFactory<RegistrationWindow>();
+            services.AddFormFactory<LogInWindow>();
+            services.AddFormFactory<RandomWindow>();
             services.AddTransient<IAnimeRepository, AnimeRepository>();
             services.AddTransient<IAnimeService, AnimeService>();
             services.AddTransient<IUserInfoRepository, UserInfoRepository>();
@@ -35,7 +35,7 @@ public partial class App : Application
     {
         await AppHost!.StartAsync();
 
-        var startupForm = AppHost.Services.GetRequiredService<MainWindow>();
+        var startupForm = AppHost.Services.GetRequiredService<LogInWindow>();
         startupForm.Show();
 
         base.OnStartup(e);

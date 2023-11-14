@@ -19,17 +19,17 @@ using AniWPF.StartupHelper;
 
 namespace AniWPF
 {
-    public partial class ChildForm : Window, IWindowAware
+    public partial class RegistrationWindow : Window, IWindowAware
     {
         public Window ParentWindow { get; set; }
         private readonly IUserService userService;
-        private readonly IAbstractFactory<MainWindow> mainFactory;
+        private readonly IAbstractFactory<LogInWindow> logInFactory;
 
-        public ChildForm(IUserService userService, IAbstractFactory<MainWindow> mfactory)
+        public RegistrationWindow(IUserService userService, IAbstractFactory<LogInWindow> lfactory)
         {
             InitializeComponent();
             this.userService = userService;
-            this.mainFactory = mfactory;
+            this.logInFactory = lfactory;
         }
 
         private void Registration_Click(object sender, RoutedEventArgs e)
@@ -60,7 +60,7 @@ namespace AniWPF
 
                 userService.Insert(newUser);
                 MessageBox.Show("Реєстрація пройшла успішно!");
-                mainFactory.Create(this.ParentWindow).Show(); // Передаємо батьківське вікно як батьківське
+                logInFactory.Create(this.ParentWindow).Show(); // Передаємо батьківське вікно як батьківське
             }
         }
     }

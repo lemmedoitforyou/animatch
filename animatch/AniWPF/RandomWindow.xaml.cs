@@ -5,12 +5,12 @@ using AniBLL.Services;
 
 namespace AniWPF
 {
-    public partial class Random : Window
+    public partial class RandomWindow : Window
     {
         private readonly IAnimeService animeService;
         private AnimeViewModel viewModel;
 
-        public Random(IAnimeService animeService)
+        public RandomWindow(IAnimeService animeService)
         {
             this.InitializeComponent();
             this.animeService = animeService;
