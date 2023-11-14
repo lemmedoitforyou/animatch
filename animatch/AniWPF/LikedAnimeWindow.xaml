@@ -7,40 +7,6 @@
         mc:Ignorable="d"
         Title="LikedAnimeWindow" Height="450" Width="800">
     <Grid>
-        <StackPanel Orientation="Horizontal" Height="100" VerticalAlignment="Top">
-            <Rectangle Height="100" Width="90"/>
-            <Image x:Name="biglogo" HorizontalAlignment="Center" Height="95" Width="375" Source="/big_logo_white.png"/>
-            <Rectangle Height="100" Width="365"/>
-            <StackPanel Height="86" Width="92">
-                <Button Height="50" Width="50" Click="ButtonProfile_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent">
-
-                    <Image Height="40" Width="40" HorizontalAlignment="Center" Source="/profileIcon.png" IsEnabled="True" />
-                </Button>
-                <Label Content="профіль" FontSize="20" VerticalAlignment="Top" FontFamily="Comic Sans MS" Height="36" />
-            </StackPanel>
-            <Rectangle Height="100" Width="30"/>
-            <StackPanel Height="86" Width="92">
-                <Button Height="50" Width="50" Click="ButtonAdded_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent">
-                    <Image Height="40" Width="40" HorizontalAlignment="Center" Source="/addedIcon.png" IsEnabled="True" />
-                </Button>
-                <Label Content="збережене" FontSize="20" VerticalAlignment="Top" FontFamily="Comic Sans MS" Height="36" />
-            </StackPanel>
-            <Rectangle Height="100" Width="30"/>
-            <StackPanel Height="86" Width="92">
-                <Button Height="50" Width="50" Click="ButtonProfile_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent">
-
-                    <Image Height="40" Width="40" HorizontalAlignment="Center" Source="/randomIcon.png" IsEnabled="False" />
-                </Button>
-                <Label Content="профіль" FontSize="20" VerticalAlignment="Top" FontFamily="Comic Sans MS" Height="36" />
-            </StackPanel>
-            <Rectangle Height="100" Width="30"/>
-            <StackPanel Height="86" Width="92">
-                <Button Height="50" Width="50" Click="ButtonProfile_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent">
-
-                    <Image Height="40" Width="40" HorizontalAlignment="Center" Source="/searchIcon.png" IsEnabled="False" />
-                </Button>
-                <Label Content="профіль" FontSize="20" VerticalAlignment="Top" FontFamily="Comic Sans MS" Height="36" />
-            </StackPanel>
-        </StackPanel>
+        
     </Grid>
 </Window>
