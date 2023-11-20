@@ -12,13 +12,14 @@ namespace AniDAL.Repositories
 {
     public interface IAddedAnimeRepository: IGenericRepository<AddedAnime>
     {
-        List<AddedAnime> GetAddedAnimesForUser(int userId);
+        List<Anime> GetAddedAnimesForUser(int userId);
     }
     public class AddedAnimeRepository : GenericRepository<AddedAnime>, IAddedAnimeRepository
     {
-        public List<AddedAnime> GetAddedAnimesForUser(int userId)
+        public List<Anime> GetAddedAnimesForUser(int userId)
         {
-            return _context.AddedAnime.Where(a => a.UserId == userId).ToList();
+            var addedAnimeIds = _context.AddedAnime.Where(a => a.UserId == userId).Select(a => a.AnimeId).ToList();
+            return _context.Anime.Where(anime => addedAnimeIds.Contains(anime.Id)).ToList();
         }
     }
 

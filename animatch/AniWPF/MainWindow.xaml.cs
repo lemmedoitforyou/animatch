@@ -9,10 +9,11 @@ namespace AniWPF
     {
         public Window ParentWindow { get; set; }
         private readonly IAbstractFactory<RandomWindow> randomFactory;
+        private readonly IAbstractFactory<ProfileWindow> profileFactory;
         private readonly IAnimeService animeService;
         private AnimeViewModel viewModel;
 
-        public MainWindow(IAnimeService animeService, IAbstractFactory<RandomWindow> rfactory)
+        public MainWindow(IAnimeService animeService, IAbstractFactory<RandomWindow> rfactory, IAbstractFactory<ProfileWindow> profileFactory)
         {
             this.InitializeComponent();
             this.animeService = animeService;
@@ -21,6 +22,7 @@ namespace AniWPF
             // Створюємо екземпляр ViewModel і встановлюємо його як DataContext
             this.viewModel = new AnimeViewModel(this.animeService, 1);
             this.DataContext = this.viewModel;
+            this.profileFactory = profileFactory;
         }
 
         public class AnimeViewModel : INotifyPropertyChanged
@@ -86,15 +88,15 @@ namespace AniWPF
         {
             this.randomFactory.Create(this.ParentWindow).Show();
         }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void ButtonProfile_Click(object sender, RoutedEventArgs e)
         {
-            this.randomFactory.Create(this.ParentWindow).Show();
+            this.profileFactory.Create(this.ParentWindow).Show();
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void ButtonAdded_Click(object sender, RoutedEventArgs e)
         {
-            this.randomFactory.Create(this.ParentWindow).Show();
+            // Your code for the ButtonAdded_Click event handler
         }
+
     }
 }

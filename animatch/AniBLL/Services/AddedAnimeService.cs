@@ -10,7 +10,7 @@ namespace AniBLL.Services
 {
     public interface IAddedAnimeService
     {
-        List<AddedAnime> GetAddedAnimesForUser(int userId);
+        List<Anime> GetAddedAnimesForUser(int userId);
         void Add(AddedAnime added);
         void Delete(AddedAnime added);
     }
@@ -23,7 +23,7 @@ namespace AniBLL.Services
             _addedAnimeRepository = addedAnimeRepository;
         }
 
-        public List<AddedAnime> GetAddedAnimesForUser(int userId)
+        public List<Anime> GetAddedAnimesForUser(int userId)
         {
             return _addedAnimeRepository.GetAddedAnimesForUser(userId);
         }

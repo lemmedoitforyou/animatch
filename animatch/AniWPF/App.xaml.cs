@@ -34,10 +34,13 @@ public partial class App : Application
                 services.AddFormFactory<RegistrationWindow>();
                 services.AddFormFactory<LogInWindow>();
                 services.AddFormFactory<RandomWindow>();
+                services.AddFormFactory<ProfileWindow>();
                 services.AddTransient<IAnimeRepository, AnimeRepository>();
                 services.AddTransient<IAnimeService, AnimeService>();
                 services.AddTransient<IUserInfoRepository, UserInfoRepository>();
                 services.AddTransient<IUserService, UserService>();
+                services.AddTransient<IAddedAnimeService, AddedAnimeService>();
+                services.AddTransient<IAddedAnimeRepository, AddedAnimeRepository>();
                 services.AddTransient<ApplicationDbContext>();
             }).Build();
 

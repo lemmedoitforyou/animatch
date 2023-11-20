@@ -7,6 +7,7 @@ namespace AniWPF
 {
     public partial class LogInWindow : Window, IWindowAware
     {
+        public static int CurrentUserID { get; set; }
         public Window ParentWindow { get; set; }
         private readonly IUserService userService;
         private readonly IAbstractFactory<MainWindow> mainFactory;
@@ -32,6 +33,8 @@ namespace AniWPF
                 {
                     MessageBox.Show("Користувача знайдено");
                     mainFactory.Create(this).Show(); // Передаємо поточне вікно як батьківське
+                    CurrentUserID = user.Id;
+                    
                 }
                 else
                 {
