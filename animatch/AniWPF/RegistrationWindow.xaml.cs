@@ -59,8 +59,9 @@ namespace AniWPF
                 };
 
                 userService.Insert(newUser);
-                MessageBox.Show("Реєстрація пройшла успішно!");
+                //MessageBox.Show("Реєстрація пройшла успішно!");
                 logInFactory.Create(this.ParentWindow).Show(); // Передаємо батьківське вікно як батьківське
+                this.Close();
             }
         }
     }

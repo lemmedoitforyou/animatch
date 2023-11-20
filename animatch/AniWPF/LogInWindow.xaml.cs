@@ -31,7 +31,7 @@ namespace AniWPF
             {
                 if (user.Password == passwordValue)
                 {
-                    MessageBox.Show("Користувача знайдено");
+                    //MessageBox.Show("Користувача знайдено");
                     mainFactory.Create(this).Show(); // Передаємо поточне вікно як батьківське
                     CurrentUserID = user.Id;
                     
@@ -49,7 +49,8 @@ namespace AniWPF
 
         private void ButtonRegister_Click(object sender, RoutedEventArgs e)
         {
-            registrationFactory.Create(this).Show(); // Передаємо поточне вікно як батьківське
+            registrationFactory.Create(this).Show();
+            this.Close();// Передаємо поточне вікно як батьківське
         }
     }
 }

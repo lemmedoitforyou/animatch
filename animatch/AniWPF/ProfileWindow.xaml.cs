@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows;
 using AniBLL.Services;
 using AniDAL.DataBaseClasses;
@@ -15,18 +17,22 @@ namespace AniWPF
         private UserViewModel viewModel;
         private List<Anime> usersAdded;
         private int id;
-
+        private AnimeListViewModel animeListViewModel;
         public ProfileWindow(IUserService userService, IAddedAnimeService addedAnimeService, IAnimeService animeService)
         {
+
             System.Random random = new System.Random();
             this.id = LogInWindow.CurrentUserID;
             this.InitializeComponent();
             this.userService = userService;
             this.viewModel = new UserViewModel(this.userService, this.id);
-            this.DataContext = this.viewModel;
+            this.DataContext = this.animeListViewModel;
             this.addedAnimeService = addedAnimeService;
             this.animeService = animeService;
             this.usersAdded = addedAnimeService.GetAddedAnimesForUser(this.id);
+            this.animeListViewModel = new AnimeListViewModel(this.animeService, this.addedAnimeService, this.usersAdded);
+            this.animeListBox.DataContext = this.animeListViewModel.Animes;
+
         }
 
         public class UserViewModel : INotifyPropertyChanged
@@ -103,12 +109,14 @@ namespace AniWPF
         public class AnimeViewModel : INotifyPropertyChanged
         {
             private readonly IAnimeService animeService;
+            private readonly IAddedAnimeService addedAnimeService;
             private int id;
 
-            public AnimeViewModel(IAnimeService animeService, int id)
+            public AnimeViewModel(IAnimeService animeService, int id, IAddedAnimeService addedAnimeService)
             {
                 this.animeService = animeService;
                 this.id = id;
+                this.addedAnimeService = addedAnimeService;
             }
 
             public string AnimeName
@@ -157,6 +165,31 @@ namespace AniWPF
                 this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
             }
         }
+        public class AnimeListViewModel : INotifyPropertyChanged
+        {
+            private readonly IAnimeService animeService;
+            private readonly IAddedAnimeService addedAnimeService;
+            private readonly List<Anime> animeList;
+
+            public AnimeListViewModel(IAnimeService animeService, IAddedAnimeService addedAnimeService, List<Anime> animeList)
+            {
+                this.animeService = animeService;
+                this.addedAnimeService = addedAnimeService;
+                this.animeList = animeList;
+                this.Animes = new ObservableCollection<AnimeViewModel>(
+                    animeList.Select(a => new AnimeViewModel(this.animeService, a.Id, this.addedAnimeService))
+                );
+            }
+
+            public ObservableCollection<AnimeViewModel> Animes { get; set; }
+
+            public event PropertyChangedEventHandler? PropertyChanged;
+
+            protected virtual void OnPropertyChanged(string propertyName)
+            {
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
 
         private void RedactClick(object sender, RoutedEventArgs e)
         {
@@ -178,4 +211,5 @@ namespace AniWPF
             // Your code for the ButtonAdded_Click event handler
         }
     }
+
 }

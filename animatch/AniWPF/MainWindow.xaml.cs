@@ -87,10 +87,12 @@ namespace AniWPF
         private void Random_Click(object sender, RoutedEventArgs e)
         {
             this.randomFactory.Create(this.ParentWindow).Show();
+            this.Close();
         }
         private void ButtonProfile_Click(object sender, RoutedEventArgs e)
         {
             this.profileFactory.Create(this.ParentWindow).Show();
+            this.Close();
         }
 
         private void ButtonAdded_Click(object sender, RoutedEventArgs e)
