@@ -26,15 +26,24 @@ namespace AniWPF
             this.InitializeComponent();
             this.userService = userService;
             this.viewModel = new UserViewModel(this.userService, this.id);
-            this.DataContext = this.animeListViewModel;
+            this.DataContext = this.viewModel;
             this.addedAnimeService = addedAnimeService;
             this.animeService = animeService;
             this.usersAdded = addedAnimeService.GetAddedAnimesForUser(this.id);
             this.animeListViewModel = new AnimeListViewModel(this.animeService, this.addedAnimeService, this.usersAdded);
-            this.animeListBox.DataContext = this.animeListViewModel.Animes;
+            this.animeListBox.DataContext = this.animeListViewModel;
+            
+            //foreach (Anime anime in this.usersAdded)
+            //{
+            //    animeListBox.Items.Add(new MyItem { ImagePath = anime.Photo, ItemText = anime.Name });
+            //}
 
         }
-
+        public class MyItem
+        {
+            public string ImagePath { get; set; }
+            public string ItemText { get; set; }
+        }
         public class UserViewModel : INotifyPropertyChanged
         {
             private readonly IUserService userService;

@@ -64,14 +64,13 @@
             </StackPanel>
             <Rectangle Height="80" />
             <Label Height="100" Width="360" HorizontalAlignment="Center" Content="улюблені аніме" FontSize="40" FontFamily="Comic Sans MS" />
-            <ListBox x:Name="animeListBox" HorizontalAlignment="Stretch" Height="310">
+            <ListBox x:Name="animeListBox" HorizontalAlignment="Stretch" Height="310" ItemsSource="{Binding Animes}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel>
-                            <!-- Додаємо елементи для відображення кожного об'єкта Anime -->
+                            <!-- Зміни розміри відображення зображення за необхідністю -->
                             <Image Height="100" Width="100" Source="{Binding AnimePhoto}" />
                             <TextBlock Text="{Binding AnimeName}" />
-                            <TextBlock Text="{Binding AnimeYear}" />
                             <!-- Додайте інші елементи за потребою -->
                         </StackPanel>
                     </DataTemplate>

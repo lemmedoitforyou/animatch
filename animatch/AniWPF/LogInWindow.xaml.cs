@@ -34,6 +34,7 @@ namespace AniWPF
                     //MessageBox.Show("Користувача знайдено");
                     mainFactory.Create(this).Show(); // Передаємо поточне вікно як батьківське
                     CurrentUserID = user.Id;
+                    this.Close();
                     
                 }
                 else
