@@ -25,9 +25,11 @@
                     <Run Text="{Binding AnimeRate}" />
                     <Run Text="/10 " />
                 </TextBlock>
+                <TextBlock Text="{Binding AnimeGenres}" FontSize="30"/>
                 <!-- Інші блоки тексту -->
             </StackPanel>
         </Grid>
         <Button Content="рандом" Width="100" Height="40" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,10" Click="Random_Click"/>
+        <Button x:Name="button" Content="лайк" HorizontalAlignment="Left" Margin="1041,740,0,0" VerticalAlignment="Top" Height="42" Width="131" Click="button_Click_1"/>
     </Grid>
 </Window>

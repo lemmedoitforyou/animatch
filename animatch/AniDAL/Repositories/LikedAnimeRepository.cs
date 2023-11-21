@@ -10,13 +10,16 @@ namespace AniDAL.Repositories
 {
     public interface ILikedAnimeRepository: IGenericRepository<LikedAnime>
     {
-        List<LikedAnime> GetLikedAnimesForUser(int userId);
+        List<int> GetLikedAnimesForUser(int userId);
     }
     public class LikedAnimeRepository : GenericRepository<LikedAnime>, ILikedAnimeRepository
     {
-        public List<LikedAnime> GetLikedAnimesForUser(int userId)
+        public List<int> GetLikedAnimesForUser(int userId)
         {
-            return _context.LikedAnime.Where(l => l.UserId == userId).ToList();
+            return _context.LikedAnime
+           .Where(l => l.UserId == userId)
+           .Select(l => l.AnimeId)
+           .ToList();
         }
     }
 }

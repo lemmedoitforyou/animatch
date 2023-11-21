@@ -41,6 +41,8 @@ public partial class App : Application
                 services.AddTransient<IUserService, UserService>();
                 services.AddTransient<IAddedAnimeService, AddedAnimeService>();
                 services.AddTransient<IAddedAnimeRepository, AddedAnimeRepository>();
+                services.AddTransient<IAnimeGenreRepository, AnimeGenreRepository>();
+                services.AddTransient<IAnimeGenreService, AnimeGenreService>();
                 services.AddTransient<ApplicationDbContext>();
             }).Build();
 
