@@ -8,17 +8,23 @@ using AniDAL.DbContext;
 
 namespace AniDAL.Repositories
 {
-    public interface IAnimeGenreRepository: IGenericRepository<AnimeGenre>
+    public interface IAnimeGenreRepository : IGenericRepository<AnimeGenre>
     {
-        List<AnimeGenre> GetGenresForAnime(int animeId);
+        List<string> GetGenresForAnime(int animeId);
         List<AnimeGenre> GetAnimesForGenre(int genreId);
     }
     public class AnimeGenreRepository : GenericRepository<AnimeGenre>, IAnimeGenreRepository
     {
-        public List<AnimeGenre> GetGenresForAnime(int animeId)
+        public List<string> GetGenresForAnime(int animeId)
         {
-            return _context.AnimeGenre.Where(ag => ag.AnimeId == animeId).ToList();
+            var genreNames = _context.AnimeGenre
+                .Where(ag => ag.AnimeId == animeId)
+                .Join(_context.Genre, ag => ag.GenreId, g => g.Id, (ag, g) => g.Name)
+                .ToList();
+
+            return genreNames;
         }
+
 
         public List<AnimeGenre> GetAnimesForGenre(int genreId)
         {
