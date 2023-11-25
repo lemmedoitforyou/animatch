@@ -13,12 +13,14 @@ namespace AniWPF
         private readonly IAbstractFactory<MainWindow> mainFactory;
         private readonly IAbstractFactory<RegistrationWindow> registrationFactory;
 
+
         public LogInWindow(IUserService uService, IAbstractFactory<MainWindow> mfactory, IAbstractFactory<RegistrationWindow> rfactory)
         {
             InitializeComponent();
             userService = uService;
             mainFactory = mfactory;
             registrationFactory = rfactory;
+            this.WindowState = WindowState.Maximized;
         }
 
         private void ButtonEnter_Click(object sender, RoutedEventArgs e)

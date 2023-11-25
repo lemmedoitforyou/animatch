@@ -32,7 +32,8 @@ namespace AniWPF
             this.usersAdded = addedAnimeService.GetAddedAnimesForUser(this.id);
             this.animeListViewModel = new AnimeListViewModel(this.animeService, this.addedAnimeService, this.usersAdded);
             this.animeListBox.DataContext = this.animeListViewModel;
-            
+            this.WindowState = WindowState.Maximized;
+
             //foreach (Anime anime in this.usersAdded)
             //{
             //    animeListBox.Items.Add(new MyItem { ImagePath = anime.Photo, ItemText = anime.Name });

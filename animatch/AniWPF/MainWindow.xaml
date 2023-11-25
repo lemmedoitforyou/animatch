@@ -30,7 +30,7 @@
             <StackPanel Height="86" Width="92">
                     <Button Height="50" Width="50" Click="Random_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent">
 
-                    <Image Height="40" Width="40" HorizontalAlignment="Center" Source="/RandomIcon.png" IsEnabled="False" />
+                    <Image Height="40" Width="40" HorizontalAlignment="Center" Source="/RandomIcon.png" IsEnabled="True" />
                 </Button>
                 <Label Content="рандом" FontSize="20" VerticalAlignment="Top" FontFamily="Comic Sans MS" Height="36"  />
             </StackPanel>

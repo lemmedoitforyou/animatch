@@ -23,6 +23,7 @@ namespace AniWPF
             this.viewModel = new AnimeViewModel(this.animeService, 1);
             this.DataContext = this.viewModel;
             this.profileFactory = profileFactory;
+            this.WindowState = WindowState.Maximized;
         }
 
         public class AnimeViewModel : INotifyPropertyChanged
