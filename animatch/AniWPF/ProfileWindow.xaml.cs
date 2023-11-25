@@ -15,9 +15,8 @@ namespace AniWPF
         private readonly IAddedAnimeService addedAnimeService;
         private readonly IAnimeService animeService;
         private UserViewModel viewModel;
-        private List<Anime> usersAdded;
         private int id;
-        private AnimeListViewModel animeListViewModel;
+        private List<Animes> animeList;
         private readonly IAbstractFactory<RandomWindow> randomFactory;
         private readonly IAbstractFactory<MainWindow> mainFactory;
         public ProfileWindow(IUserService userService, IAddedAnimeService addedAnimeService, IAnimeService animeService, IAbstractFactory<RandomWindow> randomFactory, IAbstractFactory<MainWindow> mainFactory)
@@ -31,9 +30,17 @@ namespace AniWPF
             this.DataContext = this.viewModel;
             this.addedAnimeService = addedAnimeService;
             this.animeService = animeService;
-            this.usersAdded = addedAnimeService.GetAddedAnimesForUser(this.id);
-            this.animeListViewModel = new AnimeListViewModel(this.animeService, this.addedAnimeService, this.usersAdded);
-            this.animeListBox.DataContext = this.animeListViewModel;
+            List<Anime> temp = addedAnimeService.GetAddedAnimesForUser(this.id);
+            
+            animeList = new List<Animes>();
+            foreach (Anime anime in temp)
+            {
+                animeList.Add(new Animes { Title = anime.Name, ImagePath = anime.Photo });
+            }
+            
+            animeListView.ItemsSource = animeList;
+            //this.animeListViewModel = new AnimeListViewModel(this.animeService, this.addedAnimeService, this.usersAdded);
+            //this.animeListBox.DataContext = this.animeListViewModel;
             this.WindowState = WindowState.Maximized;
             this.randomFactory = randomFactory;
             this.mainFactory = mainFactory;
@@ -44,10 +51,11 @@ namespace AniWPF
             //}
 
         }
-        public class MyItem
+
+        public class Animes
         {
+            public string Title { get; set; }
             public string ImagePath { get; set; }
-            public string ItemText { get; set; }
         }
         public class UserViewModel : INotifyPropertyChanged
         {
@@ -90,9 +98,7 @@ namespace AniWPF
                     }
                 }
 
-                set
-                {
-                }
+                set{}
             }
 
             public string UserPhoto
@@ -179,31 +185,31 @@ namespace AniWPF
                 this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
             }
         }
-        public class AnimeListViewModel : INotifyPropertyChanged
-        {
-            private readonly IAnimeService animeService;
-            private readonly IAddedAnimeService addedAnimeService;
-            private readonly List<Anime> animeList;
+        //public class AnimeListViewModel : INotifyPropertyChanged
+        //{
+        //    private readonly IAnimeService animeService;
+        //    private readonly IAddedAnimeService addedAnimeService;
+        //    private readonly List<Anime> animeList;
 
-            public AnimeListViewModel(IAnimeService animeService, IAddedAnimeService addedAnimeService, List<Anime> animeList)
-            {
-                this.animeService = animeService;
-                this.addedAnimeService = addedAnimeService;
-                this.animeList = animeList;
-                this.Animes = new ObservableCollection<AnimeViewModel>(
-                    animeList.Select(a => new AnimeViewModel(this.animeService, a.Id, this.addedAnimeService))
-                );
-            }
+        //    public AnimeListViewModel(IAnimeService animeService, IAddedAnimeService addedAnimeService, List<Anime> animeList)
+        //    {
+        //        this.animeService = animeService;
+        //        this.addedAnimeService = addedAnimeService;
+        //        this.animeList = animeList;
+        //        this.Animes = new ObservableCollection<AnimeViewModel>(
+        //            animeList.Select(a => new AnimeViewModel(this.animeService, a.Id, this.addedAnimeService))
+        //        );
+        //    }
 
-            public ObservableCollection<AnimeViewModel> Animes { get; set; }
+        //    public ObservableCollection<AnimeViewModel> Animes { get; set; }
 
-            public event PropertyChangedEventHandler? PropertyChanged;
+        //    public event PropertyChangedEventHandler? PropertyChanged;
 
-            protected virtual void OnPropertyChanged(string propertyName)
-            {
-                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
+        //    protected virtual void OnPropertyChanged(string propertyName)
+        //    {
+        //        this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        //    }
+        //}
 
         private void RedactClick(object sender, RoutedEventArgs e)
         {

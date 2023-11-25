@@ -21,7 +21,7 @@
             </StackPanel>
             <Rectangle Height="100" Width="30"/>
             <StackPanel Height="86" Width="92">
-                <Button Height="50" Width="50"  Visibility="Visible" Background="Transparent" BorderBrush="Transparent">
+                    <Button Height="50" Width="50" Click="ButtonLiked_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent">
                     <Image Height="40" Width="40" HorizontalAlignment="Center" Source="/LikedIcon.png" IsEnabled="True" />
                 </Button>
                 <Label Content="збережене" FontSize="20" VerticalAlignment="Top" FontFamily="Comic Sans MS" Height="36" />

@@ -7,6 +7,7 @@
         mc:Ignorable="d"
         Title="ProfileWindow" Height="1024" Width="1440">
     <Grid Background="LightPink">
+        <ScrollViewer>
         <StackPanel >
             <StackPanel Orientation="Horizontal" Height="100" VerticalAlignment="Top">
                 <Rectangle Height="100" Width="90"/>
@@ -66,23 +67,23 @@
             </StackPanel>
             <Rectangle Height="80" />
             <Label Height="100" Width="360" HorizontalAlignment="Center" Content="улюблені аніме" FontSize="40" FontFamily="Comic Sans MS" />
-            <ListBox Background="LightPink" x:Name="animeListBox" HorizontalAlignment="Stretch" Height="310" ItemsSource="{Binding Animes}">
-                <ListBox.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel Orientation="Horizontal" ItemWidth="100" ItemHeight="150" />
-                    </ItemsPanelTemplate>
-                </ListBox.ItemsPanel>
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel>
-                            <!-- Зміни розміри відображення зображення за необхідністю -->
-                            <Image Height="100" Width="100" Source="{Binding AnimePhoto}" />
-                            <TextBlock Text="{Binding AnimeName}" />
-                            <!-- Додайте інші елементи за потребою -->
-                        </StackPanel>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
+            
+                <ListView Name="animeListView" Margin="10">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Title" DisplayMemberBinding="{Binding Title}" Width="200"/>
+                        <GridViewColumn Header="Image" Width="100">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Image Source="{Binding ImagePath}" Width="80" Height="80" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+                </ListView>
+            
         </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Window>

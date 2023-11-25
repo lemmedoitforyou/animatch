@@ -10,19 +10,22 @@ namespace AniWPF
         public Window ParentWindow { get; set; }
         private readonly IAbstractFactory<RandomWindow> randomFactory;
         private readonly IAbstractFactory<ProfileWindow> profileFactory;
+        private readonly IAbstractFactory<LikedAnimeWindow> likedFactory;
         private readonly IAnimeService animeService;
         private AnimeViewModel viewModel;
 
-        public MainWindow(IAnimeService animeService, IAbstractFactory<RandomWindow> rfactory, IAbstractFactory<ProfileWindow> profileFactory)
+        public MainWindow(IAnimeService animeService, IAbstractFactory<RandomWindow> rfactory, IAbstractFactory<ProfileWindow> profileFactory, IAbstractFactory<LikedAnimeWindow> likedFactory)
         {
             this.InitializeComponent();
             this.animeService = animeService;
             this.randomFactory = rfactory;
+            //this.likedFactory = likedFactory;
 
             // Створюємо екземпляр ViewModel і встановлюємо його як DataContext
             this.viewModel = new AnimeViewModel(this.animeService, 1);
             this.DataContext = this.viewModel;
             this.profileFactory = profileFactory;
+            this.likedFactory = likedFactory;
             this.WindowState = WindowState.Maximized;
         }
 
@@ -96,9 +99,10 @@ namespace AniWPF
             this.Close();
         }
 
-        private void ButtonAdded_Click(object sender, RoutedEventArgs e)
+        private void ButtonLiked_Click(object sender, RoutedEventArgs e)
         {
-            // Your code for the ButtonAdded_Click event handler
+            this.likedFactory.Create(this).Show();
+            this.Close();
         }
 
     }

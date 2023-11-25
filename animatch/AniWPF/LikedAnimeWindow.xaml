@@ -5,8 +5,25 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AniWPF"
         mc:Ignorable="d"
-        Title="LikedAnimeWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="LikedAnimeWindow" Height="1024" Width="1440">
+    <Grid Background="LightPink">
+        <ScrollViewer>
+            <StackPanel >
+                <ListView Name="animeListView" Margin="10">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Title" DisplayMemberBinding="{Binding Title}" Width="200"/>
+                                <GridViewColumn Header="Image" Width="100">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Image Source="{Binding ImagePath}" Width="80" Height="80" />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Window>

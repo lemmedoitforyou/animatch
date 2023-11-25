@@ -35,12 +35,15 @@ public partial class App : Application
                 services.AddFormFactory<LogInWindow>();
                 services.AddFormFactory<RandomWindow>();
                 services.AddFormFactory<ProfileWindow>();
+                services.AddFormFactory<LikedAnimeWindow>();
                 services.AddTransient<IAnimeRepository, AnimeRepository>();
                 services.AddTransient<IAnimeService, AnimeService>();
                 services.AddTransient<IUserInfoRepository, UserInfoRepository>();
                 services.AddTransient<IUserService, UserService>();
                 services.AddTransient<IAddedAnimeService, AddedAnimeService>();
                 services.AddTransient<IAddedAnimeRepository, AddedAnimeRepository>();
+                services.AddTransient<ILikedAnimeRepository, LikedAnimeRepository>();
+                services.AddTransient<ILikedAnimeService, LikedAnimeService>();
                 services.AddTransient<ApplicationDbContext>();
                 services.AddTransient<IAnimeGenreRepository, AnimeGenreRepository>();
                 services.AddTransient<IAnimeGenreService, AnimeGenreService>();
