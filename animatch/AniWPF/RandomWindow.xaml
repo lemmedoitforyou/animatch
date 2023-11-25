@@ -7,7 +7,8 @@
         mc:Ignorable="d"
         Title="random" Height="1024" Width="1440">
     <Grid Background="LightPink">
-        <StackPanel Orientation="Horizontal" Height="100" VerticalAlignment="Top">
+        <StackPanel>
+            <StackPanel Orientation="Horizontal" Height="100" VerticalAlignment="Top">
             <Rectangle Height="100" Width="90"/>
             <Button Click="Main_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent">
                 <Image x:Name="biglogo" HorizontalAlignment="Center" Height="95" Width="375" Source="/big_logo_white.png"/>
@@ -43,28 +44,21 @@
                 <Label Content="профіль" FontSize="20" VerticalAlignment="Top" FontFamily="Comic Sans MS" Height="36" />
             </StackPanel>
         </StackPanel>
-        <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Width="972" Height="620" Background="White" >
-            <Grid.ColumnDefinitions >
-                <ColumnDefinition Width="Auto"/>
-                <!-- Перший стовпчик для фото -->
-                <ColumnDefinition Width="Auto"/>
-                <!-- Другий стовпчик для тексту -->
-            </Grid.ColumnDefinitions>
-            <Image Source="C:\Users\Користувач\Desktop\програмінг\c#\animatch\documents\DeathNote.jpg" Width="400" Height="600" Stretch="UniformToFill" />
-            <!-- Замініть 'your_image_path.jpg' на шлях до вашого зображення -->
-            <StackPanel Grid.Column="1" Margin="0,0,-428,0">
-                <!-- Тут можна додавати блоки тексту -->
-                <TextBlock Text="{Binding AnimeName}" FontSize="50"/>
-                <TextBlock Text="{Binding AnimeText}" FontSize="30"/>
-                <TextBlock FontSize="30">
+            <Rectangle Height="79"/>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Width="917" Height="590" Background="White">
+                <Image Source="{Binding AnimePhoto}" Width="393" Height="590" Stretch="UniformToFill"  />
+                <StackPanel Orientation="Vertical" Width="524" Height="590">
+                    <TextBlock Text="{Binding AnimeName}" FontSize="50"/>
+                    <TextBlock Text="{Binding AnimeText}" FontSize="30"/>
+                    <TextBlock FontSize="30">
                     <Run Text="IMDB рейтинг " />
                     <Run Text="{Binding AnimeRate}" />
-                    <Run Text="/10 " />
-                </TextBlock>
-                <TextBlock Text="{Binding AnimeGenres}" FontSize="30"/>
-                <!-- Інші блоки тексту -->
+                    <Run Text="/10 " />                        
+                    </TextBlock>
+                    <TextBlock Text="{Binding AnimeGenres}" FontSize="30"/>
+                </StackPanel>
             </StackPanel>
-        </Grid>
-        <Button Content="рандом" Width="100" Height="40" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,10" Click="RandomButton_Click"/>
+            <Button Content="рандом" Width="100" Height="40" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,10" Click="RandomButton_Click"/>
+      </StackPanel>
     </Grid>
 </Window>

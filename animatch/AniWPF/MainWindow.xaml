@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:AniWPF"
         mc:Ignorable="d"
         Title="main" Height="1024" Width="1440">
-    <Grid Background="LightPink" Margin="0,10,0,0">
+    <Grid Background="LightPink" Margin="0,0,0,0">
         <StackPanel>
             <StackPanel Orientation="Horizontal" Height="100" VerticalAlignment="Top">
             <Rectangle Height="100" Width="90"/>
@@ -35,26 +35,17 @@
                 <Label Content="рандом" FontSize="20" VerticalAlignment="Top" FontFamily="Comic Sans MS" Height="36"  />
             </StackPanel>
             <Rectangle Height="100" Width="30"/>
-            <StackPanel Height="86" Width="92">
-                <Button Height="50" Width="50" Click="ButtonProfile_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent">
-                    <Image Height="40" Width="40" HorizontalAlignment="Center" Source="/SearchIcon.png" IsEnabled="False" />
-                </Button>
-                <Label Content="профіль" FontSize="20" VerticalAlignment="Top" FontFamily="Comic Sans MS" Height="36" />
+                <StackPanel Height="86" Width="92">
+                    <Button Height="50" Width="50" Click="ButtonProfile_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent">
+                        <Image Height="40" Width="40" HorizontalAlignment="Center" Source="/SearchIcon.png" IsEnabled="False" />
+                    </Button>
+                    <Label Content="профіль" FontSize="20" VerticalAlignment="Top" FontFamily="Comic Sans MS" Height="36" />
+                </StackPanel>
             </StackPanel>
-        </StackPanel>
-        <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Width="972" Height="620" Background="White" >
-
-                <Grid.ColumnDefinitions >
-                    <ColumnDefinition Width="300"/>
-                    <ColumnDefinition Width="100"/>
-                    <!-- Перший стовпчик для фото -->
-                    <ColumnDefinition Width="Auto"/>
-                    <!-- Другий стовпчик для тексту -->
-                </Grid.ColumnDefinitions>
-                <Image Source="https://eneyida.tv/uploads/posts/2021-06/1622590828_1.jpg" Width="400" Height="600" Stretch="UniformToFill" Grid.ColumnSpan="2" Margin="0,10,0,10" />
-                <!-- Замініть 'your_image_path.jpg' на шлях до вашого зображення -->
-                <StackPanel Grid.Column="2" Margin="0,0,-572,0">
-                    <!-- Тут можна додавати блоки тексту -->
+            <Rectangle Height="79"/>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Width="917" Height="590" Background="White">
+                <Image Source="{Binding AnimePhoto}" Width="393" Height="590" Stretch="UniformToFill"  />
+                <StackPanel Orientation="Vertical" Width="524" Height="590">
                     <TextBlock Text="{Binding AnimeName}" FontSize="50"/>
                     <TextBlock Text="{Binding AnimeText}" FontSize="30"/>
                     <TextBlock FontSize="30">
@@ -62,12 +53,8 @@
                     <Run Text="{Binding AnimeRate}" />
                     <Run Text="/10 " />
                     </TextBlock>
-
-                    <!-- Інші блоки тексту -->
                 </StackPanel>
-
-            </Grid>
-            
+            </StackPanel>
         </StackPanel>
     </Grid>
 </Window>
