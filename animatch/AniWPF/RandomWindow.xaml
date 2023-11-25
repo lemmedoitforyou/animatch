@@ -7,6 +7,42 @@
         mc:Ignorable="d"
         Title="random" Height="1024" Width="1440">
     <Grid Background="LightPink">
+        <StackPanel Orientation="Horizontal" Height="100" VerticalAlignment="Top">
+            <Rectangle Height="100" Width="90"/>
+            <Button Click="Main_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent">
+                <Image x:Name="biglogo" HorizontalAlignment="Center" Height="95" Width="375" Source="/big_logo_white.png"/>
+            </Button>
+            <Rectangle Height="100" Width="365"/>
+            <StackPanel Height="86" Width="92">
+                <Button Height="50" Width="50" Click="ButtonProfile_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent">
+
+                    <Image Height="40" Width="40" HorizontalAlignment="Center" Source="/ProfileIcon.png" IsEnabled="True" />
+                </Button>
+                <Label Content="профіль" FontSize="20" VerticalAlignment="Top" FontFamily="Comic Sans MS" Height="36" />
+            </StackPanel>
+            <Rectangle Height="100" Width="30"/>
+            <StackPanel Height="86" Width="92">
+                <Button Height="50" Width="50" Click="ButtonAdded_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent">
+                    <Image Height="40" Width="40" HorizontalAlignment="Center" Source="/LikedIcon.png" IsEnabled="True" />
+                </Button>
+                <Label Content="збережене" FontSize="20" VerticalAlignment="Top" FontFamily="Comic Sans MS" Height="36" />
+            </StackPanel>
+            <Rectangle Height="100" Width="30"/>
+            <StackPanel Height="86" Width="92">
+                <Button Height="50" Width="50" Click="ButtonProfile_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent">
+
+                    <Image Height="40" Width="40" HorizontalAlignment="Center" Source="/RandomIcon.png" IsEnabled="False" />
+                </Button>
+                <Label Content="профіль" FontSize="20" VerticalAlignment="Top" FontFamily="Comic Sans MS" Height="36" />
+            </StackPanel>
+            <Rectangle Height="100" Width="30"/>
+            <StackPanel Height="86" Width="92">
+                <Button Height="50" Width="50" Click="ButtonProfile_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent">
+                    <Image Height="40" Width="40" HorizontalAlignment="Center" Source="/SearchIcon.png" IsEnabled="False" />
+                </Button>
+                <Label Content="профіль" FontSize="20" VerticalAlignment="Top" FontFamily="Comic Sans MS" Height="36" />
+            </StackPanel>
+        </StackPanel>
         <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Width="972" Height="620" Background="White" >
             <Grid.ColumnDefinitions >
                 <ColumnDefinition Width="Auto"/>
@@ -29,6 +65,6 @@
                 <!-- Інші блоки тексту -->
             </StackPanel>
         </Grid>
-        <Button Content="рандом" Width="100" Height="40" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,10" Click="Random_Click"/>
+        <Button Content="рандом" Width="100" Height="40" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,10" Click="RandomButton_Click"/>
     </Grid>
 </Window>

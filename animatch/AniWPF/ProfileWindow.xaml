@@ -6,11 +6,13 @@
         xmlns:local="clr-namespace:AniWPF"
         mc:Ignorable="d"
         Title="ProfileWindow" Height="1024" Width="1440">
-    <Grid>
-        <StackPanel>
+    <Grid Background="LightPink">
+        <StackPanel >
             <StackPanel Orientation="Horizontal" Height="100" VerticalAlignment="Top">
                 <Rectangle Height="100" Width="90"/>
-                <Image x:Name="biglogo" HorizontalAlignment="Center" Height="95" Width="375" Source="/big_logo_white.png"/>
+                <Button Click="Main_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent">
+                    <Image x:Name="biglogo" HorizontalAlignment="Center" Height="95" Width="375" Source="/big_logo_white.png"/>
+                </Button>
                 <Rectangle Height="100" Width="365"/>
                 <StackPanel Height="86" Width="92">
                     <Button Height="50" Width="50" Click="ButtonProfile_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent">
@@ -28,11 +30,11 @@
                 </StackPanel>
                 <Rectangle Height="100" Width="30"/>
                 <StackPanel Height="86" Width="92">
-                    <Button Height="50" Width="50" Click="ButtonProfile_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent">
+                    <Button Height="50" Width="50" Click="Random_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent">
 
                         <Image Height="40" Width="40" HorizontalAlignment="Center" Source="/RandomIcon.png" IsEnabled="False" />
                     </Button>
-                    <Label Content="профіль" FontSize="20" VerticalAlignment="Top" FontFamily="Comic Sans MS" Height="36" />
+                    <Label Content="рандом" FontSize="20" VerticalAlignment="Top" FontFamily="Comic Sans MS" Height="36" />
                 </StackPanel>
                 <Rectangle Height="100" Width="30"/>
                 <StackPanel Height="86" Width="92">
@@ -48,9 +50,9 @@
                 <Image Height="295" Width="295" Source="/FilterIcon.png"/>
                 <Rectangle Width="115"/>
                 <StackPanel Width="800">
-                    <TextBox Text="{Binding UserName}" FontSize="40"/>
-                    <TextBox Text="{Binding UserLevel}" FontSize="20"/>
-                    <TextBox Text="{Binding UserText}" FontSize="25"/>
+                    <TextBox Background="LightPink" Text="{Binding UserName}" FontSize="40"/>
+                    <TextBox Background="LightPink" Text="{Binding UserLevel}" FontSize="20"/>
+                    <TextBox Background="LightPink" Text="{Binding UserText}" FontSize="25"/>
                     <TextBlock FontSize="10">
                     <Run Text="Переглянуто Аніме: " />
                     <Run Text="{Binding UserWatchedCount}" />
@@ -64,7 +66,7 @@
             </StackPanel>
             <Rectangle Height="80" />
             <Label Height="100" Width="360" HorizontalAlignment="Center" Content="улюблені аніме" FontSize="40" FontFamily="Comic Sans MS" />
-            <ListBox x:Name="animeListBox" HorizontalAlignment="Stretch" Height="310" ItemsSource="{Binding Animes}">
+            <ListBox Background="LightPink" x:Name="animeListBox" HorizontalAlignment="Stretch" Height="310" ItemsSource="{Binding Animes}">
                 <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
                         <WrapPanel Orientation="Horizontal" ItemWidth="100" ItemHeight="150" />

@@ -18,7 +18,9 @@ namespace AniWPF
         private List<Anime> usersAdded;
         private int id;
         private AnimeListViewModel animeListViewModel;
-        public ProfileWindow(IUserService userService, IAddedAnimeService addedAnimeService, IAnimeService animeService)
+        private readonly IAbstractFactory<RandomWindow> randomFactory;
+        private readonly IAbstractFactory<MainWindow> mainFactory;
+        public ProfileWindow(IUserService userService, IAddedAnimeService addedAnimeService, IAnimeService animeService, IAbstractFactory<RandomWindow> randomFactory, IAbstractFactory<MainWindow> mainFactory)
         {
 
             System.Random random = new System.Random();
@@ -33,6 +35,8 @@ namespace AniWPF
             this.animeListViewModel = new AnimeListViewModel(this.animeService, this.addedAnimeService, this.usersAdded);
             this.animeListBox.DataContext = this.animeListViewModel;
             this.WindowState = WindowState.Maximized;
+            this.randomFactory = randomFactory;
+            this.mainFactory = mainFactory;
 
             //foreach (Anime anime in this.usersAdded)
             //{
@@ -209,7 +213,13 @@ namespace AniWPF
         }
         private void Random_Click(object sender, RoutedEventArgs e)
         {
-            //this.randomFactory.Create(this.ParentWindow).Show();
+            this.randomFactory.Create(this).Show();
+            this.Close();
+        }
+        private void Main_Click(object sender, RoutedEventArgs e)
+        {
+            this.mainFactory.Create(this).Show();
+            this.Close();
         }
         private void ButtonProfile_Click(object sender, RoutedEventArgs e)
         {
