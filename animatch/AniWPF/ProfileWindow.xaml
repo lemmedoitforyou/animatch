@@ -48,7 +48,7 @@
             <Rectangle Height="100" Width="30"/>
             <StackPanel Height ="295"  Width = "1440" Orientation="Horizontal"  >
                 <Rectangle Width="90"/>
-                <Image Height="295" Width="295" Source="/FilterIcon.png"/>
+                <Image Height="295" Width="295" Source="{Binding UserPhoto}"/>
                 <Rectangle Width="115"/>
                 <StackPanel Width="800">
                     <TextBox Background="LightPink" Text="{Binding UserName}" FontSize="40"/>

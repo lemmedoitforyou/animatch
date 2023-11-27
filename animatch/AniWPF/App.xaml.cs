@@ -36,6 +36,7 @@ public partial class App : Application
                 services.AddFormFactory<RandomWindow>();
                 services.AddFormFactory<ProfileWindow>();
                 services.AddFormFactory<LikedAnimeWindow>();
+                services.AddFormFactory<RedactWindow>();
                 services.AddTransient<IAnimeRepository, AnimeRepository>();
                 services.AddTransient<IAnimeService, AnimeService>();
                 services.AddTransient<IUserInfoRepository, UserInfoRepository>();

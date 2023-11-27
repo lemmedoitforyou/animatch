@@ -19,7 +19,8 @@ namespace AniWPF
         private List<Animes> animeList;
         private readonly IAbstractFactory<RandomWindow> randomFactory;
         private readonly IAbstractFactory<MainWindow> mainFactory;
-        public ProfileWindow(IUserService userService, IAddedAnimeService addedAnimeService, IAnimeService animeService, IAbstractFactory<RandomWindow> randomFactory, IAbstractFactory<MainWindow> mainFactory)
+        private readonly IAbstractFactory<RedactWindow> redactFactory;
+        public ProfileWindow(IUserService userService, IAddedAnimeService addedAnimeService, IAnimeService animeService, IAbstractFactory<RandomWindow> randomFactory, IAbstractFactory<MainWindow> mainFactory, IAbstractFactory<RedactWindow> redactFactory)
         {
 
             System.Random random = new System.Random();
@@ -31,19 +32,20 @@ namespace AniWPF
             this.addedAnimeService = addedAnimeService;
             this.animeService = animeService;
             List<Anime> temp = addedAnimeService.GetAddedAnimesForUser(this.id);
-            
+
             animeList = new List<Animes>();
             foreach (Anime anime in temp)
             {
                 animeList.Add(new Animes { Title = anime.Name, ImagePath = anime.Photo });
             }
-            
+
             animeListView.ItemsSource = animeList;
             //this.animeListViewModel = new AnimeListViewModel(this.animeService, this.addedAnimeService, this.usersAdded);
             //this.animeListBox.DataContext = this.animeListViewModel;
             this.WindowState = WindowState.Maximized;
             this.randomFactory = randomFactory;
             this.mainFactory = mainFactory;
+            this.redactFactory = redactFactory;
 
             //foreach (Anime anime in this.usersAdded)
             //{
@@ -213,9 +215,8 @@ namespace AniWPF
 
         private void RedactClick(object sender, RoutedEventArgs e)
         {
-            System.Random random = new System.Random();
-            this.viewModel = new UserViewModel(this.userService, random.Next(1, 50));
-            this.DataContext = this.viewModel;
+            this.redactFactory.Create(this).Show();
+            this.Close();
         }
         private void Random_Click(object sender, RoutedEventArgs e)
         {

@@ -23,7 +23,9 @@ namespace AniWPF
         private readonly ILikedAnimeService likedAnimeService;
         private int id;
         private List<Animes> animeList;
-        public LikedAnimeWindow(ILikedAnimeService likedAnimeService)
+        private readonly IAbstractFactory<RandomWindow> randomFactory;
+        private readonly IAbstractFactory<MainWindow> mainFactory;
+        public LikedAnimeWindow(ILikedAnimeService likedAnimeService, IAbstractFactory<RandomWindow> randomFactory, IAbstractFactory<MainWindow> mainFactory)
         {
             this.likedAnimeService = likedAnimeService;
             this.id = LogInWindow.CurrentUserID;
@@ -38,6 +40,8 @@ namespace AniWPF
             }
             animeListView.ItemsSource = animeList;
             this.WindowState = WindowState.Maximized;
+            this.randomFactory = randomFactory;
+            this.mainFactory = mainFactory;
         }
 
         public class Animes
@@ -45,5 +49,24 @@ namespace AniWPF
             public string Title { get; set; }
             public string ImagePath { get; set; }
         }
+        private void Random_Click(object sender, RoutedEventArgs e)
+        {
+            this.randomFactory.Create(this).Show();
+            this.Close();
+        }
+        private void Main_Click(object sender, RoutedEventArgs e)
+        {
+            this.mainFactory.Create(this).Show();
+            this.Close();
+        }
+        private void ButtonAdded_Click(object sender, RoutedEventArgs e)
+        {
+           //ds
+        }
+        private void ButtonProfile_Click(object sender, RoutedEventArgs e)
+        {
+            //
+        }
+
     }
 }

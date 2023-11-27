@@ -49,13 +49,17 @@ namespace AniWPF
             else
             {
                 int currentid = userService.GetLastUserId() + 1;
-                UserInfo newUser= new UserInfo() {
-                 Id = currentid,
-                 Name = "додати ім'я",
-                 Level = 0,
-                 Text = "додати підпис",
-                 Photo = "defaultphoto.jpg",
-                 WatchedCount = 0
+                UserInfo newUser = new UserInfo()
+                {
+                    Id = currentid,
+                    Name = "додати ім'я",
+                    Level = 0,
+                    Text = "додати підпис",
+                    Photo = "defaultphoto.jpg",
+                    WatchedCount = 0,
+                    Username = username,
+                    Email = email,
+                    Password = password
                 };
 
                 userService.Insert(newUser);
@@ -64,5 +68,6 @@ namespace AniWPF
                 this.Close();
             }
         }
+
     }
 }

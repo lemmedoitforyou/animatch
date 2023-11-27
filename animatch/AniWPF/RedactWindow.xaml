@@ -1,11 +1,11 @@
-﻿<Window x:Class="AniWPF.LikedAnimeWindow"
+﻿<Window x:Class="AniWPF.RedactWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AniWPF"
         mc:Ignorable="d"
-        Title="LikedAnimeWindow" Height="1024" Width="1440">
+        Title="RedactWindow"  Height="1024" Width="1440">
     <Grid Background="LightPink">
         <StackPanel>
             <StackPanel Orientation="Horizontal" Height="100" VerticalAlignment="Top">
@@ -44,24 +44,14 @@
                     <Label Content="профіль" FontSize="20" VerticalAlignment="Top" FontFamily="Comic Sans MS" Height="36" />
                 </StackPanel>
             </StackPanel>
-            <ScrollViewer>
-                <StackPanel >
-                    <ListView Name="animeListView" Margin="10">
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn Header="Title" DisplayMemberBinding="{Binding Title}" Width="200"/>
-                                <GridViewColumn Header="Image" Width="100">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Image Source="{Binding ImagePath}" Width="80" Height="80" />
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
-                </StackPanel>
-            </ScrollViewer>
+            <Rectangle Height="88" />
+            <Label Content="Редактор Профілю"  FontSize="47" FontFamily="Comic Sans MS" Height="88" Width="484" HorizontalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
+            <Rectangle Height="89"/>
+            <StackPanel Orientation="Horizontal" Width="1024" Height="293">
+                <Image Height="295" Width="295" Source="{Binding UserPhoto}"/>
+                <Rectangle Width="115" />
+
+            </StackPanel>
         </StackPanel>
     </Grid>
 </Window>

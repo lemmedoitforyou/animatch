@@ -67,9 +67,13 @@ namespace AniDAL.Repositories
         //It will receive the object as an argument which needs to be inserted into the database
         public void Insert(T obj)
         {
-            //It will mark the Entity state as Added State
             table.Add(obj);
+            _context.Entry(obj).State = EntityState.Added;
+
+            // Uncomment the following line to save changes immediately
+            Save();
         }
+
 
         //This method is going to update the record in the table
         //It will receive the object as an argument

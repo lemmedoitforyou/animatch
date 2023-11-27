@@ -43,16 +43,34 @@
                 </StackPanel>
             </StackPanel>
             <Rectangle Height="79"/>
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Width="917" Height="590" Background="White">
-                <Image Source="{Binding AnimePhoto}" Width="393" Height="590" Stretch="UniformToFill"  />
-                <StackPanel Orientation="Vertical" Width="524" Height="590">
+            <Button  Width="876" Height="560">
+            <StackPanel Orientation="Horizontal" Width="876" Height="560" Background="White">
+                <Image Source="{Binding AnimePhoto}" Width="375" Height="560" Stretch="UniformToFill"  />
+                <StackPanel Orientation="Vertical" Width="500" Height="560">
                     <TextBlock Text="{Binding AnimeName}" FontSize="50"/>
                     <TextBlock Text="{Binding AnimeText}" FontSize="30"/>
-                    <TextBlock FontSize="30">
-                    <Run Text="IMDB рейтинг " />
-                    <Run Text="{Binding AnimeRate}" />
-                    <Run Text="/10 " />
-                    </TextBlock>
+                    <TextBlock FontSize="30" Width="400"><Run Text="IMDB рейтинг " /><Run Text=" "/><Run Text="{Binding AnimeRate}" /><Run Text=" "/><Run Text="/10 " /></TextBlock>
+                    <Button Height="25" Width="25" Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Right" Click="LikeAnime_Click" VerticalAlignment="Bottom">
+                        <Image Source="/LikedIcon.png" x:Name="likeUnfill" />
+                    </Button>
+                </StackPanel>
+                    
+                </StackPanel>
+            </Button>
+            <Rectangle Height="67"/>
+            <StackPanel Orientation="Horizontal">
+                <StackPanel HorizontalAlignment="Left" Margin="440,0,0,0">
+                    <Button Height="50" Width="50" Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Center"  VerticalAlignment="Bottom">
+                        <Image Source="/notInterest.png" />
+                    </Button>
+                    <Label Content="не цікаво" FontSize="14" HorizontalContentAlignment="Center" HorizontalAlignment="Center" />
+                </StackPanel>
+                <Rectangle Width="347"/>
+                <StackPanel HorizontalAlignment="Center" Margin="0,0,440,0" VerticalAlignment="Center">
+                    <Button Height="50" Width="50" Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Center"  VerticalAlignment="Bottom">
+                        <Image Source="/WatchedIcon.png" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Button>
+                    <Label Content="переглянуто" FontSize="14" HorizontalContentAlignment="Center" HorizontalAlignment="Center" />
                 </StackPanel>
             </StackPanel>
         </StackPanel>

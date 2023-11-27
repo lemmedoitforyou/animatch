@@ -2,6 +2,9 @@
 using System.Windows;
 using AniBLL.Services;
 using AniWPF.StartupHelper;
+using System;
+using System.Windows.Media.Imaging;
+using System.Threading.Tasks;
 
 namespace AniWPF
 {
@@ -13,6 +16,8 @@ namespace AniWPF
         private readonly IAbstractFactory<LikedAnimeWindow> likedFactory;
         private readonly IAnimeService animeService;
         private AnimeViewModel viewModel;
+        private int id;
+
 
         public MainWindow(IAnimeService animeService, IAbstractFactory<RandomWindow> rfactory, IAbstractFactory<ProfileWindow> profileFactory, IAbstractFactory<LikedAnimeWindow> likedFactory)
         {
@@ -20,6 +25,7 @@ namespace AniWPF
             this.animeService = animeService;
             this.randomFactory = rfactory;
             //this.likedFactory = likedFactory;
+            this.id = LogInWindow.CurrentUserID;
 
             // Створюємо екземпляр ViewModel і встановлюємо його як DataContext
             this.viewModel = new AnimeViewModel(this.animeService, 1);
@@ -103,6 +109,22 @@ namespace AniWPF
         {
             this.likedFactory.Create(this).Show();
             this.Close();
+        }
+        private async void LikeAnime_Click(object sender, RoutedEventArgs e)
+        {
+            // Змінити зображення на "заповнене"
+            likeUnfill.Source = new BitmapImage(new Uri("https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/LikedFillIcon.png?raw=true"));
+
+            // Затримка на 1 секунду
+            await Task.Delay(1000);
+
+            // Отримати нові дані та змінити їх
+            Random random = new Random();
+            this.viewModel = new AnimeViewModel(this.animeService, random.Next(1, 51));
+            this.DataContext = this.viewModel;
+
+            // Змінити зображення на "порожнє"
+            likeUnfill.Source = new BitmapImage(new Uri("https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/LikedIcon.png?raw=true"));
         }
 
     }
