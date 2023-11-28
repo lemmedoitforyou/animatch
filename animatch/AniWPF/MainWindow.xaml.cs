@@ -5,6 +5,9 @@ using AniWPF.StartupHelper;
 using System;
 using System.Windows.Media.Imaging;
 using System.Threading.Tasks;
+using AniDAL.DataBaseClasses;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace AniWPF
 {
@@ -14,26 +17,59 @@ namespace AniWPF
         private readonly IAbstractFactory<RandomWindow> randomFactory;
         private readonly IAbstractFactory<ProfileWindow> profileFactory;
         private readonly IAbstractFactory<LikedAnimeWindow> likedFactory;
+
+        private readonly IAddedAnimeService addedAnimeService;
+        private readonly ILikedAnimeService likedAnimeService;
+        private readonly IDislikedAnimeService dislikedAnimeService;
+        private readonly IWatchedAnimeService watchAnimeService;
         private readonly IAnimeService animeService;
         private AnimeViewModel viewModel;
         private int id;
 
 
-        public MainWindow(IAnimeService animeService, IAbstractFactory<RandomWindow> rfactory, IAbstractFactory<ProfileWindow> profileFactory, IAbstractFactory<LikedAnimeWindow> likedFactory)
+        public MainWindow(IAnimeService animeService, IAddedAnimeService addedAnimeService,
+            IDislikedAnimeService dislikedAnimeService, ILikedAnimeService likedAnimeService,
+            IWatchedAnimeService watchedAnimeService, IAbstractFactory<RandomWindow> rfactory,
+            IAbstractFactory<ProfileWindow> profileFactory, IAbstractFactory<LikedAnimeWindow> likedFactory)
         {
             this.InitializeComponent();
             this.animeService = animeService;
             this.randomFactory = rfactory;
-            //this.likedFactory = likedFactory;
+            this.likedFactory = likedFactory;
+
+            this.addedAnimeService = addedAnimeService;
+            this.likedAnimeService = likedAnimeService;
+            this.dislikedAnimeService = dislikedAnimeService;
+            this.watchAnimeService = watchedAnimeService;
+
             this.id = LogInWindow.CurrentUserID;
+            List<Anime> animes = animeService.GetAll();
+            List<Anime> dislikedanimes = dislikedAnimeService.GetDislikedAnimesForUser(id);
+            List<Anime> likedanimes = likedAnimeService.GetLikedAnimesForUser(id);
+            List<Anime> addedanimes = addedAnimeService.GetAddedAnimesForUser(id);
+            List<Anime> watchedanimes = watchedAnimeService.GetWatchedAnimesForUser(id);
+
+            List<Anime> uniqueAnimes = animes
+                .Except(dislikedanimes)
+                .Except(likedanimes)
+                .Except(addedanimes)
+                .Except(watchedanimes).ToList();
+
+            Random random = new Random();
+
+            // Генеруємо випадковий індекс
+            int randomIndex = random.Next(uniqueAnimes.Count);
+            // Вибираємо випадкове аніме
+            Anime randomAnime = uniqueAnimes[randomIndex];
 
             // Створюємо екземпляр ViewModel і встановлюємо його як DataContext
-            this.viewModel = new AnimeViewModel(this.animeService, 1);
+            this.viewModel = new AnimeViewModel(this.animeService, randomAnime.Id);
             this.DataContext = this.viewModel;
             this.profileFactory = profileFactory;
-            this.likedFactory = likedFactory;
+            //this.likedFactory = likedFactory;
             this.WindowState = WindowState.Maximized;
         }
+
 
         public class AnimeViewModel : INotifyPropertyChanged
         {

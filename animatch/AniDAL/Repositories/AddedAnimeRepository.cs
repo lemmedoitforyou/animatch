@@ -18,12 +18,12 @@ namespace AniDAL.Repositories
     {
         public List<Anime> GetAddedAnimesForUser(int userId)
         {
-            var addedAnimes = _context.AddedAnime
+            var addedAnime = _context.AddedAnime
             .Where(a => a.UserId == userId)
             .Join(_context.Anime, a => a.AnimeId, g => g.Id, (a, g) => g)
             .ToList();
 
-            return addedAnimes;
+            return addedAnime;
         }  
     }
 

@@ -37,15 +37,30 @@ public partial class App : Application
                 services.AddFormFactory<ProfileWindow>();
                 services.AddFormFactory<LikedAnimeWindow>();
                 services.AddFormFactory<RedactWindow>();
+
+                services.AddTransient<ApplicationDbContext>();
+
                 services.AddTransient<IAnimeRepository, AnimeRepository>();
                 services.AddTransient<IAnimeService, AnimeService>();
+
                 services.AddTransient<IUserInfoRepository, UserInfoRepository>();
                 services.AddTransient<IUserService, UserService>();
+
                 services.AddTransient<IAddedAnimeService, AddedAnimeService>();
                 services.AddTransient<IAddedAnimeRepository, AddedAnimeRepository>();
+
                 services.AddTransient<ILikedAnimeRepository, LikedAnimeRepository>();
                 services.AddTransient<ILikedAnimeService, LikedAnimeService>();
-                services.AddTransient<ApplicationDbContext>();
+
+                services.AddTransient<IDislikedAnimeRepository, DislikedAnimeRepository>();
+                services.AddTransient<IDislikedAnimeService, DislikedAnimeService>();
+
+                services.AddTransient<IAddedAnimeRepository, AddedAnimeRepository>();
+                services.AddTransient<IAddedAnimeService, AddedAnimeService>();
+
+                services.AddTransient<IWatchedAnimeRepository, WatchedAnimeRepository>();
+                services.AddTransient<IWatchedAnimeService, WatchedAnimeService>();
+               
                 services.AddTransient<IAnimeGenreRepository, AnimeGenreRepository>();
                 services.AddTransient<IAnimeGenreService, AnimeGenreService>();
             }).Build();

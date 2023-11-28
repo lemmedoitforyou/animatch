@@ -5,12 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using AniDAL.Repositories;
 using AniDAL.DataBaseClasses;
+using AniBLL.Models;
 
 namespace AniBLL.Services
 {
     public interface ILikedAnimeService
     {
-        List<Anime> GetLikedAnimesForUser(int userId);
+        List<AnimeModel> GetLikedAnimesForUser(int userId);
         void Insert(LikedAnime liked);
         void Delete(LikedAnime liked);
     }
@@ -23,9 +24,9 @@ namespace AniBLL.Services
             _likedAnimeRepository = likedAnimeRepository;
         }
 
-        public List<Anime> GetLikedAnimesForUser(int userId)
+        public List<AnimeModel> GetLikedAnimesForUser(int userId)
         {
-            return _likedAnimeRepository.GetLikedAnimesForUser(userId);
+            return (AnimeModel)_likedAnimeRepository.GetLikedAnimesForUser(userId);
         }
         public void Insert(LikedAnime liked)
         {

@@ -10,7 +10,7 @@ namespace AniBLL.Services
 {
     public interface IDislikedAnimeService
     {
-        List<DislikedAnime> GetDislikedAnimesForUser(int userId);
+        List<Anime> GetDislikedAnimesForUser(int userId);
         void Insert(DislikedAnime disliked);
         void Delete(DislikedAnime disliked);
     }
@@ -23,7 +23,7 @@ namespace AniBLL.Services
             _dislikedAnimeRepository = dislikedAnimeRepository;
         }
 
-        public List<DislikedAnime> GetDislikedAnimesForUser(int userId)
+        public List<Anime> GetDislikedAnimesForUser(int userId)
         {
             return _dislikedAnimeRepository.GetDislikedAnimesForUser(userId);
         }

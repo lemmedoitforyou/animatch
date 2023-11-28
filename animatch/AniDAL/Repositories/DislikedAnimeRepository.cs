@@ -10,13 +10,18 @@ namespace AniDAL.Repositories
 {
     public interface IDislikedAnimeRepository: IGenericRepository<DislikedAnime>
     {
-        List<DislikedAnime> GetDislikedAnimesForUser(int userId);
+        List<Anime> GetDislikedAnimesForUser(int userId);
     }
     public class DislikedAnimeRepository : GenericRepository<DislikedAnime>, IDislikedAnimeRepository
     {
-        public List<DislikedAnime> GetDislikedAnimesForUser(int userId)
+        public List<Anime> GetDislikedAnimesForUser(int userId)
         {
-            return _context.DislikedAnime.Where(d => d.UserId == userId).ToList();
+            var dislikedAnime = _context.DislikedAnime
+            .Where(a => a.UserId == userId)
+            .Join(_context.Anime, a => a.AnimeId, g => g.Id, (a, g) => g)
+            .ToList();
+
+            return dislikedAnime;
         }
     }
 }

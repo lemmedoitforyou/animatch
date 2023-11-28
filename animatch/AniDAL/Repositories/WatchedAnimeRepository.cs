@@ -10,13 +10,18 @@ namespace AniDAL.Repositories
 {
     public interface IWatchedAnimeRepository: IGenericRepository<WatchedAnime>
     {
-        List<WatchedAnime> GetWatchedAnimesForUser(int userId);
+        List<Anime> GetWatchedAnimesForUser(int userId);
     }
     public class WatchedAnimeRepository : GenericRepository<WatchedAnime>, IWatchedAnimeRepository
     {
-        public List<WatchedAnime> GetWatchedAnimesForUser(int userId)
+        public List<Anime> GetWatchedAnimesForUser(int userId)
         {
-            return _context.WatchedAnime.Where(w => w.UserId == userId).ToList();
+            var watchedAnime = _context.AddedAnime
+             .Where(a => a.UserId == userId)
+             .Join(_context.Anime, a => a.AnimeId, g => g.Id, (a, g) => g)
+             .ToList();
+
+            return watchedAnime;
         }
     }
 }
