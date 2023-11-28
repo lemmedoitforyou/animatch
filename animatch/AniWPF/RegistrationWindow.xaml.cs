@@ -12,8 +12,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using AniBLL.Models;
 using AniBLL.Services;
-using AniDAL.DataBaseClasses;
 using AniDAL.Repositories;
 using AniWPF.StartupHelper;
 
@@ -49,7 +49,7 @@ namespace AniWPF
             else
             {
                 int currentid = userService.GetLastUserId() + 1;
-                UserInfo newUser = new UserInfo()
+                UserInfoModel newUser = new UserInfoModel()
                 {
                     Id = currentid,
                     Name = "додати ім'я",

@@ -1,16 +1,17 @@
 ﻿using System;
 using AniDAL.Repositories;
 using AniDAL.DataBaseClasses;
+using AniBLL.Models;
 
 namespace AniBLL.Services
 {
     public interface IAnimeService
     {
-        Anime GetById(int id);
-        List<Anime> GetAll();
-        void Insert(Anime anime);
-        void Update(Anime anime);
-        void Delete(Anime anime);
+        AnimeModel GetById(int id);
+        List<AnimeModel> GetAll();
+        void Insert(AnimeModel anime);
+        void Update(AnimeModel anime);
+        void Delete(AnimeModel anime);
     }
     public class AnimeService : IAnimeService
 
@@ -22,25 +23,58 @@ namespace AniBLL.Services
             _animeRepository = animeRepository;
         }
 
-        public List<Anime> GetAll()
+        public List<AnimeModel> GetAll()
         {
-            return _animeRepository.GetAll().ToList();
-        }
-        
-        public Anime GetById(int animeId)
-        {
-            return _animeRepository.GetById(animeId);
+            List<Anime> animeRepository = _animeRepository.GetAll().ToList();
+            List<AnimeModel> Anime = animeRepository
+                                .Select(anime => new AnimeModel
+                                {
+                                    Id = anime.Id,
+                                    Name = anime.Name,
+                                    Text = anime.Text,
+                                    Imdbrate = anime.Imdbrate,
+                                    Photo = anime.Photo,
+                                    Year = anime.Year
+                                })
+                                .ToList();
+
+            return Anime;
         }
 
-        public void Insert(Anime anime)
+        public AnimeModel GetById(int animeId)
+        {
+            var anime = _animeRepository.GetById(animeId);
+
+            // Перевірка на null, якщо аніме не знайдено
+            if (anime == null)
+            {
+                return null; // або можна кинути виняток чи повернути якусь іншу логіку за замовчуванням
+            }
+
+            // Створення екземпляра AnimeModel на основі об'єкта з репозиторію
+            var animeModel = new AnimeModel
+            {
+                Id = anime.Id,
+                Name = anime.Name,
+                Text = anime.Text,
+                Imdbrate = anime.Imdbrate,
+                Photo = anime.Photo,
+                Year = anime.Year
+            };
+
+            return animeModel;
+        }
+
+
+        public void Insert(AnimeModel anime)
         {
             _animeRepository.Insert(anime);
         }
-        public void Update(Anime anime)
+        public void Update(AnimeModel anime)
         {
             _animeRepository.Update(anime);
         }
-        public void Delete(Anime anime)
+        public void Delete(AnimeModel anime)
         {
             _animeRepository.Delete(anime);
         }

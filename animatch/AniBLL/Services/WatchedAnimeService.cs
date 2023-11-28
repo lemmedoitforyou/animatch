@@ -5,14 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using AniDAL.Repositories;
 using AniDAL.DataBaseClasses;
+using AniBLL.Models;
 
 namespace AniBLL.Services
 {
     public interface IWatchedAnimeService
     {
-        List<Anime> GetWatchedAnimesForUser(int userId);
-        void Insert(WatchedAnime watched);
-        void Delete(WatchedAnime watched);
+        List<AnimeModel> GetWatchedAnimesForUser(int userId);
+        void Insert(WatchedAnimeModel watched);
+        void Delete(WatchedAnimeModel watched);
     }
     public class WatchedAnimeService : IWatchedAnimeService
     {
@@ -23,16 +24,31 @@ namespace AniBLL.Services
             _watchedAnimeRepository = watchedAnimeRepository;
         }
 
-        public List<Anime> GetWatchedAnimesForUser(int userId)
+        public List<AnimeModel> GetWatchedAnimesForUser(int userId)
         {
-            return _watchedAnimeRepository.GetWatchedAnimesForUser(userId);
+            List<Anime> watchedAnimesFromRepository =
+                _watchedAnimeRepository.GetWatchedAnimesForUser(userId);
+
+            List<AnimeModel> likedAnimes = watchedAnimesFromRepository
+                .Select(anime => new AnimeModel
+                {
+                    Id = anime.Id,
+                    Name = anime.Name,
+                    Text = anime.Text,
+                    Imdbrate = anime.Imdbrate,
+                    Photo = anime.Photo,
+                    Year = anime.Year
+                })
+                .ToList();
+
+            return likedAnimes;
         }
-        public void Insert(WatchedAnime watched)
+        public void Insert(WatchedAnimeModel watched)
         {
             _watchedAnimeRepository.Insert(watched);
         }
 
-        public void Delete(WatchedAnime watched)
+        public void Delete(WatchedAnimeModel watched)
         {
             _watchedAnimeRepository.Delete(watched);
         }

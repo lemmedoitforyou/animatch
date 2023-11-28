@@ -1,5 +1,5 @@
 ﻿using AniBLL.Services;
-using AniDAL.DataBaseClasses;
+using AniBLL.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +22,7 @@ namespace AniWPF
     {
         private readonly ILikedAnimeService likedAnimeService;
         private int id;
-        private List<Animes> animeList;
+        private List<AnimeForForw> animeList;
         private readonly IAbstractFactory<RandomWindow> randomFactory;
         private readonly IAbstractFactory<MainWindow> mainFactory;
         public LikedAnimeWindow(ILikedAnimeService likedAnimeService, IAbstractFactory<RandomWindow> randomFactory, IAbstractFactory<MainWindow> mainFactory)
@@ -31,12 +31,12 @@ namespace AniWPF
             this.id = LogInWindow.CurrentUserID;
             InitializeComponent();
 
-            List<Anime> temp = likedAnimeService.GetLikedAnimesForUser(this.id);
+            List<AnimeModel> temp = likedAnimeService.GetLikedAnimesForUser(this.id);
 
-            animeList = new List<Animes>();
-            foreach (Anime anime in temp)
+            animeList = new List<AnimeForForw>();
+            foreach (AnimeModel anime in temp)
             {
-                animeList.Add(new Animes { Title = anime.Name, ImagePath = anime.Photo });
+                animeList.Add(new AnimeForForw { Title = anime.Name, ImagePath = anime.Photo });
             }
             animeListView.ItemsSource = animeList;
             this.WindowState = WindowState.Maximized;
@@ -44,7 +44,7 @@ namespace AniWPF
             this.mainFactory = mainFactory;
         }
 
-        public class Animes
+        public class AnimeForForw
         {
             public string Title { get; set; }
             public string ImagePath { get; set; }

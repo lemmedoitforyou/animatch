@@ -1,26 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using AniDAL.Repositories;
+using AniBLL.Models;
 using AniDAL.DataBaseClasses;
-using static System.Net.Mime.MediaTypeNames;
-using System.Reflection.Emit;
-using System.Xml.Linq;
-
 
 namespace AniBLL.Services
 {
     public interface IUserService
     {
-        UserInfo GetById(int id);
-        UserInfo GetByUsername(string username);
-        List<UserInfo> GetAll();
-        void Insert(UserInfo userInfo);
-        void Update(UserInfo userInfo);
-        void Delete(UserInfo userInfo);
+        UserInfoModel GetById(int id);
+        UserInfoModel GetByUsername(string username);
+        List<UserInfoModel> GetAll();
+        void Insert(UserInfoModel userInfo);
+        void Update(UserInfoModel userInfo);
+        void Delete(UserInfoModel userInfo);
         bool IsExistUsername(string username);
         bool IsExistEmail(string email);
         int GetLastUserId();
-        public void UpdateTitleAndText(int userId, string newTitle, string newText);
+        void UpdateTitleAndText(int userId, string newTitle, string newText);
     }
 
     public class UserService : IUserService
@@ -32,32 +29,94 @@ namespace AniBLL.Services
             _userRepository = userRepository;
         }
 
-        public UserInfo GetById(int id)
+        public UserInfoModel GetById(int id)
         {
-            return _userRepository.GetById(id);
+            var user = _userRepository.GetById(id);
+
+            // Перевірка на null, якщо користувача не знайдено
+            if (user == null)
+            {
+                return null; // або можна кинути виняток чи повернути якусь іншу логіку за замовчуванням
+            }
+
+            // Створення екземпляра UserInfoModel на основі об'єкта з репозиторію
+            var userInfoModel = new UserInfoModel
+            {
+                Id = user.Id,
+                Username = user.Username,
+                Password = user.Password,
+                Email = user.Email,
+                Name = user.Name,
+                Level = user.Level,
+                Text = user.Text,
+                Photo = user.Photo,
+                WatchedCount = user.WatchedCount
+            };
+
+            return userInfoModel;
         }
 
-        public UserInfo GetByUsername(string username)
+
+        public UserInfoModel GetByUsername(string username)
         {
-            return _userRepository.GetByUsername(username);
+            var user = _userRepository.GetByUsername(username);
+
+            // Перевірка на null, якщо користувача не знайдено
+            if (user == null)
+            {
+                return null; // або можна кинути виняток чи повернути якусь іншу логіку за замовчуванням
+            }
+
+            // Створення екземпляра UserInfoModel на основі об'єкта з репозиторію
+            var userInfoModel = new UserInfoModel
+            {
+                Id = user.Id,
+                Username = user.Username,
+                Password = user.Password,
+                Email = user.Email,
+                Name = user.Name,
+                Level = user.Level,
+                Text = user.Text,
+                Photo = user.Photo,
+                WatchedCount = user.WatchedCount
+            };
+
+            return userInfoModel;
         }
 
-        public List<UserInfo> GetAll()
+
+        public List<UserInfoModel> GetAll()
         {
-            return _userRepository.GetAll().ToList();
+            List <UserInfo> userInfos  = _userRepository.GetAll().ToList();
+
+            List<UserInfoModel> userInfoModels = userInfos.Select(user => new UserInfoModel
+            {
+                Id = user.Id,
+                Username = user.Username,
+                Password = user.Password,
+                Email = user.Email,
+                Name = user.Name,
+                Level = user.Level,
+                Text = user.Text,
+                Photo = user.Photo,
+                WatchedCount = user.WatchedCount
+            }).ToList();
+
+            return userInfoModels;
         }
 
-        public void Insert(UserInfo userInfo)
+
+        public void Insert(UserInfoModel userInfo)
         {
             _userRepository.Insert(userInfo);
         }
 
-        public void Update(UserInfo userInfo)
+        public void Update(UserInfoModel userInfo)
         {
             _userRepository.Update(userInfo);
         }
 
-        public void Delete(UserInfo userInfo)
+        public void Delete(UserInfoModel userInfo)
         {
             _userRepository.Delete(userInfo);
         }

@@ -5,15 +5,16 @@ using System.Text;
 using System.Threading.Tasks;
 using AniDAL.Repositories;
 using AniDAL.DataBaseClasses;
+using AniBLL.Models;
 
 namespace AniBLL.Services
 {
     public interface IAnimeGenreService
     {
         List<string> GetGenresForAnime(int animeId);
-        List<AnimeGenre> GetAnimesForGenre(int genreId);
-        void Insert(AnimeGenre animeGenres);
-        void Delete(AnimeGenre animeGenres);
+        List<AnimeModel> GetAnimesForGenre(int genreId);
+        void Insert(AnimeGenreModel animeGenres);
+        void Delete(AnimeGenreModel animeGenres);
     }
     public class AnimeGenreService : IAnimeGenreService
     {
@@ -29,15 +30,27 @@ namespace AniBLL.Services
             return _animeGenreRepository.GetGenresForAnime(animeId);
         }
 
-        public List<AnimeGenre> GetAnimesForGenre(int genreId)
+        public List<AnimeModel> GetAnimesForGenre(int genreId)
         {
-            return _animeGenreRepository.GetAnimesForGenre(genreId);
+            List<Anime> animeGenreRepository = _animeGenreRepository.GetAnimesForGenre(genreId);
+            List<AnimeModel> animeForGenre = animeGenreRepository.Select(anime => new AnimeModel
+            {
+                Id = anime.Id,
+                Name = anime.Name,
+                Text = anime.Text,
+                Imdbrate = anime.Imdbrate,
+                Photo = anime.Photo,
+                Year = anime.Year
+            })
+                        .ToList();
+
+            return animeForGenre;
         }
-        public void Insert(AnimeGenre animeGenres)
+        public void Insert(AnimeGenreModel animeGenres)
         {
             _animeGenreRepository.Insert(animeGenres);
         }
-        public void Delete(AnimeGenre animeGenres)
+        public void Delete(AnimeGenreModel animeGenres)
         {
             _animeGenreRepository.Delete(animeGenres);
         }

@@ -12,8 +12,8 @@ namespace AniBLL.Services
     public interface ILikedAnimeService
     {
         List<AnimeModel> GetLikedAnimesForUser(int userId);
-        void Insert(LikedAnime liked);
-        void Delete(LikedAnime liked);
+        void Insert(LikedAnimeModel liked);
+        void Delete(LikedAnimeModel liked);
     }
     public class LikedAnimeService : ILikedAnimeService
     {
@@ -26,13 +26,28 @@ namespace AniBLL.Services
 
         public List<AnimeModel> GetLikedAnimesForUser(int userId)
         {
-            return (AnimeModel)_likedAnimeRepository.GetLikedAnimesForUser(userId);
+            List<AniDAL.DataBaseClasses.Anime> likedAnimesFromRepository = 
+                _likedAnimeRepository.GetLikedAnimesForUser(userId);
+
+            List<AnimeModel> likedAnimes = likedAnimesFromRepository
+                .Select(anime => new AnimeModel
+                {
+                    Id = anime.Id,
+                    Name = anime.Name,
+                    Text = anime.Text,
+                    Imdbrate = anime.Imdbrate,
+                    Photo = anime.Photo,
+                    Year = anime.Year
+                })
+                .ToList();
+
+            return likedAnimes;
         }
-        public void Insert(LikedAnime liked)
+        public void Insert(LikedAnimeModel liked)
         {
             _likedAnimeRepository.Insert(liked);
         }
-        public void Delete(LikedAnime liked)
+        public void Delete(LikedAnimeModel liked)
         {
             _likedAnimeRepository.Delete(liked);
         }

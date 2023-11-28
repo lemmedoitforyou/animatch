@@ -5,9 +5,9 @@ using AniWPF.StartupHelper;
 using System;
 using System.Windows.Media.Imaging;
 using System.Threading.Tasks;
-using AniDAL.DataBaseClasses;
 using System.Collections.Generic;
 using System.Linq;
+using AniBLL.Models;
 
 namespace AniWPF
 {
@@ -43,13 +43,13 @@ namespace AniWPF
             this.watchAnimeService = watchedAnimeService;
 
             this.id = LogInWindow.CurrentUserID;
-            List<Anime> animes = animeService.GetAll();
-            List<Anime> dislikedanimes = dislikedAnimeService.GetDislikedAnimesForUser(id);
-            List<Anime> likedanimes = likedAnimeService.GetLikedAnimesForUser(id);
-            List<Anime> addedanimes = addedAnimeService.GetAddedAnimesForUser(id);
-            List<Anime> watchedanimes = watchedAnimeService.GetWatchedAnimesForUser(id);
+            List<AnimeModel> animes = animeService.GetAll();
+            List<AnimeModel> dislikedanimes = dislikedAnimeService.GetDislikedAnimesForUser(id);
+            List<AnimeModel> likedanimes = likedAnimeService.GetLikedAnimesForUser(id);
+            List<AnimeModel> addedanimes = addedAnimeService.GetAddedAnimesForUser(id);
+            List<AnimeModel> watchedanimes = watchedAnimeService.GetWatchedAnimesForUser(id);
 
-            List<Anime> uniqueAnimes = animes
+            List<AnimeModel> uniqueAnimes = animes
                 .Except(dislikedanimes)
                 .Except(likedanimes)
                 .Except(addedanimes)
@@ -60,7 +60,7 @@ namespace AniWPF
             // Генеруємо випадковий індекс
             int randomIndex = random.Next(uniqueAnimes.Count);
             // Вибираємо випадкове аніме
-            Anime randomAnime = uniqueAnimes[randomIndex];
+            AnimeModel randomAnime = uniqueAnimes[randomIndex];
 
             // Створюємо екземпляр ViewModel і встановлюємо його як DataContext
             this.viewModel = new AnimeViewModel(this.animeService, randomAnime.Id);

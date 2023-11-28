@@ -11,7 +11,7 @@ namespace AniDAL.Repositories
     public interface IAnimeGenreRepository : IGenericRepository<AnimeGenre>
     {
         List<string> GetGenresForAnime(int animeId);
-        List<AnimeGenre> GetAnimesForGenre(int genreId);
+        List<Anime> GetAnimesForGenre(int genreId);
     }
     public class AnimeGenreRepository : GenericRepository<AnimeGenre>, IAnimeGenreRepository
     {
@@ -26,9 +26,12 @@ namespace AniDAL.Repositories
         }
 
 
-        public List<AnimeGenre> GetAnimesForGenre(int genreId)
+        public List<Anime> GetAnimesForGenre(int genreId)
         {
-            return _context.AnimeGenre.Where(ag => ag.GenreId == genreId).ToList();
+            return _context.AnimeGenre
+                .Where(ag => ag.GenreId == genreId)
+                .Join(_context.Anime, ag => ag.AnimeId, a => a.Id, (ag, a) => a)
+                .ToList();
         }
     }
 }

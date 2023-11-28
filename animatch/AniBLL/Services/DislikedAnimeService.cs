@@ -5,14 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using AniDAL.Repositories;
 using AniDAL.DataBaseClasses;
+using AniBLL.Models;
 
 namespace AniBLL.Services
 {
     public interface IDislikedAnimeService
     {
-        List<Anime> GetDislikedAnimesForUser(int userId);
-        void Insert(DislikedAnime disliked);
-        void Delete(DislikedAnime disliked);
+        List<AnimeModel> GetDislikedAnimesForUser(int userId);
+        void Insert(DislikedAnimeModel disliked);
+        void Delete(DislikedAnimeModel disliked);
     }
     public class DislikedAnimeService : IDislikedAnimeService
     {
@@ -23,15 +24,30 @@ namespace AniBLL.Services
             _dislikedAnimeRepository = dislikedAnimeRepository;
         }
 
-        public List<Anime> GetDislikedAnimesForUser(int userId)
+        public List<AnimeModel> GetDislikedAnimesForUser(int userId)
         {
-            return _dislikedAnimeRepository.GetDislikedAnimesForUser(userId);
+            List<AniDAL.DataBaseClasses.Anime> dislikedAnimeRepository =
+                _dislikedAnimeRepository.GetDislikedAnimesForUser(userId);
+
+            List<AnimeModel> dislikedAnime = dislikedAnimeRepository
+                .Select(anime => new AnimeModel
+                {
+                    Id = anime.Id,
+                    Name = anime.Name,
+                    Text = anime.Text,
+                    Imdbrate = anime.Imdbrate,
+                    Photo = anime.Photo,
+                    Year = anime.Year
+                })
+                .ToList();
+
+            return dislikedAnime;
         }
-        public void Insert(DislikedAnime disliked)
+        public void Insert(DislikedAnimeModel disliked)
         {
             _dislikedAnimeRepository.Insert(disliked);
         }
-        public void Delete(DislikedAnime disliked)
+        public void Delete(DislikedAnimeModel disliked)
         {
             _dislikedAnimeRepository.Delete(disliked);
         }

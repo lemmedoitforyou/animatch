@@ -3,8 +3,8 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
+using AniBLL.Models;
 using AniBLL.Services;
-using AniDAL.DataBaseClasses;
 using AniWPF.StartupHelper;
 
 namespace AniWPF
@@ -16,7 +16,7 @@ namespace AniWPF
         private readonly IAnimeService animeService;
         private UserViewModel viewModel;
         private int id;
-        private List<Animes> animeList;
+        private List<AnimeForForm> animeList;
         private readonly IAbstractFactory<RandomWindow> randomFactory;
         private readonly IAbstractFactory<MainWindow> mainFactory;
         private readonly IAbstractFactory<RedactWindow> redactFactory;
@@ -31,12 +31,12 @@ namespace AniWPF
             this.DataContext = this.viewModel;
             this.addedAnimeService = addedAnimeService;
             this.animeService = animeService;
-            List<Anime> temp = addedAnimeService.GetAddedAnimesForUser(this.id);
+            List<AnimeModel> temp = addedAnimeService.GetAddedAnimesForUser(this.id);
 
-            animeList = new List<Animes>();
-            foreach (Anime anime in temp)
+            animeList = new List<AnimeForForm>();
+            foreach (AnimeModel anime in temp)
             {
-                animeList.Add(new Animes { Title = anime.Name, ImagePath = anime.Photo });
+                animeList.Add(new AnimeForForm { Title = anime.Name, ImagePath = anime.Photo });
             }
 
             animeListView.ItemsSource = animeList;
@@ -54,7 +54,7 @@ namespace AniWPF
 
         }
 
-        public class Animes
+        public class AnimeForForm
         {
             public string Title { get; set; }
             public string ImagePath { get; set; }

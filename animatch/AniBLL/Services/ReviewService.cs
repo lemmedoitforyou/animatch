@@ -5,16 +5,17 @@ using System.Text;
 using System.Threading.Tasks;
 using AniDAL.Repositories;
 using AniDAL.DataBaseClasses;
+using AniBLL.Models;
 
 namespace AniBLL.Services
 {
     public interface IReviewService
     {
-        Review GetById(int id);
-        List<Review> GetReviewsForAnime(int animeId);
-        void Insert(Review review);
-        void Update(Review review);
-        void Delete(Review review);
+        ReviewModel GetById(int id);
+        List<ReviewModel> GetReviewsForAnime(int animeId);
+        void Insert(ReviewModel review);
+        void Update(ReviewModel review);
+        void Delete(ReviewModel review);
     }
     public class ReviewService : IReviewService
     {
@@ -26,25 +27,40 @@ namespace AniBLL.Services
             _reviewRepository = reviewRepository;
         }
 
-        public Review GetById(int id)
+        public ReviewModel GetById(int id)
         {
-            return _reviewRepository.GetById(id);
+            return (ReviewModel)_reviewRepository.GetById(id);
         }
 
-        public List<Review> GetReviewsForAnime(int animeId)
+        public List<ReviewModel> GetReviewsForAnime(int animeId)
         {
-            return _reviewRepository.GetReviewsForAnime(animeId);
+            List<Review> reviewRepository = _reviewRepository.GetReviewsForAnime(animeId);
+
+
+            List<ReviewModel> reviewForAnime = reviewRepository
+                .Select(review => new ReviewModel
+                {
+                    Id = review.Id,
+                    UserId = review.UserId,
+                    AnimeId = review.AnimeId,
+                    Text = review.Text,
+                    Rate = review.Rate,
+
+                })
+                .ToList();
+
+            return reviewForAnime;
         }
 
-        public void Insert(Review review)
+        public void Insert(ReviewModel review)
         {
             _reviewRepository.Insert(review);
         }
-        public void Update(Review review)
+        public void Update(ReviewModel review)
         {
             _reviewRepository.Update(review);
         }
-        public void Delete(Review review)
+        public void Delete(ReviewModel review)
         {
             _reviewRepository.Delete(review);
         }

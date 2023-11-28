@@ -3,8 +3,8 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
+using AniBLL.Models;
 using AniBLL.Services;
-using AniDAL.DataBaseClasses;
 using AniWPF.StartupHelper;
 
 namespace AniWPF
@@ -30,7 +30,7 @@ namespace AniWPF
             this.DataContext = this.viewModel;
             this.addedAnimeService = addedAnimeService;
             this.animeService = animeService;
-            List<Anime> temp = addedAnimeService.GetAddedAnimesForUser(this.id);
+            List<AnimeModel> temp = addedAnimeService.GetAddedAnimesForUser(this.id);
             this.InitializeComponent();
             this.WindowState = WindowState.Maximized;
             this.randomFactory = randomFactory;

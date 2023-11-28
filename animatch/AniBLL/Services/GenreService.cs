@@ -5,16 +5,17 @@ using System.Text;
 using System.Threading.Tasks;
 using AniDAL.Repositories;
 using AniDAL.DataBaseClasses;
+using AniBLL.Models;
 
 namespace AniBLL.Services
 {
     public interface IGenreService
     {
-        Genre GetById(int id);
-        List<Genre> GetAll();
-        void Insert(Genre genres);
-        void Update(Genre genres);
-        void Delete(Genre genres);
+        GenreModel GetById(int id);
+        List<GenreModel> GetAll();
+        void Insert(GenreModel genres);
+        void Update(GenreModel genres);
+        void Delete(GenreModel genres);
     }
     public class GenreService : IGenreService
     {
@@ -25,24 +26,32 @@ namespace AniBLL.Services
             _genreRepository = genreRepository;
         }
 
-        public List<Genre> GetAll()
+        public List<GenreModel> GetAll()
         {
-            return _genreRepository.GetAll().ToList();
+            var genres = _genreRepository.GetAll();
+
+            var genreModels = genres.Select(genre => new GenreModel
+            {
+                Id = genre.Id,
+                Name = genre.Name
+            }).ToList();
+
+            return genreModels;
         }
 
-        public Genre GetById(int genreId)
+        public GenreModel GetById(int genreId)
         {
-            return _genreRepository.GetById(genreId);
+            return (GenreModel)_genreRepository.GetById(genreId);
         }
-        public void Insert(Genre genres)
+        public void Insert(GenreModel genres)
         {
             _genreRepository.Insert(genres);
         }
-        public void Update(Genre genres)
+        public void Update(GenreModel genres)
         {
             _genreRepository.Update(genres);
         }
-        public void Delete(Genre genres)
+        public void Delete(GenreModel genres)
         {
             _genreRepository.Delete(genres);
         }
