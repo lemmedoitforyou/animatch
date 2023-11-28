@@ -6,7 +6,13 @@
         xmlns:local="clr-namespace:AniWPF"
         mc:Ignorable="d"
         Title="main" Height="1024" Width="1440">
-    <Grid Background="LightPink" Margin="0,0,0,0">
+    <Grid>
+        <Grid.Background>
+            <RadialGradientBrush>
+                <GradientStop Color="#FFFFFF" Offset="0.0"/>
+                <GradientStop Color="#FFD9E2" Offset="1.0"/>
+            </RadialGradientBrush>
+        </Grid.Background>
         <StackPanel>
             <StackPanel Orientation="Horizontal" Height="100" VerticalAlignment="Top">
             <Rectangle Height="100" Width="90"/>

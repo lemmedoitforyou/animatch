@@ -20,6 +20,7 @@ namespace AniBLL.Services
         bool IsExistUsername(string username);
         bool IsExistEmail(string email);
         int GetLastUserId();
+        public void UpdateTitleAndText(int userId, string newTitle, string newText);
     }
 
     public class UserService : IUserService
@@ -74,6 +75,11 @@ namespace AniBLL.Services
         public int GetLastUserId()
         {
             return _userRepository.GetLastUserId();
+        }
+
+        public void UpdateTitleAndText(int userId, string newTitle, string newText)
+        {
+            _userRepository.UpdateTitleAndText(userId, newTitle, newText);
         }
     }
 }

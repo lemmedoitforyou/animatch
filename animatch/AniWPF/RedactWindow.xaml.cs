@@ -20,10 +20,11 @@ namespace AniWPF
         //private List<Animes> animeList;
         private readonly IAbstractFactory<RandomWindow> randomFactory;
         private readonly IAbstractFactory<MainWindow> mainFactory;
-        public RedactWindow(IUserService userService, IAddedAnimeService addedAnimeService, IAnimeService animeService, IAbstractFactory<RandomWindow> randomFactory, IAbstractFactory<MainWindow> mainFactory)
+        private readonly IAbstractFactory<ProfileWindow> profileFactory;
+        public RedactWindow(IUserService userService, IAddedAnimeService addedAnimeService, IAnimeService animeService, IAbstractFactory<RandomWindow> randomFactory, IAbstractFactory<MainWindow> mainFactory, IAbstractFactory<ProfileWindow> profileFactory)
         {
             this.id = LogInWindow.CurrentUserID;
-           
+
             this.userService = userService;
             this.viewModel = new UserViewModel(this.userService, this.id);
             this.DataContext = this.viewModel;
@@ -34,6 +35,7 @@ namespace AniWPF
             this.WindowState = WindowState.Maximized;
             this.randomFactory = randomFactory;
             this.mainFactory = mainFactory;
+            this.profileFactory = profileFactory;
         }
         public class UserViewModel : INotifyPropertyChanged
         {
@@ -49,13 +51,13 @@ namespace AniWPF
             public string UserName
             {
                 get { return this.userService.GetById(this.id).Name; }
-                set { }
+                set {  }
             }
 
             public string UserText
             {
                 get { return this.userService.GetById(this.id).Text; }
-                set { }
+                set {   }
             }
 
             public string UserLevel
@@ -116,12 +118,25 @@ namespace AniWPF
         }
         private void ButtonProfile_Click(object sender, RoutedEventArgs e)
         {
-            //this.profileFactory.Create(this.ParentWindow).Show();
+            this.profileFactory.Create(this).Show();
+            this.Close();
         }
 
         private void ButtonAdded_Click(object sender, RoutedEventArgs e)
         {
             // Your code for the ButtonAdded_Click event handler
         }
+
+        private void Cancel_Button_Click(object sender, RoutedEventArgs e)
+        {
+            this.profileFactory.Create(this).Show();
+            this.Close();
+        }private void Save_Button_Click(object sender, RoutedEventArgs e)
+        {
+            userService.UpdateTitleAndText(id,name.Text, description.Text);
+            this.profileFactory.Create(this).Show();
+            this.Close();
+        }
+
     }
 }

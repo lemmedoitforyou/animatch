@@ -16,6 +16,7 @@ namespace AniDAL.Repositories
         bool IsExistUsername(string username);
         bool IsExistEmail(string email);
         int GetLastUserId();
+        public void UpdateTitleAndText(int userId, string newTitle, string newText);
     }
     public class UserInfoRepository: GenericRepository<UserInfo>, IUserInfoRepository
     {
@@ -38,6 +39,18 @@ namespace AniDAL.Repositories
         {
             int lastUserId = _context.UserInfo.Max(u => u.Id);
             return lastUserId;
+        }
+        public void UpdateTitleAndText(int userId, string newTitle, string newText)
+        {
+            var userInfo = _context.UserInfo.FirstOrDefault(u => u.Id == userId);
+
+            if (userInfo != null)
+            {
+                userInfo.Name = newTitle;
+                userInfo.Text = newText;
+
+                _context.SaveChanges();
+            }
         }
     }
 }
