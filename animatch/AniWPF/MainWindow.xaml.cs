@@ -23,9 +23,17 @@ namespace AniWPF
         private readonly IDislikedAnimeService dislikedAnimeService;
         private readonly IWatchedAnimeService watchAnimeService;
         private readonly IAnimeService animeService;
-        private AnimeViewModel viewModel;
-        private int id;
 
+        private AnimeViewModel viewModel;
+
+        private int id;
+        private int randomAnimeId;
+
+        private List<AnimeModel> uniqueAnimes;
+        private List<AnimeModel> dislikedanimes;
+        private List<AnimeModel> likedanimes;
+        private List<AnimeModel> addedanimes;
+        private List<AnimeModel> watchedanimes;
 
         public MainWindow(IAnimeService animeService, IAddedAnimeService addedAnimeService,
             IDislikedAnimeService dislikedAnimeService, ILikedAnimeService likedAnimeService,
@@ -44,12 +52,12 @@ namespace AniWPF
 
             this.id = LogInWindow.CurrentUserID;
             List<AnimeModel> animes = animeService.GetAll();
-            List<AnimeModel> dislikedanimes = dislikedAnimeService.GetDislikedAnimesForUser(id);
-            List<AnimeModel> likedanimes = likedAnimeService.GetLikedAnimesForUser(id);
-            List<AnimeModel> addedanimes = addedAnimeService.GetAddedAnimesForUser(id);
-            List<AnimeModel> watchedanimes = watchedAnimeService.GetWatchedAnimesForUser(id);
+            this.dislikedanimes = dislikedAnimeService.GetDislikedAnimesForUser(id);
+            this.likedanimes = likedAnimeService.GetLikedAnimesForUser(id);
+            this.addedanimes = addedAnimeService.GetAddedAnimesForUser(id);
+            this.watchedanimes = watchedAnimeService.GetWatchedAnimesForUser(id);
 
-            List<AnimeModel> uniqueAnimes = animes
+            this.uniqueAnimes = animes
                 .Except(dislikedanimes)
                 .Except(likedanimes)
                 .Except(addedanimes)
@@ -58,15 +66,12 @@ namespace AniWPF
             Random random = new Random();
 
             // Генеруємо випадковий індекс
-            int randomIndex = random.Next(uniqueAnimes.Count);
-            // Вибираємо випадкове аніме
-            AnimeModel randomAnime = uniqueAnimes[randomIndex];
+            this.randomAnimeId = random.Next(uniqueAnimes.Count);
 
             // Створюємо екземпляр ViewModel і встановлюємо його як DataContext
-            this.viewModel = new AnimeViewModel(this.animeService, randomAnime.Id);
+            this.viewModel = new AnimeViewModel(this.animeService, randomAnimeId);
             this.DataContext = this.viewModel;
             this.profileFactory = profileFactory;
-            //this.likedFactory = likedFactory;
             this.WindowState = WindowState.Maximized;
         }
 
@@ -148,18 +153,28 @@ namespace AniWPF
         }
         private async void LikeAnime_Click(object sender, RoutedEventArgs e)
         {
-            // Змінити зображення на "заповнене"
             likeUnfill.Source = new BitmapImage(new Uri("https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/LikedFillIcon.png?raw=true"));
 
-            // Затримка на 1 секунду
+            LikedAnimeModel temp = new LikedAnimeModel
+            {
+                Id = likedAnimeService.GetLastUserId() + 1,
+                UserId = this.id,
+                AnimeId = this.randomAnimeId
+            };
+            likedAnimeService.Insert(temp);
+
             await Task.Delay(1000);
 
-            // Отримати нові дані та змінити їх
+            this.uniqueAnimes.RemoveAt(randomAnimeId);
+
             Random random = new Random();
+            this.randomAnimeId = random.Next(uniqueAnimes.Count);
+
+            this.viewModel = new AnimeViewModel(this.animeService, randomAnimeId);
+            
             this.viewModel = new AnimeViewModel(this.animeService, random.Next(1, 51));
             this.DataContext = this.viewModel;
 
-            // Змінити зображення на "порожнє"
             likeUnfill.Source = new BitmapImage(new Uri("https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/LikedIcon.png?raw=true"));
         }
 

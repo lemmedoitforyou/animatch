@@ -15,11 +15,14 @@ namespace AniDAL.Migrations
                 name: "AddedAnime",
                 columns: table => new
                 {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     UserId = table.Column<int>(type: "integer", nullable: false),
                     AnimeId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
+                    table.PrimaryKey("PK_AddedAnime", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -43,22 +46,28 @@ namespace AniDAL.Migrations
                 name: "AnimeGenre",
                 columns: table => new
                 {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     AnimeId = table.Column<int>(type: "integer", nullable: false),
                     GenreId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
+                    table.PrimaryKey("PK_AnimeGenre", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "DislikedAnime",
                 columns: table => new
                 {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     UserId = table.Column<int>(type: "integer", nullable: false),
                     AnimeId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
+                    table.PrimaryKey("PK_DislikedAnime", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -78,11 +87,14 @@ namespace AniDAL.Migrations
                 name: "LikedAnime",
                 columns: table => new
                 {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     UserId = table.Column<int>(type: "integer", nullable: false),
                     AnimeId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
+                    table.PrimaryKey("PK_LikedAnime", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -109,11 +121,14 @@ namespace AniDAL.Migrations
                 name: "WatchedAnime",
                 columns: table => new
                 {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     UserId = table.Column<int>(type: "integer", nullable: false),
                     AnimeId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
+                    table.PrimaryKey("PK_WatchedAnime", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(

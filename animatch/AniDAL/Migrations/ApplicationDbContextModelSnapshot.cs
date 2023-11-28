@@ -23,11 +23,19 @@ namespace AniDAL.Migrations
 
             modelBuilder.Entity("AniDAL.DataBaseClasses.AddedAnime", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
                     b.Property<int>("AnimeId")
                         .HasColumnType("integer");
 
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
+
+                    b.HasKey("Id");
 
                     b.ToTable("AddedAnime");
                 });
@@ -67,22 +75,38 @@ namespace AniDAL.Migrations
 
             modelBuilder.Entity("AniDAL.DataBaseClasses.AnimeGenre", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
                     b.Property<int>("AnimeId")
                         .HasColumnType("integer");
 
                     b.Property<int>("GenreId")
                         .HasColumnType("integer");
 
+                    b.HasKey("Id");
+
                     b.ToTable("AnimeGenre");
                 });
 
             modelBuilder.Entity("AniDAL.DataBaseClasses.DislikedAnime", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
                     b.Property<int>("AnimeId")
                         .HasColumnType("integer");
 
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
+
+                    b.HasKey("Id");
 
                     b.ToTable("DislikedAnime");
                 });
@@ -107,11 +131,19 @@ namespace AniDAL.Migrations
 
             modelBuilder.Entity("AniDAL.DataBaseClasses.LikedAnime", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
                     b.Property<int>("AnimeId")
                         .HasColumnType("integer");
 
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
+
+                    b.HasKey("Id");
 
                     b.ToTable("LikedAnime");
                 });
@@ -197,11 +229,19 @@ namespace AniDAL.Migrations
 
             modelBuilder.Entity("AniDAL.DataBaseClasses.WatchedAnime", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
                     b.Property<int>("AnimeId")
                         .HasColumnType("integer");
 
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
+
+                    b.HasKey("Id");
 
                     b.ToTable("WatchedAnime");
                 });

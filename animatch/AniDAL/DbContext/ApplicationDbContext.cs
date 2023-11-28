@@ -38,12 +38,6 @@ namespace AniDAL.DbContext
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-            modelBuilder.Entity<AnimeGenre>().HasNoKey();
-            modelBuilder.Entity<AddedAnime>().HasNoKey();
-            modelBuilder.Entity<DislikedAnime>().HasNoKey();
-            modelBuilder.Entity<LikedAnime>().HasNoKey();
-            modelBuilder.Entity<WatchedAnime>().HasNoKey();
         }
     }
 }

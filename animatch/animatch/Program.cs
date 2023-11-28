@@ -1,8 +1,9 @@
-﻿namespace Animatch
-{
-    using System;
-    using Npgsql;
+﻿using System;
+using Npgsql;
 
+
+namespace Animatch
+{
     public class Program
     {
         private static void Main(string[] args)
@@ -10,7 +11,7 @@
             // DisplayAllData();
             Insert();
 
-            Console.ReadLine();
+            Console.ReadLine();  
         }
 
         private static void Insert()
@@ -48,37 +49,34 @@
                     int rate = i;
 
                     // Дані для foreign key
-                    int animeId = i;
-                    int genreId = i;
-                    int userId = i;
-                    int reviewId = i;
+                    int Id = i;
 
                     // Вставка даних у таблицю anime
-                    InsertDataIntoAnime(con, animeId, animeName, animeYear, animeImdbRate, animeText, animePhoto);
+                    InsertDataIntoAnime(con, Id, animeName, animeYear, animeImdbRate, animeText, animePhoto);
 
                     // Вставка даних у таблицю genres
-                    InsertDataIntoGenres(con, genreId, genreName);
+                    InsertDataIntoGenres(con, Id, genreName);
 
                     // Вставка даних у таблицю userinfo
-                    InsertDataIntoUserInfo(con, userId, username, password, email, name, text, photo, level, watchedcount);
+                    InsertDataIntoUserInfo(con, Id, username, password, email, name, text, photo, level, watchedcount);
 
                     // Вставка даних у таблицю review
-                    InsertDataIntoReview(con, reviewId, userId, animeId, text, rate);
+                    InsertDataIntoReview(con, Id, Id, Id, text, rate);
 
                     // Вставка даних у таблицю animegenres
-                    InsertDataIntoAnimeGenres(con, animeId, genreId);
+                    InsertDataIntoAnimeGenres(con, Id, Id, Id);
 
                     // Вставка даних у таблицю added
-                    InsertDataIntoAdded(con, userId, animeId);
+                    InsertDataIntoAdded(con, Id, Id, Id);
 
                     // Вставка даних у таблицю liked
-                    InsertDataIntoLiked(con, userId, animeId);
+                    InsertDataIntoLiked(con, Id, Id, Id);
 
                     // Вставка даних у таблицю disliked
-                    InsertDataIntoDisLiked(con, userId, animeId);
+                    InsertDataIntoDisLiked(con, Id, Id, Id);
 
                     // Вставка даних у таблицю watched
-                    InsertDataIntoWatched(con, userId, animeId);
+                    InsertDataIntoWatched(con, Id, Id, Id);
                 }
             }
         }
@@ -149,12 +147,13 @@
             }
         }
 
-        private static void InsertDataIntoAnimeGenres(NpgsqlConnection connection, int animeId, int genreId)
+        private static void InsertDataIntoAnimeGenres(NpgsqlConnection connection, int id, int animeId, int genreId)
         {
-            string insertQuery = "INSERT INTO public.\"AnimeGenre\" (\"AnimeId\", \"GenreId\") VALUES (@animeId, @genreId)";
+            string insertQuery = "INSERT INTO public.\"AnimeGenre\" (\"Id\", \"AnimeId\", \"GenreId\") VALUES (@id, @animeId, @genreId)";
 
             using (NpgsqlCommand command = new NpgsqlCommand(insertQuery, connection))
             {
+                command.Parameters.AddWithValue("@id", id);
                 command.Parameters.AddWithValue("@animeId", animeId);
                 command.Parameters.AddWithValue("@genreId", genreId);
 
@@ -162,12 +161,13 @@
             }
         }
 
-        private static void InsertDataIntoAdded(NpgsqlConnection connection, int userId, int animeId)
+        private static void InsertDataIntoAdded(NpgsqlConnection connection, int id, int userId, int animeId)
         {
-            string insertQuery = "INSERT INTO public.\"AddedAnime\" (\"UserId\", \"AnimeId\") VALUES (@userId, @animeId)";
+            string insertQuery = "INSERT INTO public.\"AddedAnime\" (\"Id\", \"UserId\", \"AnimeId\") VALUES (@id, @userId, @animeId)";
 
             using (NpgsqlCommand command = new NpgsqlCommand(insertQuery, connection))
             {
+                command.Parameters.AddWithValue("@id", id);
                 command.Parameters.AddWithValue("@userId", userId);
                 command.Parameters.AddWithValue("@animeId", animeId);
 
@@ -175,12 +175,13 @@
             }
         }
 
-        private static void InsertDataIntoLiked(NpgsqlConnection connection, int userId, int animeId)
+        private static void InsertDataIntoLiked(NpgsqlConnection connection, int id, int userId, int animeId)
         {
-            string insertQuery = "INSERT INTO public.\"LikedAnime\" (\"UserId\", \"AnimeId\") VALUES (@userId, @animeId)";
+            string insertQuery = "INSERT INTO public.\"LikedAnime\" (\"Id\", \"UserId\", \"AnimeId\") VALUES (@id, @userId, @animeId)";
 
             using (NpgsqlCommand command = new NpgsqlCommand(insertQuery, connection))
             {
+                command.Parameters.AddWithValue("@id", id);
                 command.Parameters.AddWithValue("@userId", userId);
                 command.Parameters.AddWithValue("@animeId", animeId);
 
@@ -188,12 +189,13 @@
             }
         }
 
-        private static void InsertDataIntoDisLiked(NpgsqlConnection connection, int userId, int animeId)
+        private static void InsertDataIntoDisLiked(NpgsqlConnection connection, int id, int userId, int animeId)
         {
-            string insertQuery = "INSERT INTO public.\"DislikedAnime\" (\"UserId\", \"AnimeId\") VALUES (@userId, @animeId)";
+            string insertQuery = "INSERT INTO public.\"DislikedAnime\" (\"Id\", \"UserId\", \"AnimeId\") VALUES (@id, @userId, @animeId)";
 
             using (NpgsqlCommand command = new NpgsqlCommand(insertQuery, connection))
             {
+                command.Parameters.AddWithValue("@id", id);
                 command.Parameters.AddWithValue("@userId", userId);
                 command.Parameters.AddWithValue("@animeId", animeId);
 
@@ -201,12 +203,13 @@
             }
         }
 
-        private static void InsertDataIntoWatched(NpgsqlConnection connection, int userId, int animeId)
+        private static void InsertDataIntoWatched(NpgsqlConnection connection, int id, int userId, int animeId)
         {
-            string insertQuery = "INSERT INTO public.\"WatchedAnime\" (\"UserId\", \"AnimeId\") VALUES (@userId, @animeId)";
+            string insertQuery = "INSERT INTO public.\"WatchedAnime\" (\"Id\", \"UserId\", \"AnimeId\") VALUES (@id, @userId, @animeId)";
 
             using (NpgsqlCommand command = new NpgsqlCommand(insertQuery, connection))
             {
+                command.Parameters.AddWithValue("@id", id);
                 command.Parameters.AddWithValue("@userId", userId);
                 command.Parameters.AddWithValue("@animeId", animeId);
 
@@ -388,7 +391,7 @@
         //}
         private static NpgsqlConnection GetConnection() 
         {
-            return new NpgsqlConnection(@"Server=localhost;Port=5432;User Id=postgres;Password=13112004k;Database=animatch;");
+            return new NpgsqlConnection(@"Server=localhost;Port=5432;User Id=postgres;Password=yuliya2005;Database=animatch;");
         }
     }
 }

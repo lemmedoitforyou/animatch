@@ -11,6 +11,7 @@ namespace AniDAL.Repositories
     public interface ILikedAnimeRepository: IGenericRepository<LikedAnime>
     {
         List<Anime> GetLikedAnimesForUser(int userId);
+        int GetLastUserId();
     }
     public class LikedAnimeRepository : GenericRepository<LikedAnime>, ILikedAnimeRepository
     {
@@ -22,5 +23,11 @@ namespace AniDAL.Repositories
            .ToList();
             return likedAnimes;
         }
+        public int GetLastUserId()
+        {
+            int lastUserId = _context.LikedAnime.Max(u => u.Id);
+            return lastUserId;
+        }
     }
+
 }

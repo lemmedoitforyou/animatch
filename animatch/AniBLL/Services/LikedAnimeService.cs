@@ -14,6 +14,7 @@ namespace AniBLL.Services
         List<AnimeModel> GetLikedAnimesForUser(int userId);
         void Insert(LikedAnimeModel liked);
         void Delete(LikedAnimeModel liked);
+        int GetLastUserId();
     }
     public class LikedAnimeService : ILikedAnimeService
     {
@@ -42,6 +43,10 @@ namespace AniBLL.Services
                 .ToList();
 
             return likedAnimes;
+        }
+        public int GetLastUserId()
+        {
+            return _likedAnimeRepository.GetLastUserId();
         }
         public void Insert(LikedAnimeModel liked)
         {

@@ -13,11 +13,7 @@ namespace AniDAL.DataBaseClasses
 
         public string Text { get; set; }
 
-        public int Rate { get; set; }
-
-        public UserInfo UserInfo { get; set; }
-
-       
+        public int Rate { get; set; }       
     }
 }
 
