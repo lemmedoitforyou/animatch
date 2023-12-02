@@ -6,6 +6,7 @@ using System.Windows;
 using AniBLL.Models;
 using AniBLL.Services;
 using AniWPF.StartupHelper;
+using AniWPF;
 
 namespace AniWPF
 {

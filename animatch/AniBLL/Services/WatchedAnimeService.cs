@@ -14,6 +14,7 @@ namespace AniBLL.Services
         List<AnimeModel> GetWatchedAnimesForUser(int userId);
         void Insert(WatchedAnimeModel watched);
         void Delete(WatchedAnimeModel watched);
+        int GetLastId();
     }
     public class WatchedAnimeService : IWatchedAnimeService
     {
@@ -51,6 +52,10 @@ namespace AniBLL.Services
         public void Delete(WatchedAnimeModel watched)
         {
             _watchedAnimeRepository.Delete(watched);
+        }
+        public int GetLastId()
+        {
+            return _watchedAnimeRepository.GetLastId();
         }
     }
 }

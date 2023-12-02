@@ -62,7 +62,7 @@
                         <TextBox Background="Transparent" Text="{Binding UserText}" FontSize="25"/>
                     <TextBlock FontSize="10">
                     <Run Text="Переглянуто Аніме: " />
-                    <Run Text="{Binding UserWatchedCount}" />
+                    <Run Text="{Binding UserWachedCount}" />
                     </TextBlock>
                     <Rectangle Height="26
                                " />

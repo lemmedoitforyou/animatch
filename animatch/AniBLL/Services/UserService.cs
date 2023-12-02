@@ -18,6 +18,7 @@ namespace AniBLL.Services
         bool IsExistEmail(string email);
         int GetLastUserId();
         void UpdateTitleAndText(int userId, string newTitle, string newText);
+        void WatchAnime(int userId);
     }
 
     public class UserService : IUserService
@@ -139,6 +140,11 @@ namespace AniBLL.Services
         public void UpdateTitleAndText(int userId, string newTitle, string newText)
         {
             _userRepository.UpdateTitleAndText(userId, newTitle, newText);
+        }
+        public 
+              void WatchAnime(int userId)
+        {
+            _userRepository.WatchAnime(userId);
         }
     }
 }

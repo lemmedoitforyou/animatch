@@ -42,7 +42,7 @@
             </StackPanel>
             <Rectangle Height="100" Width="30"/>
                 <StackPanel Height="86" Width="92">
-                    <Button Height="50" Width="50" Click="ButtonProfile_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent">
+                    <Button Height="50" Width="50" Click="ButtonSearch_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent">
                         <Image Height="40" Width="40" HorizontalAlignment="Center" Source="/SearchIcon.png" IsEnabled="False" />
                     </Button>
                     <Label Content="профіль" FontSize="20" VerticalAlignment="Top" FontFamily="Comic Sans MS" Height="36" />
@@ -56,25 +56,26 @@
                     <TextBlock Text="{Binding AnimeName}" FontSize="50"/>
                     <TextBlock Text="{Binding AnimeText}" FontSize="30"/>
                     <TextBlock FontSize="30" Width="400"><Run Text="IMDB рейтинг " /><Run Text=" "/><Run Text="{Binding AnimeRate}" /><Run Text=" "/><Run Text="/10 " /></TextBlock>
-                    <Button Height="25" Width="25" Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Right" Click="LikeAnime_Click" VerticalAlignment="Bottom">
+                        <TextBox Name="Id" Text=" " />
+                        <Button Height="25" Width="25" Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Right" Click="LikeAnime_Click" VerticalAlignment="Bottom">
                         <Image Source="/LikedIcon.png" x:Name="likeUnfill" />
                     </Button>
                 </StackPanel>
                     
                 </StackPanel>
             </Button>
-            <Rectangle Height="67"/>
+            <Rectangle Height="10"/>
             <StackPanel Orientation="Horizontal">
                 <StackPanel HorizontalAlignment="Left" Margin="440,0,0,0">
-                    <Button Height="50" Width="50" Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Center"  VerticalAlignment="Bottom">
-                        <Image Source="/notInterest.png" />
+                    <Button  Name="Dislike_Button" Click="Dislike_Button_Click" Height="50"  Width="50" Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Center"  VerticalAlignment="Bottom">
+                        <Image Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/notInterest.png?raw=true" />
                     </Button>
                     <Label Content="не цікаво" FontSize="14" HorizontalContentAlignment="Center" HorizontalAlignment="Center" />
                 </StackPanel>
                 <Rectangle Width="347"/>
                 <StackPanel HorizontalAlignment="Center" Margin="0,0,440,0" VerticalAlignment="Center">
-                    <Button Height="50" Width="50" Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Center"  VerticalAlignment="Bottom">
-                        <Image Source="/WatchedIcon.png" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <Button Name="Watched_Button" Click="Watched_Button_Click" Height="50" Width="50" Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Center"  VerticalAlignment="Bottom">
+                        <Image Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/WatchedIcon.png?raw=true" HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </Button>
                     <Label Content="переглянуто" FontSize="14" HorizontalContentAlignment="Center" HorizontalAlignment="Center" />
                 </StackPanel>

@@ -17,6 +17,7 @@ namespace AniDAL.Repositories
         bool IsExistEmail(string email);
         int GetLastUserId();
         public void UpdateTitleAndText(int userId, string newTitle, string newText);
+        public void WatchAnime(int userId);
     }
     public class UserInfoRepository: GenericRepository<UserInfo>, IUserInfoRepository
     {
@@ -48,6 +49,17 @@ namespace AniDAL.Repositories
             {
                 userInfo.Name = newTitle;
                 userInfo.Text = newText;
+
+                _context.SaveChanges();
+            }
+        }
+        public void WatchAnime(int userId)
+        {
+            var userInfo = _context.UserInfo.FirstOrDefault(u => u.Id == userId);
+
+            if (userInfo != null)
+            {
+                userInfo.WatchedCount += 1;
 
                 _context.SaveChanges();
             }

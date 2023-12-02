@@ -34,8 +34,9 @@ namespace AniWPF
                 if (user.Password == passwordValue)
                 {
                     //MessageBox.Show("Користувача знайдено");
-                    mainFactory.Create(this).Show(); // Передаємо поточне вікно як батьківське
                     CurrentUserID = user.Id;
+                    mainFactory.Create(this).Show(); // Передаємо поточне вікно як батьківське
+                    
                     this.Close();
                     
                 }
