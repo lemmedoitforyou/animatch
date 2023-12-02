@@ -1,5 +1,6 @@
 ﻿using AniBLL.Models;
 using AniBLL.Services;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,14 +19,23 @@ namespace AniWPF
 {
     public partial class SearchWindow : Window
     {
-        private int id;
+        private readonly ILogger<SearchWindow> logger;
+
         private List<AnimeForForw> animeList;
+
         private readonly IAnimeService animeService;
 
-        public SearchWindow(IAnimeService animeService)
+        private int id;
+        
+        public SearchWindow(IAnimeService animeService, ILogger<SearchWindow> logger)
         {
             this.animeService = animeService;
+
             id = LogInWindow.CurrentUserID;
+
+            this.logger = logger;
+            this.logger.LogInformation("SearchWindow created");
+
             InitializeComponent();
             this.WindowState = WindowState.Maximized;
         }
@@ -60,6 +70,7 @@ namespace AniWPF
 
         private void ButtonSearch_Click(object sender, RoutedEventArgs e)
         {
+            this.logger.LogInformation("Click Search button");
             string searchText = searchTextBox.Text;
             List<AnimeModel> temp = animeService.GetAll();
 
@@ -72,6 +83,7 @@ namespace AniWPF
                 }
             }
             animeListView.ItemsSource = animeList;
+            this.logger.LogInformation("List of anime waas shown");
         }
     }
 }

@@ -7,31 +7,44 @@ using AniBLL.Models;
 using AniBLL.Services;
 using AniWPF.StartupHelper;
 using AniWPF;
+using Microsoft.Extensions.Logging;
 
 namespace AniWPF
 {
     public partial class ProfileWindow : Window
     {
-        private readonly IUserService userService;
-        private readonly IAddedAnimeService addedAnimeService;
-        private readonly IAnimeService animeService;
-        private UserViewModel viewModel;
-        private int id;
-        private List<AnimeForForm> animeList;
+        private readonly ILogger<ProfileWindow> logger;
+
         private readonly IAbstractFactory<RandomWindow> randomFactory;
         private readonly IAbstractFactory<MainWindow> mainFactory;
         private readonly IAbstractFactory<RedactWindow> redactFactory;
-        public ProfileWindow(IUserService userService, IAddedAnimeService addedAnimeService, IAnimeService animeService, IAbstractFactory<RandomWindow> randomFactory, IAbstractFactory<MainWindow> mainFactory, IAbstractFactory<RedactWindow> redactFactory)
+
+        private readonly IUserService userService;
+        private readonly IAddedAnimeService addedAnimeService;
+        private readonly IAnimeService animeService;
+
+        private UserViewModel viewModel;
+        private int id;
+        private List<AnimeForForm> animeList;
+
+
+        public ProfileWindow(IUserService userService, IAddedAnimeService addedAnimeService, 
+            IAnimeService animeService, IAbstractFactory<RandomWindow> randomFactory, 
+            IAbstractFactory<MainWindow> mainFactory, IAbstractFactory<RedactWindow> redactFactory,
+            ILogger<ProfileWindow> logger)
         {
+            this.randomFactory = randomFactory;
+            this.mainFactory = mainFactory;
+            this.redactFactory = redactFactory;
+
+            this.userService = userService;
+            this.addedAnimeService = addedAnimeService;
+            this.animeService = animeService;
 
             System.Random random = new System.Random();
             this.id = LogInWindow.CurrentUserID;
-            this.InitializeComponent();
-            this.userService = userService;
             this.viewModel = new UserViewModel(this.userService, this.id);
             this.DataContext = this.viewModel;
-            this.addedAnimeService = addedAnimeService;
-            this.animeService = animeService;
             List<AnimeModel> temp = addedAnimeService.GetAddedAnimesForUser(this.id);
 
             animeList = new List<AnimeForForm>();
@@ -39,20 +52,13 @@ namespace AniWPF
             {
                 animeList.Add(new AnimeForForm { Title = anime.Name, ImagePath = anime.Photo });
             }
-
             animeListView.ItemsSource = animeList;
-            //this.animeListViewModel = new AnimeListViewModel(this.animeService, this.addedAnimeService, this.usersAdded);
-            //this.animeListBox.DataContext = this.animeListViewModel;
+
+            this.InitializeComponent();
             this.WindowState = WindowState.Maximized;
-            this.randomFactory = randomFactory;
-            this.mainFactory = mainFactory;
-            this.redactFactory = redactFactory;
 
-            //foreach (Anime anime in this.usersAdded)
-            //{
-            //    animeListBox.Items.Add(new MyItem { ImagePath = anime.Photo, ItemText = anime.Name });
-            //}
-
+            this.logger = logger;
+            this.logger.LogInformation("ProfileWindow created");
         }
 
         public class AnimeForForm
@@ -133,6 +139,7 @@ namespace AniWPF
         {
             private readonly IAnimeService animeService;
             private readonly IAddedAnimeService addedAnimeService;
+
             private int id;
 
             public AnimeViewModel(IAnimeService animeService, int id, IAddedAnimeService addedAnimeService)
@@ -160,8 +167,7 @@ namespace AniWPF
                 }
                 set
                 {
-                    // Встановлюємо значення rate в джерелі даних або де зручно.
-                    this.OnPropertyChanged(nameof(this.AnimeRate)); // Сповіщаємо систему про зміну значення
+                    this.OnPropertyChanged(nameof(this.AnimeRate));
                 }
             }
 
@@ -188,54 +194,33 @@ namespace AniWPF
                 this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
             }
         }
-        //public class AnimeListViewModel : INotifyPropertyChanged
-        //{
-        //    private readonly IAnimeService animeService;
-        //    private readonly IAddedAnimeService addedAnimeService;
-        //    private readonly List<Anime> animeList;
-
-        //    public AnimeListViewModel(IAnimeService animeService, IAddedAnimeService addedAnimeService, List<Anime> animeList)
-        //    {
-        //        this.animeService = animeService;
-        //        this.addedAnimeService = addedAnimeService;
-        //        this.animeList = animeList;
-        //        this.Animes = new ObservableCollection<AnimeViewModel>(
-        //            animeList.Select(a => new AnimeViewModel(this.animeService, a.Id, this.addedAnimeService))
-        //        );
-        //    }
-
-        //    public ObservableCollection<AnimeViewModel> Animes { get; set; }
-
-        //    public event PropertyChangedEventHandler? PropertyChanged;
-
-        //    protected virtual void OnPropertyChanged(string propertyName)
-        //    {
-        //        this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        //    }
-        //}
 
         private void RedactClick(object sender, RoutedEventArgs e)
         {
+            this.logger.LogInformation("Click Redact button");
             this.redactFactory.Create(this).Show();
             this.Close();
         }
         private void Random_Click(object sender, RoutedEventArgs e)
         {
+            this.logger.LogInformation("Click Random button");
             this.randomFactory.Create(this).Show();
             this.Close();
         }
         private void Main_Click(object sender, RoutedEventArgs e)
         {
+            this.logger.LogInformation("Click Main button");
             this.mainFactory.Create(this).Show();
             this.Close();
         }
-        private void ButtonProfile_Click(object sender, RoutedEventArgs e)
-        {
-            //this.profileFactory.Create(this.ParentWindow).Show();
-        }
-
         private void ButtonAdded_Click(object sender, RoutedEventArgs e)
         {
+            this.logger.LogInformation("Click Added button");
+            // Your code for the ButtonAdded_Click event handler
+        }
+        private void ButtonSearch_Click(object sender, RoutedEventArgs e)
+        {
+            this.logger.LogInformation("Click Added button");
             // Your code for the ButtonAdded_Click event handler
         }
     }

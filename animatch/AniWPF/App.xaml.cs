@@ -24,7 +24,6 @@ public partial class App : Application
            {
                loggerConfiguration.WriteTo.File("logs\\test.txt", rollingInterval: RollingInterval.Day)
                    .WriteTo.Debug()
-                   .MinimumLevel.Error()
                    .MinimumLevel.Override("LoggingDemo.Commands", Serilog.Events.LogEventLevel.Debug);
            })
             .ConfigureServices((hostContext, services) =>

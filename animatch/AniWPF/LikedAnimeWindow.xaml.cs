@@ -15,21 +15,31 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using AniWPF.StartupHelper;
 using static AniWPF.ProfileWindow;
+using Microsoft.Extensions.Logging;
 
 namespace AniWPF
 {
     public partial class LikedAnimeWindow : Window
     {
-        private readonly ILikedAnimeService likedAnimeService;
-        private int id;
-        private List<AnimeForForw> animeList;
+        private readonly ILogger<LikedAnimeModel> logger;
+
         private readonly IAbstractFactory<RandomWindow> randomFactory;
         private readonly IAbstractFactory<MainWindow> mainFactory;
-        public LikedAnimeWindow(ILikedAnimeService likedAnimeService, IAbstractFactory<RandomWindow> randomFactory, IAbstractFactory<MainWindow> mainFactory)
+
+        private readonly ILikedAnimeService likedAnimeService;
+
+        private int id;
+        private List<AnimeForForw> animeList;
+
+        public LikedAnimeWindow(ILikedAnimeService likedAnimeService, IAbstractFactory<RandomWindow> randomFactory, 
+                                IAbstractFactory<MainWindow> mainFactory, ILogger<LikedAnimeModel> logger)
         {
+            this.randomFactory = randomFactory;
+            this.mainFactory = mainFactory;
+
             this.likedAnimeService = likedAnimeService;
+
             this.id = LogInWindow.CurrentUserID;
-            InitializeComponent();
 
             List<AnimeModel> temp = likedAnimeService.GetLikedAnimesForUser(this.id);
 
@@ -39,9 +49,13 @@ namespace AniWPF
                 animeList.Add(new AnimeForForw { Title = anime.Name, ImagePath = anime.Photo });
             }
             animeListView.ItemsSource = animeList;
+
+            InitializeComponent();
             this.WindowState = WindowState.Maximized;
-            this.randomFactory = randomFactory;
-            this.mainFactory = mainFactory;
+
+            this.logger = logger;
+            this.logger.LogInformation("LikedAnimeWindow created");
+            this.logger.LogInformation("List of liked anime was shown");
         }
 
         public class AnimeForForw
@@ -51,20 +65,19 @@ namespace AniWPF
         }
         private void Random_Click(object sender, RoutedEventArgs e)
         {
+            this.logger.LogInformation("Click Random button");
             this.randomFactory.Create(this).Show();
             this.Close();
         }
         private void Main_Click(object sender, RoutedEventArgs e)
         {
+            this.logger.LogInformation("Click Main button");
             this.mainFactory.Create(this).Show();
             this.Close();
         }
-        private void ButtonAdded_Click(object sender, RoutedEventArgs e)
-        {
-           //ds
-        }
         private void ButtonProfile_Click(object sender, RoutedEventArgs e)
         {
+            this.logger.LogInformation("Click Profile button");
             //
         }
 

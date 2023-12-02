@@ -6,36 +6,51 @@ using System.Windows;
 using AniBLL.Models;
 using AniBLL.Services;
 using AniWPF.StartupHelper;
+using Microsoft.Extensions.Logging;
 
 namespace AniWPF
 {
     
     public partial class RedactWindow : Window
     {
-        private readonly IUserService userService;
-        private readonly IAddedAnimeService addedAnimeService;
-        private readonly IAnimeService animeService;
-        private UserViewModel viewModel;
-        private int id;
-        //private List<Animes> animeList;
+        private readonly ILogger<RedactWindow> logger;
+
         private readonly IAbstractFactory<RandomWindow> randomFactory;
         private readonly IAbstractFactory<MainWindow> mainFactory;
         private readonly IAbstractFactory<ProfileWindow> profileFactory;
-        public RedactWindow(IUserService userService, IAddedAnimeService addedAnimeService, IAnimeService animeService, IAbstractFactory<RandomWindow> randomFactory, IAbstractFactory<MainWindow> mainFactory, IAbstractFactory<ProfileWindow> profileFactory)
-        {
-            this.id = LogInWindow.CurrentUserID;
 
-            this.userService = userService;
-            this.viewModel = new UserViewModel(this.userService, this.id);
-            this.DataContext = this.viewModel;
-            this.addedAnimeService = addedAnimeService;
-            this.animeService = animeService;
-            List<AnimeModel> temp = addedAnimeService.GetAddedAnimesForUser(this.id);
-            this.InitializeComponent();
-            this.WindowState = WindowState.Maximized;
+        private readonly IUserService userService;
+        private readonly IAddedAnimeService addedAnimeService;
+        private readonly IAnimeService animeService;
+
+        private UserViewModel viewModel;
+        private int id;
+
+        public RedactWindow(IUserService userService, IAddedAnimeService addedAnimeService, 
+            IAnimeService animeService, IAbstractFactory<RandomWindow> randomFactory, 
+            IAbstractFactory<MainWindow> mainFactory, IAbstractFactory<ProfileWindow> profileFactory,
+            ILogger<RedactWindow> logger)
+        {
             this.randomFactory = randomFactory;
             this.mainFactory = mainFactory;
             this.profileFactory = profileFactory;
+
+            this.userService = userService;
+            this.addedAnimeService = addedAnimeService;
+            this.animeService = animeService;
+
+            this.id = LogInWindow.CurrentUserID;
+
+            this.viewModel = new UserViewModel(this.userService, this.id);
+            this.DataContext = this.viewModel;
+            List<AnimeModel> temp = addedAnimeService.GetAddedAnimesForUser(this.id);
+
+            this.logger = logger;
+            this.logger.LogInformation("RedactWindow created");
+
+            this.InitializeComponent();
+            this.WindowState = WindowState.Maximized;
+            
         }
         public class UserViewModel : INotifyPropertyChanged
         {
@@ -106,37 +121,26 @@ namespace AniWPF
             }
         }
 
-        private void Random_Click(object sender, RoutedEventArgs e)
-        {
-            this.randomFactory.Create(this).Show();
-            this.Close();
-        }
-        private void Main_Click(object sender, RoutedEventArgs e)
-        {
-            this.mainFactory.Create(this).Show();
-            this.Close();
-        }
-        private void ButtonProfile_Click(object sender, RoutedEventArgs e)
-        {
-            this.profileFactory.Create(this).Show();
-            this.Close();
-        }
-
-        private void ButtonAdded_Click(object sender, RoutedEventArgs e)
-        {
-            // Your code for the ButtonAdded_Click event handler
-        }
-
         private void Cancel_Button_Click(object sender, RoutedEventArgs e)
         {
+            this.logger.LogInformation("Click Watched button, changes was canceled");
             this.profileFactory.Create(this).Show();
             this.Close();
-        }private void Save_Button_Click(object sender, RoutedEventArgs e)
+        }
+        
+        private void Save_Button_Click(object sender, RoutedEventArgs e)
         {
+            this.logger.LogInformation("Click Watched button, changes was save");
             userService.UpdateTitleAndText(id,name.Text, description.Text);
             this.profileFactory.Create(this).Show();
             this.Close();
         }
 
+        private void Main_Click(object sender, RoutedEventArgs e)
+        {
+            this.logger.LogInformation("Click Main button");
+            this.mainFactory.Create(this).Show();
+            this.Close();
+        }
     }
 }

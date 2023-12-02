@@ -9,11 +9,14 @@ using System.Collections.Generic;
 using System.Linq;
 using AniBLL.Models;
 using AniWPF;
+using Microsoft.Extensions.Logging;
 
 namespace AniWPF
 {
     public partial class MainWindow : Window, IWindowAware
     {
+        private readonly ILogger<MainWindow> logger;
+
         public Window ParentWindow { get; set; }
         private readonly IAbstractFactory<RandomWindow> randomFactory;
         private readonly IAbstractFactory<ProfileWindow> profileFactory;
@@ -28,7 +31,6 @@ namespace AniWPF
         private readonly IUserService userService;
 
         private AnimeViewModel viewModel;
-
         private int id;
         private int randomAnimeId;
 
@@ -42,12 +44,13 @@ namespace AniWPF
             IDislikedAnimeService dislikedAnimeService, ILikedAnimeService likedAnimeService,
             IWatchedAnimeService watchedAnimeService, IUserService userService, 
             IAbstractFactory<RandomWindow> rfactory, IAbstractFactory<ProfileWindow> profileFactory,
-            IAbstractFactory<LikedAnimeWindow> likedFactory, IAbstractFactory<SearchWindow> searchFactory)
+            IAbstractFactory<LikedAnimeWindow> likedFactory, IAbstractFactory<SearchWindow> searchFactory, 
+            ILogger<MainWindow> logger)
         {
-            this.InitializeComponent();
             this.animeService = animeService;
             this.randomFactory = rfactory;
             this.likedFactory = likedFactory;
+            this.profileFactory = profileFactory;
             this.searchFactory = searchFactory;
 
             this.addedAnimeService = addedAnimeService;
@@ -71,21 +74,23 @@ namespace AniWPF
 
             Random random = new Random();
 
-            // Генеруємо випадковий індекс
             this.randomAnimeId = random.Next(uniqueAnimes.Count);
 
-            // Створюємо екземпляр ViewModel і встановлюємо його як DataContext
             this.viewModel = new AnimeViewModel(this.animeService, randomAnimeId);
             this.DataContext = this.viewModel;
-            this.profileFactory = profileFactory;
+
+            this.InitializeComponent();
             this.WindowState = WindowState.Maximized;
-            Id.Text = this.id.ToString();
+
+            this.logger = logger;
+            this.logger.LogInformation("MainWindow created");
         }
 
 
         public class AnimeViewModel : INotifyPropertyChanged
         {
             private readonly IAnimeService animeService;
+
             private int id;
 
             public AnimeViewModel(IAnimeService animeService, int id)
@@ -113,8 +118,7 @@ namespace AniWPF
 
                 set
                 {
-                    // Встановлюємо значення rate в джерелі даних або де зручно.
-                    this.OnPropertyChanged(nameof(this.AnimeRate)); // Сповіщаємо систему про зміну значення
+                    this.OnPropertyChanged(nameof(this.AnimeRate));
                 }
             }
 
@@ -144,29 +148,34 @@ namespace AniWPF
 
         private void Random_Click(object sender, RoutedEventArgs e)
         {
+            this.logger.LogInformation("Click Random button");
             this.randomFactory.Create(this).Show();
             this.Close();
         }
         private void ButtonProfile_Click(object sender, RoutedEventArgs e)
         {
+            this.logger.LogInformation("Click Profile button");
             this.profileFactory.Create(this).Show();
             this.Close();
         }
 
         private void ButtonLiked_Click(object sender, RoutedEventArgs e)
         {
+            this.logger.LogInformation("Click Liked button");
             this.likedFactory.Create(this).Show();
             this.Close();
         } 
         
         private void ButtonSearch_Click(object sender, RoutedEventArgs e)
         {
+            this.logger.LogInformation("Click Search button");
             this.searchFactory.Create(this).Show();
             this.Close();
         }
 
         private void Watched_Button_Click(object sender, RoutedEventArgs e)
         {
+            this.logger.LogInformation("Click Watched button");
             WatchedAnimeModel temp = new WatchedAnimeModel
             {
                 Id = watchAnimeService.GetLastId() + 1,
@@ -181,12 +190,12 @@ namespace AniWPF
 
             this.viewModel = new AnimeViewModel(this.animeService, randomAnimeId);
 
-            this.viewModel = new AnimeViewModel(this.animeService, random.Next(1, 51));
             this.DataContext = this.viewModel;
-
+            this.logger.LogInformation("Anime:" + animeService.GetById(randomAnimeId).Name + " was shown");
         }
         private async void LikeAnime_Click(object sender, RoutedEventArgs e)
         {
+            this.logger.LogInformation("Click LikeAnime button");
             likeUnfill.Source = new BitmapImage(new Uri("https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/LikedFillIcon.png?raw=true"));
             
             LikedAnimeModel temp = new LikedAnimeModel
@@ -208,10 +217,12 @@ namespace AniWPF
             this.DataContext = this.viewModel;
 
             likeUnfill.Source = new BitmapImage(new Uri("https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/LikedIcon.png?raw=true"));
-
+            this.logger.LogInformation("Anime: " + animeService.GetById(randomAnimeId).Name + " was shown");
         }
+
         private void Dislike_Button_Click(object sender, RoutedEventArgs e)
         {
+            this.logger.LogInformation("Click Dislike button");
             DislikedAnimeModel temp = new DislikedAnimeModel
             {
                 Id = dislikedAnimeService.GetLastId() + 1,
@@ -228,7 +239,7 @@ namespace AniWPF
 
             this.viewModel = new AnimeViewModel(this.animeService, random.Next(1, 51));
             this.DataContext = this.viewModel;
-
+            this.logger.LogInformation("Anime:" + animeService.GetById(randomAnimeId).Name + " was shown");
         }
 
     }

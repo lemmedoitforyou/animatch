@@ -16,34 +16,50 @@ using AniBLL.Models;
 using AniBLL.Services;
 using AniDAL.Repositories;
 using AniWPF.StartupHelper;
+using Microsoft.Extensions.Logging;
 
 namespace AniWPF
 {
     public partial class RegistrationWindow : Window, IWindowAware
     {
-        public Window ParentWindow { get; set; }
-        private readonly IUserService userService;
+        private readonly ILogger<RegistrationWindow> logger;
+
         private readonly IAbstractFactory<LogInWindow> logInFactory;
 
-        public RegistrationWindow(IUserService userService, IAbstractFactory<LogInWindow> lfactory)
+        public Window ParentWindow { get; set; }
+
+        private readonly IUserService userService;
+
+        public RegistrationWindow(IUserService userService, IAbstractFactory<LogInWindow> lfactory,
+                                  ILogger<RegistrationWindow> logger)
         {
-            InitializeComponent();
-            this.userService = userService;
             this.logInFactory = lfactory;
+
+            this.userService = userService;
+
+            this.logger = logger;
+            this.logger.LogInformation("RegistrationWindow created");
+
+            InitializeComponent();
+            this.WindowState = WindowState.Maximized;
         }
 
         private void Registration_Click(object sender, RoutedEventArgs e)
         {
+            this.logger.LogInformation("Click Registration button");
+
             string username = in_login.Text;
             string email = in_email.Text;
             string password = in_password.Text;
 
             if (userService.IsExistUsername(username))
             {
+                this.logger.LogInformation("User with this username already exists");
                 MessageBox.Show("користувач з таким логіном вже існує");
             }
             else if (userService.IsExistEmail(email))
             {
+                this.logger.LogInformation("User with this email already exists");
                 MessageBox.Show("користувач з такою поштою вже існує");
             }
             else
@@ -63,8 +79,9 @@ namespace AniWPF
                 };
 
                 userService.Insert(newUser);
+                this.logger.LogInformation("New user was added successfully");
                 //MessageBox.Show("Реєстрація пройшла успішно!");
-                logInFactory.Create(this.ParentWindow).Show(); // Передаємо батьківське вікно як батьківське
+                logInFactory.Create(this.ParentWindow).Show();
                 this.Close();
             }
         }
