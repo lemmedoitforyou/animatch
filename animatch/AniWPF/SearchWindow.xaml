@@ -28,6 +28,7 @@
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
+                                <GridViewColumn Header="Rate" DisplayMemberBinding="{Binding IMDBRate}" Width="200"/>
                             </GridView>
                         </ListView.View>
                     </ListView>

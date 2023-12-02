@@ -34,6 +34,7 @@ namespace AniWPF
         {
             public string Title { get; set; }
             public string ImagePath { get; set; }
+            public double IMDBRate { get; set; }
         }
 
         private void SearchTextBox_Loaded(object sender, RoutedEventArgs e)
@@ -67,7 +68,7 @@ namespace AniWPF
             {
                 if(anime.Name.Contains(searchText))
                 {
-                    animeList.Add(new AnimeForForw { Title = anime.Name, ImagePath = anime.Photo });
+                    animeList.Add(new AnimeForForw { Title = anime.Name, ImagePath = anime.Photo, IMDBRate = anime.Imdbrate});
                 }
             }
             animeListView.ItemsSource = animeList;
