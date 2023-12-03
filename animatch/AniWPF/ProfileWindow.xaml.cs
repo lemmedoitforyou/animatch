@@ -33,6 +33,10 @@ namespace AniWPF
             IAbstractFactory<MainWindow> mainFactory, IAbstractFactory<RedactWindow> redactFactory,
             ILogger<ProfileWindow> logger)
         {
+
+            this.InitializeComponent();
+            this.WindowState = WindowState.Maximized;
+
             this.randomFactory = randomFactory;
             this.mainFactory = mainFactory;
             this.redactFactory = redactFactory;
@@ -54,8 +58,6 @@ namespace AniWPF
             }
             animeListView.ItemsSource = animeList;
 
-            this.InitializeComponent();
-            this.WindowState = WindowState.Maximized;
 
             this.logger = logger;
             this.logger.LogInformation("ProfileWindow created");

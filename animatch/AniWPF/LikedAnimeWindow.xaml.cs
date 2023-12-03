@@ -14,14 +14,13 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using AniWPF.StartupHelper;
-using static AniWPF.ProfileWindow;
 using Microsoft.Extensions.Logging;
 
 namespace AniWPF
 {
     public partial class LikedAnimeWindow : Window
     {
-        private readonly ILogger<LikedAnimeModel> logger;
+        private readonly ILogger<LikedAnimeWindow> logger;
 
         private readonly IAbstractFactory<RandomWindow> randomFactory;
         private readonly IAbstractFactory<MainWindow> mainFactory;
@@ -32,8 +31,10 @@ namespace AniWPF
         private List<AnimeForForw> animeList;
 
         public LikedAnimeWindow(ILikedAnimeService likedAnimeService, IAbstractFactory<RandomWindow> randomFactory, 
-                                IAbstractFactory<MainWindow> mainFactory, ILogger<LikedAnimeModel> logger)
+                                IAbstractFactory<MainWindow> mainFactory, ILogger<LikedAnimeWindow> logger)
         {
+            InitializeComponent();
+            this.WindowState = WindowState.Maximized;
             this.randomFactory = randomFactory;
             this.mainFactory = mainFactory;
 
@@ -49,13 +50,12 @@ namespace AniWPF
                 animeList.Add(new AnimeForForw { Title = anime.Name, ImagePath = anime.Photo });
             }
             animeListView.ItemsSource = animeList;
-
+              
             this.logger = logger;
             this.logger.LogInformation("LikedAnimeWindow created");
             this.logger.LogInformation("List of liked anime was shown");
 
-            InitializeComponent();
-            this.WindowState = WindowState.Maximized;
+            
         }
 
         public class AnimeForForw

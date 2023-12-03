@@ -23,8 +23,11 @@ namespace AniWPF
 
         public RandomWindow(IAnimeService animeService, IAnimeGenreService animeGenreService, 
             IAbstractFactory<ProfileWindow> profileFactory, IAbstractFactory<MainWindow> mainFactory,
-            Logger<RandomWindow> logger)
+            ILogger<RandomWindow> logger)
         {
+            this.InitializeComponent();
+            this.WindowState = WindowState.Maximized;
+
             this.profileFactory = profileFactory;
             this.mainFactory = mainFactory;
             this.profileFactory = profileFactory;
@@ -41,8 +44,7 @@ namespace AniWPF
             this.logger = logger;
             this.logger.LogInformation("RandomWindow створено.");
 
-            this.InitializeComponent();
-            this.WindowState = WindowState.Maximized;
+           
         }
 
         public class AnimeViewModel : INotifyPropertyChanged

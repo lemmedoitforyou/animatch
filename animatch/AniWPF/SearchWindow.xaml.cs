@@ -1,5 +1,6 @@
 ﻿using AniBLL.Models;
 using AniBLL.Services;
+using AniWPF.StartupHelper;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -21,14 +22,18 @@ namespace AniWPF
     {
         private readonly ILogger<SearchWindow> logger;
 
+        private readonly IAbstractFactory<MainWindow> mainFactory;
+
         private List<AnimeForForw> animeList;
 
         private readonly IAnimeService animeService;
 
         private int id;
         
-        public SearchWindow(IAnimeService animeService, ILogger<SearchWindow> logger)
+        public SearchWindow(IAnimeService animeService, IAbstractFactory<MainWindow> mainFactory,ILogger<SearchWindow> logger)
         {
+            this.mainFactory = mainFactory;
+
             this.animeService = animeService;
 
             id = LogInWindow.CurrentUserID;
