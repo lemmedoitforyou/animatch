@@ -35,15 +35,14 @@ namespace AniWPF
             this.id = LogInWindow.CurrentUserID;
             System.Random randomForAnime = new System.Random();
 
-            // Створюємо екземпляр ViewModel і встановлюємо його як DataContext
             this.viewModel = new AnimeViewModel(this.animeService, this.animeGenreService, randomForAnime.Next(1, 50));
             this.DataContext = this.viewModel;
 
-            this.InitializeComponent();
-            this.WindowState = WindowState.Maximized;
-
             this.logger = logger;
             this.logger.LogInformation("RandomWindow створено.");
+
+            this.InitializeComponent();
+            this.WindowState = WindowState.Maximized;
         }
 
         public class AnimeViewModel : INotifyPropertyChanged

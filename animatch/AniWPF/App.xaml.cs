@@ -63,6 +63,9 @@ public partial class App : Application
                
                 services.AddTransient<IAnimeGenreRepository, AnimeGenreRepository>();
                 services.AddTransient<IAnimeGenreService, AnimeGenreService>();
+
+                services.AddTransient<IReviewRepository, ReviewRepository>();
+                services.AddTransient<IReviewService, ReviewService>();
             }).Build();
 
         _logger = AppHost.Services.GetRequiredService<ILogger<App>>();

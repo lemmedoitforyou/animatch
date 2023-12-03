@@ -29,6 +29,7 @@ namespace AniWPF
         private readonly IWatchedAnimeService watchAnimeService;
         private readonly IAnimeService animeService;
         private readonly IUserService userService;
+        private readonly IReviewService reviewService;
 
         private AnimeViewModel viewModel;
         private int id;
@@ -45,7 +46,7 @@ namespace AniWPF
             IWatchedAnimeService watchedAnimeService, IUserService userService, 
             IAbstractFactory<RandomWindow> rfactory, IAbstractFactory<ProfileWindow> profileFactory,
             IAbstractFactory<LikedAnimeWindow> likedFactory, IAbstractFactory<SearchWindow> searchFactory, 
-            ILogger<MainWindow> logger)
+            IReviewService reviewService, ILogger<MainWindow> logger)
         {
             this.animeService = animeService;
             this.randomFactory = rfactory;
@@ -58,6 +59,7 @@ namespace AniWPF
             this.dislikedAnimeService = dislikedAnimeService;
             this.watchAnimeService = watchedAnimeService;
             this.userService = userService;
+            this.reviewService = reviewService;
 
             this.id = LogInWindow.CurrentUserID;
             List<AnimeModel> animes = animeService.GetAll();
@@ -111,31 +113,17 @@ namespace AniWPF
 
             public double AnimeRate
             {
-                get
-                {
-                    return this.animeService.GetById(this.id).Imdbrate;
-                }
-
-                set
-                {
-                    this.OnPropertyChanged(nameof(this.AnimeRate));
-                }
+                get { return Math.Round(this.animeService.GetById(this.id).Imdbrate, 2); }
             }
 
             public string AnimePhoto
             {
-                get
-                {
-                    return this.animeService.GetById(this.id).Photo;
-                }
+                get { return this.animeService.GetById(this.id).Photo; }
             }
 
             public int AnimeYear
             {
-                get
-                {
-                    return this.animeService.GetById(this.id).Year;
-                }
+                get { return this.animeService.GetById(this.id).Year; }
             }
 
             public event PropertyChangedEventHandler? PropertyChanged;
@@ -184,14 +172,10 @@ namespace AniWPF
             };
             watchAnimeService.Insert(temp);
             userService.WatchAnime(this.id);
-            this.uniqueAnimes.RemoveAt(randomAnimeId);
-            Random random = new Random();
-            this.randomAnimeId = random.Next(uniqueAnimes.Count);
 
-            this.viewModel = new AnimeViewModel(this.animeService, randomAnimeId);
-
-            this.DataContext = this.viewModel;
-            this.logger.LogInformation("Anime:" + animeService.GetById(randomAnimeId).Name + " was shown");
+            SendButton.Visibility = Visibility.Visible;
+            RatingSlider.Visibility = Visibility.Visible;
+            ReviewText.Visibility = Visibility.Visible;
         }
         private async void LikeAnime_Click(object sender, RoutedEventArgs e)
         {
@@ -208,16 +192,7 @@ namespace AniWPF
 
             await Task.Delay(1000);
 
-            this.uniqueAnimes.RemoveAt(randomAnimeId);
-
-            Random random = new Random();
-            this.randomAnimeId = random.Next(uniqueAnimes.Count);
-
-            this.viewModel = new AnimeViewModel(this.animeService, randomAnimeId);
-            this.DataContext = this.viewModel;
-
-            likeUnfill.Source = new BitmapImage(new Uri("https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/LikedIcon.png?raw=true"));
-            this.logger.LogInformation("Anime: " + animeService.GetById(randomAnimeId).Name + " was shown");
+            UploadNextAnime();
         }
 
         private void Dislike_Button_Click(object sender, RoutedEventArgs e)
@@ -230,17 +205,41 @@ namespace AniWPF
                 UserId = this.id
             };
             dislikedAnimeService.Insert(temp);
-            
+
+            UploadNextAnime();
+        }
+
+        private void UploadNextAnime()
+        {
             this.uniqueAnimes.RemoveAt(randomAnimeId);
             Random random = new Random();
             this.randomAnimeId = random.Next(uniqueAnimes.Count);
 
             this.viewModel = new AnimeViewModel(this.animeService, randomAnimeId);
 
-            this.viewModel = new AnimeViewModel(this.animeService, random.Next(1, 51));
             this.DataContext = this.viewModel;
             this.logger.LogInformation("Anime:" + animeService.GetById(randomAnimeId).Name + " was shown");
         }
 
+        private void SendReview_Click(object sender, RoutedEventArgs e)
+        {
+            string text = ReviewText.Text;
+            int rate = (int)RatingSlider.Value;
+            ReviewModel temp = new ReviewModel()
+            {
+                Id = reviewService.GetLastUserId() + 1,
+                UserId = this.id,
+                AnimeId = this.randomAnimeId,
+                Text = text,
+                Rate = rate
+            };
+            reviewService.Insert(temp);
+
+            UploadNextAnime();
+
+            SendButton.Visibility = Visibility.Collapsed;
+            RatingSlider.Visibility = Visibility.Collapsed;
+            ReviewText.Visibility = Visibility.Collapsed;
+        }
     }
 }

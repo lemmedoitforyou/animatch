@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AniDAL.Repositories;
 using AniDAL.DataBaseClasses;
 using AniBLL.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace AniBLL.Services
 {
@@ -16,6 +17,7 @@ namespace AniBLL.Services
         void Insert(ReviewModel review);
         void Update(ReviewModel review);
         void Delete(ReviewModel review);
+        int GetLastUserId();
     }
     public class ReviewService : IReviewService
     {
@@ -63,6 +65,11 @@ namespace AniBLL.Services
         public void Delete(ReviewModel review)
         {
             _reviewRepository.Delete(review);
+        }
+
+        public int GetLastUserId()
+        {
+            return _reviewRepository.GetLastUserId();
         }
     }
 }

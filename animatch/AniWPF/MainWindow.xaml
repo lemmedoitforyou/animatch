@@ -55,12 +55,21 @@
                 <StackPanel Orientation="Vertical" Width="500" Height="560">
                     <TextBlock Text="{Binding AnimeName}" FontSize="50"/>
                     <TextBlock Text="{Binding AnimeText}" FontSize="30"/>
-                    <TextBlock FontSize="30" Width="400"><Run Text="IMDB рейтинг " /><Run Text=" "/><Run Text="{Binding AnimeRate}" /><Run Text=" "/><Run Text="/10 " /></TextBlock>
-                        <TextBox Name="Id" Text=" " />
+                        <TextBlock FontSize="30" Text="{Binding AnimeRate, StringFormat='IMDB рейтинг {0}/10'}" />
                         <Button Height="25" Width="25" Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Right" Click="LikeAnime_Click" VerticalAlignment="Bottom">
                         <Image Source="/LikedIcon.png" x:Name="likeUnfill" />
                     </Button>
-                </StackPanel>
+                        <StackPanel Orientation="Vertical" Width="500" Height="560">
+                            <!-- Відгук -->
+                            <TextBox Name="ReviewText" Width="400" Height="100" Margin="0,50,0,0" Text="Введіть ваш відгук" Visibility="Collapsed"/>
+
+                            <!-- Оцінка -->
+                            <Slider Name="RatingSlider" Width="400" Height="30" Minimum="1" Maximum="3" Value="1" TickPlacement="Both" IsSnapToTickEnabled="True" Visibility="Collapsed"/>
+
+                            <!-- Кнопка для відправлення відгуку та оцінки -->
+                            <Button Name="SendButton" Height="25" Width="100" Content="Надіслати відгук" Click="SendReview_Click" Visibility="Collapsed"/>
+                        </StackPanel>
+                    </StackPanel>
                     
                 </StackPanel>
             </Button>

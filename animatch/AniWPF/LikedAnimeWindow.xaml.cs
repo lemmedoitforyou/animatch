@@ -50,12 +50,12 @@ namespace AniWPF
             }
             animeListView.ItemsSource = animeList;
 
-            InitializeComponent();
-            this.WindowState = WindowState.Maximized;
-
             this.logger = logger;
             this.logger.LogInformation("LikedAnimeWindow created");
             this.logger.LogInformation("List of liked anime was shown");
+
+            InitializeComponent();
+            this.WindowState = WindowState.Maximized;
         }
 
         public class AnimeForForw
