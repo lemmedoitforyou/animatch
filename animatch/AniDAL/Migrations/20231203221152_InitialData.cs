@@ -98,6 +98,22 @@ namespace AniDAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Review",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    AnimeId = table.Column<int>(type: "integer", nullable: false),
+                    Text = table.Column<string>(type: "text", nullable: false),
+                    Rate = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Review", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UserInfo",
                 columns: table => new
                 {
@@ -130,34 +146,6 @@ namespace AniDAL.Migrations
                 {
                     table.PrimaryKey("PK_WatchedAnime", x => x.Id);
                 });
-
-            migrationBuilder.CreateTable(
-                name: "Review",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    UserId = table.Column<int>(type: "integer", nullable: false),
-                    AnimeId = table.Column<int>(type: "integer", nullable: false),
-                    Text = table.Column<string>(type: "text", nullable: false),
-                    Rate = table.Column<int>(type: "integer", nullable: false),
-                    UserInfoId = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Review", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Review_UserInfo_UserInfoId",
-                        column: x => x.UserInfoId,
-                        principalTable: "UserInfo",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Review_UserInfoId",
-                table: "Review",
-                column: "UserInfoId");
         }
 
         /// <inheritdoc />
@@ -185,10 +173,10 @@ namespace AniDAL.Migrations
                 name: "Review");
 
             migrationBuilder.DropTable(
-                name: "WatchedAnime");
+                name: "UserInfo");
 
             migrationBuilder.DropTable(
-                name: "UserInfo");
+                name: "WatchedAnime");
         }
     }
 }

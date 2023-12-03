@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AniDAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231128044734_InitialData")]
+    [Migration("20231203221152_InitialData")]
     partial class InitialData
     {
         /// <inheritdoc />
@@ -172,12 +172,7 @@ namespace AniDAL.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("UserInfoId")
-                        .HasColumnType("integer");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserInfoId");
 
                     b.ToTable("Review");
                 });
@@ -247,17 +242,6 @@ namespace AniDAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("WatchedAnime");
-                });
-
-            modelBuilder.Entity("AniDAL.DataBaseClasses.Review", b =>
-                {
-                    b.HasOne("AniDAL.DataBaseClasses.UserInfo", "UserInfo")
-                        .WithMany()
-                        .HasForeignKey("UserInfoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("UserInfo");
                 });
 #pragma warning restore 612, 618
         }
