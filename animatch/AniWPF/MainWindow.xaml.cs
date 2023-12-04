@@ -22,6 +22,7 @@ namespace AniWPF
         private readonly IAbstractFactory<ProfileWindow> profileFactory;
         private readonly IAbstractFactory<LikedAnimeWindow> likedFactory;
         private readonly IAbstractFactory<SearchWindow> searchFactory;
+        private readonly IAbstractFactory<AnimeWindow> animeFactory;
 
         private readonly IAddedAnimeService addedAnimeService;
         private readonly ILikedAnimeService likedAnimeService;
@@ -33,7 +34,7 @@ namespace AniWPF
 
         private AnimeViewModel viewModel;
         private int id;
-        private int randomAnimeId;
+        public static int randomAnimeId { get; set; }
 
         private List<AnimeModel> uniqueAnimes;
         private List<AnimeModel> dislikedanimes;
@@ -43,16 +44,17 @@ namespace AniWPF
 
         public MainWindow(IAnimeService animeService, IAddedAnimeService addedAnimeService,
             IDislikedAnimeService dislikedAnimeService, ILikedAnimeService likedAnimeService,
-            IWatchedAnimeService watchedAnimeService, IUserService userService, 
+            IWatchedAnimeService watchedAnimeService, IUserService userService,
             IAbstractFactory<RandomWindow> rfactory, IAbstractFactory<ProfileWindow> profileFactory,
-            IAbstractFactory<LikedAnimeWindow> likedFactory, IAbstractFactory<SearchWindow> searchFactory, 
-            IReviewService reviewService, ILogger<MainWindow> logger)
+            IAbstractFactory<LikedAnimeWindow> likedFactory, IAbstractFactory<SearchWindow> searchFactory,
+            IAbstractFactory<AnimeWindow> animeWindow, IReviewService reviewService, ILogger<MainWindow> logger)
         {
             this.animeService = animeService;
             this.randomFactory = rfactory;
             this.likedFactory = likedFactory;
             this.profileFactory = profileFactory;
             this.searchFactory = searchFactory;
+            this.animeFactory = animeWindow;
 
             this.addedAnimeService = addedAnimeService;
             this.likedAnimeService = likedAnimeService;
@@ -76,7 +78,7 @@ namespace AniWPF
 
             Random random = new Random();
 
-            this.randomAnimeId = random.Next(uniqueAnimes.Count);
+            randomAnimeId = random.Next(uniqueAnimes.Count);
 
             this.viewModel = new AnimeViewModel(this.animeService, randomAnimeId);
             this.DataContext = this.viewModel;
@@ -94,7 +96,6 @@ namespace AniWPF
             private readonly IAnimeService animeService;
 
             private int id;
-
             public AnimeViewModel(IAnimeService animeService, int id)
             {
                 this.animeService = animeService;
@@ -152,8 +153,8 @@ namespace AniWPF
             this.logger.LogInformation("Click Liked button");
             this.likedFactory.Create(this).Show();
             this.Close();
-        } 
-        
+        }
+
         private void ButtonSearch_Click(object sender, RoutedEventArgs e)
         {
             this.logger.LogInformation("Click Search button");
@@ -167,7 +168,7 @@ namespace AniWPF
             WatchedAnimeModel temp = new WatchedAnimeModel
             {
                 Id = watchAnimeService.GetLastId() + 1,
-                AnimeId = this.randomAnimeId,
+                AnimeId = randomAnimeId,
                 UserId = this.id
             };
             watchAnimeService.Insert(temp);
@@ -181,12 +182,12 @@ namespace AniWPF
         {
             this.logger.LogInformation("Click LikeAnime button");
             likeUnfill.Source = new BitmapImage(new Uri("https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/LikedFillIcon.png?raw=true"));
-            
+
             LikedAnimeModel temp = new LikedAnimeModel
             {
                 Id = likedAnimeService.GetLastUserId() + 1,
                 UserId = this.id,
-                AnimeId = this.randomAnimeId
+                AnimeId = randomAnimeId
             };
             likedAnimeService.Insert(temp);
 
@@ -201,7 +202,7 @@ namespace AniWPF
             DislikedAnimeModel temp = new DislikedAnimeModel
             {
                 Id = dislikedAnimeService.GetLastId() + 1,
-                AnimeId = this.randomAnimeId,
+                AnimeId = randomAnimeId,
                 UserId = this.id
             };
             dislikedAnimeService.Insert(temp);
@@ -213,8 +214,7 @@ namespace AniWPF
         {
             this.uniqueAnimes.RemoveAt(randomAnimeId);
             Random random = new Random();
-            this.randomAnimeId = random.Next(uniqueAnimes.Count);
-
+            randomAnimeId = random.Next(uniqueAnimes.Count);
             this.viewModel = new AnimeViewModel(this.animeService, randomAnimeId);
 
             this.DataContext = this.viewModel;
@@ -229,7 +229,7 @@ namespace AniWPF
             {
                 Id = reviewService.GetLastUserId() + 1,
                 UserId = this.id,
-                AnimeId = this.randomAnimeId,
+                AnimeId = randomAnimeId,
                 Text = text,
                 Rate = rate
             };
@@ -240,6 +240,13 @@ namespace AniWPF
             SendButton.Visibility = Visibility.Collapsed;
             RatingSlider.Visibility = Visibility.Collapsed;
             ReviewText.Visibility = Visibility.Collapsed;
+        }
+
+        private void AnimeButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.logger.LogInformation("Click Anime button");
+            this.animeFactory.Create(this).Show();
+            this.Close();
         }
     }
 }

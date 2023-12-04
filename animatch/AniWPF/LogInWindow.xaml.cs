@@ -33,7 +33,7 @@ namespace AniWPF
             this.logger.LogInformation("LogInWindow created");
         }
 
-        private void ButtonEnter_Click(object sender, RoutedEventArgs e)
+        public void ButtonEnter_Click(object sender, RoutedEventArgs e)
         {
             string loginValue = login.Text;
             string passwordValue = password.Password;
@@ -64,7 +64,7 @@ namespace AniWPF
             }
         }
 
-        private void ButtonRegister_Click(object sender, RoutedEventArgs e)
+        public void ButtonRegister_Click(object sender, RoutedEventArgs e)
         {
             this.logger.LogInformation("Click Register button");
             registrationFactory.Create(this).Show();

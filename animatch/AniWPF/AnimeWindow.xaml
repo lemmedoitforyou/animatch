@@ -1,0 +1,21 @@
+﻿<Window x:Class="AniWPF.AnimeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AniWPF"
+        mc:Ignorable="d"
+        Title="AnimeWindow" Height="1024" Width="1440">
+    <Grid>
+        <Grid.Background>
+            <RadialGradientBrush>
+                <GradientStop Color="#FFFFFF" Offset="0.0"/>
+                <GradientStop Color="#FFD9E2" Offset="1.0"/>
+            </RadialGradientBrush>
+        </Grid.Background>
+        <StackPanel>
+
+        </StackPanel>
+
+    </Grid>
+</Window>

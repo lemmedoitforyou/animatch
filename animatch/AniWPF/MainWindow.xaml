@@ -15,32 +15,33 @@
         </Grid.Background>
         <StackPanel>
             <StackPanel Orientation="Horizontal" Height="100" VerticalAlignment="Top">
-            <Rectangle Height="100" Width="90"/>
-            <Image x:Name="biglogo" HorizontalAlignment="Center" Height="95" Width="375" Source="/big_logo_white.png"/>
-            <Rectangle Height="100" Width="365"/>
-            <StackPanel Height="86" Width="92">
-                <Button Height="50" Width="50" Click="ButtonProfile_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent">
+                <Rectangle Height="100" Width="90"/>
+                <Image x:Name="biglogo" HorizontalAlignment="Center" Height="95" Width="375" Source="/big_logo_white.png"/>
+                <Rectangle Height="100" Width="365"/>
+                <StackPanel Height="86" Width="92">
+                    <Button Height="50" Width="50" Click="ButtonProfile_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent">
 
-                    <Image Height="40" Width="40" HorizontalAlignment="Center" Source="/ProfileIcon.png" IsEnabled="True" />
-                </Button>
-                <Label Content="профіль" FontSize="20" VerticalAlignment="Top" FontFamily="Comic Sans MS" Height="36" />
-            </StackPanel>
-            <Rectangle Height="100" Width="30"/>
-            <StackPanel Height="86" Width="92">
+                        <Image Height="40" Width="40" HorizontalAlignment="Center" Source="/ProfileIcon.png" IsEnabled="True" />
+                    </Button>
+                    <Label Content="профіль" FontSize="20" VerticalAlignment="Top" FontFamily="Comic Sans MS" Height="36" />
+                </StackPanel>
+                <Rectangle Height="100" Width="30"/>
+                <StackPanel Height="86" Width="92">
                     <Button Height="50" Width="50" Click="ButtonLiked_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent">
-                    <Image Height="40" Width="40" HorizontalAlignment="Center" Source="/LikedIcon.png" IsEnabled="True" />
-                </Button>
-                <Label Content="збережене" FontSize="20" VerticalAlignment="Top" FontFamily="Comic Sans MS" Height="36" />
-            </StackPanel>
-            <Rectangle Height="100" Width="30"/>
-            <StackPanel Height="86" Width="92">
+                        <Image Height="40" Width="40" HorizontalAlignment="Center" Source="/LikedIcon.png" IsEnabled="True" />
+                    </Button>
+                    <Label Content="збережене" FontSize="20" VerticalAlignment="Top" FontFamily="Comic Sans MS" Height="36" />
+                </StackPanel>
+                <Rectangle Height="100" Width="30"/>
+                <StackPanel Height="86" Width="92">
                     <Button Height="50" Width="50" Click="Random_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent">
 
-                    <Image Height="40" Width="40" HorizontalAlignment="Center" Source="/RandomIcon.png" IsEnabled="True" />
-                </Button>
-                <Label Content="рандом" FontSize="20" VerticalAlignment="Top" FontFamily="Comic Sans MS" Height="36"  />
-            </StackPanel>
-            <Rectangle Height="100" Width="30"/>
+
+                        <Image Height="40" Width="40" HorizontalAlignment="Center" Source="/RandomIcon.png" IsEnabled="True" />
+                    </Button>
+                    <Label Content="рандом" FontSize="20" VerticalAlignment="Top" FontFamily="Comic Sans MS" Height="36"  />
+                </StackPanel>
+                <Rectangle Height="100" Width="30"/>
                 <StackPanel Height="86" Width="92">
                     <Button Height="50" Width="50" Click="ButtonSearch_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent">
                         <Image Height="40" Width="40" HorizontalAlignment="Center" Source="/SearchIcon.png" IsEnabled="False" />
@@ -49,16 +50,16 @@
                 </StackPanel>
             </StackPanel>
             <Rectangle Height="79"/>
-            <Button  Width="876" Height="560">
-            <StackPanel Orientation="Horizontal" Width="876" Height="560" Background="White">
-                <Image Source="{Binding AnimePhoto}" Width="375" Height="560" Stretch="UniformToFill"  />
-                <StackPanel Orientation="Vertical" Width="500" Height="560">
-                    <TextBlock Text="{Binding AnimeName}" FontSize="50"/>
-                    <TextBlock Text="{Binding AnimeText}" FontSize="30"/>
+            <Button x:Name="AnimeButton" Background="Transparent" Click="AnimeButton_Click" Width="876" Height="560">
+                <StackPanel Orientation="Horizontal" Width="876" Height="560" Background="White">
+                    <Image Source="{Binding AnimePhoto}" Width="375" Height="560" Stretch="UniformToFill"  />
+                    <StackPanel Orientation="Vertical" Width="500" Height="560">
+                        <TextBlock Text="{Binding AnimeName}" FontSize="50"/>
+                        <TextBlock Text="{Binding AnimeText}" FontSize="30"/>
                         <TextBlock FontSize="30" Text="{Binding AnimeRate, StringFormat='IMDB рейтинг {0}/10'}" />
                         <Button Height="25" Width="25" Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Right" Click="LikeAnime_Click" VerticalAlignment="Bottom">
-                        <Image Source="/LikedIcon.png" x:Name="likeUnfill" />
-                    </Button>
+                            <Image Source="/LikedIcon.png" x:Name="likeUnfill" />
+                        </Button>
                         <StackPanel Orientation="Vertical" Width="500" Height="560">
                             <!-- Відгук -->
                             <TextBox Name="ReviewText" Width="400" Height="100" Margin="0,50,0,0" Text="Введіть ваш відгук" Visibility="Collapsed"/>
@@ -66,11 +67,12 @@
                             <!-- Оцінка -->
                             <Slider Name="RatingSlider" Width="400" Height="30" Minimum="1" Maximum="3" Value="1" TickPlacement="Both" IsSnapToTickEnabled="True" Visibility="Collapsed"/>
 
+
                             <!-- Кнопка для відправлення відгуку та оцінки -->
                             <Button Name="SendButton" Height="25" Width="100" Content="Надіслати відгук" Click="SendReview_Click" Visibility="Collapsed"/>
                         </StackPanel>
                     </StackPanel>
-                    
+
                 </StackPanel>
             </Button>
             <Rectangle Height="10"/>

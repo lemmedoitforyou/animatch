@@ -37,6 +37,7 @@ public partial class App : Application
                 services.AddFormFactory<LikedAnimeWindow>();
                 services.AddFormFactory<RedactWindow>();
                 services.AddFormFactory<SearchWindow>();
+                services.AddFormFactory<AnimeWindow>();
 
                 services.AddTransient<ApplicationDbContext>();
 
