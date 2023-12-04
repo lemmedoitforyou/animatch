@@ -1,5 +1,7 @@
 using AniDAL.DataBaseClasses;
 using System.ComponentModel.DataAnnotations;
+using FluentAssertions;
+using Moq;
 
 public class AddedAnimeTests
 {
@@ -20,29 +22,29 @@ public class AddedAnimeTests
     public void AddedAnime_UserId_Property_IsInt()
     {
         // Arrange
-        var userIdProperty = typeof(AddedAnime).GetProperty("UserId");
+        var addedAnimeMock = new Mock<AddedAnime>();
 
         // Act
-        var propertyType = userIdProperty.PropertyType;
+        var propertyType = addedAnimeMock.Object.UserId.GetType();
 
         // Assert
-        Assert.Equal(typeof(int), propertyType);
+        propertyType.Should().Be(typeof(int));
     }
 
     [Fact]
     public void AddedAnime_AnimeId_Property_IsInt()
     {
         // Arrange
-        var animeIdProperty = typeof(AddedAnime).GetProperty("AnimeId");
+        var addedAnimeMock = new Mock<AddedAnime>();
 
         // Act
-        var propertyType = animeIdProperty.PropertyType;
+        var propertyType = addedAnimeMock.Object.AnimeId.GetType();
 
         // Assert
-        Assert.Equal(typeof(int), propertyType);
+        propertyType.Should().Be(typeof(int));
     }
 }
-
+ 
 public class AnimeTests
 {
     [Fact]
@@ -62,78 +64,78 @@ public class AnimeTests
     public void Anime_Name_Property_HasRequiredAttribute()
     {
         // Arrange
-        var nameProperty = typeof(Anime).GetProperty("Name");
+        var animeMock = new Mock<Anime>();
 
         // Act
-        var requiredAttribute = nameProperty.GetCustomAttributes(typeof(RequiredAttribute), true);
+        var requiredAttribute = animeMock.Object.GetType().GetProperty("Name").GetCustomAttributes(typeof(RequiredAttribute), true);
 
         // Assert
-        Assert.Single(requiredAttribute);
+        requiredAttribute.Should().HaveCount(1);
     }
 
     [Fact]
     public void Anime_Name_Property_MaxLengthAttributeIs255()
     {
         // Arrange
-        var nameProperty = typeof(Anime).GetProperty("Name");
+        var animeMock = new Mock<Anime>();
 
         // Act
-        var maxLengthAttribute = (MaxLengthAttribute)nameProperty.GetCustomAttributes(typeof(MaxLengthAttribute), true)[0];
+        var maxLengthAttribute = (MaxLengthAttribute)animeMock.Object.GetType().GetProperty("Name").GetCustomAttributes(typeof(MaxLengthAttribute), true)[0];
 
         // Assert
-        Assert.Equal(255, maxLengthAttribute.Length);
+        maxLengthAttribute.Length.Should().Be(255);
     }
 
     [Fact]
     public void Anime_Text_Property_DoesNotHaveRequiredAttribute()
     {
         // Arrange
-        var textProperty = typeof(Anime).GetProperty("Text");
+        var animeMock = new Mock<Anime>();
 
         // Act
-        var requiredAttribute = textProperty.GetCustomAttributes(typeof(RequiredAttribute), true);
+        var requiredAttribute = animeMock.Object.GetType().GetProperty("Text").GetCustomAttributes(typeof(RequiredAttribute), true);
 
         // Assert
-        Assert.Empty(requiredAttribute);
+        requiredAttribute.Should().BeEmpty();
     }
 
     [Fact]
     public void Anime_Imdbrate_Property_IsDouble()
     {
         // Arrange
-        var imdbrateProperty = typeof(Anime).GetProperty("Imdbrate");
+        var animeMock = new Mock<Anime>();
 
         // Act
-        var propertyType = imdbrateProperty.PropertyType;
+        var propertyType = animeMock.Object.GetType().GetProperty("Imdbrate").PropertyType;
 
         // Assert
-        Assert.Equal(typeof(double), propertyType);
+        propertyType.Should().Be(typeof(double));
     }
 
     [Fact]
     public void Anime_Photo_Property_MaxLengthAttributeIs255()
     {
         // Arrange
-        var photoProperty = typeof(Anime).GetProperty("Photo");
+        var animeMock = new Mock<Anime>();
 
         // Act
-        var maxLengthAttribute = (MaxLengthAttribute)photoProperty.GetCustomAttributes(typeof(MaxLengthAttribute), true)[0];
+        var maxLengthAttribute = (MaxLengthAttribute)animeMock.Object.GetType().GetProperty("Photo").GetCustomAttributes(typeof(MaxLengthAttribute), true)[0];
 
         // Assert
-        Assert.Equal(255, maxLengthAttribute.Length);
+        maxLengthAttribute.Length.Should().Be(255);
     }
 
     [Fact]
     public void Anime_Year_Property_IsInt()
     {
         // Arrange
-        var yearProperty = typeof(Anime).GetProperty("Year");
+        var animeMock = new Mock<Anime>();
 
         // Act
-        var propertyType = yearProperty.PropertyType;
+        var propertyType = animeMock.Object.GetType().GetProperty("Year").PropertyType;
 
         // Assert
-        Assert.Equal(typeof(int), propertyType);
+        propertyType.Should().Be(typeof(int));
     }
 }
 
@@ -156,26 +158,26 @@ public class AnimeGenreTests
     public void AnimeGenre_AnimeId_Property_IsInt()
     {
         // Arrange
-        var animeIdProperty = typeof(AnimeGenre).GetProperty("AnimeId");
+        var animeGenreMock = new Mock<AnimeGenre>();
 
         // Act
-        var propertyType = animeIdProperty.PropertyType;
+        var propertyType = animeGenreMock.Object.GetType().GetProperty("AnimeId").PropertyType;
 
         // Assert
-        Assert.Equal(typeof(int), propertyType);
+        propertyType.Should().Be(typeof(int));
     }
 
     [Fact]
     public void AnimeGenre_GenreId_Property_IsInt()
     {
         // Arrange
-        var genreIdProperty = typeof(AnimeGenre).GetProperty("GenreId");
+        var animeGenreMock = new Mock<AnimeGenre>();
 
         // Act
-        var propertyType = genreIdProperty.PropertyType;
+        var propertyType = animeGenreMock.Object.GetType().GetProperty("GenreId").PropertyType;
 
         // Assert
-        Assert.Equal(typeof(int), propertyType);
+        propertyType.Should().Be(typeof(int));
     }
 }
 
@@ -198,26 +200,26 @@ public class DislikedAnimeTests
     public void DislikedAnime_UserId_Property_IsInt()
     {
         // Arrange
-        var userIdProperty = typeof(DislikedAnime).GetProperty("UserId");
+        var dislikedAnimeMock = new Mock<DislikedAnime>();
 
         // Act
-        var propertyType = userIdProperty.PropertyType;
+        var propertyType = dislikedAnimeMock.Object.GetType().GetProperty("UserId").PropertyType;
 
         // Assert
-        Assert.Equal(typeof(int), propertyType);
+        propertyType.Should().Be(typeof(int));
     }
 
     [Fact]
     public void DislikedAnime_AnimeId_Property_IsInt()
     {
         // Arrange
-        var animeIdProperty = typeof(DislikedAnime).GetProperty("AnimeId");
+        var dislikedAnimeMock = new Mock<DislikedAnime>();
 
         // Act
-        var propertyType = animeIdProperty.PropertyType;
+        var propertyType = dislikedAnimeMock.Object.GetType().GetProperty("AnimeId").PropertyType;
 
         // Assert
-        Assert.Equal(typeof(int), propertyType);
+        propertyType.Should().Be(typeof(int));
     }
 }
 
@@ -240,26 +242,26 @@ public class GenreTests
     public void Genre_Name_Property_HasRequiredAttribute()
     {
         // Arrange
-        var nameProperty = typeof(Genre).GetProperty("Name");
+        var genreMock = new Mock<Genre>();
 
         // Act
-        var requiredAttribute = nameProperty.GetCustomAttributes(typeof(RequiredAttribute), true);
+        var requiredAttribute = genreMock.Object.GetType().GetProperty("Name").GetCustomAttributes(typeof(RequiredAttribute), true);
 
         // Assert
-        Assert.Single(requiredAttribute);
+        requiredAttribute.Should().HaveCount(1);
     }
 
     [Fact]
     public void Genre_Name_Property_MaxLengthAttributeIs255()
     {
         // Arrange
-        var nameProperty = typeof(Genre).GetProperty("Name");
+        var genreMock = new Mock<Genre>();
 
         // Act
-        var maxLengthAttribute = (MaxLengthAttribute)nameProperty.GetCustomAttributes(typeof(MaxLengthAttribute), true)[0];
+        var maxLengthAttribute = (MaxLengthAttribute)genreMock.Object.GetType().GetProperty("Name").GetCustomAttributes(typeof(MaxLengthAttribute), true)[0];
 
         // Assert
-        Assert.Equal(255, maxLengthAttribute.Length);
+        maxLengthAttribute.Length.Should().Be(255);
     }
 }
 
@@ -282,26 +284,26 @@ public class LikedAnimeTests
     public void LikedAnime_UserId_Property_IsInt()
     {
         // Arrange
-        var userIdProperty = typeof(LikedAnime).GetProperty("UserId");
+        var likedAnimeMock = new Mock<LikedAnime>();
 
         // Act
-        var propertyType = userIdProperty.PropertyType;
+        var propertyType = likedAnimeMock.Object.GetType().GetProperty("UserId").PropertyType;
 
         // Assert
-        Assert.Equal(typeof(int), propertyType);
+        propertyType.Should().Be(typeof(int));
     }
 
     [Fact]
     public void LikedAnime_AnimeId_Property_IsInt()
     {
         // Arrange
-        var animeIdProperty = typeof(LikedAnime).GetProperty("AnimeId");
+        var likedAnimeMock = new Mock<LikedAnime>();
 
         // Act
-        var propertyType = animeIdProperty.PropertyType;
+        var propertyType = likedAnimeMock.Object.GetType().GetProperty("AnimeId").PropertyType;
 
         // Assert
-        Assert.Equal(typeof(int), propertyType);
+        propertyType.Should().Be(typeof(int));
     }
 }
 
@@ -324,52 +326,52 @@ public class ReviewTests
     public void Review_UserId_Property_IsInt()
     {
         // Arrange
-        var userIdProperty = typeof(Review).GetProperty("UserId");
+        var reviewMock = new Mock<Review>();
 
         // Act
-        var propertyType = userIdProperty.PropertyType;
+        var propertyType = reviewMock.Object.GetType().GetProperty("UserId").PropertyType;
 
         // Assert
-        Assert.Equal(typeof(int), propertyType);
+        propertyType.Should().Be(typeof(int));
     }
 
     [Fact]
     public void Review_AnimeId_Property_IsInt()
     {
         // Arrange
-        var animeIdProperty = typeof(Review).GetProperty("AnimeId");
+        var reviewMock = new Mock<Review>();
 
         // Act
-        var propertyType = animeIdProperty.PropertyType;
+        var propertyType = reviewMock.Object.GetType().GetProperty("AnimeId").PropertyType;
 
         // Assert
-        Assert.Equal(typeof(int), propertyType);
+        propertyType.Should().Be(typeof(int));
     }
 
     [Fact]
     public void Review_Text_Property_CanBeNull()
     {
         // Arrange
-        var textProperty = typeof(Review).GetProperty("Text");
+        var reviewMock = new Mock<Review>();
 
         // Act
-        var requiredAttribute = textProperty.GetCustomAttributes(typeof(RequiredAttribute), true);
+        var requiredAttribute = reviewMock.Object.GetType().GetProperty("Text").GetCustomAttributes(typeof(RequiredAttribute), true);
 
         // Assert
-        Assert.Empty(requiredAttribute);
+        requiredAttribute.Should().BeEmpty();
     }
 
     [Fact]
     public void Review_Rate_Property_IsInt()
     {
         // Arrange
-        var rateProperty = typeof(Review).GetProperty("Rate");
+        var reviewMock = new Mock<Review>();
 
         // Act
-        var propertyType = rateProperty.PropertyType;
+        var propertyType = reviewMock.Object.GetType().GetProperty("Rate").PropertyType;
 
         // Assert
-        Assert.Equal(typeof(int), propertyType);
+        propertyType.Should().Be(typeof(int));
     }
 }
 
@@ -392,143 +394,143 @@ public class UserInfoTests
     public void UserInfo_Username_Property_HasRequiredAttribute()
     {
         // Arrange
-        var usernameProperty = typeof(UserInfo).GetProperty("Username");
+        var userInfoMock = new Mock<UserInfo>();
 
         // Act
-        var requiredAttribute = usernameProperty.GetCustomAttributes(typeof(RequiredAttribute), true);
+        var requiredAttribute = userInfoMock.Object.GetType().GetProperty("Username").GetCustomAttributes(typeof(RequiredAttribute), true);
 
         // Assert
-        Assert.Single(requiredAttribute);
+        requiredAttribute.Should().HaveCount(1);
     }
 
     [Fact]
     public void UserInfo_Username_Property_MaxLengthAttributeIs255()
     {
         // Arrange
-        var usernameProperty = typeof(UserInfo).GetProperty("Username");
+        var userInfoMock = new Mock<UserInfo>();
 
         // Act
-        var maxLengthAttribute = (MaxLengthAttribute)usernameProperty.GetCustomAttributes(typeof(MaxLengthAttribute), true)[0];
+        var maxLengthAttribute = (MaxLengthAttribute)userInfoMock.Object.GetType().GetProperty("Username").GetCustomAttributes(typeof(MaxLengthAttribute), true)[0];
 
         // Assert
-        Assert.Equal(255, maxLengthAttribute.Length);
+        maxLengthAttribute.Length.Should().Be(255);
     }
 
     [Fact]
     public void UserInfo_Password_Property_HasRequiredAttribute()
     {
         // Arrange
-        var passwordProperty = typeof(UserInfo).GetProperty("Password");
+        var userInfoMock = new Mock<UserInfo>();
 
         // Act
-        var requiredAttribute = passwordProperty.GetCustomAttributes(typeof(RequiredAttribute), true);
+        var requiredAttribute = userInfoMock.Object.GetType().GetProperty("Password").GetCustomAttributes(typeof(RequiredAttribute), true);
 
         // Assert
-        Assert.Single(requiredAttribute);
+        requiredAttribute.Should().HaveCount(1);
     }
 
     [Fact]
     public void UserInfo_Password_Property_MaxLengthAttributeIs255()
     {
         // Arrange
-        var passwordProperty = typeof(UserInfo).GetProperty("Password");
+        var userInfoMock = new Mock<UserInfo>();
 
         // Act
-        var maxLengthAttribute = (MaxLengthAttribute)passwordProperty.GetCustomAttributes(typeof(MaxLengthAttribute), true)[0];
+        var maxLengthAttribute = (MaxLengthAttribute)userInfoMock.Object.GetType().GetProperty("Password").GetCustomAttributes(typeof(MaxLengthAttribute), true)[0];
 
         // Assert
-        Assert.Equal(255, maxLengthAttribute.Length);
+        maxLengthAttribute.Length.Should().Be(255);
     }
 
     [Fact]
     public void UserInfo_Email_Property_HasRequiredAttribute()
     {
         // Arrange
-        var emailProperty = typeof(UserInfo).GetProperty("Email");
+        var userInfoMock = new Mock<UserInfo>();
 
         // Act
-        var requiredAttribute = emailProperty.GetCustomAttributes(typeof(RequiredAttribute), true);
+        var requiredAttribute = userInfoMock.Object.GetType().GetProperty("Email").GetCustomAttributes(typeof(RequiredAttribute), true);
 
         // Assert
-        Assert.Single(requiredAttribute);
+        requiredAttribute.Should().HaveCount(1);
     }
 
     [Fact]
     public void UserInfo_Email_Property_MaxLengthAttributeIs255()
     {
         // Arrange
-        var emailProperty = typeof(UserInfo).GetProperty("Email");
+        var userInfoMock = new Mock<UserInfo>();
 
         // Act
-        var maxLengthAttribute = (MaxLengthAttribute)emailProperty.GetCustomAttributes(typeof(MaxLengthAttribute), true)[0];
+        var maxLengthAttribute = (MaxLengthAttribute)userInfoMock.Object.GetType().GetProperty("Email").GetCustomAttributes(typeof(MaxLengthAttribute), true)[0];
 
         // Assert
-        Assert.Equal(255, maxLengthAttribute.Length);
+        maxLengthAttribute.Length.Should().Be(255);
     }
 
     [Fact]
     public void UserInfo_Name_Property_CanBeNull()
     {
         // Arrange
-        var nameProperty = typeof(UserInfo).GetProperty("Name");
+        var userInfoMock = new Mock<UserInfo>();
 
         // Act
-        var requiredAttribute = nameProperty.GetCustomAttributes(typeof(RequiredAttribute), true);
+        var requiredAttribute = userInfoMock.Object.GetType().GetProperty("Name").GetCustomAttributes(typeof(RequiredAttribute), true);
 
         // Assert
-        Assert.Empty(requiredAttribute);
+        requiredAttribute.Should().BeEmpty();
     }
 
     [Fact]
     public void UserInfo_Level_Property_IsInt()
     {
         // Arrange
-        var levelProperty = typeof(UserInfo).GetProperty("Level");
+        var userInfoMock = new Mock<UserInfo>();
 
         // Act
-        var propertyType = levelProperty.PropertyType;
+        var propertyType = userInfoMock.Object.GetType().GetProperty("Level").PropertyType;
 
         // Assert
-        Assert.Equal(typeof(int), propertyType);
+        propertyType.Should().Be(typeof(int));
     }
 
     [Fact]
     public void UserInfo_Text_Property_CanBeNull()
     {
         // Arrange
-        var textProperty = typeof(UserInfo).GetProperty("Text");
+        var userInfoMock = new Mock<UserInfo>();
 
         // Act
-        var requiredAttribute = textProperty.GetCustomAttributes(typeof(RequiredAttribute), true);
+        var requiredAttribute = userInfoMock.Object.GetType().GetProperty("Text").GetCustomAttributes(typeof(RequiredAttribute), true);
 
         // Assert
-        Assert.Empty(requiredAttribute);
+        requiredAttribute.Should().BeEmpty();
     }
 
     [Fact]
     public void UserInfo_Photo_Property_MaxLengthAttributeIs255()
     {
         // Arrange
-        var photoProperty = typeof(UserInfo).GetProperty("Photo");
+        var userInfoMock = new Mock<UserInfo>();
 
         // Act
-        var maxLengthAttribute = (MaxLengthAttribute)photoProperty.GetCustomAttributes(typeof(MaxLengthAttribute), true)[0];
+        var maxLengthAttribute = (MaxLengthAttribute)userInfoMock.Object.GetType().GetProperty("Photo").GetCustomAttributes(typeof(MaxLengthAttribute), true)[0];
 
         // Assert
-        Assert.Equal(255, maxLengthAttribute.Length);
+        maxLengthAttribute.Length.Should().Be(255);
     }
 
     [Fact]
     public void UserInfo_WatchedCount_Property_IsInt()
     {
         // Arrange
-        var watchedCountProperty = typeof(UserInfo).GetProperty("WatchedCount");
+        var userInfoMock = new Mock<UserInfo>();
 
         // Act
-        var propertyType = watchedCountProperty.PropertyType;
+        var propertyType = userInfoMock.Object.GetType().GetProperty("WatchedCount").PropertyType;
 
         // Assert
-        Assert.Equal(typeof(int), propertyType);
+        propertyType.Should().Be(typeof(int));
     }
 }
 
@@ -551,25 +553,25 @@ public class WatchedAnimeTests
     public void WatchedAnime_UserId_Property_IsInt()
     {
         // Arrange
-        var userIdProperty = typeof(WatchedAnime).GetProperty("UserId");
+        var watchedAnimeMock = new Mock<WatchedAnime>();
 
         // Act
-        var propertyType = userIdProperty.PropertyType;
+        var propertyType = watchedAnimeMock.Object.GetType().GetProperty("UserId").PropertyType;
 
         // Assert
-        Assert.Equal(typeof(int), propertyType);
+        propertyType.Should().Be(typeof(int));
     }
 
     [Fact]
     public void WatchedAnime_AnimeId_Property_IsInt()
     {
         // Arrange
-        var animeIdProperty = typeof(WatchedAnime).GetProperty("AnimeId");
+        var watchedAnimeMock = new Mock<WatchedAnime>();
 
         // Act
-        var propertyType = animeIdProperty.PropertyType;
+        var propertyType = watchedAnimeMock.Object.GetType().GetProperty("AnimeId").PropertyType;
 
         // Assert
-        Assert.Equal(typeof(int), propertyType);
+        propertyType.Should().Be(typeof(int));
     }
 }

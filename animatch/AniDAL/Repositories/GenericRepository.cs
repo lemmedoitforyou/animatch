@@ -17,6 +17,7 @@ namespace AniDAL.Repositories
         void Update(T obj);
         void Delete(object id);
         void Save();
+        int GetLastId();
     }
 
     //The following GenericRepository class Implement the IGenericRepository Interface
@@ -102,5 +103,41 @@ namespace AniDAL.Repositories
         {
             _context.SaveChanges();
         }
+
+        public int GetLastId()
+        {
+            // Отримати DbSet для поточного типу T
+            var dbSet = _context.Set<T>();
+
+            // Переконатися, що сутність має властивість Id (можливо, вам слід вказати більш конкретний інтерфейс чи клас для T, що містить властивість Id)
+            var idProperty = typeof(T).GetProperty("Id");
+
+            if (idProperty == null)
+            {
+                throw new InvalidOperationException("The entity does not have a property named 'Id'.");
+            }
+
+            // Отримати тип Id
+            var idType = idProperty.PropertyType;
+
+            // Побудувати вираз для вибору максимального Id
+            var parameter = Expression.Parameter(typeof(T), "e");
+            var expression = Expression.Lambda<Func<T, int>>(Expression.Property(parameter, idProperty), parameter);
+
+            // Створити вираз для виклику Max через Queryable
+            var maxIdExpression = Expression.Call(
+                typeof(Queryable),
+                "Max",
+                new Type[] { typeof(T), idType },
+                Expression.Constant(dbSet),
+                expression
+            );
+
+            // Скомпілювати вираз та викликати його
+            var maxId = Expression.Lambda<Func<int>>(maxIdExpression).Compile()();
+
+            return maxId;
+        }
+
     }
 }
