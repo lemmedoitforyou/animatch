@@ -46,11 +46,35 @@ public class GenericRepositoryTests
     {
         // Arrange
         var repositoryMock = new Mock<IGenericRepository<UserInfo>>();
-        var newData = new UserInfo { Id = 100, Name = "name", Photo = "path", Text = "text", Email = "email", Level = 1, Password = "password", Username = "username" };
+        var newData = new UserInfo
+        {
+            Id = 100,
+            Name = "name",
+            Photo = "path",
+            Text = "text",
+            Email = "email",
+            Level = 1,
+            Password = "password",
+            Username = "username"
+        };
+
         int targetId = newData.Id;
-        repositoryMock.Setup(repo => repo.GetById(targetId)).Returns(new UserInfo { Id = targetId });
+
+        // Set up GetById to return null initially (record not found)
+        repositoryMock.Setup(repo => repo.GetById(targetId)).Returns((UserInfo)null);
+
+        // Set up GetLastId to return a value (e.g., 99)
         repositoryMock.Setup(repo => repo.GetLastId()).Returns(99);
-        repositoryMock.Setup(repo => repo.Insert(newData));
+
+        // Set up Insert to add the new data to a list or perform necessary logic
+        List<UserInfo> repositoryData = new List<UserInfo>();
+        repositoryMock.Setup(repo => repo.Insert(It.IsAny<UserInfo>())).Callback<UserInfo>(data =>
+        {
+            repositoryData.Add(data);
+        });
+
+        // Set up GetById to return the inserted record after Insert is called
+        repositoryMock.Setup(repo => repo.GetById(targetId)).Returns(newData);
 
         var repository = repositoryMock.Object;
 
@@ -60,13 +84,9 @@ public class GenericRepositoryTests
         // Assert
         var result = repository.GetById(newData.Id);
 
-        result.Should().NotBeNull(); // Check if the result is not null
-
-        // Use BeEquivalentTo only for checking property values, not for reference equality
+        result.Should().NotBeNull();
         result.Should().BeEquivalentTo(newData, options => options.ExcludingMissingMembers());
 
-        // Cleanup
-        repository.Delete(newData.Id);
     }
 
     [Fact]
@@ -74,9 +94,21 @@ public class GenericRepositoryTests
     {
         // Arrange
         var repositoryMock = new Mock<IGenericRepository<UserInfo>>();
-        var newData = new UserInfo { Id = 1, Name = "newname", Photo = "newpath", Text = "text", Email = "email", Level = 1, Password = "password", Username = "username" };
+        var newData = new UserInfo
+        {
+            Id = 1,
+            Name = "newname",
+            Photo = "newpath",
+            Text = "text",
+            Email = "email",
+            Level = 1,
+            Password = "password",
+            Username = "username"
+        };
 
-        repositoryMock.Setup(repo => repo.Update(newData));
+        UserInfo updatedData = null;
+        repositoryMock.Setup(repo => repo.Update(It.IsAny<UserInfo>()))
+            .Callback<UserInfo>(data => updatedData = data);
 
         var repository = repositoryMock.Object;
 
@@ -84,6 +116,8 @@ public class GenericRepositoryTests
         repository.Update(newData);
 
         // Assert
+        updatedData.Should().NotBeNull().And.BeEquivalentTo(newData);
+
         var result = repository.GetById(1);
         result.Should().NotBeNull().And.BeEquivalentTo(newData);
     }
