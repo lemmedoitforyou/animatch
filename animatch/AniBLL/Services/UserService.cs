@@ -16,7 +16,7 @@ namespace AniBLL.Services
         void Delete(UserInfoModel userInfo);
         bool IsExistUsername(string username);
         bool IsExistEmail(string email);
-        int GetLastUserId();
+        int GetLastId();
         void UpdateTitleAndText(int userId, string newTitle, string newText);
         void WatchAnime(int userId);
     }
@@ -132,7 +132,7 @@ namespace AniBLL.Services
             return _userRepository.IsExistEmail(email);
         }
 
-        public int GetLastUserId()
+        public int GetLastId()
         {
             return _userRepository.GetLastUserId();
         }

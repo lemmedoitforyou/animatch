@@ -17,7 +17,7 @@ namespace AniBLL.Services
         void Insert(ReviewModel review);
         void Update(ReviewModel review);
         void Delete(ReviewModel review);
-        int GetLastUserId();
+        int GetLastId();
     }
     public class ReviewService : IReviewService
     {
@@ -67,9 +67,9 @@ namespace AniBLL.Services
             _reviewRepository.Delete(review);
         }
 
-        public int GetLastUserId()
+        public int GetLastId()
         {
-            return _reviewRepository.GetLastUserId();
+            return _reviewRepository.GetLastId();
         }
     }
 }

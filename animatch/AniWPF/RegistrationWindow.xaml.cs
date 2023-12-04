@@ -64,7 +64,7 @@ namespace AniWPF
             }
             else
             {
-                int currentid = userService.GetLastUserId() + 1;
+                int currentid = userService.GetLastId() + 1;
                 UserInfoModel newUser = new UserInfoModel()
                 {
                     Id = currentid,

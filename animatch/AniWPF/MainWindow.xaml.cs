@@ -227,7 +227,7 @@ namespace AniWPF
             int rate = (int)RatingSlider.Value;
             ReviewModel temp = new ReviewModel()
             {
-                Id = reviewService.GetLastUserId() + 1,
+                Id = reviewService.GetLastId() + 1,
                 UserId = this.id,
                 AnimeId = randomAnimeId,
                 Text = text,
@@ -241,7 +241,7 @@ namespace AniWPF
             RatingSlider.Visibility = Visibility.Collapsed;
             ReviewText.Visibility = Visibility.Collapsed;
         }
-
+        
         private void AnimeButton_Click(object sender, RoutedEventArgs e)
         {
             this.logger.LogInformation("Click Anime button");

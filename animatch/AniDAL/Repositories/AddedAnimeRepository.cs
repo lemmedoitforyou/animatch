@@ -13,6 +13,7 @@ namespace AniDAL.Repositories
     public interface IAddedAnimeRepository: IGenericRepository<AddedAnime>
     {
         List<Anime> GetAddedAnimesForUser(int userId);
+        int CountUserWhoAddAnime(int animeID);
     }
     public class AddedAnimeRepository : GenericRepository<AddedAnime>, IAddedAnimeRepository
     {
@@ -25,6 +26,12 @@ namespace AniDAL.Repositories
 
             return addedAnime;
         }  
+        public int CountUserWhoAddAnime(int animeID)
+        {
+            var userAdded = _context.AddedAnime
+            .Where(a => a.AnimeId == animeID).Count();
+            return userAdded;
+        }
     }
 
 }

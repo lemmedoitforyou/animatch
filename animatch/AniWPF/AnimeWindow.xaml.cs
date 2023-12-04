@@ -130,5 +130,45 @@ namespace AniWPF
                 this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
             }
         }
+        private void Random_Click(object sender, RoutedEventArgs e)
+        {
+            this.logger.LogInformation("Click Random button");
+            this.randomFactory.Create(this).Show();
+            this.Close();
+        }
+        private void ButtonProfile_Click(object sender, RoutedEventArgs e)
+        {
+            this.logger.LogInformation("Click Profile button");
+            this.profileFactory.Create(this).Show();
+            this.Close();
+        }
+
+        private void ButtonLiked_Click(object sender, RoutedEventArgs e)
+        {
+            this.logger.LogInformation("Click Liked button");
+            this.likedFactory.Create(this).Show();
+            this.Close();
+        }
+
+        private void ButtonSearch_Click(object sender, RoutedEventArgs e)
+        {
+            this.logger.LogInformation("Click Search button");
+            this.searchFactory.Create(this).Show();
+            this.Close();
+        }
+        private void LikeAnime_Click(object sender, RoutedEventArgs e)
+        {
+            this.logger.LogInformation("Click LikeAnime button");
+            likeUnfill.Source = new BitmapImage(new Uri("https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/LikedFillIcon.png?raw=true"));
+
+            LikedAnimeModel temp = new LikedAnimeModel
+            {
+                Id = likedAnimeService.GetLastUserId() + 1,
+                UserId = this.id,
+                AnimeId = randomAnimeId
+            };
+            likedAnimeService.Insert(temp);
+        }
+
     }
 }

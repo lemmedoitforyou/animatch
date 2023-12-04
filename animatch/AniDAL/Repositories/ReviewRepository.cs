@@ -11,7 +11,6 @@ namespace AniDAL.Repositories
     public interface IReviewRepository: IGenericRepository<Review>
     {
         List<Review> GetReviewsForAnime(int animeId);
-        int GetLastUserId();
     }
     public class ReviewRepository : GenericRepository<Review>, IReviewRepository
     {

@@ -50,10 +50,12 @@
                 </StackPanel>
             </StackPanel>
             <Rectangle Height="79"/>
-            <Button x:Name="AnimeButton" Background="Transparent" Click="AnimeButton_Click" Width="876" Height="560">
+            
                 <StackPanel Orientation="Horizontal" Width="876" Height="560" Background="White">
+                <Button x:Name="AnimeButton" Background="Transparent" Click="AnimeButton_Click" Width="375" Height="560">
                     <Image Source="{Binding AnimePhoto}" Width="375" Height="560" Stretch="UniformToFill"  />
-                    <StackPanel Orientation="Vertical" Width="500" Height="560">
+                </Button>
+                <StackPanel Orientation="Vertical" Width="500" Height="560">
                         <TextBlock Text="{Binding AnimeName}" FontSize="50"/>
                         <TextBlock Text="{Binding AnimeText}" FontSize="30"/>
                         <TextBlock FontSize="30" Text="{Binding AnimeRate, StringFormat='IMDB рейтинг {0}/10'}" />
@@ -74,7 +76,7 @@
                     </StackPanel>
 
                 </StackPanel>
-            </Button>
+           
             <Rectangle Height="10"/>
             <StackPanel Orientation="Horizontal">
                 <StackPanel HorizontalAlignment="Left" Margin="440,0,0,0">

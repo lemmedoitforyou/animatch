@@ -28,6 +28,13 @@ namespace AniDAL.Repositories
             int lastUserId = _context.LikedAnime.Max(u => u.Id);
             return lastUserId;
         }
+        public int CountUserLikedAnime(int animeID)
+        {
+            var likedUser = _context.LikedAnime
+           .Where(a => a.AnimeId == animeID)
+           .Count();
+            return likedUser;
+        }
     }
 
 }

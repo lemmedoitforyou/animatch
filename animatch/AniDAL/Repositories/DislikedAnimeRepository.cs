@@ -11,7 +11,6 @@ namespace AniDAL.Repositories
     public interface IDislikedAnimeRepository: IGenericRepository<DislikedAnime>
     {
         List<Anime> GetDislikedAnimesForUser(int userId);
-        int GetLastId();
     }
     public class DislikedAnimeRepository : GenericRepository<DislikedAnime>, IDislikedAnimeRepository
     {

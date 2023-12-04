@@ -11,7 +11,6 @@ namespace AniDAL.Repositories
     public interface IWatchedAnimeRepository: IGenericRepository<WatchedAnime>
     {
         List<Anime> GetWatchedAnimesForUser(int userId);
-        int GetLastId();
     }
     public class WatchedAnimeRepository : GenericRepository<WatchedAnime>, IWatchedAnimeRepository
     {
