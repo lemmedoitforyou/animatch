@@ -11,7 +11,7 @@ namespace AniBLL.Services
         List<AnimeModel> GetAll();
         void Insert(AnimeModel anime);
         void Update(AnimeModel anime);
-        void Delete(AnimeModel anime);
+        void Delete(int anime);
     }
     public class AnimeService : IAnimeService
 
@@ -74,7 +74,7 @@ namespace AniBLL.Services
         {
             _animeRepository.Update(anime);
         }
-        public void Delete(AnimeModel anime)
+        public void Delete(int anime)
         {
             _animeRepository.Delete(anime);
         }

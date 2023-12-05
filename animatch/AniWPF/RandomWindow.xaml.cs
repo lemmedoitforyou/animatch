@@ -14,6 +14,8 @@ namespace AniWPF
 
         private readonly IAbstractFactory<ProfileWindow> profileFactory;
         private readonly IAbstractFactory<MainWindow> mainFactory;
+        private readonly IAbstractFactory<LikedAnimeWindow> likedAnimeFactory;
+        private readonly IAbstractFactory<SearchWindow> searchFactory;
 
         private readonly IAnimeService animeService;
         private readonly IAnimeGenreService animeGenreService;
@@ -23,7 +25,7 @@ namespace AniWPF
 
         public RandomWindow(IAnimeService animeService, IAnimeGenreService animeGenreService, 
             IAbstractFactory<ProfileWindow> profileFactory, IAbstractFactory<MainWindow> mainFactory,
-            ILogger<RandomWindow> logger)
+            ILogger<RandomWindow> logger, IAbstractFactory<LikedAnimeWindow> likedAnimeFactory, IAbstractFactory<SearchWindow> searchFactory)
         {
             this.InitializeComponent();
             this.WindowState = WindowState.Maximized;
@@ -43,8 +45,8 @@ namespace AniWPF
 
             this.logger = logger;
             this.logger.LogInformation("RandomWindow створено.");
-
-           
+            this.likedAnimeFactory = likedAnimeFactory;
+            this.searchFactory = searchFactory;
         }
 
         public class AnimeViewModel : INotifyPropertyChanged
@@ -143,12 +145,19 @@ namespace AniWPF
         private void ButtonAdded_Click(object sender, RoutedEventArgs e)
         {
             this.logger.LogInformation("Click Added button");
-            // Your code for the ButtonAdded_Click event handler
+            this.likedAnimeFactory.Create(this).Show();
+            this.Close();
         }
         private void Main_Click(object sender, RoutedEventArgs e)
         {
             this.logger.LogInformation("Click Main button");
             this.mainFactory.Create(this).Show();
+            this.Close();
+        }
+        private void ButtonSearch_Click(object sender, RoutedEventArgs e)
+        {
+            this.logger.LogInformation("Click Search button");
+            this.searchFactory.Create(this).Show();
             this.Close();
         }
     }

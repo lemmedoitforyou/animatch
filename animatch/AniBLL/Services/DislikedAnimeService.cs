@@ -13,7 +13,7 @@ namespace AniBLL.Services
     {
         List<AnimeModel> GetDislikedAnimesForUser(int userId);
         void Insert(DislikedAnimeModel disliked);
-        void Delete(DislikedAnimeModel disliked);
+        void Delete(int disliked);
         int GetLastId();
     }
     public class DislikedAnimeService : IDislikedAnimeService
@@ -48,7 +48,7 @@ namespace AniBLL.Services
         {
             _dislikedAnimeRepository.Insert(disliked);
         }
-        public void Delete(DislikedAnimeModel disliked)
+        public void Delete(int disliked)
         {
             _dislikedAnimeRepository.Delete(disliked);
         }

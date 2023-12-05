@@ -18,6 +18,8 @@ namespace AniWPF
         private readonly IAbstractFactory<RandomWindow> randomFactory;
         private readonly IAbstractFactory<MainWindow> mainFactory;
         private readonly IAbstractFactory<RedactWindow> redactFactory;
+        private readonly IAbstractFactory<LikedAnimeWindow> likedFactory;
+        private readonly IAbstractFactory<SearchWindow> searchFactory;
 
         private readonly IUserService userService;
         private readonly IAddedAnimeService addedAnimeService;
@@ -29,9 +31,9 @@ namespace AniWPF
 
 
         public ProfileWindow(IUserService userService, IAddedAnimeService addedAnimeService, 
-            IAnimeService animeService, IAbstractFactory<RandomWindow> randomFactory, 
+            IAnimeService animeService, IAbstractFactory<RandomWindow> randomFactory,
             IAbstractFactory<MainWindow> mainFactory, IAbstractFactory<RedactWindow> redactFactory,
-            ILogger<ProfileWindow> logger)
+            ILogger<ProfileWindow> logger, IAbstractFactory<LikedAnimeWindow> likedFactory, IAbstractFactory<SearchWindow> searchFactory)
         {
 
             this.InitializeComponent();
@@ -61,6 +63,8 @@ namespace AniWPF
 
             this.logger = logger;
             this.logger.LogInformation("ProfileWindow created");
+            this.likedFactory = likedFactory;
+            this.searchFactory = searchFactory;
         }
 
         public class AnimeForForm
@@ -215,15 +219,27 @@ namespace AniWPF
             this.mainFactory.Create(this).Show();
             this.Close();
         }
-        private void ButtonAdded_Click(object sender, RoutedEventArgs e)
+        private void ButtonProfile_Click(object sender, RoutedEventArgs e)
         {
-            this.logger.LogInformation("Click Added button");
-            // Your code for the ButtonAdded_Click event handler
+            //this.logger.LogInformation("Click Profile button");
+            //this.profileFactory.Create(this).Show();
+            //this.Close();
         }
+
+
+
         private void ButtonSearch_Click(object sender, RoutedEventArgs e)
         {
-            this.logger.LogInformation("Click Added button");
-            // Your code for the ButtonAdded_Click event handler
+            this.logger.LogInformation("Click Search button");
+            this.searchFactory.Create(this).Show();
+            this.Close();
+        }
+
+        private void ButtonAdded_Click(object sender, RoutedEventArgs e)
+        {
+            this.logger.LogInformation("Click added button");
+            this.likedFactory.Create(this).Show();
+            this.Close();
         }
     }
 

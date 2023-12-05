@@ -16,7 +16,7 @@ namespace AniBLL.Services
         List<ReviewModel> GetReviewsForAnime(int animeId);
         void Insert(ReviewModel review);
         void Update(ReviewModel review);
-        void Delete(ReviewModel review);
+        void Delete(int review);
         int GetLastId();
     }
     public class ReviewService : IReviewService
@@ -31,7 +31,16 @@ namespace AniBLL.Services
 
         public ReviewModel GetById(int id)
         {
-            return (ReviewModel)_reviewRepository.GetById(id);
+            var review = _reviewRepository.GetById(id);
+            ReviewModel temp = new ReviewModel
+            {
+                Id = review.Id,
+                AnimeId = review.AnimeId,
+                Rate = review.Rate,
+                Text = review.Text,
+                UserId = review.UserId
+            };
+            return temp;
         }
 
         public List<ReviewModel> GetReviewsForAnime(int animeId)
@@ -62,7 +71,7 @@ namespace AniBLL.Services
         {
             _reviewRepository.Update(review);
         }
-        public void Delete(ReviewModel review)
+        public void Delete(int review)
         {
             _reviewRepository.Delete(review);
         }

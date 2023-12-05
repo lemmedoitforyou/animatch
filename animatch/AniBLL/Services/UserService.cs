@@ -13,7 +13,7 @@ namespace AniBLL.Services
         List<UserInfoModel> GetAll();
         void Insert(UserInfoModel userInfo);
         void Update(UserInfoModel userInfo);
-        void Delete(UserInfoModel userInfo);
+        void Delete(int userInfo);
         bool IsExistUsername(string username);
         bool IsExistEmail(string email);
         int GetLastId();
@@ -117,7 +117,7 @@ namespace AniBLL.Services
             _userRepository.Update(userInfo);
         }
 
-        public void Delete(UserInfoModel userInfo)
+        public void Delete(int userInfo)
         {
             _userRepository.Delete(userInfo);
         }

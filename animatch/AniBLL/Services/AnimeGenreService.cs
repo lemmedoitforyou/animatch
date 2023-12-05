@@ -14,7 +14,7 @@ namespace AniBLL.Services
         List<string> GetGenresForAnime(int animeId);
         List<AnimeModel> GetAnimesForGenre(int genreId);
         void Insert(AnimeGenreModel animeGenres);
-        void Delete(AnimeGenreModel animeGenres);
+        void Delete(int animeGenres);
     }
     public class AnimeGenreService : IAnimeGenreService
     {
@@ -50,7 +50,7 @@ namespace AniBLL.Services
         {
             _animeGenreRepository.Insert(animeGenres);
         }
-        public void Delete(AnimeGenreModel animeGenres)
+        public void Delete(int animeGenres)
         {
             _animeGenreRepository.Delete(animeGenres);
         }

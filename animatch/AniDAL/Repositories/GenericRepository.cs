@@ -15,7 +15,7 @@ namespace AniDAL.Repositories
         T GetById(object id);
         void Insert(T obj);
         void Update(T obj);
-        void Delete(object id);
+        void Delete(int id);
         void Save();
         int GetLastId();
     }
@@ -88,7 +88,7 @@ namespace AniDAL.Repositories
 
         //This method is going to remove the record from the table
         //It will receive the primary key value as an argument whose information needs to be removed from the table
-        public void Delete(object id)
+        public void Delete(int id)
         {
             //First, fetch the record from the table
             T existing = table.Find(id);

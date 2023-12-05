@@ -1,28 +1,30 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.ComponentModel;
 using System.Windows;
 using AniBLL.Services;
 using AniWPF.StartupHelper;
-using System;
 using System.Windows.Media.Imaging;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using System.Linq;
 using AniBLL.Models;
 using AniWPF;
 using Microsoft.Extensions.Logging;
+using System.Windows.Controls;
+using System.Windows.Navigation;
 
 namespace AniWPF
 {
-    public partial class Anime : Window
+    public partial class AnimePage : Page
     {
-        private readonly ILogger<Anime> logger;
+        private readonly ILogger<AnimePage> logger;
 
         public Window ParentWindow { get; set; }
         private readonly IAbstractFactory<RandomWindow> randomFactory;
         private readonly IAbstractFactory<ProfileWindow> profileFactory;
         private readonly IAbstractFactory<LikedAnimeWindow> likedFactory;
         private readonly IAbstractFactory<SearchWindow> searchFactory;
-        private readonly IAbstractFactory<MainWindow> mainFactory;
 
         private readonly IAddedAnimeService addedAnimeService;
         private readonly ILikedAnimeService likedAnimeService;
@@ -44,22 +46,22 @@ namespace AniWPF
         private List<AnimeModel> addedanimes;
         private List<AnimeModel> watchedanimes;
 
-        public Anime(IAnimeService animeService, IAddedAnimeService addedAnimeService,
+        public AnimePage(IAnimeService animeService, IAddedAnimeService addedAnimeService,
             IDislikedAnimeService dislikedAnimeService, ILikedAnimeService likedAnimeService,
             IWatchedAnimeService watchedAnimeService, IUserService userService,
             IAbstractFactory<RandomWindow> rfactory, IAbstractFactory<ProfileWindow> profileFactory,
             IAbstractFactory<LikedAnimeWindow> likedFactory, IAbstractFactory<SearchWindow> searchFactory,
-            IAbstractFactory<MainWindow>mainFactory, IReviewService reviewService, ILogger<Anime> logger)
+            IReviewService reviewService, ILogger<AnimePage> logger)
         {
             this.InitializeComponent();
-            this.WindowState = WindowState.Maximized;
+            //this.Win = WindowState.Maximized;
 
             this.animeService = animeService;
             this.randomFactory = rfactory;
             this.likedFactory = likedFactory;
             this.profileFactory = profileFactory;
             this.searchFactory = searchFactory;
-            this.mainFactory = mainFactory;
+            
 
             this.addedAnimeService = addedAnimeService;
             this.likedAnimeService = likedAnimeService;
@@ -142,29 +144,29 @@ namespace AniWPF
         }
         private void Random_Click(object sender, RoutedEventArgs e)
         {
-            this.logger.LogInformation("Click Random button");
-            this.randomFactory.Create(this).Show();
-            this.Close();
+            //this.logger.LogInformation("Click Random button");
+            //this.randomFactory.Create(this).Show();
+            //this.Close();
         }
         private void ButtonProfile_Click(object sender, RoutedEventArgs e)
         {
-            this.logger.LogInformation("Click Profile button");
-            this.profileFactory.Create(this).Show();
-            this.Close();
+            //this.logger.LogInformation("Click Profile button");
+            //this.profileFactory.Create(this).Show();
+            //this.Close();
         }
 
         private void ButtonLiked_Click(object sender, RoutedEventArgs e)
         {
-            this.logger.LogInformation("Click Liked button");
-            this.likedFactory.Create(this).Show();
-            this.Close();
+            //this.logger.LogInformation("Click Liked button");
+            //this.likedFactory.Create(this).Show();
+            //this.Close();
         }
 
         private void ButtonSearch_Click(object sender, RoutedEventArgs e)
         {
-            this.logger.LogInformation("Click Search button");
-            this.searchFactory.Create(this).Show();
-            this.Close();
+            //this.logger.LogInformation("Click Search button");
+            //this.searchFactory.Create(this).Show();
+            //this.Close();
         }
         private void LikeAnime_Click(object sender, RoutedEventArgs e)
         {
@@ -182,14 +184,16 @@ namespace AniWPF
 
         private void closeButton_Click(object sender, RoutedEventArgs e)
         {
-            this.mainFactory.Create(this).Show();
-            this.Close();
+            GoBackToMainWindow();
         }
-
+        private void GoBackToMainWindow()
+        {
+            NavigationService?.Navigate(new Uri("MainWindow.xaml", UriKind.Relative));
+        }
         private void logoButton_Click(object sender, RoutedEventArgs e)
         {
-            this.mainFactory.Create(this).Show();
-            this.Close();
+            //this.mainFactory.Create(this).Show();
+            //this.Close();
         }
     }
 }

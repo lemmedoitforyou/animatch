@@ -23,6 +23,9 @@ namespace AniWPF
         private readonly ILogger<SearchWindow> logger;
 
         private readonly IAbstractFactory<MainWindow> mainFactory;
+        private readonly IAbstractFactory<RandomWindow> randomFactory;
+        private readonly IAbstractFactory<ProfileWindow> profileFactory;
+        private readonly IAbstractFactory<LikedAnimeWindow> likedFactory;
 
         private List<AnimeForForw> animeList;
 
@@ -30,9 +33,13 @@ namespace AniWPF
 
         private int id;
         
-        public SearchWindow(IAnimeService animeService, IAbstractFactory<MainWindow> mainFactory,ILogger<SearchWindow> logger)
+        public SearchWindow(IAnimeService animeService, IAbstractFactory<MainWindow> mainFactory, ILogger<SearchWindow> logger, 
+            IAbstractFactory<RandomWindow> randomFactory, IAbstractFactory<ProfileWindow> profileFactory, IAbstractFactory<LikedAnimeWindow> likedFactory)
         {
             this.mainFactory = mainFactory;
+            this.randomFactory = randomFactory;
+            this.profileFactory = profileFactory;
+            this.likedFactory = likedFactory;
 
             this.animeService = animeService;
 
@@ -90,5 +97,25 @@ namespace AniWPF
             animeListView.ItemsSource = animeList;
             this.logger.LogInformation("List of anime waas shown");
         }
+        private void Random_Click(object sender, RoutedEventArgs e)
+        {
+            this.logger.LogInformation("Click Random button");
+            this.randomFactory.Create(this).Show();
+            this.Close();
+        }
+        private void ButtonProfile_Click(object sender, RoutedEventArgs e)
+        {
+            this.logger.LogInformation("Click Profile button");
+            this.profileFactory.Create(this).Show();
+            this.Close();
+        }
+
+        private void ButtonLiked_Click(object sender, RoutedEventArgs e)
+        {
+            this.logger.LogInformation("Click Liked button");
+            this.likedFactory.Create(this).Show();
+            this.Close();
+        }
+
     }
 }

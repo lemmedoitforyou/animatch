@@ -13,7 +13,8 @@ namespace AniBLL.Services
     {
         List<AnimeModel> GetAddedAnimesForUser(int userId);
         void Add(AddedAnimeModel added);
-        void Delete(AddedAnimeModel added);
+        void Delete(int added);
+        int CountUserWhoAddAnime(int animeID);
     }
     public class AddedAnimeService: IAddedAnimeService
     {
@@ -48,9 +49,13 @@ namespace AniBLL.Services
         {
             _addedAnimeRepository.Insert(added);
         }
-        public void Delete(AddedAnimeModel added)
+        public void Delete(int added)
         {
             _addedAnimeRepository.Delete(added);
+        }
+        public int CountUserWhoAddAnime(int animeID)
+        {
+            return _addedAnimeRepository.CountUserWhoAddAnime(animeID);
         }
     }
 }

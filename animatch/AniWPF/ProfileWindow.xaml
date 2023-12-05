@@ -40,7 +40,7 @@
                     <Button Height="50" Width="50" Click="ButtonSearch_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent">
                         <Image Height="40" Width="40" HorizontalAlignment="Center" Source="/SearchIcon.png" IsEnabled="False" />
                     </Button>
-                    <Label Content="профіль" FontSize="20" VerticalAlignment="Top" FontFamily="Comic Sans MS" Height="36" />
+                    <Label Content="пошук" FontSize="20" VerticalAlignment="Top" FontFamily="Comic Sans MS" Height="36" />
                 </StackPanel>
             </StackPanel>
             <Rectangle Height="100" Width="30"/>

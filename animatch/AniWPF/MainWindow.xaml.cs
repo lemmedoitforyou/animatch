@@ -10,19 +10,23 @@ using System.Linq;
 using AniBLL.Models;
 using AniWPF;
 using Microsoft.Extensions.Logging;
+using System.Windows.Controls;
+using System.Windows.Navigation;
 
 namespace AniWPF
 {
     public partial class MainWindow : Window, IWindowAware
     {
         private readonly ILogger<MainWindow> logger;
+        private readonly ILogger<AnimePage> logger1 = LoggerFactory.Create(builder => builder.AddConsole()).CreateLogger<AnimePage>();
 
+        public static Stack<Window> formStack = new Stack<Window>();
         public Window ParentWindow { get; set; }
         private readonly IAbstractFactory<RandomWindow> randomFactory;
         private readonly IAbstractFactory<ProfileWindow> profileFactory;
         private readonly IAbstractFactory<LikedAnimeWindow> likedFactory;
         private readonly IAbstractFactory<SearchWindow> searchFactory;
-        private readonly IAbstractFactory<AnimeWindow> animeFactory;
+        private readonly IAbstractFactory<AnimePage> animeFactory;
 
         private readonly IAddedAnimeService addedAnimeService;
         private readonly ILikedAnimeService likedAnimeService;
@@ -47,7 +51,7 @@ namespace AniWPF
             IWatchedAnimeService watchedAnimeService, IUserService userService,
             IAbstractFactory<RandomWindow> rfactory, IAbstractFactory<ProfileWindow> profileFactory,
             IAbstractFactory<LikedAnimeWindow> likedFactory, IAbstractFactory<SearchWindow> searchFactory,
-            IAbstractFactory<AnimeWindow> animeWindow, IReviewService reviewService, ILogger<MainWindow> logger)
+            IAbstractFactory<AnimePage> animeWindow, IReviewService reviewService, ILogger<MainWindow> logger)
         {
             this.animeService = animeService;
             this.randomFactory = rfactory;
@@ -80,7 +84,7 @@ namespace AniWPF
 
             randomAnimeId = random.Next(uniqueAnimes.Count);
 
-            this.viewModel = new AnimeViewModel(this.animeService, randomAnimeId);
+            this.viewModel = new AnimeViewModel(this.animeService, randomAnimeId, addedAnimeService);
             this.DataContext = this.viewModel;
 
             this.InitializeComponent();
@@ -94,12 +98,14 @@ namespace AniWPF
         public class AnimeViewModel : INotifyPropertyChanged
         {
             private readonly IAnimeService animeService;
+            private readonly IAddedAnimeService addedAnime;
 
             private int id;
-            public AnimeViewModel(IAnimeService animeService, int id)
+            public AnimeViewModel(IAnimeService animeService, int id, IAddedAnimeService addedAnime)
             {
                 this.animeService = animeService;
                 this.id = id;
+                this.addedAnime = addedAnime;
             }
 
             public string AnimeName
@@ -120,6 +126,10 @@ namespace AniWPF
             public string AnimePhoto
             {
                 get { return this.animeService.GetById(this.id).Photo; }
+            }
+            public string UserLikedAnime
+            {
+                get { return $"{addedAnime.CountUserWhoAddAnime(this.id)} користувачів вподобали це аніме"; }
             }
 
             public int AnimeYear
@@ -215,7 +225,7 @@ namespace AniWPF
             this.uniqueAnimes.RemoveAt(randomAnimeId);
             Random random = new Random();
             randomAnimeId = random.Next(uniqueAnimes.Count);
-            this.viewModel = new AnimeViewModel(this.animeService, randomAnimeId);
+            this.viewModel = new AnimeViewModel(this.animeService, randomAnimeId, addedAnimeService);
 
             this.DataContext = this.viewModel;
             this.logger.LogInformation("Anime:" + animeService.GetById(randomAnimeId).Name + " was shown");
@@ -241,12 +251,35 @@ namespace AniWPF
             RatingSlider.Visibility = Visibility.Collapsed;
             ReviewText.Visibility = Visibility.Collapsed;
         }
-        
+
         private void AnimeButton_Click(object sender, RoutedEventArgs e)
         {
-            this.logger.LogInformation("Click Anime button");
-            this.animeFactory.Create(this).Show();
-            this.Close();
+            main.Visibility = Visibility.Collapsed;
+            anime.Visibility = Visibility.Visible;
+
+            // Приховати всі дочірні елементи main StackPanel
+            foreach (var child in main.Children.OfType<UIElement>())
+            {
+                child.Visibility = Visibility.Collapsed;
+            }
+
+            // Показати всі дочірні елементи anime StackPanel
+            foreach (var child in anime.Children.OfType<UIElement>())
+            {
+                child.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void closeButton_Click(object sender, RoutedEventArgs e)
+        {
+            anime.Visibility = Visibility.Collapsed;
+            main.Visibility = Visibility.Visible;
+
+            // Показати всі дочірні елементи main StackPanel
+            foreach (var child in main.Children.OfType<UIElement>())
+            {
+                child.Visibility = Visibility.Visible;
+            }
         }
     }
 }

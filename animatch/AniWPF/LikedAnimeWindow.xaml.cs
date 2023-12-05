@@ -22,21 +22,25 @@ namespace AniWPF
     {
         private readonly ILogger<LikedAnimeWindow> logger;
 
-        private readonly IAbstractFactory<RandomWindow> randomFactory;
         private readonly IAbstractFactory<MainWindow> mainFactory;
-
+        private readonly IAbstractFactory<ProfileWindow> profileFactory;
+        private readonly IAbstractFactory<RandomWindow> randomFactory;
+        private readonly IAbstractFactory<SearchWindow> searchFactory;
+        
         private readonly ILikedAnimeService likedAnimeService;
 
         private int id;
         private List<AnimeForForw> animeList;
 
         public LikedAnimeWindow(ILikedAnimeService likedAnimeService, IAbstractFactory<RandomWindow> randomFactory, 
-                                IAbstractFactory<MainWindow> mainFactory, ILogger<LikedAnimeWindow> logger)
+                                IAbstractFactory<MainWindow> mainFactory,IAbstractFactory<ProfileWindow>profileFactory,IAbstractFactory<SearchWindow>searchFactory, ILogger<LikedAnimeWindow> logger)
         {
             InitializeComponent();
             this.WindowState = WindowState.Maximized;
             this.randomFactory = randomFactory;
             this.mainFactory = mainFactory;
+            this.profileFactory = profileFactory;
+            this.searchFactory = searchFactory;
 
             this.likedAnimeService = likedAnimeService;
 
@@ -78,8 +82,15 @@ namespace AniWPF
         private void ButtonProfile_Click(object sender, RoutedEventArgs e)
         {
             this.logger.LogInformation("Click Profile button");
-            //
+            this.profileFactory.Create(this).Show();
+            this.Close();
         }
 
+        private void ButtonSearch_Click(object sender, RoutedEventArgs e)
+        {
+            this.logger.LogInformation("Click Search button");
+            this.searchFactory.Create(this).Show();
+            this.Close();
+        }
     }
 }

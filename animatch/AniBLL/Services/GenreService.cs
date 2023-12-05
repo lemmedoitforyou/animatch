@@ -15,7 +15,7 @@ namespace AniBLL.Services
         List<GenreModel> GetAll();
         void Insert(GenreModel genres);
         void Update(GenreModel genres);
-        void Delete(GenreModel genres);
+        void Delete(int genres);
     }
     public class GenreService : IGenreService
     {
@@ -41,7 +41,14 @@ namespace AniBLL.Services
 
         public GenreModel GetById(int genreId)
         {
-            return (GenreModel)_genreRepository.GetById(genreId);
+            var genre = _genreRepository.GetById(genreId);
+            var genreModel = new GenreModel
+            {
+                Id = genre.Id,
+                Name = genre.Name
+            };
+
+            return genreModel;
         }
         public void Insert(GenreModel genres)
         {
@@ -51,7 +58,7 @@ namespace AniBLL.Services
         {
             _genreRepository.Update(genres);
         }
-        public void Delete(GenreModel genres)
+        public void Delete(int genres)
         {
             _genreRepository.Delete(genres);
         }

@@ -7,13 +7,15 @@
         mc:Ignorable="d"
         Title="main" Height="1024" Width="1440">
     <Grid>
+        
         <Grid.Background>
             <RadialGradientBrush>
                 <GradientStop Color="#FFFFFF" Offset="0.0"/>
                 <GradientStop Color="#FFD9E2" Offset="1.0"/>
             </RadialGradientBrush>
         </Grid.Background>
-        <StackPanel>
+        <Frame Name="MainFrame" NavigationUIVisibility="Hidden"/>
+        <StackPanel >
             <StackPanel Orientation="Horizontal" Height="100" VerticalAlignment="Top">
                 <Rectangle Height="100" Width="90"/>
                 <Image x:Name="biglogo" HorizontalAlignment="Center" Height="95" Width="375" Source="/big_logo_white.png"/>
@@ -46,16 +48,17 @@
                     <Button Height="50" Width="50" Click="ButtonSearch_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent">
                         <Image Height="40" Width="40" HorizontalAlignment="Center" Source="/SearchIcon.png" IsEnabled="False" />
                     </Button>
-                    <Label Content="профіль" FontSize="20" VerticalAlignment="Top" FontFamily="Comic Sans MS" Height="36" />
+                    <Label Content="пошук" FontSize="20" VerticalAlignment="Top" FontFamily="Comic Sans MS" Height="36" />
                 </StackPanel>
             </StackPanel>
-            <Rectangle Height="79"/>
-            
-                <StackPanel Orientation="Horizontal" Width="876" Height="560" Background="White">
-                <Button x:Name="AnimeButton" Background="Transparent" Click="AnimeButton_Click" Width="375" Height="560">
-                    <Image Source="{Binding AnimePhoto}" Width="375" Height="560" Stretch="UniformToFill"  />
-                </Button>
-                <StackPanel Orientation="Vertical" Width="500" Height="560">
+            <StackPanel x:Name="main" >
+                <Rectangle Height="79"/>
+
+                <StackPanel  Orientation="Horizontal" Width="876" Height="560" Background="White">
+                    <Button x:Name="AnimeButton" Background="Transparent" Click="AnimeButton_Click" Width="375" Height="560">
+                        <Image Source="{Binding AnimePhoto}" Width="375" Height="560" Stretch="UniformToFill"  />
+                    </Button>
+                    <StackPanel Orientation="Vertical" Width="500" Height="560">
                         <TextBlock Text="{Binding AnimeName}" FontSize="50"/>
                         <TextBlock Text="{Binding AnimeText}" FontSize="30"/>
                         <TextBlock FontSize="30" Text="{Binding AnimeRate, StringFormat='IMDB рейтинг {0}/10'}" />
@@ -76,21 +79,41 @@
                     </StackPanel>
 
                 </StackPanel>
-           
-            <Rectangle Height="10"/>
-            <StackPanel Orientation="Horizontal">
-                <StackPanel HorizontalAlignment="Left" Margin="440,0,0,0">
-                    <Button  Name="Dislike_Button" Click="Dislike_Button_Click" Height="50"  Width="50" Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Center"  VerticalAlignment="Bottom">
-                        <Image Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/notInterest.png?raw=true" />
-                    </Button>
-                    <Label Content="не цікаво" FontSize="14" HorizontalContentAlignment="Center" HorizontalAlignment="Center" />
+
+                <Rectangle Height="10"/>
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel HorizontalAlignment="Left" Margin="440,0,0,0">
+                        <Button  Name="Dislike_Button" Click="Dislike_Button_Click" Height="50"  Width="50" Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Center"  VerticalAlignment="Bottom">
+                            <Image Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/notInterest.png?raw=true" />
+                        </Button>
+                        <Label Content="не цікаво" FontSize="14" HorizontalContentAlignment="Center" HorizontalAlignment="Center" />
+                    </StackPanel>
+                    <Rectangle Width="347"/>
+                    <StackPanel HorizontalAlignment="Center" Margin="0,0,440,0" VerticalAlignment="Center">
+                        <Button Name="Watched_Button" Click="Watched_Button_Click" Height="50" Width="50" Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Center"  VerticalAlignment="Bottom">
+                            <Image Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/WatchedIcon.png?raw=true" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Button>
+                        <Label Content="переглянуто" FontSize="14" HorizontalContentAlignment="Center" HorizontalAlignment="Center" />
+                    </StackPanel>
                 </StackPanel>
-                <Rectangle Width="347"/>
-                <StackPanel HorizontalAlignment="Center" Margin="0,0,440,0" VerticalAlignment="Center">
-                    <Button Name="Watched_Button" Click="Watched_Button_Click" Height="50" Width="50" Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Center"  VerticalAlignment="Bottom">
-                        <Image Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/WatchedIcon.png?raw=true" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    </Button>
-                    <Label Content="переглянуто" FontSize="14" HorizontalContentAlignment="Center" HorizontalAlignment="Center" />
+                <StackPanel x:Name="anime" Visibility="Hidden">
+                    <StackPanel   Orientation="Horizontal" Width="1224" Background="White" Margin="0,75,0,0" Height="2305" >
+                        <Image Source="{Binding AnimePhoto}" Width="375" Height="560" Stretch="UniformToFill" VerticalAlignment="Top"  />
+                        <StackPanel Orientation="Vertical" Width="853" Height="560" VerticalAlignment="Top">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding AnimeName}" FontSize="50"/>
+                                <Button x:Name="closeButton" Click="closeButton_Click" Background="Transparent" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                    <Image Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/CloseIcon.png?raw=true" Width="30" Height="30" Margin="5,0,0,5" />
+                                </Button>
+                            </StackPanel>
+                            <TextBlock Text="{Binding AnimeText}" FontSize="30"/>
+                            <TextBlock FontSize="30" Text="{Binding AnimeRate, StringFormat='IMDB рейтинг {0}/10'}" />
+                            <TextBlock FontSize="30" Text="{Binding  UserLikedAnime}" />
+                            <Button Height="25" Width="25" Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Right" Click="LikeAnime_Click" VerticalAlignment="Bottom">
+                                <Image Source="/LikedIcon.png" x:Name="likeUnfilll" Margin="30,0,0,0" />
+                            </Button>
+                        </StackPanel>
+                    </StackPanel>
                 </StackPanel>
             </StackPanel>
         </StackPanel>

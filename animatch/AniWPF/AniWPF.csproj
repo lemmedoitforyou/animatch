@@ -11,17 +11,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="big_logo_white.png" />
-    <None Remove="FilterIcon.png" />
-    <None Remove="LikedIcon.png" />
-    <None Remove="notInterest.png" />
-    <None Remove="ProfileIcon.png" />
-    <None Remove="RandomIcon.png" />
-    <None Remove="SearchIcon.png" />
-    <None Remove="WatchedIcon.png" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="7.0.0" />
     <PackageReference Include="Npgsql" Version="7.0.6" />
@@ -36,17 +25,6 @@
   <ItemGroup>
     <ProjectReference Include="..\AniBLL\AniBLL.csproj" />
     <ProjectReference Include="..\AniDAL\AniDAL.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="big_logo_white.png" />
-    <Resource Include="FilterIcon.png" />
-    <Resource Include="LikedIcon.png" />
-    <Resource Include="notInterest.png" />
-    <Resource Include="ProfileIcon.png" />
-    <Resource Include="RandomIcon.png" />
-    <Resource Include="SearchIcon.png" />
-    <Resource Include="WatchedIcon.png" />
   </ItemGroup>
 
 </Project>
