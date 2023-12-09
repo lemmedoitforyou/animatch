@@ -53,8 +53,8 @@ namespace AniWPF
             {
                 animeList.Add(new AnimeForForw { Title = anime.Name, ImagePath = anime.Photo });
             }
-            animeListView.ItemsSource = animeList;
-              
+            animeItemsControl.ItemsSource = animeList;
+
             this.logger = logger;
             this.logger.LogInformation("LikedAnimeWindow created");
             this.logger.LogInformation("List of liked anime was shown");

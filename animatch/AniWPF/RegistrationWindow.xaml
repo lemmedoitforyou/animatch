@@ -14,7 +14,7 @@
             </RadialGradientBrush>
         </Grid.Background>
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-            <Image x:Name="biglogo" HorizontalAlignment="Center" Height="185" Width="656" Source="/big_logo_white.png"/>
+            <Image x:Name="biglogo" HorizontalAlignment="Center" Height="185" Width="656" Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/big_logo_white.png?raw=true"/>
             <TextBlock Text="логін" Height="26" Width="60"/>
             <TextBox x:Name="in_login" Width="453" Height="53" />
             <TextBlock Text="пошта" Height="26" Width="60" />

@@ -18,19 +18,19 @@
         <StackPanel >
             <StackPanel Orientation="Horizontal" Height="100" VerticalAlignment="Top">
                 <Rectangle Height="100" Width="90"/>
-                <Image x:Name="biglogo" HorizontalAlignment="Center" Height="95" Width="375" Source="/big_logo_white.png"/>
+                <Image x:Name="biglogo" HorizontalAlignment="Center" Height="95" Width="375" Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/big_logo_white.png?raw=true"/>
                 <Rectangle Height="100" Width="365"/>
                 <StackPanel Height="86" Width="92">
                     <Button Height="50" Width="50" Click="ButtonProfile_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent">
 
-                        <Image Height="40" Width="40" HorizontalAlignment="Center" Source="/ProfileIcon.png" IsEnabled="True" />
+                        <Image Height="40" Width="40" HorizontalAlignment="Center" Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/ProfileIcon.png?raw=true" IsEnabled="True" />
                     </Button>
                     <Label Content="профіль" FontSize="20" VerticalAlignment="Top" FontFamily="Comic Sans MS" Height="36" />
                 </StackPanel>
                 <Rectangle Height="100" Width="30"/>
                 <StackPanel Height="86" Width="92">
                     <Button Height="50" Width="50" Click="ButtonLiked_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent">
-                        <Image Height="40" Width="40" HorizontalAlignment="Center" Source="/LikedIcon.png" IsEnabled="True" />
+                        <Image Height="40" Width="40" HorizontalAlignment="Center" Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/LikedIcon.png?raw=true" IsEnabled="True" />
                     </Button>
                     <Label Content="збережене" FontSize="20" VerticalAlignment="Top" FontFamily="Comic Sans MS" Height="36" />
                 </StackPanel>
@@ -39,14 +39,14 @@
                     <Button Height="50" Width="50" Click="Random_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent">
 
 
-                        <Image Height="40" Width="40" HorizontalAlignment="Center" Source="/RandomIcon.png" IsEnabled="True" />
+                        <Image Height="40" Width="40" HorizontalAlignment="Center" Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/RandomIcon.png?raw=true" IsEnabled="True" />
                     </Button>
                     <Label Content="рандом" FontSize="20" VerticalAlignment="Top" FontFamily="Comic Sans MS" Height="36"  />
                 </StackPanel>
                 <Rectangle Height="100" Width="30"/>
                 <StackPanel Height="86" Width="92">
                     <Button Height="50" Width="50" Click="ButtonSearch_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent">
-                        <Image Height="40" Width="40" HorizontalAlignment="Center" Source="/SearchIcon.png" IsEnabled="False" />
+                        <Image Height="40" Width="40" HorizontalAlignment="Center" Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/SearchIcon.png?raw=true" IsEnabled="False" />
                     </Button>
                     <Label Content="пошук" FontSize="20" VerticalAlignment="Top" FontFamily="Comic Sans MS" Height="36" />
                 </StackPanel>
@@ -63,7 +63,7 @@
                         <TextBlock Text="{Binding AnimeText}" FontSize="30"/>
                         <TextBlock FontSize="30" Text="{Binding AnimeRate, StringFormat='IMDB рейтинг {0}/10'}" />
                         <Button Height="25" Width="25" Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Right" Click="LikeAnime_Click" VerticalAlignment="Bottom">
-                            <Image Source="/LikedIcon.png" x:Name="likeUnfill" />
+                            <Image Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/LikedIcon.png?raw=true" x:Name="likeUnfill" />
                         </Button>
                         <StackPanel Orientation="Vertical" Width="500" Height="560">
                             <!-- Відгук -->
@@ -94,25 +94,6 @@
                             <Image Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/WatchedIcon.png?raw=true" HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Button>
                         <Label Content="переглянуто" FontSize="14" HorizontalContentAlignment="Center" HorizontalAlignment="Center" />
-                    </StackPanel>
-                </StackPanel>
-                <StackPanel x:Name="anime" Visibility="Hidden">
-                    <StackPanel   Orientation="Horizontal" Width="1224" Background="White" Margin="0,75,0,0" Height="2305" >
-                        <Image Source="{Binding AnimePhoto}" Width="375" Height="560" Stretch="UniformToFill" VerticalAlignment="Top"  />
-                        <StackPanel Orientation="Vertical" Width="853" Height="560" VerticalAlignment="Top">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding AnimeName}" FontSize="50"/>
-                                <Button x:Name="closeButton" Click="closeButton_Click" Background="Transparent" HorizontalAlignment="Right" VerticalAlignment="Center">
-                                    <Image Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/CloseIcon.png?raw=true" Width="30" Height="30" Margin="5,0,0,5" />
-                                </Button>
-                            </StackPanel>
-                            <TextBlock Text="{Binding AnimeText}" FontSize="30"/>
-                            <TextBlock FontSize="30" Text="{Binding AnimeRate, StringFormat='IMDB рейтинг {0}/10'}" />
-                            <TextBlock FontSize="30" Text="{Binding  UserLikedAnime}" />
-                            <Button Height="25" Width="25" Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Right" Click="LikeAnime_Click" VerticalAlignment="Bottom">
-                                <Image Source="/LikedIcon.png" x:Name="likeUnfilll" Margin="30,0,0,0" />
-                            </Button>
-                        </StackPanel>
                     </StackPanel>
                 </StackPanel>
             </StackPanel>

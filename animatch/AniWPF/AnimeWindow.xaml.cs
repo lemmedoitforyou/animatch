@@ -13,9 +13,9 @@ using Microsoft.Extensions.Logging;
 
 namespace AniWPF
 {
-    public partial class Anime : Window
+    public partial class AnimeWindow : Window
     {
-        private readonly ILogger<Anime> logger;
+        private readonly ILogger<AnimeWindow> logger;
 
         public Window ParentWindow { get; set; }
         private readonly IAbstractFactory<RandomWindow> randomFactory;
@@ -44,12 +44,12 @@ namespace AniWPF
         private List<AnimeModel> addedanimes;
         private List<AnimeModel> watchedanimes;
 
-        public Anime(IAnimeService animeService, IAddedAnimeService addedAnimeService,
+        public AnimeWindow(IAnimeService animeService, IAddedAnimeService addedAnimeService,
             IDislikedAnimeService dislikedAnimeService, ILikedAnimeService likedAnimeService,
             IWatchedAnimeService watchedAnimeService, IUserService userService,
             IAbstractFactory<RandomWindow> rfactory, IAbstractFactory<ProfileWindow> profileFactory,
             IAbstractFactory<LikedAnimeWindow> likedFactory, IAbstractFactory<SearchWindow> searchFactory,
-            IAbstractFactory<MainWindow>mainFactory, IReviewService reviewService, ILogger<Anime> logger)
+            IAbstractFactory<MainWindow>mainFactory, IReviewService reviewService, ILogger<AnimeWindow> logger)
         {
             this.InitializeComponent();
             this.WindowState = WindowState.Maximized;
@@ -182,7 +182,7 @@ namespace AniWPF
 
         private void closeButton_Click(object sender, RoutedEventArgs e)
         {
-            this.mainFactory.Create(this).Show();
+            //this.mainFactory.Create(this).Show();
             this.Close();
         }
 

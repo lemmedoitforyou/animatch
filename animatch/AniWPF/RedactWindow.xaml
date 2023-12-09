@@ -17,7 +17,7 @@
             <StackPanel Orientation="Horizontal" Height="100" VerticalAlignment="Top">
                 <Rectangle Height="100" Width="90"/>
                 <Button Click="Main_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent">
-                    <Image x:Name="biglogo" HorizontalAlignment="Center" Height="95" Width="375" Source="/big_logo_white.png"/>
+                    <Image x:Name="biglogo" HorizontalAlignment="Center" Height="95" Width="375" Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/big_logo_white.png?raw=true"/>
                 </Button>
             </StackPanel>
             <Rectangle Height="88" />

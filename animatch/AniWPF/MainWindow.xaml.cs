@@ -18,7 +18,6 @@ namespace AniWPF
     public partial class MainWindow : Window, IWindowAware
     {
         private readonly ILogger<MainWindow> logger;
-        private readonly ILogger<AnimePage> logger1 = LoggerFactory.Create(builder => builder.AddConsole()).CreateLogger<AnimePage>();
 
         public static Stack<Window> formStack = new Stack<Window>();
         public Window ParentWindow { get; set; }
@@ -26,7 +25,7 @@ namespace AniWPF
         private readonly IAbstractFactory<ProfileWindow> profileFactory;
         private readonly IAbstractFactory<LikedAnimeWindow> likedFactory;
         private readonly IAbstractFactory<SearchWindow> searchFactory;
-        private readonly IAbstractFactory<AnimePage> animeFactory;
+        private readonly IAbstractFactory<AnimeWindow> animeFactory;
 
         private readonly IAddedAnimeService addedAnimeService;
         private readonly ILikedAnimeService likedAnimeService;
@@ -51,7 +50,7 @@ namespace AniWPF
             IWatchedAnimeService watchedAnimeService, IUserService userService,
             IAbstractFactory<RandomWindow> rfactory, IAbstractFactory<ProfileWindow> profileFactory,
             IAbstractFactory<LikedAnimeWindow> likedFactory, IAbstractFactory<SearchWindow> searchFactory,
-            IAbstractFactory<AnimePage> animeWindow, IReviewService reviewService, ILogger<MainWindow> logger)
+            IAbstractFactory<AnimeWindow> animeWindow, IReviewService reviewService, ILogger<MainWindow> logger)
         {
             this.animeService = animeService;
             this.randomFactory = rfactory;
@@ -204,6 +203,7 @@ namespace AniWPF
             await Task.Delay(1000);
 
             UploadNextAnime();
+            likeUnfill.Source = new BitmapImage(new Uri("https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/LikedIcon.png?raw=true"));
         }
 
         private void Dislike_Button_Click(object sender, RoutedEventArgs e)
@@ -254,32 +254,11 @@ namespace AniWPF
 
         private void AnimeButton_Click(object sender, RoutedEventArgs e)
         {
-            main.Visibility = Visibility.Collapsed;
-            anime.Visibility = Visibility.Visible;
-
-            // Приховати всі дочірні елементи main StackPanel
-            foreach (var child in main.Children.OfType<UIElement>())
-            {
-                child.Visibility = Visibility.Collapsed;
-            }
-
-            // Показати всі дочірні елементи anime StackPanel
-            foreach (var child in anime.Children.OfType<UIElement>())
-            {
-                child.Visibility = Visibility.Visible;
-            }
+            this.logger.LogInformation("Click detail about anime button");
+            this.animeFactory.Create(this).Show();
+            //this.Close();
         }
 
-        private void closeButton_Click(object sender, RoutedEventArgs e)
-        {
-            anime.Visibility = Visibility.Collapsed;
-            main.Visibility = Visibility.Visible;
 
-            // Показати всі дочірні елементи main StackPanel
-            foreach (var child in main.Children.OfType<UIElement>())
-            {
-                child.Visibility = Visibility.Visible;
-            }
-        }
     }
 }
