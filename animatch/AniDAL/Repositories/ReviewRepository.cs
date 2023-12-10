@@ -23,6 +23,7 @@ namespace AniDAL.Repositories
             int lastReviewId = _context.Review.Max(u => u.Id);
             return lastReviewId;
         }
+        
     }
 
 }

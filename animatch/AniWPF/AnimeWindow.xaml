@@ -78,7 +78,26 @@
                         --><!-- Кнопка для відправлення відгуку та оцінки --><!--
                         <Button Name="SendButton" Height="25" Width="100" Content="Надіслати відгук" Click="SendReview_Click" Visibility="Collapsed"/>
                     </StackPanel>-->
+                    <ListView Background="Transparent" Name="RewiewListView" Margin="10">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Title" DisplayMemberBinding="{Binding ReviewUserName}" Width="200"/>
+                                
+                                <GridViewColumn Header="Image" Width="100">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Image Source="{Binding ReviewUserPhoto}" Width="80" Height="80" />
+                                            
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                
+                                </GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+
                 </StackPanel>
+                
 
             </StackPanel>
         </StackPanel>

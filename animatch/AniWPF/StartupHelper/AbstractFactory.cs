@@ -16,5 +16,6 @@ namespace AniWPF.StartupHelper
         {
             return this.factory(parentWindow);
         }
+        public Window ParentWindow { get; set; }
     }
 }

@@ -15,12 +15,11 @@ using System.Windows.Navigation;
 
 namespace AniWPF
 {
-    public partial class MainWindow : Window, IWindowAware
+    public partial class MainWindow : Window
     {
         private readonly ILogger<MainWindow> logger;
 
-        public static Stack<Window> formStack = new Stack<Window>();
-        public Window ParentWindow { get; set; }
+        public  static Window? ParentWindow { get; set; }
         private readonly IAbstractFactory<RandomWindow> randomFactory;
         private readonly IAbstractFactory<ProfileWindow> profileFactory;
         private readonly IAbstractFactory<LikedAnimeWindow> likedFactory;
@@ -81,7 +80,18 @@ namespace AniWPF
 
             Random random = new Random();
 
-            randomAnimeId = random.Next(uniqueAnimes.Count);
+            if (ParentWindow != null)
+            {
+                if (ParentWindow.GetType() == typeof(AnimeWindow))
+                {
+                    randomAnimeId = AnimeWindow.AnimeId;
+                }
+            }
+            else
+            {
+                randomAnimeId = random.Next(uniqueAnimes.Count);
+            }
+            
 
             this.viewModel = new AnimeViewModel(this.animeService, randomAnimeId, addedAnimeService);
             this.DataContext = this.viewModel;
@@ -255,8 +265,9 @@ namespace AniWPF
         private void AnimeButton_Click(object sender, RoutedEventArgs e)
         {
             this.logger.LogInformation("Click detail about anime button");
+            AnimeWindow.ParentWindow = this;
             this.animeFactory.Create(this).Show();
-            //this.Close();
+            this.Close();
         }
 
 
