@@ -1,6 +1,6 @@
 ﻿using System;
 using Npgsql;
-
+using Faker;
 
 namespace Animatch
 {
@@ -9,6 +9,7 @@ namespace Animatch
         private static void Main(string[] args)
         {
             // DisplayAllData();
+
             Insert();
 
             Console.ReadLine();  
@@ -20,38 +21,38 @@ namespace Animatch
             {
                 con.Open();
 
+                // Очистимо дані з усіх таблиць перед додаванням нових
+                ClearTables(con);
+
                 Random random = new Random();
                 int rowCount = 51;
                 for (int i = 1; i < rowCount; i++)
                 {
-                    // Дані для таблиці anime
-                    string animeName = "AnimeName" + i;
-                    int animeYear = random.Next(1950, 2024);
-                    double animeImdbRate = random.NextDouble()*10.0;
-                    string animeText = "AnimeDescription" + i;
-                    string animePhoto = "Path" + i;
+                    // Генерація випадкових даних за допомогою Faker
+                    var faker = new Bogus.Faker();
+                    var animeName = faker.Random.Word();
+                    var animeYear = faker.Random.Number(1950, 2024);
+                    var animeImdbRate = faker.Random.Double(0, 10);
+                    var animeText = faker.Lorem.Paragraph();
+                    var animePhoto = faker.Internet.Url();
 
-                    // Дані для таблиці genres
-                    string genreName = "GenreName" + i;
+                    var genreName = faker.Random.Word();
 
-                    // Дані для таблиці userifro
-                    string username = "Username" + i;
-                    string password = "Password" + i;
-                    string email = "user" + i + "@example.com";
-                    string name = "name" + i;
-                    string text = "text" + i;
-                    string photo = "Path" + i;
-                    int level = i;
-                    int watchedcount = i;
+                    var username = faker.Internet.UserName();
+                    var password = faker.Internet.Password();
+                    var email = faker.Internet.Email();
+                    var name = faker.Name.FirstName();
+                    var text = faker.Lorem.Sentence();
+                    var photo = faker.Internet.Avatar();
+                    var level = faker.Random.Number(1, 50);
+                    var watchedcount = faker.Random.Number(1, 50);
 
-                    // Дані для таблиці review
-                    string review = "text" + i;
-                    int rate = i;
+                    var review = faker.Lorem.Paragraph();
+                    var rate = faker.Random.Number(1, 10);
 
-                    // Дані для foreign key
                     int Id = i;
 
-                    // Вставка даних у таблицю anime
+                    // Вставка даних у таблиці anime
                     InsertDataIntoAnime(con, Id, animeName, animeYear, animeImdbRate, animeText, animePhoto);
 
                     // Вставка даних у таблицю genres
@@ -61,7 +62,7 @@ namespace Animatch
                     InsertDataIntoUserInfo(con, Id, username, password, email, name, text, photo, level, watchedcount);
 
                     // Вставка даних у таблицю review
-                    InsertDataIntoReview(con, Id, Id, Id, text, rate);
+                    InsertDataIntoReview(con, Id, Id, Id, review, rate);
 
                     // Вставка даних у таблицю animegenres
                     InsertDataIntoAnimeGenres(con, Id, Id, Id);
@@ -94,6 +95,26 @@ namespace Animatch
                 command.Parameters.AddWithValue("@photo", photo);
                 command.Parameters.AddWithValue("@year", year);
 
+                command.ExecuteNonQuery();
+            }
+        }
+        private static void ClearTables(NpgsqlConnection connection)
+        {
+            // Видалення даних з усіх таблиць
+            ExecuteNonQuery(connection, "DELETE FROM public.\"Anime\";");
+            ExecuteNonQuery(connection, "DELETE FROM public.\"Genre\";");
+            ExecuteNonQuery(connection, "DELETE FROM public.\"UserInfo\";");
+            ExecuteNonQuery(connection, "DELETE FROM public.\"Review\";");
+            ExecuteNonQuery(connection, "DELETE FROM public.\"AnimeGenre\";");
+            ExecuteNonQuery(connection, "DELETE FROM public.\"AddedAnime\";");
+            ExecuteNonQuery(connection, "DELETE FROM public.\"LikedAnime\";");
+            ExecuteNonQuery(connection, "DELETE FROM public.\"DislikedAnime\";");
+            ExecuteNonQuery(connection, "DELETE FROM public.\"WatchedAnime\";");
+        }
+        private static void ExecuteNonQuery(NpgsqlConnection connection, string query)
+        {
+            using (NpgsqlCommand command = new NpgsqlCommand(query, connection))
+            {
                 command.ExecuteNonQuery();
             }
         }

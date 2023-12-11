@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="main" Height="1024" Width="1440">
     <Grid>
-        
+
         <Grid.Background>
             <RadialGradientBrush>
                 <GradientStop Color="#FFFFFF" Offset="0.0"/>
@@ -50,11 +50,36 @@
                     </Button>
                     <Label Content="пошук" FontSize="20" VerticalAlignment="Top" FontFamily="Comic Sans MS" Height="36" />
                 </StackPanel>
+                <StackPanel Height="86" Width="92">
+                    <Button Height="50" Width="50" Click="ButtonFilter_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent">
+                        <Image Height="40" Width="40" HorizontalAlignment="Center" Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/SearchIcon.png?raw=true" IsEnabled="False" />
+                    </Button>
+                    <Label Content="фільтри" FontSize="20" VerticalAlignment="Top" FontFamily="Comic Sans MS" Height="36" />
+                </StackPanel>
             </StackPanel>
+            <StackPanel Name="filter"  Orientation="Vertical" Width="250" HorizontalAlignment="Right" Background="#FFE0E0E0" Margin="0,0,10,0" Visibility="Collapsed">
+                <TextBlock Text="Фільтри" FontSize="18" FontWeight="Bold" Margin="10"/>
+                <ListView Name="genreListView" Margin="10" Background="Transparent">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Title" DisplayMemberBinding="{Binding GenreName}" Width="200"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+                <!-- Додайте інші жанри за вашим вибором -->
+
+                <TextBlock Text="Рік випуску" FontSize="16" FontWeight="Bold" Margin="10"/>
+                <Slider Name="YearSlider" Width="200" Height="30" Minimum="1950" Maximum="2023" TickPlacement="BottomRight" IsSnapToTickEnabled="True" Margin="10"/>
+
+                <TextBlock Text="Рейтинг" FontSize="16" FontWeight="Bold" Margin="10"/>
+                <Slider Name="ChooseRatingSlider" Width="200" Height="30" Minimum="0" Maximum="10" TickPlacement="BottomRight" IsSnapToTickEnabled="True" Margin="10"/>
+            </StackPanel>
+
             <StackPanel x:Name="main" >
                 <Rectangle Height="79"/>
 
-                <StackPanel  Orientation="Horizontal" Width="876" Height="560" Background="White">
+
+                <StackPanel Name="card" Orientation="Horizontal" Width="876" Height="560" Background="White">
                     <Button x:Name="AnimeButton" Background="Transparent" Click="AnimeButton_Click" Width="375" Height="560">
                         <Image Source="{Binding AnimePhoto}" Width="375" Height="560" Stretch="UniformToFill"  />
                     </Button>
@@ -100,3 +125,5 @@
         </StackPanel>
     </Grid>
 </Window>
+
+

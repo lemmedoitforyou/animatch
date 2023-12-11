@@ -33,10 +33,12 @@ namespace AniWPF
         private readonly IAnimeService animeService;
         private readonly IUserService userService;
         private readonly IReviewService reviewService;
+        private readonly IGenreService genreService;
 
         private AnimeViewModel viewModel;
         private int id;
         public static int randomAnimeId { get; set; }
+        private List<Genres> genreList;
 
         private List<AnimeModel> uniqueAnimes;
         private List<AnimeModel> dislikedanimes;
@@ -49,7 +51,8 @@ namespace AniWPF
             IWatchedAnimeService watchedAnimeService, IUserService userService,
             IAbstractFactory<RandomWindow> rfactory, IAbstractFactory<ProfileWindow> profileFactory,
             IAbstractFactory<LikedAnimeWindow> likedFactory, IAbstractFactory<SearchWindow> searchFactory,
-            IAbstractFactory<AnimeWindow> animeWindow, IReviewService reviewService, ILogger<MainWindow> logger)
+            IAbstractFactory<AnimeWindow> animeWindow, IReviewService reviewService, IGenreService genreService,
+            ILogger<MainWindow> logger)
         {
             this.animeService = animeService;
             this.randomFactory = rfactory;
@@ -64,6 +67,7 @@ namespace AniWPF
             this.watchAnimeService = watchedAnimeService;
             this.userService = userService;
             this.reviewService = reviewService;
+            this.genreService = genreService;
 
             this.id = LogInWindow.CurrentUserID;
             List<AnimeModel> animes = animeService.GetAll();
@@ -102,7 +106,10 @@ namespace AniWPF
             this.logger = logger;
             this.logger.LogInformation("MainWindow created");
         }
-
+        public class Genres
+        {
+            public string GenreName { get; set; }
+        }
 
         public class AnimeViewModel : INotifyPropertyChanged
         {
@@ -269,7 +276,20 @@ namespace AniWPF
             this.animeFactory.Create(this).Show();
             this.Close();
         }
+        private void ButtonFilter_Click(object sender, RoutedEventArgs e)
+        {
+            this.logger.LogInformation("Click Filter button");
+            List<GenreModel> temp = genreService.GetAll();
 
-
+            genreList = new List<Genres>();
+            foreach (GenreModel genre in temp)
+            {
+                genreList.Add(new Genres { GenreName = genre.Name });
+            }
+            card.Visibility = Visibility.Collapsed;
+            filter.Visibility = Visibility.Visible;
+            genreListView.ItemsSource = genreList;
+            this.logger.LogInformation("List of anime was shown");
+        }
     }
 }

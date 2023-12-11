@@ -15,13 +15,31 @@
         </Grid.Background>
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
             <Image x:Name="biglogo" HorizontalAlignment="Center" Height="185" Width="656" Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/big_logo_white.png?raw=true"/>
-            <TextBlock Text="логін" Height="26" Width="60"/>
-            <TextBox x:Name="in_login" Width="453" Height="53" />
-            <TextBlock Text="пошта" Height="26" Width="60" />
-            <TextBox x:Name="in_email" Width="453" Height="53" />
-            <TextBlock Text="пароль" Height="26" Width="70" />
-            <TextBox x:Name="in_password" Width="453" Height="53" />
-            <Button x:Name="registration" Content="зареєструватися" Width="258" Height="53" Click="Registration_Click"/>
+            <Rectangle Height="45"/>
+            <Label x:Name="labelLogin" Content="логін" FontFamily="Comic Sans MS" FontSize="20" Margin="100,0,0,0"/>
+            <Border CornerRadius="30" BorderBrush="#F278A2" BorderThickness="1" Height="50" Width="445" Background="#FFDDE5">
+                <TextBox x:Name="in_login" Background="Transparent" TextWrapping="Wrap" Text="" Width="435" Height="50" RenderTransformOrigin="0.503,0.96" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="0,0,0,0" FontFamily="Comic Sans MS" FontSize="20" TextAlignment="Center"/>
+            </Border>
+            <Rectangle Height="35"/>
+            <TextBlock Text="пошта" Height="26" Width="60"  FontFamily="Comic Sans MS" FontSize="20" Margin="100,0,0,0" HorizontalAlignment="Left"/>
+            <Border CornerRadius="30" BorderBrush="#F278A2" BorderThickness="1" Height="50" Width="445" Background="#FFDDE5">
+                <TextBox x:Name="in_email" Background="Transparent" TextWrapping="Wrap" Text="" Width="435" Height="50" RenderTransformOrigin="0.503,0.96" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="0,0,0,0" FontFamily="Comic Sans MS" FontSize="20" />
+            </Border>
+            <Rectangle Height="35"/>
+            <Label x:Name="labelPassword" Content="пароль:" FontFamily="Comic Sans MS" FontSize="20" Margin="100,0,0,0"/>
+            <Border CornerRadius="30" BorderBrush="#F278A2" BorderThickness="1" Height="50" Width="445" Background="#FFDDE5">
+                <PasswordBox x:Name="in_password" BorderBrush="Transparent" Background="Transparent"  Width="435" Height="50" RenderTransformOrigin="0.503,0.96" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Border>
+            <Rectangle Height="70"/>
+            <Button x:Name="registration" Content="зареєструватися" Width="258" Height="53" Click="Registration_Click">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="30" BorderBrush="#F278A2" BorderThickness="1" Background="#FFDDE5">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
         </StackPanel>
     </Grid>
 </Window>

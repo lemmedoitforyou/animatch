@@ -64,16 +64,6 @@ namespace AniWPF
             this.watchAnimeService = watchedAnimeService;
             this.userService = userService;
             this.reviewService = reviewService;
-            
-
-            this.id = LogInWindow.CurrentUserID;
-            List<ReviewModel> temp = reviewService.GetReviewsForAnime(this.id);
-            reviewList = new List<ReviewForForm>();
-            foreach(ReviewModel review in temp)
-            {
-                reviewList.Add(new ReviewForForm { ReviewText=review.Text, ReviewUserName=this.userService.GetById(review.UserId).Name, ReviewUserPhoto=this.userService.GetById(review.UserId).Photo});
-            }
-            RewiewListView.ItemsSource = reviewList;
 
             if (ParentWindow != null)
             {
@@ -82,6 +72,18 @@ namespace AniWPF
                     AnimeId = MainWindow.randomAnimeId;
                 }
             }
+
+            this.id = LogInWindow.CurrentUserID;
+            List<ReviewModel> temp = reviewService.GetReviewsForAnime(AnimeId);
+            reviewList = new List<ReviewForForm>();
+            foreach (ReviewModel review in temp)
+            {
+                var reviewViewModel = new ReviewViewModel(reviewService, userService, review.Id);
+                reviewList.Add(new ReviewForForm(reviewViewModel));
+            }
+            RewiewListView.ItemsSource = reviewList;
+
+           
 
             this.viewModel = new AnimeViewModel(this.animeService, AnimeId, this.addedAnimeService);
             this.DataContext = this.viewModel;
@@ -92,11 +94,19 @@ namespace AniWPF
         }
         public class ReviewForForm
         {
-            public string ReviewText { get ; set; }
+            public string ReviewText { get; set; }
             public string ReviewUserName { get; set; }
             public string ReviewUserPhoto { get; set; }
+
+            // Додайте конструктор, що приймає дані з ReviewViewModel
+            public ReviewForForm(ReviewViewModel reviewViewModel)
+            {
+                ReviewText = reviewViewModel.ReviewText;
+                ReviewUserName = reviewViewModel.UserName;
+                ReviewUserPhoto = reviewViewModel.UserPhoto;
+            }
         }
-         public class ReviewViewModel : INotifyPropertyChanged
+        public class ReviewViewModel : INotifyPropertyChanged
         {
             private readonly IReviewService reviewServise;
             private readonly IUserService userService;

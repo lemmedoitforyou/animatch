@@ -95,7 +95,7 @@ namespace AniWPF
                 }
             }
             animeListView.ItemsSource = animeList;
-            this.logger.LogInformation("List of anime waas shown");
+            this.logger.LogInformation("List of anime was shown");
         }
         private void Random_Click(object sender, RoutedEventArgs e)
         {

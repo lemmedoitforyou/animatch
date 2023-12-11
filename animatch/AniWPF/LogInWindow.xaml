@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:AniWPF"
         mc:Ignorable="d"
         Title="MainWindow" Height="1024" Width="1440">
+
     <Grid>
         <Grid.Background>
             <RadialGradientBrush>
@@ -13,15 +14,38 @@
                 <GradientStop Color="#FFD9E2" Offset="1.0"/>
             </RadialGradientBrush>
         </Grid.Background>
-        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-            <Image x:Name="biglogo" HorizontalAlignment="Center" Height="185" Width="656" Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/big_logo_white.png?raw=true"/>
-            <Label x:Name="labelLogin" Content="логін" FontFamily="Comic Sans MS"/>
-            <TextBox x:Name="login" TextWrapping="Wrap" Text="" Width="369" Height="37" Margin="0,0,0,10"/>
-            <Label x:Name="labelPassword" Content="пароль:" FontFamily="Comic Sans MS"/>
-            <PasswordBox x:Name="password" Width="369" Height="37" Margin="0,0,0,10"/>
-            <Button x:Name="buttonEnter" Content="увійти" FontSize="20" Width="369" Height="37" FontFamily="Comic Sans MS" Click="ButtonEnter_Click"/>
-            <Button x:Name="buttonRegister" Content="зареєструватись" Width="369" Height="37" FontSize="20" FontFamily="Comic Sans MS" Click="ButtonRegister_Click"/>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" >
+            <Image x:Name="biglogo" HorizontalAlignment="Center" Height="185" Width="656" Source="/big_logo_white.png"/>
+            <Rectangle Height="45"/>
+            <Label x:Name="labelLogin" Content="логін" FontFamily="Comic Sans MS" FontSize="20" Margin="100,0,0,0"/>
+            <Border CornerRadius="30" BorderBrush="#F278A2" BorderThickness="1" Height="50" Width="445" Background="#FFDDE5">
+                <TextBox x:Name="login" Background="Transparent" TextWrapping="Wrap" Text="" Width="435" Height="50" RenderTransformOrigin="0.503,0.96" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="0,0,0,0" FontFamily="Comic Sans MS" FontSize="20" TextAlignment="Center"/>
+            </Border>
+            <Rectangle Height="35"/>
+            <Label x:Name="labelPassword" Content="пароль:" FontFamily="Comic Sans MS" FontSize="20" Margin="100,0,0,0"/>
+            <Border CornerRadius="30" BorderBrush="#F278A2" BorderThickness="1" Height="50" Width="445" Background="#FFDDE5">
+                <PasswordBox x:Name="password" BorderBrush="Transparent" Background="Transparent"  Width="435" Height="50" RenderTransformOrigin="0.503,0.96" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Border>
+            <Rectangle Height="70"/>
+            <Button x:Name="buttonEnter" Content="вхід" FontSize="20" Width="185" Height="53" FontFamily="Comic Sans MS" Click="ButtonEnter_Click">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="30" BorderBrush="#F278A2" BorderThickness="1" Background="#FFDDE5">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Rectangle Height="70"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Label Content="немає акаунта?" FontFamily="Comic Sans MS" FontSize="20"/>
+                <Button  x:Name="buttonRegister" FontSize="20" FontFamily="Comic Sans MS" Click="ButtonRegister_Click" Background="Transparent" BorderBrush="Transparent">
+                    <Label Content="створити акаунт" FontSize="20" FontWeight="Bold" />
+                </Button>
+            </StackPanel>
+
+
         </StackPanel>
-        
+
     </Grid>
 </Window>

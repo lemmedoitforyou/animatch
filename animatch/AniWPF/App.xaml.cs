@@ -56,8 +56,8 @@ public partial class App : Application
                 services.AddTransient<IDislikedAnimeRepository, DislikedAnimeRepository>();
                 services.AddTransient<IDislikedAnimeService, DislikedAnimeService>();
 
-                services.AddTransient<IAddedAnimeRepository, AddedAnimeRepository>();
-                services.AddTransient<IAddedAnimeService, AddedAnimeService>();
+                services.AddTransient<IGenreRepository, GenreRepository>();
+                services.AddTransient<IGenreService, GenreService>();
 
                 services.AddTransient<IWatchedAnimeRepository, WatchedAnimeRepository>();
                 services.AddTransient<IWatchedAnimeService, WatchedAnimeService>();

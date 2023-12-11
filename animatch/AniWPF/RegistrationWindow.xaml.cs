@@ -50,7 +50,7 @@ namespace AniWPF
 
             string username = in_login.Text;
             string email = in_email.Text;
-            string password = in_password.Text;
+            string password = in_password.Password;
 
             if (userService.IsExistUsername(username))
             {
