@@ -17,7 +17,7 @@
         <StackPanel>
             <StackPanel Orientation="Horizontal" Height="100" VerticalAlignment="Top">
                 <Rectangle Height="100" Width="90"/>
-                <Button x:Name="logoButton" Click="logoButton_Click">
+                <Button x:Name="logoButton" Click="LogoButton_Click">
                     <Image x:Name="biglogo" HorizontalAlignment="Center" Height="95" Width="375" Source="/big_logo_white.png"/>
                 </Button>
                 <Rectangle Height="100" Width="365"/>
@@ -57,7 +57,7 @@
                 <StackPanel Orientation="Vertical" Width="853" Height="560" VerticalAlignment="Top">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="{Binding AnimeName}" FontSize="50"/>
-                        <Button x:Name="closeButton" Click="closeButton_Click" Background="Transparent" HorizontalAlignment="Right" VerticalAlignment="Center">
+                        <Button x:Name="closeButton" Click="CloseButton_Click" Background="Transparent" HorizontalAlignment="Right" VerticalAlignment="Center">
                             <Image Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/CloseIcon.png?raw=true" Width="30" Height="30" Margin="5,0,0,5" />
                         </Button>
                     </StackPanel>

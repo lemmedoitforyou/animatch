@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AniDAL.DataBaseClasses;
-using AniDAL.DbContext;
+﻿using AniDAL.DataBaseClasses;
 
 namespace AniDAL.Repositories
 {
@@ -22,8 +16,6 @@ namespace AniDAL.Repositories
         {
             int lastReviewId = _context.Review.Max(u => u.Id);
             return lastReviewId;
-        }
-        
+        }   
     }
-
 }

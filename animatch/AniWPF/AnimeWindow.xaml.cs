@@ -1,14 +1,11 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows;
+using System.Windows.Media.Imaging;
+using AniBLL.Models;
 using AniBLL.Services;
 using AniWPF.StartupHelper;
-using System;
-using System.Windows.Media.Imaging;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using System.Linq;
-using AniBLL.Models;
-using AniWPF;
 using Microsoft.Extensions.Logging;
 
 namespace AniWPF
@@ -18,6 +15,7 @@ namespace AniWPF
         private readonly ILogger<AnimeWindow> logger;
 
         public static Window ParentWindow { get; set; }
+
         private readonly IAbstractFactory<RandomWindow> randomFactory;
         private readonly IAbstractFactory<ProfileWindow> profileFactory;
         private readonly IAbstractFactory<LikedAnimeWindow> likedFactory;
@@ -33,20 +31,17 @@ namespace AniWPF
         private readonly IReviewService reviewService;
         private List<ReviewForForm> reviewList;
 
-
         private AnimeViewModel viewModel;
         private int id;
+
         public static int AnimeId { get; set; }
-
-
-        
 
         public AnimeWindow(IAnimeService animeService, IAddedAnimeService addedAnimeService,
             IDislikedAnimeService dislikedAnimeService, ILikedAnimeService likedAnimeService,
             IWatchedAnimeService watchedAnimeService, IUserService userService,
             IAbstractFactory<RandomWindow> rfactory, IAbstractFactory<ProfileWindow> profileFactory,
             IAbstractFactory<LikedAnimeWindow> likedFactory, IAbstractFactory<SearchWindow> searchFactory,
-            IAbstractFactory<MainWindow>mainFactory, IReviewService reviewService, ILogger<AnimeWindow> logger)
+            IAbstractFactory<MainWindow> mainFactory, IReviewService reviewService, ILogger<AnimeWindow> logger)
         {
             this.InitializeComponent();
             this.WindowState = WindowState.Maximized;
@@ -71,65 +66,92 @@ namespace AniWPF
                 {
                     AnimeId = MainWindow.randomAnimeId;
                 }
+
+                else if (ParentWindow.GetType() == typeof(LikedAnimeWindow))
+                {
+                    AnimeId = LikedAnimeWindow.CurrentId;
+                }
+
+                else if (ParentWindow.GetType() == typeof(ProfileWindow))
+                {
+                    AnimeId = ProfileWindow.CurrentId;
+                }
+
+                else if (ParentWindow.GetType() == typeof(RandomWindow))
+                {
+                    AnimeId = RandomWindow.randomAnimeId;
+                }
+
+                else if (ParentWindow.GetType() == typeof(SearchWindow))
+                {
+                    AnimeId = SearchWindow.CurrentId;
+                }
             }
 
             this.id = LogInWindow.CurrentUserID;
             List<ReviewModel> temp = reviewService.GetReviewsForAnime(AnimeId);
-            reviewList = new List<ReviewForForm>();
+            this.reviewList = new List<ReviewForForm>();
             foreach (ReviewModel review in temp)
             {
                 var reviewViewModel = new ReviewViewModel(reviewService, userService, review.Id);
-                reviewList.Add(new ReviewForForm(reviewViewModel));
+                this.reviewList.Add(new ReviewForForm(reviewViewModel));
             }
-            RewiewListView.ItemsSource = reviewList;
 
-           
+            this.RewiewListView.ItemsSource = this.reviewList;
 
             this.viewModel = new AnimeViewModel(this.animeService, AnimeId, this.addedAnimeService);
             this.DataContext = this.viewModel;
 
             this.logger = logger;
             this.logger.LogInformation("MainWindow created");
-            InitializeComponent();
+
+            this.InitializeComponent();
         }
+
         public class ReviewForForm
         {
             public string ReviewText { get; set; }
+
             public string ReviewUserName { get; set; }
+
             public string ReviewUserPhoto { get; set; }
 
-            // Додайте конструктор, що приймає дані з ReviewViewModel
             public ReviewForForm(ReviewViewModel reviewViewModel)
             {
-                ReviewText = reviewViewModel.ReviewText;
-                ReviewUserName = reviewViewModel.UserName;
-                ReviewUserPhoto = reviewViewModel.UserPhoto;
+                this.ReviewText = reviewViewModel.ReviewText;
+                this.ReviewUserName = reviewViewModel.UserName;
+                this.ReviewUserPhoto = reviewViewModel.UserPhoto;
             }
         }
+
         public class ReviewViewModel : INotifyPropertyChanged
         {
             private readonly IReviewService reviewServise;
             private readonly IUserService userService;
             private int id;
 
-            public ReviewViewModel(IReviewService reviewService,IUserService userService, int id)
+            public ReviewViewModel(IReviewService reviewService, IUserService userService, int id)
             {
                 this.reviewServise = reviewService;
                 this.userService = userService;
                 this.id = id;
             }
+
             public string ReviewText
             {
                 get { return this.reviewServise.GetById(this.id).Text; }
             }
+
             public string UserName
             {
                 get { return this.userService.GetById(this.reviewServise.GetById(this.id).UserId).Name; }
             }
+
             public string UserPhoto
             {
                 get { return this.userService.GetById(this.reviewServise.GetById(this.id).UserId).Photo; }
             }
+
             public event PropertyChangedEventHandler? PropertyChanged;
 
             protected virtual void OnPropertyChanged(string propertyName)
@@ -137,14 +159,12 @@ namespace AniWPF
                 this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
             }
         }
-    
-
 
         public class AnimeViewModel : INotifyPropertyChanged
         {
             private readonly IAnimeService animeService;
             private readonly IAddedAnimeService addedAnime;
-            
+
             private int id;
 
             public AnimeViewModel(IAnimeService animeService, int id, IAddedAnimeService addedAnime)
@@ -152,8 +172,8 @@ namespace AniWPF
                 this.addedAnime = addedAnime;
                 this.animeService = animeService;
                 this.id = id;
-               
             }
+
             public string AnimeName
             {
                 get { return this.animeService.GetById(this.id).Name; }
@@ -178,11 +198,11 @@ namespace AniWPF
             {
                 get { return this.animeService.GetById(this.id).Year; }
             }
+
             public string UserLikedAnime
             {
-                get { return $"{addedAnime.CountUserWhoAddAnime(this.id)} користувачів вподобали це аніме"; }
+                get { return $"{this.addedAnime.CountUserWhoAddAnime(this.id)} користувачів вподобали це аніме"; }
             }
-            
 
             public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -190,14 +210,15 @@ namespace AniWPF
             {
                 this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
             }
-
         }
+
         private void Random_Click(object sender, RoutedEventArgs e)
         {
             this.logger.LogInformation("Click Random button");
             this.randomFactory.Create(this).Show();
             this.Close();
         }
+
         private void ButtonProfile_Click(object sender, RoutedEventArgs e)
         {
             this.logger.LogInformation("Click Profile button");
@@ -218,38 +239,56 @@ namespace AniWPF
             this.searchFactory.Create(this).Show();
             this.Close();
         }
+
         private void LikeAnime_Click(object sender, RoutedEventArgs e)
         {
             this.logger.LogInformation("Click LikeAnime button");
-            likeUnfill.Source = new BitmapImage(new Uri("https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/LikedFillIcon.png?raw=true"));
+            this.likeUnfill.Source = new BitmapImage(new Uri("https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/LikedFillIcon.png?raw=true"));
 
             LikedAnimeModel temp = new LikedAnimeModel
             {
-                Id = likedAnimeService.GetLastUserId() + 1,
+                Id = this.likedAnimeService.GetLastUserId() + 1,
                 UserId = this.id,
-                AnimeId = AnimeId
+                AnimeId = AnimeId,
             };
-            likedAnimeService.Insert(temp);
+
+            this.likedAnimeService.Insert(temp);
         }
 
-        private void closeButton_Click(object sender, RoutedEventArgs e)
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             if (ParentWindow != null)
             {
                 if (ParentWindow.GetType() == typeof(MainWindow))
                 {
                     MainWindow.ParentWindow = this;
-                    // Show the new instance of the ParentWindow
                     this.mainFactory.Create(this).Show();
                     MainWindow.ParentWindow = null;
                 }
+                else if (ParentWindow.GetType() == typeof(LikedAnimeWindow))
+                {
+                    this.likedFactory.Create(this).Show();
+                }
+                else if (ParentWindow.GetType() == typeof(ProfileWindow))
+                {
+                    this.profileFactory.Create(this).Show();
+                }
+                else if (ParentWindow.GetType() == typeof(RandomWindow))
+                {
+                    RandomWindow.ParentWindow = this;
+                    this.randomFactory.Create(this).Show();
+                    RandomWindow.ParentWindow = null;
+                }
+                else if (ParentWindow.GetType() == typeof(SearchWindow))
+                {
+                    this.searchFactory.Create(this).Show();
+                }
             }
 
-            // Close the current AnimeWindow
             this.Close();
         }
 
-        private void logoButton_Click(object sender, RoutedEventArgs e)
+        private void LogoButton_Click(object sender, RoutedEventArgs e)
         {
             this.mainFactory.Create(this).Show();
             this.Close();

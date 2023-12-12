@@ -26,20 +26,26 @@ namespace AniWPF
         private readonly IAbstractFactory<RandomWindow> randomFactory;
         private readonly IAbstractFactory<ProfileWindow> profileFactory;
         private readonly IAbstractFactory<LikedAnimeWindow> likedFactory;
+        private readonly IAbstractFactory<AnimeWindow> animeFactory;
 
         private List<AnimeForForw> animeList;
 
         private readonly IAnimeService animeService;
 
         private int id;
+
+        public static int CurrentId { get; set; }
         
-        public SearchWindow(IAnimeService animeService, IAbstractFactory<MainWindow> mainFactory, ILogger<SearchWindow> logger, 
-            IAbstractFactory<RandomWindow> randomFactory, IAbstractFactory<ProfileWindow> profileFactory, IAbstractFactory<LikedAnimeWindow> likedFactory)
+        public SearchWindow(IAnimeService animeService, IAbstractFactory<MainWindow> mainFactory, 
+            ILogger<SearchWindow> logger, IAbstractFactory<RandomWindow> randomFactory, 
+            IAbstractFactory<ProfileWindow> profileFactory, IAbstractFactory<LikedAnimeWindow> likedFactory,
+            IAbstractFactory<AnimeWindow> animeFactory)
         {
             this.mainFactory = mainFactory;
             this.randomFactory = randomFactory;
             this.profileFactory = profileFactory;
             this.likedFactory = likedFactory;
+            this.animeFactory = animeFactory;
 
             this.animeService = animeService;
 
@@ -54,6 +60,7 @@ namespace AniWPF
 
         public class AnimeForForw
         {
+            public int Id { get; set; }
             public string Title { get; set; }
             public string ImagePath { get; set; }
             public double IMDBRate { get; set; }
@@ -91,7 +98,7 @@ namespace AniWPF
             {
                 if(anime.Name.Contains(searchText))
                 {
-                    animeList.Add(new AnimeForForw { Title = anime.Name, ImagePath = anime.Photo, IMDBRate = anime.Imdbrate});
+                    animeList.Add(new AnimeForForw { Id = anime.Id, Title = anime.Name, ImagePath = anime.Photo, IMDBRate = anime.Imdbrate});
                 }
             }
             animeListView.ItemsSource = animeList;
@@ -117,5 +124,26 @@ namespace AniWPF
             this.Close();
         }
 
+        private void AnimeButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.logger.LogInformation("Click detail about anime button");
+
+            if (sender is FrameworkElement button)
+            {
+                if (button.DataContext is AnimeForForw clickedItem)
+                {
+                    string temp = clickedItem.Title;
+                    AnimeForForw foundAnime = this.animeList.FirstOrDefault(anime => anime.Title == temp);
+                    if (foundAnime != null)
+                    {
+                        CurrentId = foundAnime.Id;
+                    }
+
+                    AnimeWindow.ParentWindow = this;
+                    this.animeFactory.Create(this).Show();
+                    this.Close();
+                }
+            }
+        }
     }
 }

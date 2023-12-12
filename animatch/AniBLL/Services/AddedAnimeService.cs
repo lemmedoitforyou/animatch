@@ -1,34 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AniBLL.Models;
 using AniDAL.Repositories;
-using AniDAL.DataBaseClasses;
-using AniBLL.Models;
 
 namespace AniBLL.Services
 {
     public interface IAddedAnimeService
     {
         List<AnimeModel> GetAddedAnimesForUser(int userId);
+
         void Add(AddedAnimeModel added);
+
         void Delete(int added);
+
         int CountUserWhoAddAnime(int animeID);
     }
-    public class AddedAnimeService: IAddedAnimeService
+
+    public class AddedAnimeService : IAddedAnimeService
     {
-        private readonly IAddedAnimeRepository _addedAnimeRepository; 
+        private readonly IAddedAnimeRepository _addedAnimeRepository;
 
         public AddedAnimeService(IAddedAnimeRepository addedAnimeRepository)
         {
-            _addedAnimeRepository = addedAnimeRepository;
+            this._addedAnimeRepository = addedAnimeRepository;
         }
 
         public List<AnimeModel> GetAddedAnimesForUser(int userId)
         {
-            List<AniDAL.DataBaseClasses.Anime> addedAnimeRepository = 
-                _addedAnimeRepository.GetAddedAnimesForUser(userId);
+            List<AniDAL.DataBaseClasses.Anime> addedAnimeRepository = this._addedAnimeRepository.GetAddedAnimesForUser(userId);
 
             // Перетворення об'єктів Anime на об'єкти AnimeModel
             List<AnimeModel> addedAnime = addedAnimeRepository
@@ -39,23 +36,26 @@ namespace AniBLL.Services
                     Text = anime.Text,
                     Imdbrate = anime.Imdbrate,
                     Photo = anime.Photo,
-                    Year = anime.Year
+                    Year = anime.Year,
                 })
                 .ToList();
 
             return addedAnime;
         }
+
         public void Add(AddedAnimeModel added)
         {
-            _addedAnimeRepository.Insert(added);
+            this._addedAnimeRepository.Insert(added);
         }
+
         public void Delete(int added)
         {
-            _addedAnimeRepository.Delete(added);
+            this._addedAnimeRepository.Delete(added);
         }
+
         public int CountUserWhoAddAnime(int animeID)
         {
-            return _addedAnimeRepository.CountUserWhoAddAnime(animeID);
+            return this._addedAnimeRepository.CountUserWhoAddAnime(animeID);
         }
     }
 }

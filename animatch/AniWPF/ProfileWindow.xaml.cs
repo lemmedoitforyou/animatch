@@ -20,6 +20,7 @@ namespace AniWPF
         private readonly IAbstractFactory<RedactWindow> redactFactory;
         private readonly IAbstractFactory<LikedAnimeWindow> likedFactory;
         private readonly IAbstractFactory<SearchWindow> searchFactory;
+        private readonly IAbstractFactory<AnimeWindow> animeFactory;
 
         private readonly IUserService userService;
         private readonly IAddedAnimeService addedAnimeService;
@@ -29,19 +30,22 @@ namespace AniWPF
         private int id;
         private List<AnimeForForm> animeList;
 
+        public static int CurrentId { get; set; }
 
         public ProfileWindow(IUserService userService, IAddedAnimeService addedAnimeService, 
             IAnimeService animeService, IAbstractFactory<RandomWindow> randomFactory,
             IAbstractFactory<MainWindow> mainFactory, IAbstractFactory<RedactWindow> redactFactory,
-            ILogger<ProfileWindow> logger, IAbstractFactory<LikedAnimeWindow> likedFactory, IAbstractFactory<SearchWindow> searchFactory)
+            ILogger<ProfileWindow> logger, IAbstractFactory<LikedAnimeWindow> likedFactory, 
+            IAbstractFactory<SearchWindow> searchFactory, IAbstractFactory<AnimeWindow> animeFactory)
         {
-
             this.InitializeComponent();
             this.WindowState = WindowState.Maximized;
 
             this.randomFactory = randomFactory;
             this.mainFactory = mainFactory;
             this.redactFactory = redactFactory;
+            this.searchFactory = searchFactory;
+            this.animeFactory = animeFactory;
 
             this.userService = userService;
             this.addedAnimeService = addedAnimeService;
@@ -56,7 +60,7 @@ namespace AniWPF
             animeList = new List<AnimeForForm>();
             foreach (AnimeModel anime in temp)
             {
-                animeList.Add(new AnimeForForm { Title = anime.Name, ImagePath = anime.Photo });
+                animeList.Add(new AnimeForForm { Id = anime.Id, Title = anime.Name, ImagePath = anime.Photo });
             }
             animeListView.ItemsSource = animeList;
 
@@ -69,6 +73,7 @@ namespace AniWPF
 
         public class AnimeForForm
         {
+            public int Id { get; set; }
             public string Title { get; set; }
             public string ImagePath { get; set; }
         }
@@ -112,7 +117,6 @@ namespace AniWPF
                             return "лох";
                     }
                 }
-
                 set{}
             }
 
@@ -226,8 +230,6 @@ namespace AniWPF
             //this.Close();
         }
 
-
-
         private void ButtonSearch_Click(object sender, RoutedEventArgs e)
         {
             this.logger.LogInformation("Click Search button");
@@ -241,6 +243,27 @@ namespace AniWPF
             this.likedFactory.Create(this).Show();
             this.Close();
         }
-    }
 
+        private void AnimeButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.logger.LogInformation("Click detail about anime button");
+
+            if (sender is FrameworkElement button)
+            {
+                if (button.DataContext is AnimeForForm clickedItem)
+                {
+                    string temp = clickedItem.Title;
+                    AnimeForForm foundAnime = this.animeList.FirstOrDefault(anime => anime.Title == temp);
+                    if (foundAnime != null)
+                    {
+                        CurrentId = foundAnime.Id;
+                    }
+
+                    AnimeWindow.ParentWindow = this;
+                    this.animeFactory.Create(this).Show();
+                    this.Close();
+                }
+            }
+        }
+    }
 }

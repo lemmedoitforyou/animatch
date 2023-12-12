@@ -1,34 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AniBLL.Models;
 using AniDAL.Repositories;
-using AniDAL.DataBaseClasses;
-using AniBLL.Models;
 
 namespace AniBLL.Services
 {
     public interface ILikedAnimeService
     {
         List<AnimeModel> GetLikedAnimesForUser(int userId);
+
         void Insert(LikedAnimeModel liked);
+
         void Delete(int liked);
+
         int GetLastUserId();
     }
+
     public class LikedAnimeService : ILikedAnimeService
     {
-        private readonly ILikedAnimeRepository _likedAnimeRepository; 
+        private readonly ILikedAnimeRepository _likedAnimeRepository;
 
         public LikedAnimeService(ILikedAnimeRepository likedAnimeRepository)
         {
-            _likedAnimeRepository = likedAnimeRepository;
+            this._likedAnimeRepository = likedAnimeRepository;
         }
 
         public List<AnimeModel> GetLikedAnimesForUser(int userId)
         {
-            List<AniDAL.DataBaseClasses.Anime> likedAnimesFromRepository = 
-                _likedAnimeRepository.GetLikedAnimesForUser(userId);
+            List<AniDAL.DataBaseClasses.Anime> likedAnimesFromRepository =
+                this._likedAnimeRepository.GetLikedAnimesForUser(userId);
 
             List<AnimeModel> likedAnimes = likedAnimesFromRepository
                 .Select(anime => new AnimeModel
@@ -38,23 +36,26 @@ namespace AniBLL.Services
                     Text = anime.Text,
                     Imdbrate = anime.Imdbrate,
                     Photo = anime.Photo,
-                    Year = anime.Year
+                    Year = anime.Year,
                 })
                 .ToList();
 
             return likedAnimes;
         }
+
         public int GetLastUserId()
         {
-            return _likedAnimeRepository.GetLastUserId();
+            return this._likedAnimeRepository.GetLastUserId();
         }
+
         public void Insert(LikedAnimeModel liked)
         {
-            _likedAnimeRepository.Insert(liked);
+            this._likedAnimeRepository.Insert(liked);
         }
+
         public void Delete(int liked)
         {
-            _likedAnimeRepository.Delete(liked);
+            this._likedAnimeRepository.Delete(liked);
         }
     }
 }

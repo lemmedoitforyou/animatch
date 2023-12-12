@@ -12,20 +12,24 @@ namespace AniWPF
     {
         private readonly ILogger<RandomWindow> logger;
 
+        public static Window? ParentWindow { get; set; }
         private readonly IAbstractFactory<ProfileWindow> profileFactory;
         private readonly IAbstractFactory<MainWindow> mainFactory;
         private readonly IAbstractFactory<LikedAnimeWindow> likedAnimeFactory;
         private readonly IAbstractFactory<SearchWindow> searchFactory;
+        private readonly IAbstractFactory<AnimeWindow> animeFactory;
 
         private readonly IAnimeService animeService;
         private readonly IAnimeGenreService animeGenreService;
 
         private int id;
         private AnimeViewModel viewModel;
+        public static int randomAnimeId { get; set; }
 
         public RandomWindow(IAnimeService animeService, IAnimeGenreService animeGenreService, 
             IAbstractFactory<ProfileWindow> profileFactory, IAbstractFactory<MainWindow> mainFactory,
-            ILogger<RandomWindow> logger, IAbstractFactory<LikedAnimeWindow> likedAnimeFactory, IAbstractFactory<SearchWindow> searchFactory)
+            ILogger<RandomWindow> logger, IAbstractFactory<LikedAnimeWindow> likedAnimeFactory,
+            IAbstractFactory<SearchWindow> searchFactory, IAbstractFactory<AnimeWindow> animeFactory)
         {
             this.InitializeComponent();
             this.WindowState = WindowState.Maximized;
@@ -33,6 +37,9 @@ namespace AniWPF
             this.profileFactory = profileFactory;
             this.mainFactory = mainFactory;
             this.profileFactory = profileFactory;
+            this.likedAnimeFactory = likedAnimeFactory;
+            this.searchFactory = searchFactory;
+            this.animeFactory = animeFactory;
 
             this.animeService = animeService;
             this.animeGenreService = animeGenreService;
@@ -40,13 +47,23 @@ namespace AniWPF
             this.id = LogInWindow.CurrentUserID;
             System.Random randomForAnime = new System.Random();
 
-            this.viewModel = new AnimeViewModel(this.animeService, this.animeGenreService, randomForAnime.Next(1, 50));
+            if (ParentWindow != null)
+            {
+                if (ParentWindow.GetType() == typeof(AnimeWindow))
+                {
+                    randomAnimeId = AnimeWindow.AnimeId;
+                }
+            }
+            else
+            {
+                randomAnimeId = randomForAnime.Next(1, 51);
+            }
+
+            this.viewModel = new AnimeViewModel(this.animeService, this.animeGenreService, randomAnimeId);
             this.DataContext = this.viewModel;
 
             this.logger = logger;
             this.logger.LogInformation("RandomWindow створено.");
-            this.likedAnimeFactory = likedAnimeFactory;
-            this.searchFactory = searchFactory;
         }
 
         public class AnimeViewModel : INotifyPropertyChanged
@@ -158,6 +175,14 @@ namespace AniWPF
         {
             this.logger.LogInformation("Click Search button");
             this.searchFactory.Create(this).Show();
+            this.Close();
+        }
+
+        private void AnimeButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.logger.LogInformation("Click detail about anime button");
+            AnimeWindow.ParentWindow = this;
+            this.animeFactory.Create(this).Show();
             this.Close();
         }
     }

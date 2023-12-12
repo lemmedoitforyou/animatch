@@ -1,23 +1,31 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using AniDAL.Repositories;
-using AniBLL.Models;
+﻿using AniBLL.Models;
 using AniDAL.DataBaseClasses;
+using AniDAL.Repositories;
 
 namespace AniBLL.Services
 {
     public interface IUserService
     {
         UserInfoModel GetById(int id);
+
         UserInfoModel GetByUsername(string username);
+
         List<UserInfoModel> GetAll();
+
         void Insert(UserInfoModel userInfo);
+
         void Update(UserInfoModel userInfo);
+
         void Delete(int userInfo);
+
         bool IsExistUsername(string username);
+
         bool IsExistEmail(string email);
+
         int GetLastId();
+
         void UpdateTitleAndText(int userId, string newTitle, string newText);
+
         void WatchAnime(int userId);
     }
 
@@ -27,20 +35,18 @@ namespace AniBLL.Services
 
         public UserService(IUserInfoRepository userRepository)
         {
-            _userRepository = userRepository;
+            this._userRepository = userRepository;
         }
 
         public UserInfoModel GetById(int id)
         {
-            var user = _userRepository.GetById(id);
+            var user = this._userRepository.GetById(id);
 
-            // Перевірка на null, якщо користувача не знайдено
             if (user == null)
             {
-                return null; // або можна кинути виняток чи повернути якусь іншу логіку за замовчуванням
+                return null;
             }
 
-            // Створення екземпляра UserInfoModel на основі об'єкта з репозиторію
             var userInfoModel = new UserInfoModel
             {
                 Id = user.Id,
@@ -51,24 +57,21 @@ namespace AniBLL.Services
                 Level = user.Level,
                 Text = user.Text,
                 Photo = user.Photo,
-                WatchedCount = user.WatchedCount
+                WatchedCount = user.WatchedCount,
             };
 
             return userInfoModel;
         }
-
 
         public UserInfoModel GetByUsername(string username)
         {
-            var user = _userRepository.GetByUsername(username);
+            var user = this._userRepository.GetByUsername(username);
 
-            // Перевірка на null, якщо користувача не знайдено
             if (user == null)
             {
-                return null; // або можна кинути виняток чи повернути якусь іншу логіку за замовчуванням
+                return null;
             }
 
-            // Створення екземпляра UserInfoModel на основі об'єкта з репозиторію
             var userInfoModel = new UserInfoModel
             {
                 Id = user.Id,
@@ -79,16 +82,15 @@ namespace AniBLL.Services
                 Level = user.Level,
                 Text = user.Text,
                 Photo = user.Photo,
-                WatchedCount = user.WatchedCount
+                WatchedCount = user.WatchedCount,
             };
 
             return userInfoModel;
         }
 
-
         public List<UserInfoModel> GetAll()
         {
-            List <UserInfo> userInfos  = _userRepository.GetAll().ToList();
+            List<UserInfo> userInfos = this._userRepository.GetAll().ToList();
 
             List<UserInfoModel> userInfoModels = userInfos.Select(user => new UserInfoModel
             {
@@ -100,51 +102,50 @@ namespace AniBLL.Services
                 Level = user.Level,
                 Text = user.Text,
                 Photo = user.Photo,
-                WatchedCount = user.WatchedCount
+                WatchedCount = user.WatchedCount,
             }).ToList();
 
             return userInfoModels;
         }
 
-
         public void Insert(UserInfoModel userInfo)
         {
-            _userRepository.Insert(userInfo);
+            this._userRepository.Insert(userInfo);
         }
 
         public void Update(UserInfoModel userInfo)
         {
-            _userRepository.Update(userInfo);
+            this._userRepository.Update(userInfo);
         }
 
         public void Delete(int userInfo)
         {
-            _userRepository.Delete(userInfo);
+            this._userRepository.Delete(userInfo);
         }
 
         public bool IsExistUsername(string username)
         {
-            return _userRepository.IsExistUsername(username);
+            return this._userRepository.IsExistUsername(username);
         }
 
         public bool IsExistEmail(string email)
         {
-            return _userRepository.IsExistEmail(email);
+            return this._userRepository.IsExistEmail(email);
         }
 
         public int GetLastId()
         {
-            return _userRepository.GetLastUserId();
+            return this._userRepository.GetLastUserId();
         }
 
         public void UpdateTitleAndText(int userId, string newTitle, string newText)
         {
-            _userRepository.UpdateTitleAndText(userId, newTitle, newText);
+            this._userRepository.UpdateTitleAndText(userId, newTitle, newText);
         }
-        public 
-              void WatchAnime(int userId)
+
+        public void WatchAnime(int userId)
         {
-            _userRepository.WatchAnime(userId);
+            this._userRepository.WatchAnime(userId);
         }
     }
 }

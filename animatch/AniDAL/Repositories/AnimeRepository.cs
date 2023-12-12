@@ -8,9 +8,10 @@ using AniDAL.DbContext;
 
 namespace AniDAL.Repositories
 {
-    public interface IAnimeRepository: IGenericRepository<Anime>
+    public interface IAnimeRepository : IGenericRepository<Anime>
     {
     }
+
     public class AnimeRepository : GenericRepository<Anime>, IAnimeRepository
     {
     }

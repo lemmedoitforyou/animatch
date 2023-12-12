@@ -44,7 +44,10 @@
         </StackPanel>
             <Rectangle Height="79"/>
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Width="917" Height="590" Background="White">
-                <Image Source="{Binding AnimePhoto}" Width="393" Height="590" Stretch="UniformToFill"  />
+                <Button x:Name="AnimeButton" Background="Transparent" Click="AnimeButton_Click" Width="375" Height="560">
+
+                    <Image Source="{Binding AnimePhoto}" Width="393" Height="590" Stretch="UniformToFill"  />
+                </Button>
                 <StackPanel Orientation="Vertical" Width="524" Height="590">
                     <TextBlock Text="{Binding AnimeName}" FontSize="50"/>
                     <TextBlock Text="{Binding AnimeText}" FontSize="30"/>

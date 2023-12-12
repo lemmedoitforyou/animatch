@@ -1,16 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-using AniDAL.DataBaseClasses;
-using AniDAL.DbContext;
-using Microsoft.EntityFrameworkCore;
+﻿using AniDAL.DataBaseClasses;
 
 namespace AniDAL.Repositories
 {
-    public interface IUserInfoRepository: IGenericRepository<UserInfo>
+    public interface IUserInfoRepository : IGenericRepository<UserInfo>
     {
         UserInfo GetByUsername(string username);
         bool IsExistUsername(string username);

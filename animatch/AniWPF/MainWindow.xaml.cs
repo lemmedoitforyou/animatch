@@ -287,6 +287,7 @@ namespace AniWPF
                 genreList.Add(new Genres { GenreName = genre.Name });
             }
             card.Visibility = Visibility.Collapsed;
+            ButtonButton.Visibility = Visibility.Collapsed;
             filter.Visibility = Visibility.Visible;
             genreListView.ItemsSource = genreList;
             this.logger.LogInformation("List of anime was shown");

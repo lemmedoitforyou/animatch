@@ -56,8 +56,10 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Margin="5">
-                                    <Image Source="{Binding ImagePath}" Width="350" Height="500" />
-                                    <Label Content="{Binding Title}" HorizontalAlignment="Center"/>
+                                    <Button x:Name="AnimeButton" Background="Transparent" Click="AnimeButton_Click" Width="375" Height="560">
+                                        <Image Source="{Binding ImagePath}" Width="350" Height="500" />
+                                    </Button>
+                                    <Label Name ="AnimeTitle" Content="{Binding Title}" HorizontalAlignment="Center"/>
                                 </StackPanel>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>

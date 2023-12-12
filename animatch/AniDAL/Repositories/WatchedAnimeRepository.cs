@@ -25,7 +25,6 @@ namespace AniDAL.Repositories
         }
         public int GetLastId()
         {
-            
             int lastId = _context.WatchedAnime.Max(w => w.Id);
             return lastId;
         }

@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AniWPF"
+        xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
         mc:Ignorable="d"
         Title="main" Height="1024" Width="1440">
     <Grid>
@@ -57,23 +58,49 @@
                     <Label Content="фільтри" FontSize="20" VerticalAlignment="Top" FontFamily="Comic Sans MS" Height="36" />
                 </StackPanel>
             </StackPanel>
-            <StackPanel Name="filter"  Orientation="Vertical" Width="250" HorizontalAlignment="Right" Background="#FFE0E0E0" Margin="0,0,10,0" Visibility="Collapsed">
-                <TextBlock Text="Фільтри" FontSize="18" FontWeight="Bold" Margin="10"/>
-                <ListView Name="genreListView" Margin="10" Background="Transparent">
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Header="Title" DisplayMemberBinding="{Binding GenreName}" Width="200"/>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
-                <!-- Додайте інші жанри за вашим вибором -->
+            <ScrollViewer>
+            <StackPanel Name="filter" Orientation="Vertical" VerticalAlignment="Top" Background="#FFE0E0E0" Margin="0,0,10,0" Visibility="Collapsed">
+                <!-- Жанри -->
+                <StackPanel Orientation="Vertical" Background="Transparent" Margin="10">
+                        <TextBlock Text="Жанри" FontSize="18" FontWeight="Bold" Margin="0,0,0,10"/>
+                        <ListView Name="genreListView" Background="Transparent">
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid Columns="10" Rows="5" />
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn>
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <CheckBox IsChecked="{Binding IsSelected}" Margin="0,0,5,0"/>
+                                                    <TextBlock Text="{Binding GenreName}" />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </StackPanel>
 
-                <TextBlock Text="Рік випуску" FontSize="16" FontWeight="Bold" Margin="10"/>
-                <Slider Name="YearSlider" Width="200" Height="30" Minimum="1950" Maximum="2023" TickPlacement="BottomRight" IsSnapToTickEnabled="True" Margin="10"/>
+                 <!-- Рік випуску -->
+                <!--<StackPanel Orientation="Vertical"  Background="Transparent" Margin="10">
+                    <TextBlock Text="Рік випуску" FontSize="18" FontWeight="Bold" Margin="0,0,0,10"/>
+                        <controls:RangeSlider  x:Name="RangeSelectorControl" Minimum="1950" Maximum="2023" StepFrequency="1"/>
 
-                <TextBlock Text="Рейтинг" FontSize="16" FontWeight="Bold" Margin="10"/>
-                <Slider Name="ChooseRatingSlider" Width="200" Height="30" Minimum="0" Maximum="10" TickPlacement="BottomRight" IsSnapToTickEnabled="True" Margin="10"/>
+                    </StackPanel>
+
+                --><!-- Рейтинг -->
+                <!--<StackPanel Orientation="Vertical" Background="Transparent" Margin="10">
+                    <TextBlock Text="Рейтинг" FontSize="18" FontWeight="Bold" Margin="0,0,0,10"/>
+                    <Slider Name="ChooseRatingSlider" Minimum="0" Maximum="10" TickPlacement="BottomRight" IsSnapToTickEnabled="True" Margin="0"/>
+                </StackPanel>-->
             </StackPanel>
+            </ScrollViewer>
+
 
             <StackPanel x:Name="main" >
                 <Rectangle Height="79"/>
@@ -106,7 +133,7 @@
                 </StackPanel>
 
                 <Rectangle Height="10"/>
-                <StackPanel Orientation="Horizontal">
+                <StackPanel Name="ButtonButton"  Orientation="Horizontal">
                     <StackPanel HorizontalAlignment="Left" Margin="440,0,0,0">
                         <Button  Name="Dislike_Button" Click="Dislike_Button_Click" Height="50"  Width="50" Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Center"  VerticalAlignment="Bottom">
                             <Image Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/notInterest.png?raw=true" />

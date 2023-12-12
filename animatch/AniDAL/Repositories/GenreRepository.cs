@@ -8,7 +8,7 @@ using AniDAL.DbContext;
 
 namespace AniDAL.Repositories
 {
-    public interface IGenreRepository: IGenericRepository<Genre>
+    public interface IGenreRepository : IGenericRepository<Genre>
     {
     }
     public class GenreRepository : GenericRepository<Genre>, IGenreRepository
