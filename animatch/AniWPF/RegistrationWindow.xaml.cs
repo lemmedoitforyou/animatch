@@ -71,7 +71,7 @@ namespace AniWPF
                     Name = "додати ім'я",
                     Level = 0,
                     Text = "додати підпис",
-                    Photo = "defaultphoto.jpg",
+                    Photo = "https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/defaultUserPhoto.jpg",
                     WatchedCount = 0,
                     Username = username,
                     Email = email,

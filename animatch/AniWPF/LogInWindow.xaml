@@ -19,12 +19,28 @@
             <Rectangle Height="45"/>
             <Label x:Name="labelLogin" Content="логін" FontFamily="Comic Sans MS" FontSize="20" Margin="100,0,0,0"/>
             <Border CornerRadius="30" BorderBrush="#F278A2" BorderThickness="1" Height="50" Width="445" Background="#FFDDE5">
-                <TextBox x:Name="login" Background="Transparent" TextWrapping="Wrap" Text="" Width="435" Height="50" RenderTransformOrigin="0.503,0.96" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="0,0,0,0" FontFamily="Comic Sans MS" FontSize="20" TextAlignment="Center"/>
+                <TextBox x:Name="login" Background="Transparent" TextWrapping="Wrap" Text="" Width="377" Height="30" RenderTransformOrigin="0.503,0.96" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="0,0,0,0" FontFamily="Comic Sans MS" FontSize="20" TextAlignment="Left"/>
             </Border>
             <Rectangle Height="35"/>
             <Label x:Name="labelPassword" Content="пароль:" FontFamily="Comic Sans MS" FontSize="20" Margin="100,0,0,0"/>
             <Border CornerRadius="30" BorderBrush="#F278A2" BorderThickness="1" Height="50" Width="445" Background="#FFDDE5">
-                <PasswordBox x:Name="password" BorderBrush="Transparent" Background="Transparent"  Width="435" Height="50" RenderTransformOrigin="0.503,0.96" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <PasswordBox x:Name="password" BorderBrush="Transparent" Background="Transparent" Width="385" Height="30" RenderTransformOrigin="0.503,0.96" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <PasswordBox.Style>
+                        <Style TargetType="PasswordBox">
+                            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                            <Setter Property="OverridesDefaultStyle" Value="True" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="PasswordBox">
+                                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="5">
+                                            <ScrollViewer x:Name="PART_ContentHost"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </PasswordBox.Style>
+                </PasswordBox>
             </Border>
             <Rectangle Height="70"/>
             <Button x:Name="buttonEnter" Content="вхід" FontSize="20" Width="185" Height="53" FontFamily="Comic Sans MS" Click="ButtonEnter_Click">

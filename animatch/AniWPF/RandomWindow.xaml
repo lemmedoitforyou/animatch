@@ -59,7 +59,15 @@
                     <TextBlock Text="{Binding AnimeGenres}" FontSize="30"/>
                 </StackPanel>
             </StackPanel>
-            <Button Content="рандом" Width="100" Height="40" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,10" Click="RandomButton_Click"/>
-      </StackPanel>
+            <Button Content="рандом" Width="100" Height="40" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,10" Click="RandomButton_Click">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="30" BorderBrush="#F278A2" BorderThickness="1" Background="#FFDDE5">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+        </StackPanel>
     </Grid>
 </Window>

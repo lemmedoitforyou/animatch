@@ -6,6 +6,24 @@
         xmlns:local="clr-namespace:AniWPF"
         mc:Ignorable="d"
         Title="AnimeWindow" Height="1024" Width="1440">
+    <Window.Resources>
+        <Style x:Key="MyTextBlockStyle" TargetType="TextBlock" >
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="FontFamily" Value="Comic Sans MS"/>
+        </Style>
+        <Style x:Key="MyButtonPhotoStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="Transparent"/>
+                </Trigger>
+                <Trigger Property="IsMouseCaptured" Value="True">
+                    <Setter Property="Background" Value="Transparent"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.Background>
             <RadialGradientBrush>
@@ -17,7 +35,7 @@
         <StackPanel>
             <StackPanel Orientation="Horizontal" Height="100" VerticalAlignment="Top">
                 <Rectangle Height="100" Width="90"/>
-                <Button x:Name="logoButton" Click="LogoButton_Click">
+                <Button x:Name="logoButton" Style="{StaticResource MyButtonPhotoStyle}" Click="LogoButton_Click">
                     <Image x:Name="biglogo" HorizontalAlignment="Center" Height="95" Width="375" Source="/big_logo_white.png"/>
                 </Button>
                 <Rectangle Height="100" Width="365"/>
@@ -52,54 +70,61 @@
                     <Label Content="профіль" FontSize="20" VerticalAlignment="Top" FontFamily="Comic Sans MS" Height="36" />
                 </StackPanel>
             </StackPanel>
-            <StackPanel Orientation="Horizontal" Width="1224" Background="White" Margin="0,75,0,0" Height="2305" >
-                <Image Source="{Binding AnimePhoto}" Width="375" Height="560" Stretch="UniformToFill" VerticalAlignment="Top"  />
-                <StackPanel Orientation="Vertical" Width="853" Height="560" VerticalAlignment="Top">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding AnimeName}" FontSize="50"/>
-                        <Button x:Name="closeButton" Click="CloseButton_Click" Background="Transparent" HorizontalAlignment="Right" VerticalAlignment="Center">
-                            <Image Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/CloseIcon.png?raw=true" Width="30" Height="30" Margin="5,0,0,5" />
-                        </Button>
-                    </StackPanel>
-                    <TextBlock Text="{Binding AnimeText}" FontSize="30"/>
-                    <TextBlock FontSize="30" Text="{Binding AnimeRate, StringFormat='IMDB рейтинг {0}/10'}" />
-                    <TextBlock FontSize="30" Text="{Binding  UserLikedAnime}" />
-                    <Button Height="25" Width="25" Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Right" Click="LikeAnime_Click" VerticalAlignment="Bottom">
-                        <Image Source="/LikedIcon.png" x:Name="likeUnfill" Margin="30,0,0,0" />
-                    </Button>
-                    <!--<StackPanel Orientation="Vertical" Width="500" Height="560">
-                        --><!-- Відгук --><!--
-                        <TextBox Name="ReviewText" Width="400" Height="100" Margin="0,50,0,0" Text="Введіть ваш відгук" Visibility="Collapsed"/>
-
-                        --><!-- Оцінка --><!--
-                        <Slider Name="RatingSlider" Width="400" Height="30" Minimum="1" Maximum="3" Value="1" TickPlacement="Both" IsSnapToTickEnabled="True" Visibility="Collapsed"/>
-
-
-                        --><!-- Кнопка для відправлення відгуку та оцінки --><!--
-                        <Button Name="SendButton" Height="25" Width="100" Content="Надіслати відгук" Click="SendReview_Click" Visibility="Collapsed"/>
-                    </StackPanel>-->
-                    <ListView Background="Transparent" Name="RewiewListView" Margin="10">
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn Header="Title" DisplayMemberBinding="{Binding ReviewUserName}" Width="200"/>
-                                
-                                <GridViewColumn Header="Image" Width="100">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Image Source="{Binding ReviewUserPhoto}" Width="80" Height="80" />
-                                            
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                
-                                </GridViewColumn>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
-
-                </StackPanel>
                 
+            <Border Background="white" CornerRadius="30" Width="876" Height="2060">
+                <StackPanel Name="card" Orientation="Vertical" Width="876" Height="2060" >
+                    <StackPanel Orientation="Horizontal">
+                      
+                        <Image Source="{Binding AnimePhoto}" Width="375" Height="560" Stretch="UniformToFill">
+                            <Image.Clip>
+                                <RectangleGeometry RadiusX="30" RadiusY="30" Rect="0,0,375,560"/>
+                            </Image.Clip>
+                        </Image>
+                        
+                        <StackPanel Orientation="Vertical" Width="500" Height="560" VerticalAlignment="Top">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding AnimeName}" Style="{StaticResource MyTextBlockStyle}" FontSize="50"/>
+                                <Button x:Name="closeButton" BorderBrush="Transparent" Click="CloseButton_Click" Background="Transparent" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                    <Image Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/CloseIcon.png?raw=true" Width="30" Height="30" Margin="5,0,0,5" />
+                                </Button>
+                            </StackPanel>
+                            <Rectangle Height="15" />
+                            <TextBlock Text="{Binding AnimeText}" Style="{StaticResource MyTextBlockStyle}" TextWrapping="Wrap" FontSize="20"/>
+                            <TextBlock FontSize="15" Style="{StaticResource MyTextBlockStyle}" Text="{Binding AnimeRate, StringFormat='IMDB рейтинг {0}/10'}" />
+                            <Rectangle Height="10" />
+                            <TextBlock FontSize="30" Text="{Binding  UserLikedAnime}" />
+                            <Button Height="25" Width="25" Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Right" Click="LikeAnime_Click" VerticalAlignment="Bottom">
+                                <Image Source="/LikedIcon.png" x:Name="likeUnfill" Margin="30,0,0,0" />
+                            </Button>
+                        </StackPanel>
+                    </StackPanel>
+                    <Rectangle  Height="20" />
+                    <ListView Background="Transparent" Name="RewiewListView" Margin="10" SelectionChanged="RewiewListView_SelectionChanged">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Image" Width="100">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Image Source="{Binding ReviewUserPhoto}" Width="80" Height="80" />
 
-            </StackPanel>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="Title" DisplayMemberBinding="{Binding ReviewUserName}" Width="200"/>
+                                <GridViewColumn Header="Review" DisplayMemberBinding="{Binding ReviewText}" Width="600"/>
+
+
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+
+                    </StackPanel>
+
+
+
+               
+            </Border>
         </StackPanel>
 
     </Grid>

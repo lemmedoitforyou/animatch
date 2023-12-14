@@ -7,6 +7,22 @@
         xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
         mc:Ignorable="d"
         Title="main" Height="1024" Width="1440">
+    <!-- Label Style -->
+    <Window.Resources>
+        <Style x:Key="MyTextBlockStyle" TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="FontFamily" Value="Comic Sans MS"/>
+        </Style>
+        <Style x:Key="MyButtonPhotoStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="Transparent"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
     <Grid>
 
         <Grid.Background>
@@ -22,7 +38,7 @@
                 <Image x:Name="biglogo" HorizontalAlignment="Center" Height="95" Width="375" Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/big_logo_white.png?raw=true"/>
                 <Rectangle Height="100" Width="365"/>
                 <StackPanel Height="86" Width="92">
-                    <Button Height="50" Width="50" Click="ButtonProfile_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent">
+                    <Button Height="50" Width="50" Style="{StaticResource MyButtonPhotoStyle}" Click="ButtonProfile_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent">
 
                         <Image Height="40" Width="40" HorizontalAlignment="Center" Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/ProfileIcon.png?raw=true" IsEnabled="True" />
                     </Button>
@@ -51,17 +67,17 @@
                     </Button>
                     <Label Content="пошук" FontSize="20" VerticalAlignment="Top" FontFamily="Comic Sans MS" Height="36" />
                 </StackPanel>
-                <StackPanel Height="86" Width="92">
-                    <Button Height="50" Width="50" Click="ButtonFilter_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent">
-                        <Image Height="40" Width="40" HorizontalAlignment="Center" Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/SearchIcon.png?raw=true" IsEnabled="False" />
+                <Rectangle Height="100" Width="40"/>
+                <StackPanel Height="86" Width="92" RenderTransformOrigin="0.658,0.57" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Button Height="60" Width="50" Click="ButtonFilter_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent">
+                        <Image Height="86" Width="86" HorizontalAlignment="Center" Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/FilterIcon.png?raw=true" IsEnabled="False" VerticalAlignment="Top" RenderTransformOrigin="0.189,0.451" />
                     </Button>
-                    <Label Content="фільтри" FontSize="20" VerticalAlignment="Top" FontFamily="Comic Sans MS" Height="36" />
                 </StackPanel>
             </StackPanel>
             <ScrollViewer>
-            <StackPanel Name="filter" Orientation="Vertical" VerticalAlignment="Top" Background="#FFE0E0E0" Margin="0,0,10,0" Visibility="Collapsed">
-                <!-- Жанри -->
-                <StackPanel Orientation="Vertical" Background="Transparent" Margin="10">
+                <StackPanel Name="filter" Orientation="Vertical" VerticalAlignment="Top" Background="#FFE0E0E0" Margin="0,0,10,0" Visibility="Collapsed">
+                    <!-- Жанри -->
+                    <StackPanel Orientation="Vertical" Background="Transparent" Margin="10">
                         <TextBlock Text="Жанри" FontSize="18" FontWeight="Bold" Margin="0,0,0,10"/>
                         <ListView Name="genreListView" Background="Transparent">
                             <ListView.ItemsPanel>
@@ -86,53 +102,62 @@
                         </ListView>
                     </StackPanel>
 
-                 <!-- Рік випуску -->
-                <!--<StackPanel Orientation="Vertical"  Background="Transparent" Margin="10">
+                    <!-- Рік випуску -->
+                    <!--<StackPanel Orientation="Vertical"  Background="Transparent" Margin="10">
                     <TextBlock Text="Рік випуску" FontSize="18" FontWeight="Bold" Margin="0,0,0,10"/>
                         <controls:RangeSlider  x:Name="RangeSelectorControl" Minimum="1950" Maximum="2023" StepFrequency="1"/>
 
                     </StackPanel>
 
-                --><!-- Рейтинг -->
-                <!--<StackPanel Orientation="Vertical" Background="Transparent" Margin="10">
+                -->
+                    <!-- Рейтинг -->
+                    <!--<StackPanel Orientation="Vertical" Background="Transparent" Margin="10">
                     <TextBlock Text="Рейтинг" FontSize="18" FontWeight="Bold" Margin="0,0,0,10"/>
                     <Slider Name="ChooseRatingSlider" Minimum="0" Maximum="10" TickPlacement="BottomRight" IsSnapToTickEnabled="True" Margin="0"/>
                 </StackPanel>-->
-            </StackPanel>
+                </StackPanel>
             </ScrollViewer>
 
 
             <StackPanel x:Name="main" >
-                <Rectangle Height="79"/>
+                <Rectangle Height="30"/>
 
 
-                <StackPanel Name="card" Orientation="Horizontal" Width="876" Height="560" Background="White">
-                    <Button x:Name="AnimeButton" Background="Transparent" Click="AnimeButton_Click" Width="375" Height="560">
-                        <Image Source="{Binding AnimePhoto}" Width="375" Height="560" Stretch="UniformToFill"  />
-                    </Button>
-                    <StackPanel Orientation="Vertical" Width="500" Height="560">
-                        <TextBlock Text="{Binding AnimeName}" FontSize="50"/>
-                        <TextBlock Text="{Binding AnimeText}" FontSize="30"/>
-                        <TextBlock FontSize="30" Text="{Binding AnimeRate, StringFormat='IMDB рейтинг {0}/10'}" />
-                        <Button Height="25" Width="25" Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Right" Click="LikeAnime_Click" VerticalAlignment="Bottom">
-                            <Image Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/LikedIcon.png?raw=true" x:Name="likeUnfill" />
+                <Border Background="white" CornerRadius="30" Width="876" Height="560">
+                    <StackPanel Name="card" Orientation="Horizontal" Width="876" Height="560" >
+                        <Button x:Name="AnimeButton" BorderBrush="Transparent" BorderThickness="0,0,0,0" Background="Transparent" Click="AnimeButton_Click" Width="375" Height="560">
+                            <Image Source="{Binding AnimePhoto}" Width="375" Height="560" Stretch="UniformToFill">
+                                <Image.Clip>
+                                    <RectangleGeometry RadiusX="30" RadiusY="30" Rect="0,0,375,560"/>
+                                </Image.Clip>
+                            </Image>
                         </Button>
+
                         <StackPanel Orientation="Vertical" Width="500" Height="560">
-                            <!-- Відгук -->
-                            <TextBox Name="ReviewText" Width="400" Height="100" Margin="0,50,0,0" Text="Введіть ваш відгук" Visibility="Collapsed"/>
+                            <TextBlock Text="{Binding AnimeName}" Style="{StaticResource MyTextBlockStyle}" FontSize="50"/>
+                            <Rectangle Height="15" />
+                            <TextBlock Text="{Binding AnimeText}" Style="{StaticResource MyTextBlockStyle}" TextWrapping="Wrap" FontSize="20"/>
+                            <TextBlock FontSize="15" Style="{StaticResource MyTextBlockStyle}" Text="{Binding AnimeRate, StringFormat='IMDB рейтинг {0}/10'}" />
+                            <Rectangle Height="10" />
+                            <Button Height="25" Width="25" Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Right" Click="LikeAnime_Click" VerticalAlignment="Bottom">
+                                <Image Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/LikedIcon.png?raw=true" x:Name="likeUnfill" />
+                            </Button>
+                            <StackPanel Orientation="Vertical" Width="500" Height="560">
+                                <!-- Відгук -->
+                                <TextBox Name="ReviewText" Width="400" Height="100" Margin="0,50,0,0" Text="Введіть ваш відгук" Visibility="Collapsed"/>
 
-                            <!-- Оцінка -->
-                            <Slider Name="RatingSlider" Width="400" Height="30" Minimum="1" Maximum="3" Value="1" TickPlacement="Both" IsSnapToTickEnabled="True" Visibility="Collapsed"/>
+                                <!-- Оцінка -->
+                                <Slider Name="RatingSlider" Width="400" Height="30" Minimum="1" Maximum="3" Value="1" TickPlacement="Both" IsSnapToTickEnabled="True" Visibility="Collapsed"/>
 
 
-                            <!-- Кнопка для відправлення відгуку та оцінки -->
-                            <Button Name="SendButton" Height="25" Width="100" Content="Надіслати відгук" Click="SendReview_Click" Visibility="Collapsed"/>
+                                <!-- Кнопка для відправлення відгуку та оцінки -->
+                                <Button Name="SendButton" Height="25" Width="100" Content="Надіслати відгук" Click="SendReview_Click" Visibility="Collapsed"/>
+                            </StackPanel>
                         </StackPanel>
                     </StackPanel>
+                </Border>
 
-                </StackPanel>
-
-                <Rectangle Height="10"/>
+                <Rectangle Height="20"/>
                 <StackPanel Name="ButtonButton"  Orientation="Horizontal">
                     <StackPanel HorizontalAlignment="Left" Margin="440,0,0,0">
                         <Button  Name="Dislike_Button" Click="Dislike_Button_Click" Height="50"  Width="50" Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Center"  VerticalAlignment="Bottom">

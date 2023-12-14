@@ -23,21 +23,52 @@
             <Rectangle Height="88" />
             <Label Content="Редактор Профілю"  FontSize="47" FontFamily="Comic Sans MS" Height="88" Width="484" HorizontalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
             <Rectangle Height="89"/>
-            <StackPanel Orientation="Horizontal" Width="1024" Height="293">
-                <Image Height="295" Width="295" Source="{Binding UserPhoto}"/>
-                <Rectangle Width="115" />
+            <StackPanel Orientation="Horizontal" Width="1024" Height="400">
+                <StackPanel Orientation="Vertical">
+                    <Image Height="300" Width="300" Source="{Binding UserPhoto}">
+                        <Image.Clip>
+                            <RectangleGeometry RadiusX="20" RadiusY="20" Rect="0,0,300,300"/>
+                        </Image.Clip>
+                    </Image>
+                    <Button Content="Вибрати фото" Name="SelectPhotoButton" Click="SelectPhotoButton_Click" Width="150" Height="30">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border CornerRadius="30" BorderBrush="#F278A2" BorderThickness="1" Background="#FFDDE5">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </StackPanel>
+                    <Rectangle Width="115" />
                 <StackPanel>
                     <Label Content="ім'я: " FontSize="47"  FontFamily="Comic Sans MS"/>
                     <TextBox x:Name="name" Background="Transparent" TextWrapping="Wrap" Text="" Height="55" Width="375"/>
                     <Label Content="опис: " Background="Transparent"  FontSize="23"  FontFamily="Comic Sans MS"/>
-                    <TextBox x:Name="description" TextWrapping="Wrap" Text=" " Height="80" Width="375"/>
+                    <TextBox x:Name="description" TextWrapping="Wrap" Text=" " Height="80" Width="375" Background="Transparent"/>
                 </StackPanel>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Rectangle Width="700"/>
-                <Button Content="скасувати" Name="Cancel_Button" Click="Cancel_Button_Click" Width="295" Height="55"/>
+                <Button Content="скасувати" Name="Cancel_Button" Click="Cancel_Button_Click" Width="295" Height="55">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border CornerRadius="30" BorderBrush="#F278A2" BorderThickness="1" Background="#FFDDE5">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
                 <Rectangle  Width="20"/>
-                <Button Content="зберегти" Name="Save_Button" Click="Save_Button_Click" Width="295" Height="55"/>
+                <Button Content="зберегти" Name="Save_Button" Click="Save_Button_Click" Width="295" Height="55">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border CornerRadius="30" BorderBrush="#F278A2" BorderThickness="1" Background="#FFDDE5">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
 
             </StackPanel>
         </StackPanel>

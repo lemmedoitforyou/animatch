@@ -46,24 +46,36 @@
             <Rectangle Height="100" Width="30"/>
             <StackPanel Height ="295"  Width = "1440" Orientation="Horizontal"  >
                 <Rectangle Width="90"/>
-                <Image Height="295" Width="295" Source="{Binding UserPhoto}"/>
-                <Rectangle Width="115"/>
+                    <Image Height="300" Width="300" Stretch="UniformToFill" Source="{Binding UserPhoto}">
+                        <Image.Clip>
+                            <RectangleGeometry RadiusX="30" RadiusY="30" Rect="0,0,300,300"/>
+                        </Image.Clip>
+                    </Image>
+                    <Rectangle Width="115"/>
                 <StackPanel Width="800">
-                    <TextBox Background="Transparent" Text="{Binding UserName}" FontSize="40"/>
-                        <TextBox Background="Transparent" Text="{Binding UserLevel}" FontSize="20"/>
-                        <TextBox Background="Transparent" Text="{Binding UserText}" FontSize="25"/>
+                    <TextBox Background="Transparent" BorderBrush="Transparent" Text="{Binding UserName}" FontSize="40"/>
+                        <TextBox Background="Transparent" BorderBrush="Transparent" Text="{Binding UserLevel}" FontSize="20"/>
+                        <TextBox Background="Transparent" BorderBrush="Transparent" Text="{Binding UserText}" FontSize="25"/>
                     <TextBlock FontSize="10">
                     <Run Text="Переглянуто Аніме: " />
                     <Run Text="{Binding UserWachedCount}" />
                     </TextBlock>
                     <Rectangle Height="26
                                " />
-                    <Button x:Name="Redact" Height ="40" Width="300" Click="RedactClick" Content="редагувати профіль" HorizontalAlignment="Left" VerticalAlignment="Bottom" />
+                        <Button x:Name="Redact" Height ="40" Width="300" Click="RedactClick" Content="редагувати профіль" HorizontalAlignment="Left" VerticalAlignment="Bottom" >
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border CornerRadius="30" BorderBrush="#F278A2" BorderThickness="1" Background="#FFDDE5">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
 
-                </StackPanel>
+                    </StackPanel>
 
             </StackPanel>
-            <Rectangle Height="80" />
+            <Rectangle Height="29" />
             <Label Height="100" Width="360" HorizontalAlignment="Center" Content="улюблені аніме" FontSize="40" FontFamily="Comic Sans MS" />
 
                 <ListView Background="Transparent" Name="animeListView" Margin="10">

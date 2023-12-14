@@ -14,7 +14,7 @@
             </RadialGradientBrush>
         </Grid.Background>
         <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-            <StackPanel>
+            <StackPanel Orientation="Vertical">
 
                 <StackPanel Orientation="Horizontal" Height="100" VerticalAlignment="Top">
                     <Rectangle Height="100" Width="90"/>
@@ -42,10 +42,11 @@
                         <Button x:Name="ButtonSearch" Height="50" Width="50" Click="ButtonSearch_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent">
                             <Image Height="40" Width="40" HorizontalAlignment="Center" Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/SearchIcon.png?raw=true" IsEnabled="False" />
                         </Button>
-                        <Label Content="пошук" FontSize="20" VerticalAlignment="Top" FontFamily="Comic Sans MS" Height="36" />
+                        <Label Content="пошук" FontSize="20" VerticalAlignment="Top" Height="36" />
                     </StackPanel>
+                   
                 </StackPanel>
-
+                <Rectangle Height="50"/>
                 <Grid Width="1440" HorizontalAlignment="Center">
                     <ItemsControl Name="animeItemsControl">
                         <ItemsControl.ItemsPanel>
@@ -55,16 +56,23 @@
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <StackPanel Margin="5">
-                                    <Button x:Name="AnimeButton" Background="Transparent" Click="AnimeButton_Click" Width="375" Height="560">
-                                        <Image Source="{Binding ImagePath}" Width="350" Height="500" />
+                                <Border Background="#FEA1BF" CornerRadius="30" Width="354" Height="580"  Margin="0,0,0,10">
+                                    <Button BorderBrush="Transparent" x:Name="AnimeButton" Background="Transparent" Click="AnimeButton_Click" Width="350" Height="580">
+                                        <StackPanel Orientation="Vertical" VerticalAlignment="Top" Height="Auto">
+                                            <Image Source="{Binding ImagePath}" Width="350" Stretch="UniformToFill" Height="500" Margin="0,-35,0,0">
+                                                <Image.Clip>
+                                                    <RectangleGeometry RadiusX="30" RadiusY="30" Rect="0,0,350,530"/>
+                                                </Image.Clip>
+                                            </Image>
+                                            <Label Name="AnimeTitle" Content="{Binding Title}" FontSize="20" HorizontalAlignment="Center"/>
+                                        </StackPanel>
                                     </Button>
-                                    <Label Name ="AnimeTitle" Content="{Binding Title}" HorizontalAlignment="Center"/>
-                                </StackPanel>
+                                </Border>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
                 </Grid>
+
             </StackPanel>
         </ScrollViewer>
     </Grid>

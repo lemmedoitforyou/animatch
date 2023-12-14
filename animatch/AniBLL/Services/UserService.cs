@@ -27,6 +27,8 @@ namespace AniBLL.Services
         void UpdateTitleAndText(int userId, string newTitle, string newText);
 
         void WatchAnime(int userId);
+
+        void UpdatePhoto(int userID, string photoPath);
     }
 
     public class UserService : IUserService
@@ -146,6 +148,10 @@ namespace AniBLL.Services
         public void WatchAnime(int userId)
         {
             this._userRepository.WatchAnime(userId);
+        }
+        public void UpdatePhoto(int userID, string photoPath)
+        {
+            this._userRepository.UpdatePhoto(userID, photoPath);
         }
     }
 }

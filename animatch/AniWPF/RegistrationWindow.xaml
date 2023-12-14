@@ -18,20 +18,20 @@
             <Rectangle Height="45"/>
             <Label x:Name="labelLogin" Content="логін" FontFamily="Comic Sans MS" FontSize="20" Margin="100,0,0,0"/>
             <Border CornerRadius="30" BorderBrush="#F278A2" BorderThickness="1" Height="50" Width="445" Background="#FFDDE5">
-                <TextBox x:Name="in_login" Background="Transparent" TextWrapping="Wrap" Text="" Width="435" Height="50" RenderTransformOrigin="0.503,0.96" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="0,0,0,0" FontFamily="Comic Sans MS" FontSize="20" TextAlignment="Center"/>
+                <TextBox x:Name="in_login" Background="Transparent" TextWrapping="Wrap" Text="" Width="375" Height="30" RenderTransformOrigin="0.503,0.96" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="0,0,0,0" FontFamily="Comic Sans MS" FontSize="20" TextAlignment="Left"/>
             </Border>
             <Rectangle Height="35"/>
             <TextBlock Text="пошта" Height="26" Width="60"  FontFamily="Comic Sans MS" FontSize="20" Margin="100,0,0,0" HorizontalAlignment="Left"/>
             <Border CornerRadius="30" BorderBrush="#F278A2" BorderThickness="1" Height="50" Width="445" Background="#FFDDE5">
-                <TextBox x:Name="in_email" Background="Transparent" TextWrapping="Wrap" Text="" Width="435" Height="50" RenderTransformOrigin="0.503,0.96" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="0,0,0,0" FontFamily="Comic Sans MS" FontSize="20" />
+                <TextBox x:Name="in_email" Background="Transparent" TextWrapping="Wrap" Text="" Width="388" Height="30" RenderTransformOrigin="0.503,0.96" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="0,0,0,0" FontFamily="Comic Sans MS" FontSize="20" />
             </Border>
             <Rectangle Height="35"/>
             <Label x:Name="labelPassword" Content="пароль:" FontFamily="Comic Sans MS" FontSize="20" Margin="100,0,0,0"/>
             <Border CornerRadius="30" BorderBrush="#F278A2" BorderThickness="1" Height="50" Width="445" Background="#FFDDE5">
-                <PasswordBox x:Name="in_password" BorderBrush="Transparent" Background="Transparent"  Width="435" Height="50" RenderTransformOrigin="0.503,0.96" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <PasswordBox x:Name="in_password" BorderBrush="Transparent" Background="Transparent"  Width="394" Height="30" RenderTransformOrigin="0.503,0.96" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </Border>
             <Rectangle Height="70"/>
-            <Button x:Name="registration" Content="зареєструватися" Width="258" Height="53" Click="Registration_Click">
+            <Button x:Name="registration" Content="зареєструватися" Width="258" Height="53" Click="Registration_Click" FocusVisualStyle="{x:Null}">
                 <Button.Template>
                     <ControlTemplate TargetType="Button">
                         <Border CornerRadius="30" BorderBrush="#F278A2" BorderThickness="1" Background="#FFDDE5">

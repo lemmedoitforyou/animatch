@@ -38,7 +38,7 @@ namespace AniDAL.DbContext
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseNpgsql("Server=localhost;Port=5432;User Id=postgres;Password=yuliya2005;Database=animatch;");
+                optionsBuilder.UseNpgsql("Server=localhost;Port=5432;User Id=postgres;Password=13112004k;Database=animatch;");
             }
         }
 

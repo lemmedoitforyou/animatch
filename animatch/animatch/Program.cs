@@ -34,8 +34,8 @@ namespace Animatch
                     var animeYear = faker.Random.Number(1950, 2024);
                     var animeImdbRate = faker.Random.Double(0, 10);
                     var animeText = faker.Lorem.Paragraph();
-                    var animePhoto = faker.Internet.Url();
-
+                    string[] photoPaths = { "https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/BungoStrayDogs.jpg?raw=true", "https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/AtackOnTitanS1.jpg?raw=true", "https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/SpyFamily.jpg?raw=true" };
+                    var animePhoto = photoPaths[random.Next(photoPaths.Length)];
                     var genreName = faker.Random.Word();
 
                     var username = faker.Internet.UserName();
@@ -43,7 +43,7 @@ namespace Animatch
                     var email = faker.Internet.Email();
                     var name = faker.Name.FirstName();
                     var text = faker.Lorem.Sentence();
-                    var photo = faker.Internet.Avatar();
+                    var photo = "https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/defaultUserPhoto.jpg?raw=true";
                     var level = faker.Random.Number(1, 50);
                     var watchedcount = faker.Random.Number(1, 50);
 

@@ -10,6 +10,7 @@ namespace AniDAL.Repositories
         int GetLastUserId();
         public void UpdateTitleAndText(int userId, string newTitle, string newText);
         public void WatchAnime(int userId);
+        public void UpdatePhoto(int userID, string photoPath);
     }
     public class UserInfoRepository: GenericRepository<UserInfo>, IUserInfoRepository
     {
@@ -52,6 +53,17 @@ namespace AniDAL.Repositories
             if (userInfo != null)
             {
                 userInfo.WatchedCount += 1;
+
+                _context.SaveChanges();
+            }
+        }
+        public void UpdatePhoto(int userID, string photoPath)
+        {
+            var userInfo = _context.UserInfo.FirstOrDefault(u => u.Id == userID);
+
+            if (userInfo != null)
+            {
+                userInfo.Photo = photoPath;
 
                 _context.SaveChanges();
             }

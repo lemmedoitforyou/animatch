@@ -131,6 +131,11 @@ namespace AniWPF
         private void Save_Button_Click(object sender, RoutedEventArgs e)
         {
             this.logger.LogInformation("Click Watched button, changes was save");
+            if(name.Text == null && description.Text == null)
+            {
+                this.profileFactory.Create(this).Show();
+                this.Close();
+            }
             userService.UpdateTitleAndText(id,name.Text, description.Text);
             this.profileFactory.Create(this).Show();
             this.Close();
@@ -142,5 +147,19 @@ namespace AniWPF
             this.mainFactory.Create(this).Show();
             this.Close();
         }
+        private void SelectPhotoButton_Click(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.OpenFileDialog openFileDialog = new Microsoft.Win32.OpenFileDialog();
+            openFileDialog.Filter = "Image files (*.png;*.jpeg;*.jpg)|*.png;*.jpeg;*.jpg|All files (*.*)|*.*";
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string selectedImagePath = openFileDialog.FileName;
+
+                userService.UpdatePhoto(id, selectedImagePath);
+            }
+        }
+
+
     }
 }

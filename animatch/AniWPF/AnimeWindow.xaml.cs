@@ -293,5 +293,10 @@ namespace AniWPF
             this.mainFactory.Create(this).Show();
             this.Close();
         }
+
+        private void RewiewListView_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }
