@@ -6,6 +6,13 @@
         xmlns:local="clr-namespace:AniWPF"
         mc:Ignorable="d"
         Title="ProfileWindow" Height="1024" Width="1440">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <Grid >
         <Grid.Background>
             <RadialGradientBrush>
@@ -17,8 +24,8 @@
         <StackPanel >
             <StackPanel Orientation="Horizontal" Height="100" VerticalAlignment="Top">
                 <Rectangle Height="100" Width="90"/>
-                <Button Click="Main_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent">
-                        <Button.Template>
+                <Button Click="Main_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent" Style="{StaticResource MyButtonPhotoStyle}" IsEnabled="True">
+                    <Button.Template>
                             <ControlTemplate TargetType="Button">
                                 <Border CornerRadius="30" BorderBrush="Transparent" BorderThickness="1" Background="Transparent">
                                     <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -29,8 +36,31 @@
                 </Button>
                     <Rectangle Height="100" Width="365"/>
                     <StackPanel Height="86" Width="92">
-                    <Button Height="50" Width="50" Click="ButtonAdded_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent">
+                        <Button
+                            Height="50" Width="50"
+                            Click="ButtonProfile_Click"
+                            Visibility="Visible"
+                            Background="Transparent" BorderBrush="Transparent"
+                            IsEnabled="False">
                             <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border CornerRadius="30" BorderBrush="Transparent" BorderThickness="1" Background="Transparent">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <ContentPresenter.RenderTransform>
+                                                <ScaleTransform ScaleX="1" ScaleY="1"/>
+                                            </ContentPresenter.RenderTransform>
+                                        </ContentPresenter>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
+                            <Image Height="40" Width="40" HorizontalAlignment="Center" Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/ProfileIcon.png?raw=true" IsEnabled="True" />
+                        </Button>
+                        <Label Content="профіль" FontSize="20" VerticalAlignment="Top" FontFamily="Comic Sans MS" Height="36" />
+                    </StackPanel>
+                <Rectangle Height="100" Width="30"/>
+                <StackPanel Height="86" Width="110">
+                    <Button Height="50" Width="50" Click="ButtonLiked_Click" Visibility="Visible" Style="{StaticResource MyButtonPhotoStyle}" Background="Transparent" BorderBrush="Transparent">
+                        <Button.Template>
                                 <ControlTemplate TargetType="Button">
                                     <Border CornerRadius="30" BorderBrush="Transparent" BorderThickness="1" Background="Transparent">
                                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -43,7 +73,7 @@
                 </StackPanel>
                 <Rectangle Height="100" Width="30"/>
                 <StackPanel Height="86" Width="92">
-                    <Button Height="50" Width="50" Click="Random_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent">
+                        <Button Height="50" Width="50" Click="Random_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent" Style="{StaticResource MyButtonPhotoStyle}">
                             <Button.Template>
                                 <ControlTemplate TargetType="Button">
                                     <Border CornerRadius="30" BorderBrush="Transparent" BorderThickness="1" Background="Transparent">
@@ -57,7 +87,7 @@
                 </StackPanel>
                 <Rectangle Height="100" Width="30"/>
                 <StackPanel Height="86" Width="92">
-                    <Button Height="50" Width="50" Click="ButtonSearch_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent">
+                        <Button Height="50" Width="50" Click="ButtonSearch_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent" Style="{StaticResource MyButtonPhotoStyle}">
                             <Button.Template>
                                 <ControlTemplate TargetType="Button">
                                     <Border CornerRadius="30" BorderBrush="Transparent" BorderThickness="1" Background="Transparent">
@@ -69,7 +99,8 @@
                     </Button>
                     <Label Content="пошук" FontSize="20" VerticalAlignment="Top" FontFamily="Comic Sans MS" Height="36" />
                 </StackPanel>
-            </StackPanel>
+                <Rectangle Height="100" Width="40"/>
+                </StackPanel>
             <Rectangle Height="100" Width="30"/>
             <StackPanel Height ="295"  Width = "1440" Orientation="Horizontal"  >
                 <Rectangle Width="90"/>
@@ -89,7 +120,7 @@
                     </TextBlock>
                     <Rectangle Height="26
                                " />
-                        <Button x:Name="Redact" Height ="40" Width="300" Click="RedactClick" Content="редагувати профіль" HorizontalAlignment="Left" VerticalAlignment="Bottom" >
+                        <Button x:Name="Redact" Height ="40" Width="300" Click="RedactClick" Content="редагувати профіль" HorizontalAlignment="Left" VerticalAlignment="Bottom" Style="{StaticResource ButtonHoverStyle}">
                             <Button.Template>
                                 <ControlTemplate TargetType="Button">
                                     <Border CornerRadius="30" BorderBrush="#F278A2" BorderThickness="1" Background="#FFDDE5">

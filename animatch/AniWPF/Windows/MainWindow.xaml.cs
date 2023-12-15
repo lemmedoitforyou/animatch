@@ -18,14 +18,14 @@ namespace AniWPF
 {
     public partial class MainWindow : Window
     {
-        private readonly ILogger<MainWindow> logger;
+        public ILogger<MainWindow> logger { get; private set; }
 
         public  static Window? ParentWindow { get; set; }
         private readonly IAbstractFactory<RandomWindow> randomFactory;
         private readonly IAbstractFactory<ProfileWindow> profileFactory;
         private readonly IAbstractFactory<LikedAnimeWindow> likedFactory;
         private readonly IAbstractFactory<SearchWindow> searchFactory;
-        private readonly IAbstractFactory<AnimeWindow> animeFactory;
+        public IAbstractFactory<AnimeWindow> animeFactory { get; private set; }
 
         private readonly IAddedAnimeService addedAnimeService;
         private readonly ILikedAnimeService likedAnimeService;
@@ -156,6 +156,7 @@ namespace AniWPF
             SendButton.Visibility = Visibility.Visible;
             RatingSlider.Visibility = Visibility.Visible;
             ReviewText.Visibility = Visibility.Visible;
+            AddToProfileButton.Visibility = Visibility.Visible;
         }
         private async void LikeAnime_Click(object sender, RoutedEventArgs e)
         {
@@ -220,15 +221,16 @@ namespace AniWPF
             SendButton.Visibility = Visibility.Collapsed;
             RatingSlider.Visibility = Visibility.Collapsed;
             ReviewText.Visibility = Visibility.Collapsed;
+            AddToProfileButton.Visibility = Visibility.Collapsed;
         }
 
-        private void AnimeButton_Click(object sender, RoutedEventArgs e)
-        {
-            this.logger.LogInformation("Click detail about anime button");
-            AnimeWindow.ParentWindow = this;
-            this.animeFactory.Create(this).Show();
-            this.Close();
-        }
+        //private void AnimeButton_Click(object sender, RoutedEventArgs e)
+        //{
+        //    this.logger.LogInformation("Click detail about anime button");
+        //    AnimeWindow.ParentWindow = this;
+        //    this.animeFactory.Create(this).Show();
+        //    this.Close();
+        //}
         private void ButtonFilter_Click(object sender, RoutedEventArgs e)
         {
             this.logger.LogInformation("Click Filter button");
@@ -244,6 +246,19 @@ namespace AniWPF
             filter.Visibility = Visibility.Visible;
             genreListView.ItemsSource = genreList;
             this.logger.LogInformation("List of anime was shown");
+        }
+
+        private void AddToProfileButton_Click(object sender, RoutedEventArgs e)
+        {
+            AddedAnimeModel temp = new AddedAnimeModel
+            {
+                Id = addedAnimeService.GetLastId() + 1,
+                AnimeId = randomAnimeId,
+                UserId = this.id
+            };
+            addedAnimeService.Insert(temp);
+
+            AddToProfileButton.Visibility = Visibility.Collapsed;
         }
     }
 }

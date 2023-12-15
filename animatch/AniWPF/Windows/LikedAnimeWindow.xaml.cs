@@ -10,13 +10,13 @@ namespace AniWPF
 {
     public partial class LikedAnimeWindow : Window
     {
-        private readonly ILogger<LikedAnimeWindow> logger;
+        public readonly ILogger<LikedAnimeWindow> logger;
 
         private readonly IAbstractFactory<MainWindow> mainFactory;
         private readonly IAbstractFactory<ProfileWindow> profileFactory;
         private readonly IAbstractFactory<RandomWindow> randomFactory;
         private readonly IAbstractFactory<SearchWindow> searchFactory;
-        private readonly IAbstractFactory<AnimeWindow> animeFactory;
+        public readonly IAbstractFactory<AnimeWindow> animeFactory;
 
         private readonly ILikedAnimeService likedAnimeService;
 

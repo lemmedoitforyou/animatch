@@ -14,14 +14,14 @@ namespace AniWPF
 {
     public partial class RandomWindow : Window
     {
-        private readonly ILogger<RandomWindow> logger;
+        public ILogger<RandomWindow> logger { get; private set; }
 
         public static Window? ParentWindow { get; set; }
         private readonly IAbstractFactory<ProfileWindow> profileFactory;
         private readonly IAbstractFactory<MainWindow> mainFactory;
         private readonly IAbstractFactory<LikedAnimeWindow> likedAnimeFactory;
         private readonly IAbstractFactory<SearchWindow> searchFactory;
-        private readonly IAbstractFactory<AnimeWindow> animeFactory;
+        public IAbstractFactory<AnimeWindow> animeFactory { get; private set; }
 
         private readonly IAnimeService animeService;
         private readonly IAnimeGenreService animeGenreService;
@@ -112,13 +112,6 @@ namespace AniWPF
             this.profileFactory.Create(this).Show();
             this.Close();
         }
-
-        private void ButtonAdded_Click(object sender, RoutedEventArgs e)
-        {
-            this.logger.LogInformation("Click Added button");
-            this.likedAnimeFactory.Create(this).Show();
-            this.Close();
-        }
         private void Main_Click(object sender, RoutedEventArgs e)
         {
             this.logger.LogInformation("Click Main button");
@@ -132,11 +125,18 @@ namespace AniWPF
             this.Close();
         }
 
-        private void AnimeButton_Click(object sender, RoutedEventArgs e)
+        //private void AnimeButton_Click(object sender, RoutedEventArgs e)
+        //{
+        //    this.logger.LogInformation("Click detail about anime button");
+        //    AnimeWindow.ParentWindow = this;
+        //    this.animeFactory.Create(this).Show();
+        //    this.Close();
+        //}
+
+        private void ButtonLiked_Click(object sender, RoutedEventArgs e)
         {
-            this.logger.LogInformation("Click detail about anime button");
-            AnimeWindow.ParentWindow = this;
-            this.animeFactory.Create(this).Show();
+            this.logger.LogInformation("Click Added button");
+            this.likedAnimeFactory.Create(this).Show();
             this.Close();
         }
     }

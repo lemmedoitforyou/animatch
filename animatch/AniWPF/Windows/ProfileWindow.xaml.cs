@@ -139,5 +139,12 @@ namespace AniWPF
                 }
             }
         }
+
+        private void ButtonLiked_Click(object sender, RoutedEventArgs e)
+        {
+            this.logger.LogInformation("Click Liked button");
+            this.likedFactory.Create(this).Show();
+            this.Close();
+        }
     }
 }

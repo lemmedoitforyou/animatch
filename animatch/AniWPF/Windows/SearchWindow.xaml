@@ -4,12 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AniWPF"
-        xmlns:global1="clr-namespace:"
         mc:Ignorable="d"
         Title="SearchWindow" Height="1024" Width="1440">
-    <Window.Resources>
-        <global1:RateConverter x:Key="RoundConverter"/>
-    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="541*"/>
@@ -89,7 +85,19 @@
                     <StackPanel Orientation="Horizontal">
                         <Rectangle Width="112"/>
                         <Border CornerRadius="30" BorderBrush="#F278A2" BorderThickness="1" Height="75" Width="1000" Background="#FFDDE5">
-                            <TextBox x:Name="searchTextBox" Foreground="#1D0621" Background="Transparent" TextChanged="SearchTextBox_TextChanged" Loaded="SearchTextBox_Loaded" Margin="39,9,0,9" HorizontalAlignment="Left" Width="933" BorderThickness="0,0,0,0" FontFamily="Comic Sans MS" FontSize="22">
+                            <TextBox x:Name="searchTextBox"
+                                     Foreground="#1D0621"
+                                     Background="Transparent"
+                                     Loaded="SearchTextBox_Loaded"
+                                     Margin="39,11,0,7"
+                                     HorizontalAlignment="Left"
+                                     Width="933"
+                                     BorderThickness="0,0,0,0"
+                                     FontFamily="Comic Sans MS"
+                                     FontSize="22"
+                                     TextAlignment="Left"
+                                     GotFocus="SearchTextBox_GotFocus"
+                                     LostFocus="SearchTextBox_LostFocus">
                                 <TextBox.Tag>
                                     Enter anime title
                                 </TextBox.Tag>
@@ -135,6 +143,7 @@
                         </Button>
 
                     </StackPanel>
+                    <Rectangle Height="40" />
                     <Grid Width="1440" HorizontalAlignment="Center">
                         <ItemsControl Name="animeItemsControl">
                             <ItemsControl.ItemsPanel>
@@ -144,25 +153,24 @@
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <Border Background="#FEA1BF" CornerRadius="30" Width="354" Height="580"  Margin="0,0,0,10">
-                                        <Button BorderBrush="Transparent" x:Name="AnimeButton" Background="Transparent" Click="AnimeButton_Click" Width="350" Height="580">
-                                            <Button.Template>
-                                                <ControlTemplate TargetType="Button">
-                                                    <Border CornerRadius="30" BorderBrush="Transparent" BorderThickness="1" Background="Transparent">
-                                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                                    </Border>
-                                                </ControlTemplate>
-                                            </Button.Template>
+                                    <Button BorderBrush="Transparent" x:Name="AnimeButton" Background="Transparent" Click="AnimeButton_Click" Width="360" Height="585"  Margin="0,0,0,40">
+                                        <!--<Button.Style>
+                                        тут помилка
+                                            <Style TargetType="Button">
+                                                <Setter Property="Style" Value="{StaticResource MyButtonPhotoStyle}" />
+                                            </Style>
+                                        </Button.Style>-->
+                                        <Border Background="#FEA1BF" CornerRadius="40,40,40,40" Width="354" Height="580" >
                                             <StackPanel Orientation="Vertical" VerticalAlignment="Top" Height="Auto">
-                                                <Image Source="{Binding ImagePath}" Width="350" Stretch="UniformToFill" Height="500" Margin="0,-35,0,0">
+                                                <Image Source="{Binding ImagePath}" Width="354" Stretch="UniformToFill" Height="500" >
                                                     <Image.Clip>
-                                                        <RectangleGeometry RadiusX="30" RadiusY="30" Rect="0,0,350,530"/>
+                                                        <RectangleGeometry RadiusX="40" RadiusY="40" Rect="0,0,350,530"/>
                                                     </Image.Clip>
                                                 </Image>
                                                 <Label Name="AnimeTitle" Content="{Binding Title}" FontSize="20" HorizontalAlignment="Center"/>
                                             </StackPanel>
-                                        </Button>
-                                    </Border>
+                                        </Border>
+                                    </Button>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>

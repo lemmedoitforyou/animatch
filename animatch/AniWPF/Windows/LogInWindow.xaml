@@ -6,8 +6,14 @@
         xmlns:local="clr-namespace:AniWPF"
         mc:Ignorable="d"
         Title="MainWindow" Height="1024" Width="1440">
-
-    <Grid>
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+        </Window.Resources>
+        <Grid>
         <Grid.Background>
             <RadialGradientBrush>
                 <GradientStop Color="#FFFFFF" Offset="0.0"/>
@@ -15,7 +21,7 @@
             </RadialGradientBrush>
         </Grid.Background>
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" >
-            <Image x:Name="biglogo" HorizontalAlignment="Center" Height="185" Width="656" Source="/big_logo_white.png"/>
+            <Image x:Name="biglogo" HorizontalAlignment="Center" Height="185" Width="656" Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/big_logo_white.png?raw=true"/>
             <Rectangle Height="45"/>
             <Label x:Name="labelLogin" Content="логін" FontFamily="Comic Sans MS" FontSize="20" Margin="100,0,0,0"/>
             <Border CornerRadius="30" BorderBrush="#F278A2" BorderThickness="1" Height="50" Width="445" Background="#FFDDE5">
@@ -43,46 +49,7 @@
                 </PasswordBox>
             </Border>
             <Rectangle Height="70"/>
-            <Button x:Name="buttonEnter" Content="вхід" FontSize="20" Width="185" Height="53" FontFamily="Comic Sans MS" Click="ButtonEnter_Click">
-                <Button.Template>
-                    <ControlTemplate TargetType="Button">
-                        <Border x:Name="buttonBorder" CornerRadius="30" BorderBrush="#F278A2" BorderThickness="1" Background="#FFDDE5" Width="185" Height="53">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            <Border.RenderTransform>
-                                <ScaleTransform ScaleX="1" ScaleY="1" CenterX="0.5" CenterY="0.5"/>
-                            </Border.RenderTransform>
-                            <Border.RenderTransformOrigin>
-                                <Point X="0.6" Y="0.6"/>
-                            </Border.RenderTransformOrigin>
-                            <Border.Triggers>
-                                <EventTrigger RoutedEvent="MouseEnter">
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetName="buttonBorder" Storyboard.TargetProperty="Width" To="185.5" Duration="0:0:0.2"/>
-                                            <DoubleAnimation Storyboard.TargetName="buttonBorder" Storyboard.TargetProperty="Height" To="54" Duration="0:0:0.2"/>
-                                            <DoubleAnimation Storyboard.TargetName="buttonBorder" Storyboard.TargetProperty="RenderTransform.ScaleX" To="1.1" Duration="0:0:0.2"/>
-                                            <DoubleAnimation Storyboard.TargetName="buttonBorder" Storyboard.TargetProperty="RenderTransform.ScaleY" To="1.1" Duration="0:0:0.2"/>
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </EventTrigger>
-                                <EventTrigger RoutedEvent="MouseLeave">
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetName="buttonBorder" Storyboard.TargetProperty="Width" To="185" Duration="0:0:0.2"/>
-                                            <DoubleAnimation Storyboard.TargetName="buttonBorder" Storyboard.TargetProperty="Height" To="53" Duration="0:0:0.2"/>
-                                            <DoubleAnimation Storyboard.TargetName="buttonBorder" Storyboard.TargetProperty="RenderTransform.ScaleX" To="1" Duration="0:0:0.2"/>
-                                            <DoubleAnimation Storyboard.TargetName="buttonBorder" Storyboard.TargetProperty="RenderTransform.ScaleY" To="1" Duration="0:0:0.2"/>
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </EventTrigger>
-                            </Border.Triggers>
-                        </Border>
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
-
-
-
+            <Button x:Name="buttonEnter" Content="вхід" FontSize="20" Width="200" Height="53" FontFamily="Comic Sans MS" Style="{StaticResource ButtonHoverStyle}" Click="ButtonEnter_Click" />
             <Rectangle Height="70"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Label Content="немає акаунта?" FontFamily="Comic Sans MS" FontSize="20"/>

@@ -4,26 +4,18 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AniWPF"
-        xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
         xmlns:global="clr-namespace:"
+        xmlns:commands="clr-namespace:AniWPF.Commands"
         mc:Ignorable="d"
         Title="main" Height="1024" Width="1440">
     <!-- Label Style -->
     <Window.Resources>
-        <global:RateConverter x:Key="RoundConverter"/>
-        <Style x:Key="MyTextBlockStyle" TargetType="TextBlock">
-            <Setter Property="VerticalAlignment" Value="Top"/>
-            <Setter Property="FontFamily" Value="Comic Sans MS"/>
-        </Style>
-        <Style x:Key="MyButtonPhotoStyle" TargetType="Button">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderBrush" Value="Transparent"/>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="Transparent"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <global:RateConverter x:Key="RoundConverter"/>
+        </ResourceDictionary>
     </Window.Resources>
     <Grid>
 
@@ -37,14 +29,32 @@
         <StackPanel >
             <StackPanel Orientation="Horizontal" Height="100" VerticalAlignment="Top">
                 <Rectangle Height="100" Width="90"/>
-                <Image x:Name="biglogo" HorizontalAlignment="Center" Height="95" Width="375" Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/big_logo_white.png?raw=true"/>
+                <Button Visibility="Visible" Background="Transparent" BorderBrush="Transparent" IsEnabled="False">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border CornerRadius="30" BorderBrush="Transparent" BorderThickness="1" Background="Transparent">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                    <Image x:Name="biglogo" HorizontalAlignment="Center" Height="95" Width="375" Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/big_logo_white.png?raw=true"/>
+                </Button>
                 <Rectangle Height="100" Width="365"/>
                 <StackPanel Height="86" Width="92">
-                    <Button Height="50" Width="50" Style="{StaticResource MyButtonPhotoStyle}" Click="ButtonProfile_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent">
+                    <Button
+                        Height="50" Width="50"
+                        Style="{StaticResource MyButtonPhotoStyle}"
+                        Click="ButtonProfile_Click"
+                        Visibility="Visible"
+                        Background="Transparent" BorderBrush="Transparent">
                         <Button.Template>
                             <ControlTemplate TargetType="Button">
                                 <Border CornerRadius="30" BorderBrush="Transparent" BorderThickness="1" Background="Transparent">
-                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <ContentPresenter.RenderTransform>
+                                            <ScaleTransform ScaleX="1" ScaleY="1"/>
+                                        </ContentPresenter.RenderTransform>
+                                    </ContentPresenter>
                                 </Border>
                             </ControlTemplate>
                         </Button.Template>
@@ -54,7 +64,7 @@
                 </StackPanel>
                 <Rectangle Height="100" Width="30"/>
                 <StackPanel Height="86" Width="92">
-                    <Button Height="50" Width="50" Click="ButtonLiked_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent">
+                    <Button Height="50" Width="50" Click="ButtonLiked_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent" Style="{StaticResource MyButtonPhotoStyle}">
                         <Button.Template>
                             <ControlTemplate TargetType="Button">
                                 <Border CornerRadius="30" BorderBrush="Transparent" BorderThickness="1" Background="Transparent">
@@ -68,7 +78,7 @@
                 </StackPanel>
                 <Rectangle Height="100" Width="30"/>
                 <StackPanel Height="86" Width="92">
-                    <Button Height="50" Width="50" Click="Random_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent">
+                    <Button Height="50" Width="50" Click="Random_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent" Style="{StaticResource MyButtonPhotoStyle}">
                         <Button.Template>
                             <ControlTemplate TargetType="Button">
                                 <Border CornerRadius="30" BorderBrush="Transparent" BorderThickness="1" Background="Transparent">
@@ -82,7 +92,7 @@
                 </StackPanel>
                 <Rectangle Height="100" Width="30"/>
                 <StackPanel Height="86" Width="92">
-                    <Button Height="50" Width="50" Click="ButtonSearch_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent">
+                    <Button Height="50" Width="50" Click="ButtonSearch_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent" Style="{StaticResource MyButtonPhotoStyle}">
                         <Button.Template>
                             <ControlTemplate TargetType="Button">
                                 <Border CornerRadius="30" BorderBrush="Transparent" BorderThickness="1" Background="Transparent">
@@ -96,7 +106,7 @@
                 </StackPanel>
                 <Rectangle Height="100" Width="40"/>
                 <StackPanel Height="86" Width="92" RenderTransformOrigin="0.658,0.57" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Button Height="60" Width="50" Click="ButtonFilter_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent">
+                    <Button Height="60" Width="50" Click="ButtonFilter_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent" Style="{StaticResource MyButtonPhotoStyle}">
                         <Button.Template>
                             <ControlTemplate TargetType="Button">
                                 <Border CornerRadius="30" BorderBrush="Transparent" BorderThickness="1" Background="Transparent">
@@ -159,7 +169,12 @@
 
                 <Border Background="white" CornerRadius="30" Width="876" Height="560">
                     <StackPanel Name="card" Orientation="Horizontal" Width="876" Height="560" >
-                        <Button x:Name="AnimeButton" BorderBrush="Transparent" BorderThickness="0,0,0,0" Background="Transparent" Click="AnimeButton_Click" Width="375" Height="560">
+                        <Button x:Name="AnimeButton" BorderBrush="Transparent" 
+                                BorderThickness="0,0,0,0" Background="Transparent" 
+                                Command="{x:Static commands:AnimeCommand.AnimeButtonClickCommand}" 
+                                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" 
+                                Style="{StaticResource MyButtonBigPhotoStyle}"
+                                Width="375" Height="560">
                             <Button.Template>
                                 <ControlTemplate TargetType="Button">
                                     <Border CornerRadius="30" BorderBrush="Transparent" BorderThickness="1" Background="Transparent">
@@ -181,7 +196,12 @@
                             <Rectangle Height="15" />
                             <TextBlock FontSize="15" Style="{StaticResource MyTextBlockStyle}" Text="{Binding AnimeRate, Converter={StaticResource RoundConverter}, StringFormat='IMDB рейтинг {0}/10'}" />
                             
-                            <Button Height="25" Width="25" Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Right" Click="LikeAnime_Click" VerticalAlignment="Bottom">
+                            <Button Height="25" Width="25" Background="Transparent" 
+                                    BorderBrush="Transparent" 
+                                    HorizontalAlignment="Right" 
+                                    Click="LikeAnime_Click" 
+                                    Style="{StaticResource MyButtonPhotoStyle}"
+                                    VerticalAlignment="Bottom">
                                 <Button.Template>
                                     <ControlTemplate TargetType="Button">
                                         <Border CornerRadius="30" BorderBrush="Transparent" BorderThickness="1" Background="Transparent">
@@ -201,7 +221,9 @@
 
 
                                 <!-- Кнопка для відправлення відгуку та оцінки -->
-                                <Button Name="SendButton" Height="25" Width="100" Content="Надіслати відгук" Click="SendReview_Click" Visibility="Collapsed">
+                                <Button Name="SendButton" Height="25" Width="100" Content="Надіслати відгук" 
+                                        Click="SendReview_Click" Visibility="Collapsed"
+                                        Style="{StaticResource ButtonHoverStyle}">
                                     <Button.Template>
                                         <ControlTemplate TargetType="Button">
                                             <Border CornerRadius="30" BorderBrush="Transparent" BorderThickness="1" Background="Transparent">
@@ -209,6 +231,10 @@
                                             </Border>
                                         </ControlTemplate>
                                     </Button.Template>
+                                </Button>
+                                <Button Name="AddToProfileButton" Content="Додати в профіль" 
+                                        Click="AddToProfileButton_Click" Visibility="Collapsed"
+                                        Style="{StaticResource ButtonHoverStyle}">
                                 </Button>
                             </StackPanel>
                         </StackPanel>
@@ -218,7 +244,11 @@
                 <Rectangle Height="20"/>
                 <StackPanel Name="ButtonButton"  Orientation="Horizontal">
                     <StackPanel HorizontalAlignment="Left" Margin="440,0,0,0">
-                        <Button  Name="Dislike_Button" Click="Dislike_Button_Click" Height="50"  Width="50" Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Center"  VerticalAlignment="Bottom">
+                        <Button  Name="Dislike_Button" Click="Dislike_Button_Click" 
+                                 Height="50"  Width="50" Background="Transparent" 
+                                 BorderBrush="Transparent" HorizontalAlignment="Center"  
+                                 VerticalAlignment="Bottom"
+                                 Style="{StaticResource MyButtonPhotoStyle}">
                             <Button.Template>
                                 <ControlTemplate TargetType="Button">
                                     <Border CornerRadius="30" BorderBrush="Transparent" BorderThickness="1" Background="Transparent">
@@ -232,7 +262,11 @@
                     </StackPanel>
                     <Rectangle Width="347"/>
                     <StackPanel HorizontalAlignment="Center" Margin="0,0,440,0" VerticalAlignment="Center">
-                        <Button Name="Watched_Button" Click="Watched_Button_Click" Height="50" Width="50" Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Center"  VerticalAlignment="Bottom">
+                        <Button Name="Watched_Button" Click="Watched_Button_Click" 
+                                Height="50" Width="50" Background="Transparent" 
+                                BorderBrush="Transparent" HorizontalAlignment="Center"  
+                                VerticalAlignment="Bottom"
+                                Style="{StaticResource MyButtonPhotoStyle}">
                             <Button.Template>
                                 <ControlTemplate TargetType="Button">
                                     <Border CornerRadius="30" BorderBrush="Transparent" BorderThickness="1" Background="Transparent">
