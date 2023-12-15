@@ -6,6 +6,7 @@ using System.Windows.Media.Imaging;
 using AniBLL.Models;
 using AniBLL.Services;
 using AniWPF.StartupHelper;
+using AniWPF.ViewModels;
 using Microsoft.Extensions.Logging;
 
 namespace AniWPF
@@ -29,6 +30,9 @@ namespace AniWPF
         private readonly IAnimeService animeService;
         private readonly IUserService userService;
         private readonly IReviewService reviewService;
+        private readonly IAnimeGenreService animeGenreService;
+
+
         private List<ReviewForForm> reviewList;
 
         private AnimeViewModel viewModel;
@@ -41,7 +45,8 @@ namespace AniWPF
             IWatchedAnimeService watchedAnimeService, IUserService userService,
             IAbstractFactory<RandomWindow> rfactory, IAbstractFactory<ProfileWindow> profileFactory,
             IAbstractFactory<LikedAnimeWindow> likedFactory, IAbstractFactory<SearchWindow> searchFactory,
-            IAbstractFactory<MainWindow> mainFactory, IReviewService reviewService, ILogger<AnimeWindow> logger)
+            IAbstractFactory<MainWindow> mainFactory, IReviewService reviewService,
+            IAnimeGenreService animeGenreService, ILogger<AnimeWindow> logger)
         {
             this.InitializeComponent();
             this.WindowState = WindowState.Maximized;
@@ -59,6 +64,7 @@ namespace AniWPF
             this.watchAnimeService = watchedAnimeService;
             this.userService = userService;
             this.reviewService = reviewService;
+            this.animeGenreService = animeGenreService;
 
             if (ParentWindow != null)
             {
@@ -99,7 +105,7 @@ namespace AniWPF
 
             this.RewiewListView.ItemsSource = this.reviewList;
 
-            this.viewModel = new AnimeViewModel(this.animeService, AnimeId, this.addedAnimeService);
+            this.viewModel = new AnimeViewModel(this.animeService, this.addedAnimeService, this.animeGenreService, AnimeId);
             this.DataContext = this.viewModel;
 
             this.logger = logger;
@@ -121,94 +127,6 @@ namespace AniWPF
                 this.ReviewText = reviewViewModel.ReviewText;
                 this.ReviewUserName = reviewViewModel.UserName;
                 this.ReviewUserPhoto = reviewViewModel.UserPhoto;
-            }
-        }
-
-        public class ReviewViewModel : INotifyPropertyChanged
-        {
-            private readonly IReviewService reviewServise;
-            private readonly IUserService userService;
-            private int id;
-
-            public ReviewViewModel(IReviewService reviewService, IUserService userService, int id)
-            {
-                this.reviewServise = reviewService;
-                this.userService = userService;
-                this.id = id;
-            }
-
-            public string ReviewText
-            {
-                get { return this.reviewServise.GetById(this.id).Text; }
-            }
-
-            public string UserName
-            {
-                get { return this.userService.GetById(this.reviewServise.GetById(this.id).UserId).Name; }
-            }
-
-            public string UserPhoto
-            {
-                get { return this.userService.GetById(this.reviewServise.GetById(this.id).UserId).Photo; }
-            }
-
-            public event PropertyChangedEventHandler? PropertyChanged;
-
-            protected virtual void OnPropertyChanged(string propertyName)
-            {
-                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-        public class AnimeViewModel : INotifyPropertyChanged
-        {
-            private readonly IAnimeService animeService;
-            private readonly IAddedAnimeService addedAnime;
-
-            private int id;
-
-            public AnimeViewModel(IAnimeService animeService, int id, IAddedAnimeService addedAnime)
-            {
-                this.addedAnime = addedAnime;
-                this.animeService = animeService;
-                this.id = id;
-            }
-
-            public string AnimeName
-            {
-                get { return this.animeService.GetById(this.id).Name; }
-            }
-
-            public string AnimeText
-            {
-                get { return this.animeService.GetById(this.id).Text; }
-            }
-
-            public double AnimeRate
-            {
-                get { return Math.Round(this.animeService.GetById(this.id).Imdbrate, 2); }
-            }
-
-            public string AnimePhoto
-            {
-                get { return this.animeService.GetById(this.id).Photo; }
-            }
-
-            public int AnimeYear
-            {
-                get { return this.animeService.GetById(this.id).Year; }
-            }
-
-            public string UserLikedAnime
-            {
-                get { return $"{this.addedAnime.CountUserWhoAddAnime(this.id)} користувачів вподобали це аніме"; }
-            }
-
-            public event PropertyChangedEventHandler? PropertyChanged;
-
-            protected virtual void OnPropertyChanged(string propertyName)
-            {
-                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
             }
         }
 

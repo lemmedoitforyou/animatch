@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using AniBLL.Models;
 using System.Windows.Media.Imaging;
 using System.Threading.Tasks;
+using AniWPF.ViewModels;
 
 namespace AniWPF
 {
@@ -25,6 +26,7 @@ namespace AniWPF
         private readonly IAnimeService animeService;
         private readonly IAnimeGenreService animeGenreService;
         private readonly ILikedAnimeService likedAnimeService;
+        private readonly IAddedAnimeService addedAnimeService;
 
         private int id;
         private AnimeViewModel viewModel;
@@ -33,7 +35,8 @@ namespace AniWPF
         public RandomWindow(IAnimeService animeService, IAnimeGenreService animeGenreService, 
             IAbstractFactory<ProfileWindow> profileFactory, IAbstractFactory<MainWindow> mainFactory,
             ILogger<RandomWindow> logger, IAbstractFactory<LikedAnimeWindow> likedAnimeFactory,
-            IAbstractFactory<SearchWindow> searchFactory, IAbstractFactory<AnimeWindow> animeFactory, ILikedAnimeService likedAnimeService)
+            IAbstractFactory<SearchWindow> searchFactory, IAbstractFactory<AnimeWindow> animeFactory,
+            IAddedAnimeService addedAnimeService, ILikedAnimeService likedAnimeService)
         {
             this.InitializeComponent();
             this.WindowState = WindowState.Maximized;
@@ -47,6 +50,7 @@ namespace AniWPF
 
             this.animeService = animeService;
             this.animeGenreService = animeGenreService;
+            this.addedAnimeService = addedAnimeService;
 
             this.id = LogInWindow.CurrentUserID;
             System.Random randomForAnime = new System.Random();
@@ -63,7 +67,7 @@ namespace AniWPF
                 randomAnimeId = randomForAnime.Next(1, 51);
             }
 
-            this.viewModel = new AnimeViewModel(this.animeService, this.animeGenreService, randomAnimeId);
+            this.viewModel = new AnimeViewModel(this.animeService, this.addedAnimeService, this.animeGenreService, randomAnimeId);
             this.DataContext = this.viewModel;
 
             this.logger = logger;
@@ -71,81 +75,6 @@ namespace AniWPF
             this.likedAnimeService = likedAnimeService;
         }
 
-        public class AnimeViewModel : INotifyPropertyChanged
-        {
-            private readonly IAnimeService animeService;
-            private readonly IAnimeGenreService animeGenreService;
-
-            private int id;
-
-            public AnimeViewModel(IAnimeService animeService, IAnimeGenreService animeGenreService, int id)
-            {
-                this.animeService = animeService;
-                this.animeGenreService = animeGenreService;
-                this.id = id;
-            }
-
-            public string AnimeName
-            {
-                get { return this.animeService.GetById(this.id).Name; }
-            }
-
-            public string AnimeText
-            {
-                get { return this.animeService.GetById(this.id).Text; }
-            }
-
-            public double AnimeRate
-            {
-                get
-                {
-                    return this.animeService.GetById(this.id).Imdbrate;
-                }
-
-                set
-                {
-                    // Встановлюємо значення rate в джерелі даних або де зручно.
-                    this.OnPropertyChanged(nameof(this.AnimeRate)); // Сповіщаємо систему про зміну значення
-                }
-            }
-
-            public string AnimePhoto
-            {
-                get
-                {
-                    return this.animeService.GetById(this.id).Photo;
-                }
-            }
-
-            public int AnimeYear
-            {
-                get
-                {
-                    return this.animeService.GetById(this.id).Year;
-                }
-            }
-
-            public string AnimeGenres
-            {
-                get
-                {
-                    List<string> temp = this.animeGenreService.GetGenresForAnime(this.id);
-                    string result = "";
-                    foreach (string item in temp)
-                    {
-                        result += item + " ";
-                    }
-                    return result;
-                }
-            }
-
-            public event PropertyChangedEventHandler? PropertyChanged;
-
-            protected virtual void OnPropertyChanged(string propertyName)
-            {
-                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
         private async void LikeAnime_Click(object sender, RoutedEventArgs e)
         {
             this.logger.LogInformation("Click LikeAnime button");
@@ -162,7 +91,7 @@ namespace AniWPF
             await Task.Delay(1000);
             System.Random randomForAnime = new System.Random();
             int randomAnimeId = randomForAnime.Next(1, 50);
-            this.viewModel = new AnimeViewModel(this.animeService, this.animeGenreService, randomAnimeId);
+            this.viewModel = new AnimeViewModel(this.animeService, this.addedAnimeService, this.animeGenreService, randomAnimeId);
             this.DataContext = this.viewModel;
             this.logger.LogInformation("New Random anime: " + animeService.GetById(randomAnimeId).Name + " was shown");
             likeUnfill.Source = new BitmapImage(new Uri("https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/LikedIcon.png?raw=true"));
@@ -173,7 +102,7 @@ namespace AniWPF
             this.logger.LogInformation("Click Random button");
             System.Random randomForAnime = new System.Random();
             int randomAnimeId = randomForAnime.Next(1, 50);
-            this.viewModel = new AnimeViewModel(this.animeService, this.animeGenreService, randomAnimeId);
+            this.viewModel = new AnimeViewModel(this.animeService, this.addedAnimeService, this.animeGenreService, randomAnimeId);
             this.DataContext = this.viewModel;
             this.logger.LogInformation("New Random anime: " + animeService.GetById(randomAnimeId).Name + " was shown");
         }

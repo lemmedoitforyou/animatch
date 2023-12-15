@@ -8,6 +8,7 @@ using AniBLL.Services;
 using AniWPF.StartupHelper;
 using AniWPF;
 using Microsoft.Extensions.Logging;
+using AniWPF.ViewModels;
 
 namespace AniWPF
 {
@@ -77,134 +78,7 @@ namespace AniWPF
             public string Title { get; set; }
             public string ImagePath { get; set; }
         }
-        public class UserViewModel : INotifyPropertyChanged
-        {
-            private readonly IUserService userService;
-            private int id;
-
-            public UserViewModel(IUserService userService, int id)
-            {
-                this.userService = userService;
-                this.id = id;
-            }
-
-            public string UserName
-            {
-                get { return this.userService.GetById(this.id).Name; }
-                set { }
-            }
-
-            public string UserText
-            {
-                get { return this.userService.GetById(this.id).Text; }
-                set { }
-            }
-
-            public string UserLevel
-            {
-                get
-                {
-                    int level = this.userService.GetById(this.id).Level;
-                    switch (level)
-                    {
-                        case 1:
-                            return "новачок";
-                        case 2:
-                            return "досвічений анімешник";
-                        case 3:
-                            return "любитель конкретних жанрів";
-                        default:
-                            return "лох";
-                    }
-                }
-                set{}
-            }
-
-            public string UserPhoto
-            {
-                get
-                {
-                    return this.userService.GetById(this.id).Photo;
-                }
-            }
-
-            public int UserWachedCount
-            {
-                get
-                {
-                    return this.userService.GetById(this.id).WatchedCount;
-                }
-                set { }
-            }
-
-            public event PropertyChangedEventHandler? PropertyChanged;
-
-            protected virtual void OnPropertyChanged(string propertyName)
-            {
-                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-        public class AnimeViewModel : INotifyPropertyChanged
-        {
-            private readonly IAnimeService animeService;
-            private readonly IAddedAnimeService addedAnimeService;
-
-            private int id;
-
-            public AnimeViewModel(IAnimeService animeService, int id, IAddedAnimeService addedAnimeService)
-            {
-                this.animeService = animeService;
-                this.id = id;
-                this.addedAnimeService = addedAnimeService;
-            }
-
-            public string AnimeName
-            {
-                get { return this.animeService.GetById(this.id).Name; }
-            }
-
-            public string AnimeText
-            {
-                get { return this.animeService.GetById(this.id).Text; }
-            }
-
-            public double AnimeRate
-            {
-                get
-                {
-                    return this.animeService.GetById(this.id).Imdbrate;
-                }
-                set
-                {
-                    this.OnPropertyChanged(nameof(this.AnimeRate));
-                }
-            }
-
-            public string AnimePhoto
-            {
-                get
-                {
-                    return this.animeService.GetById(this.id).Photo;
-                }
-            }
-
-            public int AnimeYear
-            {
-                get
-                {
-                    return this.animeService.GetById(this.id).Year;
-                }
-            }
-
-            public event PropertyChangedEventHandler? PropertyChanged;
-
-            protected virtual void OnPropertyChanged(string propertyName)
-            {
-                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
+       
         private void RedactClick(object sender, RoutedEventArgs e)
         {
             this.logger.LogInformation("Click Redact button");
