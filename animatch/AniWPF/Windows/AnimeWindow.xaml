@@ -4,9 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AniWPF"
+        xmlns:global="clr-namespace:"
         mc:Ignorable="d"
         Title="AnimeWindow" Height="1024" Width="1440">
     <Window.Resources>
+        <global:RateConverter x:Key="RoundConverter"/>
         <Style x:Key="MyTextBlockStyle" TargetType="TextBlock" >
             <Setter Property="VerticalAlignment" Value="Top"/>
             <Setter Property="FontFamily" Value="Comic Sans MS"/>
@@ -129,7 +131,7 @@
                             </StackPanel>
                             <Rectangle Height="15" />
                             <TextBlock Text="{Binding AnimeText}" Style="{StaticResource MyTextBlockStyle}" TextWrapping="Wrap" FontSize="20"/>
-                            <TextBlock FontSize="15" Style="{StaticResource MyTextBlockStyle}" Text="{Binding AnimeRate, StringFormat='IMDB рейтинг {0}/10'}" />
+                            <TextBlock FontSize="15" Style="{StaticResource MyTextBlockStyle}" Text="{Binding AnimeRate, Converter={StaticResource RoundConverter}, StringFormat='IMDB рейтинг {0}/10'}" />
                             <Rectangle Height="10" />
                             <TextBlock FontSize="30" Text="{Binding  UserLikedAnime}" />
                             <Button Height="25" Width="25" Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Right" Click="LikeAnime_Click" VerticalAlignment="Bottom">

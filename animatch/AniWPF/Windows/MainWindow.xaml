@@ -5,10 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AniWPF"
         xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+        xmlns:global="clr-namespace:"
         mc:Ignorable="d"
         Title="main" Height="1024" Width="1440">
     <!-- Label Style -->
     <Window.Resources>
+        <global:RateConverter x:Key="RoundConverter"/>
         <Style x:Key="MyTextBlockStyle" TargetType="TextBlock">
             <Setter Property="VerticalAlignment" Value="Top"/>
             <Setter Property="FontFamily" Value="Comic Sans MS"/>
@@ -177,7 +179,7 @@
                             <Rectangle Height="15" />
                             <TextBlock Text="{Binding AnimeText}" Style="{StaticResource MyTextBlockStyle}" TextWrapping="Wrap" FontSize="20"/>
                             <Rectangle Height="15" />
-                            <TextBlock FontSize="15" Style="{StaticResource MyTextBlockStyle}" Text="{Binding AnimeRate, StringFormat='IMDB рейтинг {0}/10'}" />
+                            <TextBlock FontSize="15" Style="{StaticResource MyTextBlockStyle}" Text="{Binding AnimeRate, Converter={StaticResource RoundConverter}, StringFormat='IMDB рейтинг {0}/10'}" />
                             
                             <Button Height="25" Width="25" Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Right" Click="LikeAnime_Click" VerticalAlignment="Bottom">
                                 <Button.Template>

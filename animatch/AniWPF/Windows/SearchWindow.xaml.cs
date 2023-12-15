@@ -1,5 +1,6 @@
 ﻿using AniBLL.Models;
 using AniBLL.Services;
+using AniWPF.ViewModels;
 using AniWPF.StartupHelper;
 using Microsoft.Extensions.Logging;
 using System;
@@ -101,7 +102,7 @@ namespace AniWPF
                     animeList.Add(new AnimeForForw { Id = anime.Id, Title = anime.Name, ImagePath = anime.Photo, IMDBRate = anime.Imdbrate});
                 }
             }
-            animeListView.ItemsSource = animeList;
+            this.animeItemsControl.ItemsSource = this.animeList;
             this.logger.LogInformation("List of anime was shown");
         }
         private void Random_Click(object sender, RoutedEventArgs e)

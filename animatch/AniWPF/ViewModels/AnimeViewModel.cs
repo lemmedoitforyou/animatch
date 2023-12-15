@@ -36,7 +36,7 @@ namespace AniWPF.ViewModels
 
         public double AnimeRate
         {
-            get { return Math.Round(this.animeService.GetById(this.id).Imdbrate, 2); }
+            get { return this.animeService.GetById(this.id).Imdbrate; }
         }
 
         public string AnimePhoto

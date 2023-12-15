@@ -90,7 +90,7 @@ namespace AniWPF
 
             await Task.Delay(1000);
             System.Random randomForAnime = new System.Random();
-            int randomAnimeId = randomForAnime.Next(1, 50);
+            randomAnimeId = randomForAnime.Next(1, 50);
             this.viewModel = new AnimeViewModel(this.animeService, this.addedAnimeService, this.animeGenreService, randomAnimeId);
             this.DataContext = this.viewModel;
             this.logger.LogInformation("New Random anime: " + animeService.GetById(randomAnimeId).Name + " was shown");
@@ -101,7 +101,7 @@ namespace AniWPF
         {
             this.logger.LogInformation("Click Random button");
             System.Random randomForAnime = new System.Random();
-            int randomAnimeId = randomForAnime.Next(1, 50);
+            randomAnimeId = randomForAnime.Next(1, 50);
             this.viewModel = new AnimeViewModel(this.animeService, this.addedAnimeService, this.animeGenreService, randomAnimeId);
             this.DataContext = this.viewModel;
             this.logger.LogInformation("New Random anime: " + animeService.GetById(randomAnimeId).Name + " was shown");
