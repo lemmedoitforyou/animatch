@@ -12,11 +12,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="big_logo_white.png" />
-    <None Remove="ProfileIcon.png" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
   </ItemGroup>
 
@@ -37,11 +32,6 @@
   <ItemGroup>
     <ProjectReference Include="..\AniBLL\AniBLL.csproj" />
     <ProjectReference Include="..\AniDAL\AniDAL.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="big_logo_white.png" />
-    <Resource Include="ProfileIcon.png" />
   </ItemGroup>
 
 </Project>

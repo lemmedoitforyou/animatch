@@ -13,14 +13,21 @@
                 <GradientStop Color="#FFD9E2" Offset="1.0"/>
             </RadialGradientBrush>
         </Grid.Background>
-        <StackPanel>
+        <ScrollViewer>
+            <StackPanel>
             <StackPanel Orientation="Horizontal" Height="100" VerticalAlignment="Top">
                 <Rectangle Height="100" Width="90"/>
                 <Image x:Name="biglogo" HorizontalAlignment="Center" Height="95" Width="375" Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/big_logo_white.png?raw=true"/>
                 <Rectangle Height="100" Width="365"/>
                 <StackPanel Height="86" Width="92">
                     <Button Height="50" Width="50" Click="ButtonProfile_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent">
-
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border CornerRadius="30" BorderBrush="Transparent" BorderThickness="1" Background="Transparent">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
                         <Image Height="40" Width="40" HorizontalAlignment="Center" Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/ProfileIcon.png?raw=true" IsEnabled="True" />
                     </Button>
                     <Label Content="профіль" FontSize="20" VerticalAlignment="Top" FontFamily="Comic Sans MS" Height="36" />
@@ -28,6 +35,13 @@
                 <Rectangle Height="100" Width="30"/>
                 <StackPanel Height="86" Width="92">
                     <Button Height="50" Width="50" Click="ButtonLiked_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border CornerRadius="30" BorderBrush="Transparent" BorderThickness="1" Background="Transparent">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
                         <Image Height="40" Width="40" HorizontalAlignment="Center" Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/LikedIcon.png?raw=true" IsEnabled="True" />
                     </Button>
                     <Label Content="збережене" FontSize="20" VerticalAlignment="Top" FontFamily="Comic Sans MS" Height="36" />
@@ -35,8 +49,13 @@
                 <Rectangle Height="100" Width="30"/>
                 <StackPanel Height="86" Width="92">
                     <Button Height="50" Width="50" Click="Random_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent">
-
-
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border CornerRadius="30" BorderBrush="Transparent" BorderThickness="1" Background="Transparent">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
                         <Image Height="40" Width="40" HorizontalAlignment="Center" Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/RandomIcon.png?raw=true" IsEnabled="True" />
                     </Button>
                     <Label Content="рандом" FontSize="20" VerticalAlignment="Top" FontFamily="Comic Sans MS" Height="36"  />
@@ -44,12 +63,19 @@
                 <Rectangle Height="100" Width="30"/>
                 <StackPanel Height="86" Width="92">
                     <Button Height="50" Width="50" Click="ButtonSearch_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border CornerRadius="30" BorderBrush="Transparent" BorderThickness="1" Background="Transparent">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
                         <Image Height="40" Width="40" HorizontalAlignment="Center" Source="/SearchIcon.png" IsEnabled="False" />
                     </Button>
                     <Label Content="пошук" FontSize="20" VerticalAlignment="Top" FontFamily="Comic Sans MS" Height="36" />
                 </StackPanel>
             </StackPanel>
-            <ScrollViewer>
+           
                 
                 <StackPanel>
                     <TextBox x:Name="searchTextBox" Foreground="Gray" TextChanged="SearchTextBox_TextChanged" Loaded="SearchTextBox_Loaded">
@@ -64,10 +90,17 @@
                             <ListView.View>
                                 <GridView>
                                     <GridViewColumn Header="Title" DisplayMemberBinding="{Binding Title}" Width="200"/>
-                                    <GridViewColumn Header="Image" Width="100">
+                                    <GridViewColumn Header="Image" Width="300">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <Button x:Name="AnimeButton" Background="Transparent" Click="AnimeButton_Click" Width="375" Height="560">
+                                                    <Button.Template>
+                                                        <ControlTemplate TargetType="Button">
+                                                            <Border CornerRadius="30" BorderBrush="Transparent" BorderThickness="1" Background="Transparent">
+                                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                            </Border>
+                                                        </ControlTemplate>
+                                                    </Button.Template>
                                                     <Image Source="{Binding ImagePath}" Width="80" Height="80" />
                                                 </Button>
                                             </DataTemplate>
@@ -80,7 +113,8 @@
                     </StackPanel>
 
                 </StackPanel>
-            </ScrollViewer>
-        </StackPanel>
+         
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Window>

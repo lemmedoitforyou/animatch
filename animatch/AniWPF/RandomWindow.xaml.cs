@@ -5,6 +5,9 @@ using System.Windows;
 using AniBLL.Services;
 using AniWPF.StartupHelper;
 using Microsoft.Extensions.Logging;
+using AniBLL.Models;
+using System.Windows.Media.Imaging;
+using System.Threading.Tasks;
 
 namespace AniWPF
 {
@@ -21,6 +24,7 @@ namespace AniWPF
 
         private readonly IAnimeService animeService;
         private readonly IAnimeGenreService animeGenreService;
+        private readonly ILikedAnimeService likedAnimeService;
 
         private int id;
         private AnimeViewModel viewModel;
@@ -29,7 +33,7 @@ namespace AniWPF
         public RandomWindow(IAnimeService animeService, IAnimeGenreService animeGenreService, 
             IAbstractFactory<ProfileWindow> profileFactory, IAbstractFactory<MainWindow> mainFactory,
             ILogger<RandomWindow> logger, IAbstractFactory<LikedAnimeWindow> likedAnimeFactory,
-            IAbstractFactory<SearchWindow> searchFactory, IAbstractFactory<AnimeWindow> animeFactory)
+            IAbstractFactory<SearchWindow> searchFactory, IAbstractFactory<AnimeWindow> animeFactory, ILikedAnimeService likedAnimeService)
         {
             this.InitializeComponent();
             this.WindowState = WindowState.Maximized;
@@ -64,6 +68,7 @@ namespace AniWPF
 
             this.logger = logger;
             this.logger.LogInformation("RandomWindow створено.");
+            this.likedAnimeService = likedAnimeService;
         }
 
         public class AnimeViewModel : INotifyPropertyChanged
@@ -141,7 +146,27 @@ namespace AniWPF
                 this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
             }
         }
+        private async void LikeAnime_Click(object sender, RoutedEventArgs e)
+        {
+            this.logger.LogInformation("Click LikeAnime button");
+            likeUnfill.Source = new BitmapImage(new Uri("https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/LikedFillIcon.png?raw=true"));
 
+            LikedAnimeModel temp = new LikedAnimeModel
+            {
+                Id = likedAnimeService.GetLastUserId() + 1,
+                UserId = this.id,
+                AnimeId = RandomWindow.randomAnimeId
+            };
+            likedAnimeService.Insert(temp);
+
+            await Task.Delay(1000);
+            System.Random randomForAnime = new System.Random();
+            int randomAnimeId = randomForAnime.Next(1, 50);
+            this.viewModel = new AnimeViewModel(this.animeService, this.animeGenreService, randomAnimeId);
+            this.DataContext = this.viewModel;
+            this.logger.LogInformation("New Random anime: " + animeService.GetById(randomAnimeId).Name + " was shown");
+            likeUnfill.Source = new BitmapImage(new Uri("https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/LikedIcon.png?raw=true"));
+        }
 
         private void RandomButton_Click(object sender, RoutedEventArgs e)
         {
