@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Adminnn\Desktop\папочка\унік\animatch\animatch\AniDAL\Repositories\DislikedAnimeRepository.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using AniDAL.DataBaseClasses;
+
+namespace AniDAL.Repositories
+{
+    public interface IDislikedAnimeRepository : IGenericRepository&lt;DislikedAnime&gt;
+    {
+        List&lt;Anime&gt; GetDislikedAnimesForUser(int userId);
+    }
+
+    public class DislikedAnimeRepository : GenericRepository&lt;DislikedAnime&gt;, IDislikedAnimeRepository
+    {
+        public List&lt;Anime&gt; GetDislikedAnimesForUser(int userId)
+        {
+            var dislikedAnime = this._context.DislikedAnime
+            .Where(a =&gt; a.UserId == userId)
+            .Join(this._context.Anime, a =&gt; a.AnimeId, g =&gt; g.Id, (a, g) =&gt; g)
+            .ToList();
+
+            return dislikedAnime;
+        }
+
+        public int GetLastId()
+        {
+            int lastId = this._context.DislikedAnime.Max(w =&gt; w.Id);
+            return lastId;
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[13,9,13,10,0],[14,13,17,23,0],[19,13,19,34,0],[20,9,20,10,0],[23,9,23,10,0],[24,13,24,69,0],[25,13,25,27,0],[26,9,26,10,0]]);
+    </script>
+  </body>
+</html>

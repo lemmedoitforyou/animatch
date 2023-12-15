@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Adminnn\Desktop\папочка\унік\animatch\animatch\AniDAL\Migrations\ApplicationDbContextModelSnapshot.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+// &lt;auto-generated /&gt;
+using AniDAL.DbContext;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
+
+#nullable disable
+
+namespace AniDAL.Migrations
+{
+    [DbContext(typeof(ApplicationDbContext))]
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    {
+        protected override void BuildModel(ModelBuilder modelBuilder)
+        {
+#pragma warning disable 612, 618
+            modelBuilder
+                .HasAnnotation(&quot;ProductVersion&quot;, &quot;7.0.13&quot;)
+                .HasAnnotation(&quot;Relational:MaxIdentifierLength&quot;, 63);
+
+            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity(&quot;AniDAL.DataBaseClasses.AddedAnime&quot;, b =&gt;
+                {
+                    b.Property&lt;int&gt;(&quot;Id&quot;)
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType(&quot;integer&quot;);
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property&lt;int&gt;(&quot;Id&quot;));
+
+                    b.Property&lt;int&gt;(&quot;AnimeId&quot;)
+                        .HasColumnType(&quot;integer&quot;);
+
+                    b.Property&lt;int&gt;(&quot;UserId&quot;)
+                        .HasColumnType(&quot;integer&quot;);
+
+                    b.HasKey(&quot;Id&quot;);
+
+                    b.ToTable(&quot;AddedAnime&quot;);
+                });
+
+            modelBuilder.Entity(&quot;AniDAL.DataBaseClasses.Anime&quot;, b =&gt;
+                {
+                    b.Property&lt;int&gt;(&quot;Id&quot;)
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType(&quot;integer&quot;);
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property&lt;int&gt;(&quot;Id&quot;));
+
+                    b.Property&lt;double&gt;(&quot;Imdbrate&quot;)
+                        .HasColumnType(&quot;double precision&quot;);
+
+                    b.Property&lt;string&gt;(&quot;Name&quot;)
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType(&quot;character varying(255)&quot;);
+
+                    b.Property&lt;string&gt;(&quot;Photo&quot;)
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType(&quot;character varying(255)&quot;);
+
+                    b.Property&lt;string&gt;(&quot;Text&quot;)
+                        .IsRequired()
+                        .HasColumnType(&quot;text&quot;);
+
+                    b.Property&lt;int&gt;(&quot;Year&quot;)
+                        .HasColumnType(&quot;integer&quot;);
+
+                    b.HasKey(&quot;Id&quot;);
+
+                    b.ToTable(&quot;Anime&quot;);
+                });
+
+            modelBuilder.Entity(&quot;AniDAL.DataBaseClasses.AnimeGenre&quot;, b =&gt;
+                {
+                    b.Property&lt;int&gt;(&quot;Id&quot;)
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType(&quot;integer&quot;);
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property&lt;int&gt;(&quot;Id&quot;));
+
+                    b.Property&lt;int&gt;(&quot;AnimeId&quot;)
+                        .HasColumnType(&quot;integer&quot;);
+
+                    b.Property&lt;int&gt;(&quot;GenreId&quot;)
+                        .HasColumnType(&quot;integer&quot;);
+
+                    b.HasKey(&quot;Id&quot;);
+
+                    b.ToTable(&quot;AnimeGenre&quot;);
+                });
+
+            modelBuilder.Entity(&quot;AniDAL.DataBaseClasses.DislikedAnime&quot;, b =&gt;
+                {
+                    b.Property&lt;int&gt;(&quot;Id&quot;)
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType(&quot;integer&quot;);
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property&lt;int&gt;(&quot;Id&quot;));
+
+                    b.Property&lt;int&gt;(&quot;AnimeId&quot;)
+                        .HasColumnType(&quot;integer&quot;);
+
+                    b.Property&lt;int&gt;(&quot;UserId&quot;)
+                        .HasColumnType(&quot;integer&quot;);
+
+                    b.HasKey(&quot;Id&quot;);
+
+                    b.ToTable(&quot;DislikedAnime&quot;);
+                });
+
+            modelBuilder.Entity(&quot;AniDAL.DataBaseClasses.Genre&quot;, b =&gt;
+                {
+                    b.Property&lt;int&gt;(&quot;Id&quot;)
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType(&quot;integer&quot;);
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property&lt;int&gt;(&quot;Id&quot;));
+
+                    b.Property&lt;string&gt;(&quot;Name&quot;)
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType(&quot;character varying(255)&quot;);
+
+                    b.HasKey(&quot;Id&quot;);
+
+                    b.ToTable(&quot;Genre&quot;);
+                });
+
+            modelBuilder.Entity(&quot;AniDAL.DataBaseClasses.LikedAnime&quot;, b =&gt;
+                {
+                    b.Property&lt;int&gt;(&quot;Id&quot;)
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType(&quot;integer&quot;);
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property&lt;int&gt;(&quot;Id&quot;));
+
+                    b.Property&lt;int&gt;(&quot;AnimeId&quot;)
+                        .HasColumnType(&quot;integer&quot;);
+
+                    b.Property&lt;int&gt;(&quot;UserId&quot;)
+                        .HasColumnType(&quot;integer&quot;);
+
+                    b.HasKey(&quot;Id&quot;);
+
+                    b.ToTable(&quot;LikedAnime&quot;);
+                });
+
+            modelBuilder.Entity(&quot;AniDAL.DataBaseClasses.Review&quot;, b =&gt;
+                {
+                    b.Property&lt;int&gt;(&quot;Id&quot;)
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType(&quot;integer&quot;);
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property&lt;int&gt;(&quot;Id&quot;));
+
+                    b.Property&lt;int&gt;(&quot;AnimeId&quot;)
+                        .HasColumnType(&quot;integer&quot;);
+
+                    b.Property&lt;int&gt;(&quot;Rate&quot;)
+                        .HasColumnType(&quot;integer&quot;);
+
+                    b.Property&lt;string&gt;(&quot;Text&quot;)
+                        .IsRequired()
+                        .HasColumnType(&quot;text&quot;);
+
+                    b.Property&lt;int&gt;(&quot;UserId&quot;)
+                        .HasColumnType(&quot;integer&quot;);
+
+                    b.HasKey(&quot;Id&quot;);
+
+                    b.ToTable(&quot;Review&quot;);
+                });
+
+            modelBuilder.Entity(&quot;AniDAL.DataBaseClasses.UserInfo&quot;, b =&gt;
+                {
+                    b.Property&lt;int&gt;(&quot;Id&quot;)
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType(&quot;integer&quot;);
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property&lt;int&gt;(&quot;Id&quot;));
+
+                    b.Property&lt;string&gt;(&quot;Email&quot;)
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType(&quot;character varying(255)&quot;);
+
+                    b.Property&lt;int&gt;(&quot;Level&quot;)
+                        .HasColumnType(&quot;integer&quot;);
+
+                    b.Property&lt;string&gt;(&quot;Name&quot;)
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType(&quot;character varying(255)&quot;);
+
+                    b.Property&lt;string&gt;(&quot;Password&quot;)
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType(&quot;character varying(255)&quot;);
+
+                    b.Property&lt;string&gt;(&quot;Photo&quot;)
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType(&quot;character varying(255)&quot;);
+
+                    b.Property&lt;string&gt;(&quot;Text&quot;)
+                        .IsRequired()
+                        .HasColumnType(&quot;text&quot;);
+
+                    b.Property&lt;string&gt;(&quot;Username&quot;)
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType(&quot;character varying(255)&quot;);
+
+                    b.Property&lt;int&gt;(&quot;WatchedCount&quot;)
+                        .HasColumnType(&quot;integer&quot;);
+
+                    b.HasKey(&quot;Id&quot;);
+
+                    b.ToTable(&quot;UserInfo&quot;);
+                });
+
+            modelBuilder.Entity(&quot;AniDAL.DataBaseClasses.WatchedAnime&quot;, b =&gt;
+                {
+                    b.Property&lt;int&gt;(&quot;Id&quot;)
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType(&quot;integer&quot;);
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property&lt;int&gt;(&quot;Id&quot;));
+
+                    b.Property&lt;int&gt;(&quot;AnimeId&quot;)
+                        .HasColumnType(&quot;integer&quot;);
+
+                    b.Property&lt;int&gt;(&quot;UserId&quot;)
+                        .HasColumnType(&quot;integer&quot;);
+
+                    b.HasKey(&quot;Id&quot;);
+
+                    b.ToTable(&quot;WatchedAnime&quot;);
+                });
+#pragma warning restore 612, 618
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[16,9,16,10,0],[18,13,20,70,0],[22,13,22,84,0],[24,13,25,17,0],[25,17,25,18,0],[25,18,26,21,0],[26,21,28,51,0],[28,51,30,21,0],[30,21,30,103,0],[30,103,32,21,0],[32,21,33,51,0],[33,51,35,21,0],[35,21,36,51,0],[36,51,38,21,0],[38,21,38,36,0],[38,36,40,21,0],[40,21,40,45,0],[40,45,41,17,0],[41,17,41,18,0],[41,18,41,20,0],[43,13,44,17,0],[44,17,44,18,0],[44,18,45,21,0],[45,21,47,51,0],[47,51,49,21,0],[49,21,49,103,0],[49,103,51,21,0],[51,21,52,60,0],[52,60,54,21,0],[54,21,57,66,0],[57,66,59,21,0],[59,21,62,66,0],[62,66,64,21,0],[64,21,66,48,0],[66,48,68,21,0],[68,21,69,51,0],[69,51,71,21,0],[71,21,71,36,0],[71,36,73,21,0],[73,21,73,40,0],[73,40,74,17,0],[74,17,74,18,0],[74,18,74,20,0],[76,13,77,17,0],[77,17,77,18,0],[77,18,78,21,0],[78,21,80,51,0],[80,51,82,21,0],[82,21,82,103,0],[82,103,84,21,0],[84,21,85,51,0],[85,51,87,21,0],[87,21,88,51,0],[88,51,90,21,0],[90,21,90,36,0],[90,36,92,21,0],[92,21,92,45,0],[92,45,93,17,0],[93,17,93,18,0],[93,18,93,20,0],[95,13,96,17,0],[96,17,96,18,0],[96,18,97,21,0],[97,21,99,51,0],[99,51,101,21,0],[101,21,101,103,0],[101,103,103,21,0],[103,21,104,51,0],[104,51,106,21,0],[106,21,107,51,0],[107,51,109,21,0],[109,21,109,36,0],[109,36,111,21,0],[111,21,111,48,0],[111,48,112,17,0],[112,17,112,18,0],[112,18,112,20,0],[114,13,115,17,0],[115,17,115,18,0],[115,18,116,21,0],[116,21,118,51,0],[118,51,120,21,0],[120,21,120,103,0],[120,103,122,21,0],[122,21,125,66,0],[125,66,127,21,0],[127,21,127,36,0],[127,36,129,21,0],[129,21,129,40,0],[129,40,130,17,0],[130,17,130,18,0],[130,18,130,20,0],[132,13,133,17,0],[133,17,133,18,0],[133,18,134,21,0],[134,21,136,51,0],[136,51,138,21,0],[138,21,138,103,0],[138,103,140,21,0],[140,21,141,51,0],[141,51,143,21,0],[143,21,144,51,0],[144,51,146,21,0],[146,21,146,36,0],[146,36,148,21,0],[148,21,148,45,0],[148,45,149,17,0],[149,17,149,18,0],[149,18,149,20,0],[151,13,152,17,0],[152,17,152,18,0],[152,18,153,21,0],[153,21,155,51,0],[155,51,157,21,0],[157,21,157,103,0],[157,103,159,21,0],[159,21,160,51,0],[160,51,162,21,0],[162,21,163,51,0],[163,51,165,21,0],[165,21,167,48,0],[167,48,169,21,0],[169,21,170,51,0],[170,51,172,21,0],[172,21,172,36,0],[172,36,174,21,0],[174,21,174,41,0],[174,41,175,17,0],[175,17,175,18,0],[175,18,175,20,0],[177,13,178,17,0],[178,17,178,18,0],[178,18,179,21,0],[179,21,181,51,0],[181,51,183,21,0],[183,21,183,103,0],[183,103,185,21,0],[185,21,188,66,0],[188,66,190,21,0],[190,21,191,51,0],[191,51,193,21,0],[193,21,196,66,0],[196,66,198,21,0],[198,21,201,66,0],[201,66,203,21,0],[203,21,206,66,0],[206,66,208,21,0],[208,21,210,48,0],[210,48,212,21,0],[212,21,215,66,0],[215,66,217,21,0],[217,21,218,51,0],[218,51,220,21,0],[220,21,220,36,0],[220,36,222,21,0],[222,21,222,43,0],[222,43,223,17,0],[223,17,223,18,0],[223,18,223,20,0],[225,13,226,17,0],[226,17,226,18,0],[226,18,227,21,0],[227,21,229,51,0],[229,51,231,21,0],[231,21,231,103,0],[231,103,233,21,0],[233,21,234,51,0],[234,51,236,21,0],[236,21,237,51,0],[237,51,239,21,0],[239,21,239,36,0],[239,36,241,21,0],[241,21,241,47,0],[241,47,242,17,0],[242,17,242,18,0],[242,18,242,20,0],[244,9,244,10,0]]);
+    </script>
+  </body>
+</html>

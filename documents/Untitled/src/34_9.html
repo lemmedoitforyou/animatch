@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Adminnn\Desktop\папочка\унік\animatch\animatch\TestsProject\UnitTestServices.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System.Collections.Generic;
+using System.Linq;
+using AniBLL.Models;
+using AniDAL.Repositories;
+using FluentAssertions;
+using Moq;
+using Xunit;
+using AniBLL.Services;
+using AniDAL.DataBaseClasses;
+
+namespace Service
+{
+    public class AddedAnimeServiceTests
+    {
+        [Fact]
+        public void GetAddedAnimesForUser_ReturnsCorrectAnimes()
+        {
+            // Arrange
+            var addedAnimeRepositoryMock = new Mock&lt;IAddedAnimeRepository&gt;();
+            var service = new AddedAnimeService(addedAnimeRepositoryMock.Object);
+
+            var userId = 1;
+
+            var expectedAnimes = new List&lt;AniDAL.DataBaseClasses.Anime&gt;
+        {
+            new AniDAL.DataBaseClasses.Anime { Id = 101, Name = &quot;Anime 1&quot;, Imdbrate = 0.0, Photo = &quot;Path&quot;, Text = &quot;aaa&quot;, Year = 2023 },
+            new AniDAL.DataBaseClasses.Anime { Id = 102, Name = &quot;Anime 2&quot;, Imdbrate = 0.0, Photo = &quot;Path&quot;, Text = &quot;aaa&quot;, Year = 2023 }
+        };
+
+            addedAnimeRepositoryMock.Setup(repo =&gt; repo.GetAddedAnimesForUser(userId))
+                .Returns(expectedAnimes);
+
+            // Act
+            var result = service.GetAddedAnimesForUser(userId);
+
+            // Assert
+            var expectedAnimeModels = expectedAnimes
+                .Select(anime =&gt; new AnimeModel
+                {
+                    Id = anime.Id,
+                    Name = anime.Name,
+                    Text = anime.Text,
+                    Imdbrate = anime.Imdbrate,
+                    Photo = anime.Photo,
+                    Year = anime.Year
+                })
+                .ToList();
+
+            result.Should().BeEquivalentTo(expectedAnimeModels, options =&gt; options.ExcludingMissingMembers());
+        }
+
+        [Fact]
+        public void Add_CallsRepositoryInsert()
+        {
+            // Arrange
+            var addedAnimeRepositoryMock = new Mock&lt;IAddedAnimeRepository&gt;();
+            var service = new AddedAnimeService(addedAnimeRepositoryMock.Object);
+
+            var addedAnimeModel = new AddedAnimeModel
+            {
+                Id = 1,
+                UserId = 1001,
+                AnimeId = 101
+                // Add other properties as needed
+            };
+
+            // Act
+            service.Add(addedAnimeModel);
+
+            // Assert
+            addedAnimeRepositoryMock.Verify(repo =&gt; repo.Insert(addedAnimeModel), Times.Once);
+        }
+
+        [Fact]
+        public void Delete_CallsRepositoryDelete()
+        {
+            // Arrange
+            var addedAnimeRepositoryMock = new Mock&lt;IAddedAnimeRepository&gt;();
+            var service = new AddedAnimeService(addedAnimeRepositoryMock.Object);
+
+            var animeIdToDelete = 101;
+
+            // Act
+            service.Delete(animeIdToDelete);
+
+            // Assert
+            addedAnimeRepositoryMock.Verify(repo =&gt; repo.Delete(animeIdToDelete), Times.Once);
+        }
+    }
+
+    public class AnimeGenreServiceTests
+    {
+        [Fact]
+        public void GetGenresForAnime_ReturnsCorrectGenres()
+        {
+            // Arrange
+            var animeGenreRepositoryMock = new Mock&lt;IAnimeGenreRepository&gt;();
+            var service = new AnimeGenreService(animeGenreRepositoryMock.Object);
+
+            var animeId = 1;
+
+            var expectedGenres = new List&lt;string&gt; { &quot;Genre1&quot;, &quot;Genre2&quot; };
+
+            animeGenreRepositoryMock.Setup(repo =&gt; repo.GetGenresForAnime(animeId))
+                .Returns(expectedGenres);
+
+            // Act
+            var result = service.GetGenresForAnime(animeId);
+
+            // Assert
+            result.Should().BeEquivalentTo(expectedGenres);
+        }
+
+        [Fact]
+        public void GetAnimesForGenre_ReturnsCorrectAnimes()
+        {
+            // Arrange
+            var animeGenreRepositoryMock = new Mock&lt;IAnimeGenreRepository&gt;();
+            var service = new AnimeGenreService(animeGenreRepositoryMock.Object);
+
+            var genreId = 1;
+
+
+            var expectedAnimes = new List&lt;Anime&gt;
+        {
+            new Anime { Id = 101, Name = &quot;Anime 1&quot;, Imdbrate = 0.0, Photo = &quot;Path&quot;, Text = &quot;aaa&quot;, Year = 2023 },
+            new Anime { Id = 102, Name = &quot;Anime 2&quot;, Imdbrate = 0.0, Photo = &quot;Path&quot;, Text = &quot;aaa&quot;, Year = 2023 }
+        };
+
+            animeGenreRepositoryMock.Setup(repo =&gt; repo.GetAnimesForGenre(genreId))
+                .Returns(expectedAnimes);
+
+            // Act
+            var result = service.GetAnimesForGenre(genreId);
+
+            // Assert
+            var expectedAnimeModels = expectedAnimes
+                .Select(anime =&gt; new AnimeModel
+                {
+                    Id = anime.Id,
+                    Name = anime.Name,
+                    Text = anime.Text,
+                    Imdbrate = anime.Imdbrate,
+                    Photo = anime.Photo,
+                    Year = anime.Year
+                })
+                .ToList();
+
+            result.Should().BeEquivalentTo(expectedAnimeModels, options =&gt; options.ExcludingMissingMembers());
+        }
+
+        [Fact]
+        public void Insert_CallsRepositoryInsert()
+        {
+            // Arrange
+            var animeGenreRepositoryMock = new Mock&lt;IAnimeGenreRepository&gt;();
+            var service = new AnimeGenreService(animeGenreRepositoryMock.Object);
+
+            var animeGenreModel = new AnimeGenreModel
+            {
+                AnimeId = 101,
+                GenreId = 1
+                // Add other properties as needed
+            };
+
+            // Act
+            service.Insert(animeGenreModel);
+
+            // Assert
+            animeGenreRepositoryMock.Verify(repo =&gt; repo.Insert(animeGenreModel), Times.Once);
+        }
+
+        [Fact]
+        public void Delete_CallsRepositoryDelete()
+        {
+            // Arrange
+            var animeGenreRepositoryMock = new Mock&lt;IAnimeGenreRepository&gt;();
+            var service = new AnimeGenreService(animeGenreRepositoryMock.Object);
+
+            var animeGenreIdToDelete = 1;
+
+            // Act
+            service.Delete(animeGenreIdToDelete);
+
+            // Assert
+            animeGenreRepositoryMock.Verify(repo =&gt; repo.Delete(animeGenreIdToDelete), Times.Once);
+        }
+    }
+
+    public class AnimeServiceTests
+    {
+        [Fact]
+        public void GetAll_ReturnsAllAnimeModels()
+        {
+            // Arrange
+            var animeRepositoryMock = new Mock&lt;IAnimeRepository&gt;();
+            var service = new AnimeService(animeRepositoryMock.Object);
+
+            var expectedAnimeList = new List&lt;Anime&gt;
+        {
+            new Anime { Id = 1, Name = &quot;Anime 1&quot;, Imdbrate = 8.5, Photo = &quot;Path1&quot;, Text = &quot;Description 1&quot;, Year = 2022 },
+            new Anime { Id = 2, Name = &quot;Anime 2&quot;, Imdbrate = 7.8, Photo = &quot;Path2&quot;, Text = &quot;Description 2&quot;, Year = 2021 }
+        };
+
+            animeRepositoryMock.Setup(repo =&gt; repo.GetAll()).Returns(expectedAnimeList);
+
+            // Act
+            var result = service.GetAll();
+
+            // Assert
+            var expectedAnimeModels = expectedAnimeList
+                .Select(anime =&gt; new AnimeModel
+                {
+                    Id = anime.Id,
+                    Name = anime.Name,
+                    Text = anime.Text,
+                    Imdbrate = anime.Imdbrate,
+                    Photo = anime.Photo,
+                    Year = anime.Year
+                })
+                .ToList();
+
+            result.Should().BeEquivalentTo(expectedAnimeModels, options =&gt; options.ExcludingMissingMembers());
+        }
+
+        [Fact]
+        public void GetById_ReturnsCorrectAnimeModel()
+        {
+            // Arrange
+            var animeRepositoryMock = new Mock&lt;IAnimeRepository&gt;();
+            var service = new AnimeService(animeRepositoryMock.Object);
+
+            var targetAnimeId = 1;
+            var expectedAnime = new Anime
+            {
+                Id = targetAnimeId,
+                Name = &quot;Anime 1&quot;,
+                Imdbrate = 8.5,
+                Photo = &quot;Path1&quot;,
+                Text = &quot;Description 1&quot;,
+                Year = 2022
+            };
+
+
+            animeRepositoryMock.Setup(repo =&gt; repo.GetById(targetAnimeId)).Returns(expectedAnime);
+
+            // Act
+            var result = service.GetById(targetAnimeId);
+
+            // Assert
+            var expectedAnimeModel = new AnimeModel
+            {
+                Id = expectedAnime.Id,
+                Name = expectedAnime.Name,
+                Text = expectedAnime.Text,
+                Imdbrate = expectedAnime.Imdbrate,
+                Photo = expectedAnime.Photo,
+                Year = expectedAnime.Year
+            };
+
+            result.Should().BeEquivalentTo(expectedAnimeModel, options =&gt; options.ExcludingMissingMembers());
+        }
+
+        [Fact]
+        public void GetById_WithNonExistingAnime_ReturnsNull()
+        {
+            // Arrange
+            var animeRepositoryMock = new Mock&lt;IAnimeRepository&gt;();
+            var service = new AnimeService(animeRepositoryMock.Object);
+
+            var nonExistingAnimeId = 100;
+
+            animeRepositoryMock.Setup(repo =&gt; repo.GetById(nonExistingAnimeId)).Returns((Anime)null);
+
+            // Act
+            var result = service.GetById(nonExistingAnimeId);
+
+            // Assert
+            result.Should().BeNull();
+        }
+
+        [Fact]
+        public void Insert_CallsRepositoryInsert()
+        {
+            // Arrange
+            var animeRepositoryMock = new Mock&lt;IAnimeRepository&gt;();
+            var service = new AnimeService(animeRepositoryMock.Object);
+
+            var animeModelToAdd = new AnimeModel
+            {
+                Name = &quot;New Anime&quot;,
+                Imdbrate = 9.0,
+                Photo = &quot;NewPath&quot;,
+                Text = &quot;New Description&quot;,
+                Year = 2023
+            };
+
+            // Act
+            service.Insert(animeModelToAdd);
+
+            // Assert
+            animeRepositoryMock.Verify(repo =&gt; repo.Insert(animeModelToAdd), Times.Once);
+        }
+
+        [Fact]
+        public void Update_CallsRepositoryUpdate()
+        {
+            // Arrange
+            var animeRepositoryMock = new Mock&lt;IAnimeRepository&gt;();
+            var service = new AnimeService(animeRepositoryMock.Object);
+
+            var existingAnimeModel = new AnimeModel
+            {
+                Id = 1,
+                Name = &quot;Old Anime&quot;,
+                Imdbrate = 8.0,
+                Photo = &quot;OldPath&quot;,
+                Text = &quot;Old Description&quot;,
+                Year = 2022
+            };
+
+            // Act
+            service.Update(existingAnimeModel);
+
+            // Assert
+            animeRepositoryMock.Verify(repo =&gt; repo.Update(existingAnimeModel), Times.Once);
+        }
+
+        [Fact]
+        public void Delete_CallsRepositoryDelete()
+        {
+            // Arrange
+            var animeRepositoryMock = new Mock&lt;IAnimeRepository&gt;();
+            var service = new AnimeService(animeRepositoryMock.Object);
+
+            var animeIdToDelete = 1;
+
+            // Act
+            service.Delete(animeIdToDelete);
+
+            // Assert
+            animeRepositoryMock.Verify(repo =&gt; repo.Delete(animeIdToDelete), Times.Once);
+        }
+    }
+
+    public class DislikedAnimeServiceTests
+    {
+        [Fact]
+        public void GetDislikedAnimesForUser_ReturnsDislikedAnimeModels()
+        {
+            // Arrange
+            var dislikedAnimeRepositoryMock = new Mock&lt;IDislikedAnimeRepository&gt;();
+            var service = new DislikedAnimeService(dislikedAnimeRepositoryMock.Object);
+
+            var userId = 1;
+
+            var expectedDislikedAnimeList = new List&lt;Anime&gt;
+        {
+            new Anime { Id = 1, Name = &quot;Disliked Anime 1&quot;, Imdbrate = 7.5, Photo = &quot;Path1&quot;, Text = &quot;Description 1&quot;, Year = 2022 },
+            new Anime { Id = 2, Name = &quot;Disliked Anime 2&quot;, Imdbrate = 6.8, Photo = &quot;Path2&quot;, Text = &quot;Description 2&quot;, Year = 2021 }
+        };
+
+            dislikedAnimeRepositoryMock.Setup(repo =&gt; repo.GetDislikedAnimesForUser(userId)).Returns(expectedDislikedAnimeList);
+
+            // Act
+            var result = service.GetDislikedAnimesForUser(userId);
+
+
+            // Assert
+            var expectedDislikedAnimeModels = expectedDislikedAnimeList
+                .Select(anime =&gt; new AnimeModel
+                {
+                    Id = anime.Id,
+                    Name = anime.Name,
+                    Text = anime.Text,
+                    Imdbrate = anime.Imdbrate,
+                    Photo = anime.Photo,
+                    Year = anime.Year
+                })
+                .ToList();
+
+            result.Should().BeEquivalentTo(expectedDislikedAnimeModels, options =&gt; options.ExcludingMissingMembers());
+        }
+
+        [Fact]
+        public void Insert_CallsRepositoryInsert()
+        {
+            // Arrange
+            var dislikedAnimeRepositoryMock = new Mock&lt;IDislikedAnimeRepository&gt;();
+            var service = new DislikedAnimeService(dislikedAnimeRepositoryMock.Object);
+
+            var dislikedAnimeModelToAdd = new DislikedAnimeModel
+            {
+                UserId = 1,
+                AnimeId = 1
+            };
+
+            // Act
+            service.Insert(dislikedAnimeModelToAdd);
+
+            // Assert
+            dislikedAnimeRepositoryMock.Verify(repo =&gt; repo.Insert(dislikedAnimeModelToAdd), Times.Once);
+        }
+
+        [Fact]
+        public void Delete_CallsRepositoryDelete()
+        {
+            // Arrange
+            var dislikedAnimeRepositoryMock = new Mock&lt;IDislikedAnimeRepository&gt;();
+            var service = new DislikedAnimeService(dislikedAnimeRepositoryMock.Object);
+
+            var dislikedAnimeIdToDelete = 1;
+
+            // Act
+            service.Delete(dislikedAnimeIdToDelete);
+
+            // Assert
+            dislikedAnimeRepositoryMock.Verify(repo =&gt; repo.Delete(dislikedAnimeIdToDelete), Times.Once);
+        }
+
+        [Fact]
+        public void GetLastId_ReturnsLastIdFromRepository()
+        {
+            // Arrange
+            var dislikedAnimeRepositoryMock = new Mock&lt;IDislikedAnimeRepository&gt;();
+            var service = new DislikedAnimeService(dislikedAnimeRepositoryMock.Object);
+
+            var expectedLastId = 42;
+
+            dislikedAnimeRepositoryMock.Setup(repo =&gt; repo.GetLastId()).Returns(expectedLastId);
+
+            // Act
+            var result = service.GetLastId();
+
+            // Assert
+            result.Should().Be(expectedLastId);
+        }
+    }
+
+    public class GenreServiceTests
+    {
+        [Fact]
+        public void GetAll_ReturnsGenreModels()
+        {
+            // Arrange
+            var genreRepositoryMock = new Mock&lt;IGenreRepository&gt;();
+            var service = new GenreService(genreRepositoryMock.Object);
+
+            var expectedGenres = new List&lt;Genre&gt;
+        {
+            new Genre { Id = 1, Name = &quot;Genre 1&quot; },
+            new Genre { Id = 2, Name = &quot;Genre 2&quot; }
+        };
+
+            genreRepositoryMock.Setup(repo =&gt; repo.GetAll()).Returns(expectedGenres);
+
+            // Act
+            var result = service.GetAll();
+
+            // Assert
+            var expectedGenreModels = expectedGenres
+                .Select(genre =&gt; new GenreModel
+                {
+                    Id = genre.Id,
+                    Name = genre.Name
+                })
+                .ToList();
+
+            result.Should().BeEquivalentTo(expectedGenreModels, options =&gt; options.ExcludingMissingMembers());
+        }
+
+        [Fact]
+        public void GetById_ReturnsGenreModel()
+        {
+            // Arrange
+            var genreRepositoryMock = new Mock&lt;IGenreRepository&gt;();
+            var service = new GenreService(genreRepositoryMock.Object);
+
+            var targetGenreId = 1;
+            var expectedGenre = new Genre { Id = targetGenreId, Name = &quot;Genre 1&quot; };
+
+            genreRepositoryMock.Setup(repo =&gt; repo.GetById(targetGenreId)).Returns(expectedGenre);
+
+            // Act
+            var result = service.GetById(targetGenreId);
+
+            // Assert
+            var expectedGenreModel = new GenreModel
+            {
+                Id = expectedGenre.Id,
+                Name = expectedGenre.Name
+            };
+
+
+            result.Should().BeEquivalentTo(expectedGenreModel, options =&gt; options.ExcludingMissingMembers());
+        }
+
+        [Fact]
+        public void Insert_CallsRepositoryInsert()
+        {
+            // Arrange
+            var genreRepositoryMock = new Mock&lt;IGenreRepository&gt;();
+            var service = new GenreService(genreRepositoryMock.Object);
+
+            var genreModelToAdd = new GenreModel { Name = &quot;New Genre&quot; };
+
+            // Act
+            service.Insert(genreModelToAdd);
+
+            // Assert
+            genreRepositoryMock.Verify(repo =&gt; repo.Insert(genreModelToAdd), Times.Once);
+        }
+
+        [Fact]
+        public void Update_CallsRepositoryUpdate()
+        {
+            // Arrange
+            var genreRepositoryMock = new Mock&lt;IGenreRepository&gt;();
+            var service = new GenreService(genreRepositoryMock.Object);
+
+            var genreModelToUpdate = new GenreModel { Id = 1, Name = &quot;Updated Genre&quot; };
+
+            // Act
+            service.Update(genreModelToUpdate);
+
+            // Assert
+            genreRepositoryMock.Verify(repo =&gt; repo.Update(genreModelToUpdate), Times.Once);
+        }
+
+        [Fact]
+        public void Delete_CallsRepositoryDelete()
+        {
+            // Arrange
+            var genreRepositoryMock = new Mock&lt;IGenreRepository&gt;();
+            var service = new GenreService(genreRepositoryMock.Object);
+
+            var targetGenreIdToDelete = 1;
+
+            // Act
+            service.Delete(targetGenreIdToDelete);
+
+            // Assert
+            genreRepositoryMock.Verify(repo =&gt; repo.Delete(targetGenreIdToDelete), Times.Once);
+        }
+    }
+
+    public class LikedAnimeServiceTests
+    {
+        [Fact]
+        public void GetLikedAnimesForUser_ReturnsLikedAnimeModels()
+        {
+            // Arrange
+            var likedAnimeRepositoryMock = new Mock&lt;ILikedAnimeRepository&gt;();
+            var service = new LikedAnimeService(likedAnimeRepositoryMock.Object);
+
+            var targetUserId = 1;
+            var likedAnimesFromRepository = new List&lt;Anime&gt;
+        {
+            new Anime { Id = 1, Name = &quot;Liked Anime 1&quot; },
+            new Anime { Id = 2, Name = &quot;Liked Anime 2&quot; }
+        };
+
+            likedAnimeRepositoryMock.Setup(repo =&gt; repo.GetLikedAnimesForUser(targetUserId)).Returns(likedAnimesFromRepository);
+
+            // Act
+            var result = service.GetLikedAnimesForUser(targetUserId);
+
+            // Assert
+            var expectedLikedAnimeModels = likedAnimesFromRepository
+                .Select(anime =&gt; new AnimeModel
+                {
+                    Id = anime.Id,
+                    Name = anime.Name,
+                    Text = anime.Text,
+                    Imdbrate = anime.Imdbrate,
+                    Photo = anime.Photo,
+                    Year = anime.Year
+                })
+                .ToList();
+
+            result.Should().BeEquivalentTo(expectedLikedAnimeModels, options =&gt; options.ExcludingMissingMembers());
+        }
+
+        [Fact]
+        public void GetLastUserId_ReturnsLastUserIdFromRepository()
+        {
+            // Arrange
+            var likedAnimeRepositoryMock = new Mock&lt;ILikedAnimeRepository&gt;();
+            var service = new LikedAnimeService(likedAnimeRepositoryMock.Object);
+
+            var expectedLastUserId = 1;
+            likedAnimeRepositoryMock.Setup(repo =&gt; repo.GetLastUserId()).Returns(expectedLastUserId);
+
+            // Act
+            var result = service.GetLastUserId();
+
+            // Assert
+            result.Should().Be(expectedLastUserId);
+        }
+
+        [Fact]
+        public void Insert_CallsRepositoryInsert()
+        {
+            // Arrange
+            var likedAnimeRepositoryMock = new Mock&lt;ILikedAnimeRepository&gt;();
+            var service = new LikedAnimeService(likedAnimeRepositoryMock.Object);
+
+            var likedAnimeModelToAdd = new LikedAnimeModel { UserId = 1, AnimeId = 1 };
+
+            // Act
+            service.Insert(likedAnimeModelToAdd);
+
+
+            // Assert
+            likedAnimeRepositoryMock.Verify(repo =&gt; repo.Insert(likedAnimeModelToAdd), Times.Once);
+        }
+
+        [Fact]
+        public void Delete_CallsRepositoryDelete()
+        {
+            // Arrange
+            var likedAnimeRepositoryMock = new Mock&lt;ILikedAnimeRepository&gt;();
+            var service = new LikedAnimeService(likedAnimeRepositoryMock.Object);
+
+            var targetLikedAnimeIdToDelete = 1;
+
+            // Act
+            service.Delete(targetLikedAnimeIdToDelete);
+
+            // Assert
+            likedAnimeRepositoryMock.Verify(repo =&gt; repo.Delete(targetLikedAnimeIdToDelete), Times.Once);
+        }
+    }
+
+    public class WatchedAnimeServiceTests
+    {
+        [Fact]
+        public void GetWatchedAnimesForUser_ReturnsWatchedAnimeModels()
+        {
+            // Arrange
+            var watchedAnimeRepositoryMock = new Mock&lt;IWatchedAnimeRepository&gt;();
+            var service = new WatchedAnimeService(watchedAnimeRepositoryMock.Object);
+
+            var targetUserId = 1;
+            var watchedAnimesFromRepository = new List&lt;Anime&gt;
+        {
+            new Anime { Id = 1, Name = &quot;Watched Anime 1&quot; },
+            new Anime { Id = 2, Name = &quot;Watched Anime 2&quot; }
+        };
+
+            watchedAnimeRepositoryMock.Setup(repo =&gt; repo.GetWatchedAnimesForUser(targetUserId)).Returns(watchedAnimesFromRepository);
+
+            // Act
+            var result = service.GetWatchedAnimesForUser(targetUserId);
+
+            // Assert
+            var expectedWatchedAnimeModels = watchedAnimesFromRepository
+                .Select(anime =&gt; new AnimeModel
+                {
+                    Id = anime.Id,
+                    Name = anime.Name,
+                    Text = anime.Text,
+                    Imdbrate = anime.Imdbrate,
+                    Photo = anime.Photo,
+                    Year = anime.Year
+                })
+                .ToList();
+
+            result.Should().BeEquivalentTo(expectedWatchedAnimeModels, options =&gt; options.ExcludingMissingMembers());
+        }
+
+        [Fact]
+        public void GetLastId_ReturnsLastIdFromRepository()
+        {
+            // Arrange
+            var watchedAnimeRepositoryMock = new Mock&lt;IWatchedAnimeRepository&gt;();
+            var service = new WatchedAnimeService(watchedAnimeRepositoryMock.Object);
+
+            var expectedLastId = 1;
+            watchedAnimeRepositoryMock.Setup(repo =&gt; repo.GetLastId()).Returns(expectedLastId);
+
+            // Act
+            var result = service.GetLastId();
+
+            // Assert
+            result.Should().Be(expectedLastId);
+        }
+
+        [Fact]
+        public void Insert_CallsRepositoryInsert()
+        {
+            // Arrange
+            var watchedAnimeRepositoryMock = new Mock&lt;IWatchedAnimeRepository&gt;();
+            var service = new WatchedAnimeService(watchedAnimeRepositoryMock.Object);
+
+            var watchedAnimeModelToAdd = new WatchedAnimeModel { UserId = 1, AnimeId = 1 };
+
+            // Act
+            service.Insert(watchedAnimeModelToAdd);
+
+            // Assert
+            watchedAnimeRepositoryMock.Verify(repo =&gt; repo.Insert(watchedAnimeModelToAdd), Times.Once);
+        }
+
+        [Fact]
+        public void Delete_CallsRepositoryDelete()
+        {
+            // Arrange
+            var watchedAnimeRepositoryMock = new Mock&lt;IWatchedAnimeRepository&gt;();
+            var service = new WatchedAnimeService(watchedAnimeRepositoryMock.Object);
+
+            var targetWatchedAnimeIdToDelete = 1;
+
+            // Act
+            service.Delete(targetWatchedAnimeIdToDelete);
+
+            // Assert
+            watchedAnimeRepositoryMock.Verify(repo =&gt; repo.Delete(targetWatchedAnimeIdToDelete), Times.Once);
+        }
+    }
+
+    public class ReviewServiceTests
+    {
+        [Fact]
+        public void GetById_ReturnsReviewModel()
+        {
+            // Arrange
+            var reviewRepositoryMock = new Mock&lt;IReviewRepository&gt;();
+            var service = new ReviewService(reviewRepositoryMock.Object);
+
+
+            var targetReviewId = 1;
+            var reviewFromRepository = new Review
+            {
+                Id = targetReviewId,
+                UserId = 1,
+                AnimeId = 1,
+                Text = &quot;Sample Review Text&quot;,
+                Rate = 4
+            };
+
+            reviewRepositoryMock.Setup(repo =&gt; repo.GetById(targetReviewId)).Returns(reviewFromRepository);
+
+            // Act
+            var result = service.GetById(targetReviewId);
+
+            // Assert
+            var expectedReviewModel = new ReviewModel
+            {
+                Id = reviewFromRepository.Id,
+                UserId = reviewFromRepository.UserId,
+                AnimeId = reviewFromRepository.AnimeId,
+                Text = reviewFromRepository.Text,
+                Rate = reviewFromRepository.Rate
+            };
+
+            result.Should().BeEquivalentTo(expectedReviewModel, options =&gt; options.ExcludingMissingMembers());
+        }
+
+        [Fact]
+        public void GetReviewsForAnime_ReturnsReviewModels()
+        {
+            // Arrange
+            var reviewRepositoryMock = new Mock&lt;IReviewRepository&gt;();
+            var service = new ReviewService(reviewRepositoryMock.Object);
+
+            var targetAnimeId = 1;
+            var reviewsFromRepository = new List&lt;Review&gt;
+        {
+            new Review { Id = 1, UserId = 1, AnimeId = targetAnimeId, Text = &quot;Review 1&quot;, Rate = 4 },
+            new Review { Id = 2, UserId = 2, AnimeId = targetAnimeId, Text = &quot;Review 2&quot;, Rate = 5 }
+        };
+
+            reviewRepositoryMock.Setup(repo =&gt; repo.GetReviewsForAnime(targetAnimeId)).Returns(reviewsFromRepository);
+
+            // Act
+            var result = service.GetReviewsForAnime(targetAnimeId);
+
+            // Assert
+            var expectedReviewModels = reviewsFromRepository
+                .Select(review =&gt; new ReviewModel
+                {
+                    Id = review.Id,
+                    UserId = review.UserId,
+                    AnimeId = review.AnimeId,
+                    Text = review.Text,
+                    Rate = review.Rate
+                })
+                .ToList();
+
+            result.Should().BeEquivalentTo(expectedReviewModels, options =&gt; options.ExcludingMissingMembers());
+        }
+
+        [Fact]
+        public void GetLastUserId_ReturnsLastUserIdFromRepository()
+        {
+            // Arrange
+            var reviewRepositoryMock = new Mock&lt;IReviewRepository&gt;();
+            var service = new ReviewService(reviewRepositoryMock.Object);
+
+            var expectedLastUserId = 1;
+            reviewRepositoryMock.Setup(repo =&gt; repo.GetLastId()).Returns(expectedLastUserId);
+
+            // Act
+            var result = service.GetLastId();
+
+            // Assert
+            result.Should().Be(expectedLastUserId);
+        }
+
+        [Fact]
+        public void Insert_CallsRepositoryInsert()
+        {
+            // Arrange
+            var reviewRepositoryMock = new Mock&lt;IReviewRepository&gt;();
+            var service = new ReviewService(reviewRepositoryMock.Object);
+
+            var reviewModelToAdd = new ReviewModel { UserId = 1, AnimeId = 1, Text = &quot;New Review&quot;, Rate = 5 };
+
+            // Act
+            service.Insert(reviewModelToAdd);
+
+            // Assert
+            reviewRepositoryMock.Verify(repo =&gt; repo.Insert(reviewModelToAdd), Times.Once);
+        }
+
+        [Fact]
+        public void Update_CallsRepositoryUpdate()
+        {
+            // Arrange
+            var reviewRepositoryMock = new Mock&lt;IReviewRepository&gt;();
+            var service = new ReviewService(reviewRepositoryMock.Object);
+
+            var reviewModelToUpdate = new ReviewModel { Id = 1, UserId = 1, AnimeId = 1, Text = &quot;Updated Review&quot;, Rate = 4 };
+
+            // Act
+            service.Update(reviewModelToUpdate);
+
+            // Assert
+            reviewRepositoryMock.Verify(repo =&gt; repo.Update(reviewModelToUpdate), Times.Once);
+        }
+
+
+        [Fact]
+        public void Delete_CallsRepositoryDelete()
+        {
+            // Arrange
+            var reviewRepositoryMock = new Mock&lt;IReviewRepository&gt;();
+            var service = new ReviewService(reviewRepositoryMock.Object);
+
+            var targetReviewIdToDelete = 1;
+
+            // Act
+            service.Delete(targetReviewIdToDelete);
+
+            // Assert
+            reviewRepositoryMock.Verify(repo =&gt; repo.Delete(targetReviewIdToDelete), Times.Once);
+        }
+    }
+
+    public class UserServiceTests
+    {
+        [Fact]
+        public void GetById_ReturnsUserInfoModel()
+        {
+            // Arrange
+            var userRepositoryMock = new Mock&lt;IUserInfoRepository&gt;();
+            var service = new UserService(userRepositoryMock.Object);
+
+            var targetUserId = 1;
+            var userFromRepository = new UserInfo
+            {
+                Id = targetUserId,
+                Username = &quot;sampleUser&quot;,
+                Password = &quot;password&quot;,
+                Email = &quot;user@example.com&quot;,
+                Name = &quot;John Doe&quot;,
+                Level = 1,
+                Text = &quot;User description&quot;,
+                Photo = &quot;user.jpg&quot;,
+                WatchedCount = 10
+            };
+
+            userRepositoryMock.Setup(repo =&gt; repo.GetById(targetUserId)).Returns(userFromRepository);
+
+            // Act
+            var result = service.GetById(targetUserId);
+
+            // Assert
+            var expectedUserInfoModel = new UserInfoModel
+            {
+                Id = userFromRepository.Id,
+                Username = userFromRepository.Username,
+                Password = userFromRepository.Password,
+                Email = userFromRepository.Email,
+                Name = userFromRepository.Name,
+                Level = userFromRepository.Level,
+                Text = userFromRepository.Text,
+                Photo = userFromRepository.Photo,
+                WatchedCount = userFromRepository.WatchedCount
+            };
+
+            result.Should().BeEquivalentTo(expectedUserInfoModel, options =&gt; options.ExcludingMissingMembers());
+        }
+
+        [Fact]
+        public void GetByUsername_ReturnsUserInfoModel()
+        {
+            // Arrange
+            var userRepositoryMock = new Mock&lt;IUserInfoRepository&gt;();
+            var service = new UserService(userRepositoryMock.Object);
+
+            var targetUsername = &quot;sampleUser&quot;;
+            var userFromRepository = new UserInfo
+            {
+                Id = 1,
+                Username = targetUsername,
+                Password = &quot;password&quot;,
+                Email = &quot;user@example.com&quot;,
+                Name = &quot;John Doe&quot;,
+                Level = 1,
+                Text = &quot;User description&quot;,
+                Photo = &quot;user.jpg&quot;,
+                WatchedCount = 10
+            };
+
+            userRepositoryMock.Setup(repo =&gt; repo.GetByUsername(targetUsername)).Returns(userFromRepository);
+
+            // Act
+            var result = service.GetByUsername(targetUsername);
+
+            // Assert
+            var expectedUserInfoModel = new UserInfoModel
+            {
+                Id = userFromRepository.Id,
+                Username = userFromRepository.Username,
+                Password = userFromRepository.Password,
+                Email = userFromRepository.Email,
+                Name = userFromRepository.Name,
+                Level = userFromRepository.Level,
+                Text = userFromRepository.Text,
+                Photo = userFromRepository.Photo,
+                WatchedCount = userFromRepository.WatchedCount
+            };
+
+            result.Should().BeEquivalentTo(expectedUserInfoModel, options =&gt; options.ExcludingMissingMembers());
+        }
+
+        [Fact]
+        public void GetAll_ReturnsUserInfoModels()
+        {
+            // Arrange
+            var userRepositoryMock = new Mock&lt;IUserInfoRepository&gt;();
+            var service = new UserService(userRepositoryMock.Object);
+
+
+            var usersFromRepository = new List&lt;UserInfo&gt;
+        {
+            new UserInfo { Id = 1, Username = &quot;user1&quot;, Password = &quot;pass1&quot;, Email = &quot;user1@example.com&quot;, Name = &quot;User 1&quot;, Level = 1, Text = &quot;Description 1&quot;, Photo = &quot;user1.jpg&quot;, WatchedCount = 5 },
+            new UserInfo { Id = 2, Username = &quot;user2&quot;, Password = &quot;pass2&quot;, Email = &quot;user2@example.com&quot;, Name = &quot;User 2&quot;, Level = 2, Text = &quot;Description 2&quot;, Photo = &quot;user2.jpg&quot;, WatchedCount = 10 }
+        };
+
+            userRepositoryMock.Setup(repo =&gt; repo.GetAll()).Returns(usersFromRepository);
+
+            // Act
+            var result = service.GetAll();
+
+            // Assert
+            var expectedUserInfoModels = usersFromRepository
+                .Select(user =&gt; new UserInfoModel
+                {
+                    Id = user.Id,
+                    Username = user.Username,
+                    Password = user.Password,
+                    Email = user.Email,
+                    Name = user.Name,
+                    Level = user.Level,
+                    Text = user.Text,
+                    Photo = user.Photo,
+                    WatchedCount = user.WatchedCount
+                })
+                .ToList();
+
+            result.Should().BeEquivalentTo(expectedUserInfoModels, options =&gt; options.ExcludingMissingMembers());
+        }
+
+        [Fact]
+        public void Insert_CallsRepositoryInsert()
+        {
+            // Arrange
+            var userRepositoryMock = new Mock&lt;IUserInfoRepository&gt;();
+            var service = new UserService(userRepositoryMock.Object);
+
+            var userInfoModelToAdd = new UserInfoModel { Username = &quot;newUser&quot;, Password = &quot;newPass&quot;, Email = &quot;newUser@example.com&quot;, Name = &quot;New User&quot;, Level = 1, Text = &quot;New Description&quot;, Photo = &quot;newUser.jpg&quot;, WatchedCount = 0 };
+
+            // Act
+            service.Insert(userInfoModelToAdd);
+
+            // Assert
+            userRepositoryMock.Verify(repo =&gt; repo.Insert(userInfoModelToAdd), Times.Once);
+        }
+
+        [Fact]
+        public void Update_CallsRepositoryUpdate()
+        {
+            // Arrange
+            var userRepositoryMock = new Mock&lt;IUserInfoRepository&gt;();
+            var service = new UserService(userRepositoryMock.Object);
+
+            var userInfoModelToUpdate = new UserInfoModel { Id = 1, Username = &quot;updatedUser&quot;, Password = &quot;updatedPass&quot;, Email = &quot;updatedUser@example.com&quot;, Name = &quot;Updated User&quot;, Level = 2, Text = &quot;Updated Description&quot;, Photo = &quot;updatedUser.jpg&quot;, WatchedCount = 15 };
+
+            // Act
+            service.Update(userInfoModelToUpdate);
+
+            // Assert
+            userRepositoryMock.Verify(repo =&gt; repo.Update(userInfoModelToUpdate), Times.Once);
+        }
+
+        [Fact]
+        public void Delete_CallsRepositoryDelete()
+        {
+            // Arrange
+            var userRepositoryMock = new Mock&lt;IUserInfoRepository&gt;();
+            var service = new UserService(userRepositoryMock.Object);
+
+            var targetUserIdToDelete = 1;
+
+            // Act
+            service.Delete(targetUserIdToDelete);
+
+            // Assert
+            userRepositoryMock.Verify(repo =&gt; repo.Delete(targetUserIdToDelete), Times.Once);
+        }
+
+        [Fact]
+        public void IsExistUsername_ReturnsTrueIfUsernameExists()
+        {
+            // Arrange
+            var userRepositoryMock = new Mock&lt;IUserInfoRepository&gt;();
+            var service = new UserService(userRepositoryMock.Object);
+
+            var existingUsername = &quot;existingUser&quot;;
+            userRepositoryMock.Setup(repo =&gt; repo.IsExistUsername(existingUsername)).Returns(true);
+
+            // Act
+            var result = service.IsExistUsername(existingUsername);
+
+            // Assert
+            result.Should().BeTrue();
+        }
+
+        [Fact]
+        public void IsExistUsername_ReturnsFalseIfUsernameDoesNotExist()
+        {
+            // Arrange
+            var userRepositoryMock = new Mock&lt;IUserInfoRepository&gt;();
+            var service = new UserService(userRepositoryMock.Object);
+
+
+            var nonExistingUsername = &quot;nonExistingUser&quot;;
+            userRepositoryMock.Setup(repo =&gt; repo.IsExistUsername(nonExistingUsername)).Returns(false);
+
+            // Act
+            var result = service.IsExistUsername(nonExistingUsername);
+
+            // Assert
+            result.Should().BeFalse();
+        }
+
+        [Fact]
+        public void IsExistEmail_ReturnsTrueIfEmailExists()
+        {
+            // Arrange
+            var userRepositoryMock = new Mock&lt;IUserInfoRepository&gt;();
+            var service = new UserService(userRepositoryMock.Object);
+
+            var existingEmail = &quot;existingUser@example.com&quot;;
+            userRepositoryMock.Setup(repo =&gt; repo.IsExistEmail(existingEmail)).Returns(true);
+
+            // Act
+            var result = service.IsExistEmail(existingEmail);
+
+            // Assert
+            result.Should().BeTrue();
+        }
+
+        [Fact]
+        public void IsExistEmail_ReturnsFalseIfEmailDoesNotExist()
+        {
+            // Arrange
+            var userRepositoryMock = new Mock&lt;IUserInfoRepository&gt;();
+            var service = new UserService(userRepositoryMock.Object);
+
+            var nonExistingEmail = &quot;nonExistingUser@example.com&quot;;
+            userRepositoryMock.Setup(repo =&gt; repo.IsExistEmail(nonExistingEmail)).Returns(false);
+
+            // Act
+            var result = service.IsExistEmail(nonExistingEmail);
+
+            // Assert
+            result.Should().BeFalse();
+        }
+
+        [Fact]
+        public void GetLastUserId_ReturnsLastUserIdFromRepository()
+        {
+            // Arrange
+            var userRepositoryMock = new Mock&lt;IUserInfoRepository&gt;();
+            var service = new UserService(userRepositoryMock.Object);
+
+            var expectedLastUserId = 1;
+            userRepositoryMock.Setup(repo =&gt; repo.GetLastUserId()).Returns(expectedLastUserId);
+
+            // Act
+            var result = service.GetLastId();
+
+            // Assert
+            result.Should().Be(expectedLastUserId);
+        }
+
+        [Fact]
+        public void UpdateTitleAndText_CallsRepositoryUpdateTitleAndText()
+        {
+            // Arrange
+            var userRepositoryMock = new Mock&lt;IUserInfoRepository&gt;();
+            var service = new UserService(userRepositoryMock.Object);
+
+            var targetUserId = 1;
+            var newTitle = &quot;New Title&quot;;
+            var newText = &quot;New Text&quot;;
+
+            // Act
+            service.UpdateTitleAndText(targetUserId, newTitle, newText);
+
+            // Assert
+            userRepositoryMock.Verify(repo =&gt; repo.UpdateTitleAndText(targetUserId, newTitle, newText), Times.Once);
+        }
+
+        [Fact]
+        public void WatchAnime_CallsRepositoryWatchAnime()
+        {
+            // Arrange
+            var userRepositoryMock = new Mock&lt;IUserInfoRepository&gt;();
+            var service = new UserService(userRepositoryMock.Object);
+
+            var targetUserId = 1;
+
+            // Act
+            service.WatchAnime(targetUserId);
+
+            // Assert
+            userRepositoryMock.Verify(repo =&gt; repo.WatchAnime(targetUserId), Times.Once);
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[17,9,17,10,1],[19,13,19,78,1],[20,13,20,82,1],[22,13,22,28,1],[24,13,28,11,1],[30,13,31,42,1],[34,13,34,64,1],[37,13,38,34,1],[38,34,46,18,1],[46,18,47,27,1],[49,13,49,76,1],[49,76,49,109,1],[49,109,49,111,1],[50,9,50,10,1],[54,9,54,10,1],[56,13,56,78,1],[57,13,57,82,1],[59,13,65,15,1],[68,13,68,42,1],[71,13,71,95,1],[72,9,72,10,1],[76,9,76,10,1],[78,13,78,78,1],[79,13,79,82,1],[81,13,81,39,1],[84,13,84,45,1],[87,13,87,95,1],[88,9,88,10,1],[95,9,95,10,1],[97,13,97,78,1],[98,13,98,82,1],[100,13,100,29,1],[102,13,102,74,1],[104,13,105,42,1],[108,13,108,61,1],[111,13,111,60,1],[112,9,112,10,1],[116,9,116,10,1],[118,13,118,78,1],[119,13,119,82,1],[121,13,121,29,1],[124,13,128,11,1],[130,13,131,42,1],[134,13,134,61,1],[137,13,138,34,1],[138,34,146,18,1],[146,18,147,27,1],[149,13,149,76,1],[149,76,149,109,1],[149,109,149,111,1],[150,9,150,10,1],[154,9,154,10,1],[156,13,156,78,1],[157,13,157,82,1],[159,13,164,15,1],[167,13,167,45,1],[170,13,170,95,1],[171,9,171,10,1],[175,9,175,10,1],[177,13,177,78,1],[178,13,178,82,1],[180,13,180,42,1],[183,13,183,50,1],[186,13,186,100,1],[187,9,187,10,1],[194,9,194,10,1],[196,13,196,68,1],[197,13,197,72,1],[199,13,203,11,1],[205,13,205,89,1],[208,13,208,43,1],[211,13,212,34,1],[212,34,220,18,1],[220,18,221,27,1],[223,13,223,76,1],[223,76,223,109,1],[223,109,223,111,1],[224,9,224,10,1],[228,9,228,10,1],[230,13,230,68,1],[231,13,231,72,1],[233,13,233,35,1],[234,13,242,15,1],[245,13,245,99,1],[248,13,248,57,1],[251,13,259,15,1],[261,13,261,75,1],[261,75,261,108,1],[261,108,261,110,1],[262,9,262,10,1],[266,9,266,10,1],[268,13,268,68,1],[269,13,269,72,1],[271,13,271,42,1],[273,13,273,102,1],[276,13,276,62,1],[279,13,279,38,1],[280,9,280,10,1],[284,9,284,10,1],[286,13,286,68,1],[287,13,287,72,1],[289,13,296,15,1],[299,13,299,45,1],[302,13,302,90,1],[303,9,303,10,1],[307,9,307,10,1],[309,13,309,68,1],[310,13,310,72,1],[312,13,320,15,1],[323,13,323,48,1],[326,13,326,93,1],[327,9,327,10,1],[331,9,331,10,1],[333,13,333,68,1],[334,13,334,72,1],[336,13,336,37,1],[339,13,339,45,1],[342,13,342,90,1],[343,9,343,10,1],[350,9,350,10,1],[352,13,352,84,1],[353,13,353,88,1],[355,13,355,28,1],[357,13,361,11,1],[363,13,363,129,1],[366,13,366,67,1],[370,13,371,34,1],[371,34,379,18,1],[379,18,380,27,1],[382,13,382,84,1],[382,84,382,117,1],[382,117,382,119,1],[383,9,383,10,1],[387,9,387,10,1],[389,13,389,84,1],[390,13,390,88,1],[392,13,396,15,1],[399,13,399,53,1],[402,13,402,106,1],[403,9,403,10,1],[407,9,407,10,1],[409,13,409,84,1],[410,13,410,88,1],[412,13,412,45,1],[415,13,415,53,1],[418,13,418,106,1],[419,9,419,10,1],[423,9,423,10,1],[425,13,425,84,1],[426,13,426,88,1],[428,13,428,37,1],[430,13,430,97,1],[433,13,433,46,1],[436,13,436,48,1],[437,9,437,10,1],[444,9,444,10,1],[446,13,446,68,1],[447,13,447,72,1],[449,13,453,11,1],[455,13,455,86,1],[458,13,458,43,1],[461,13,462,34,1],[462,34,466,18,1],[466,18,467,27,1],[469,13,469,76,1],[469,76,469,109,1],[469,109,469,111,1],[470,9,470,10,1],[474,9,474,10,1],[476,13,476,68,1],[477,13,477,72,1],[479,13,479,35,1],[480,13,480,84,1],[482,13,482,99,1],[485,13,485,57,1],[488,13,492,15,1],[495,13,495,75,1],[495,75,495,108,1],[495,108,495,110,1],[496,9,496,10,1],[500,9,500,10,1],[502,13,502,68,1],[503,13,503,72,1],[505,13,505,73,1],[508,13,508,45,1],[511,13,511,90,1],[512,9,512,10,1],[516,9,516,10,1],[518,13,518,68,1],[519,13,519,72,1],[521,13,521,88,1],[524,13,524,48,1],[527,13,527,93,1],[528,9,528,10,1],[532,9,532,10,1],[534,13,534,68,1],[535,13,535,72,1],[537,13,537,43,1],[540,13,540,51,1],[543,13,543,96,1],[544,9,544,10,1],[551,9,551,10,1],[553,13,553,78,1],[554,13,554,82,1],[556,13,556,34,1],[557,13,561,11,1],[563,13,563,129,1],[566,13,566,70,1],[569,13,570,34,1],[570,34,578,18,1],[578,18,579,27,1],[581,13,581,81,1],[581,81,581,114,1],[581,114,581,116,1],[582,9,582,10,1],[586,9,586,10,1],[588,13,588,78,1],[589,13,589,82,1],[591,13,591,40,1],[592,13,592,102,1],[595,13,595,50,1],[598,13,598,52,1],[599,9,599,10,1],[603,9,603,10,1],[605,13,605,78,1],[606,13,606,82,1],[608,13,608,88,1],[611,13,611,50,1],[615,13,615,100,1],[616,9,616,10,1],[620,9,620,10,1],[622,13,622,78,1],[623,13,623,82,1],[625,13,625,48,1],[628,13,628,56,1],[631,13,631,106,1],[632,9,632,10,1],[639,9,639,10,1],[641,13,641,82,1],[642,13,642,86,1],[644,13,644,34,1],[645,13,649,11,1],[651,13,651,135,1],[654,13,654,72,1],[657,13,658,34,1],[658,34,666,18,1],[666,18,667,27,1],[669,13,669,83,1],[669,83,669,116,1],[669,116,669,118,1],[670,9,670,10,1],[674,9,674,10,1],[676,13,676,82,1],[677,13,677,86,1],[679,13,679,36,1],[680,13,680,96,1],[683,13,683,46,1],[686,13,686,48,1],[687,9,687,10,1],[691,9,691,10,1],[693,13,693,82,1],[694,13,694,86,1],[696,13,696,92,1],[699,13,699,52,1],[702,13,702,104,1],[703,9,703,10,1],[707,9,707,10,1],[709,13,709,82,1],[710,13,710,86,1],[712,13,712,50,1],[715,13,715,58,1],[718,13,718,110,1],[719,9,719,10,1],[726,9,726,10,1],[728,13,728,70,1],[729,13,729,74,1],[732,13,732,36,1],[733,13,740,15,1],[742,13,742,108,1],[745,13,745,58,1],[748,13,755,15,1],[757,13,757,76,1],[757,76,757,109,1],[757,109,757,111,1],[758,9,758,10,1],[762,9,762,10,1],[764,13,764,70,1],[765,13,765,74,1],[767,13,767,35,1],[768,13,772,11,1],[774,13,774,119,1],[777,13,777,68,1],[780,13,781,35,1],[781,35,788,18,1],[788,18,789,27,1],[791,13,791,77,1],[791,77,791,110,1],[791,110,791,112,1],[792,9,792,10,1],[796,9,796,10,1],[798,13,798,70,1],[799,13,799,74,1],[801,13,801,40,1],[802,13,802,94,1],[805,13,805,46,1],[808,13,808,52,1],[809,9,809,10,1],[813,9,813,10,1],[815,13,815,70,1],[816,13,816,74,1],[818,13,818,111,1],[821,13,821,46,1],[824,13,824,92,1],[825,9,825,10,1],[829,9,829,10,1],[831,13,831,70,1],[832,13,832,74,1],[834,13,834,126,1],[837,13,837,49,1],[840,13,840,95,1],[841,9,841,10,1],[846,9,846,10,1],[848,13,848,70,1],[849,13,849,74,1],[851,13,851,44,1],[854,13,854,52,1],[857,13,857,98,1],[858,9,858,10,1],[865,9,865,10,1],[867,13,867,70,1],[868,13,868,70,1],[870,13,870,34,1],[871,13,882,15,1],[884,13,884,102,1],[887,13,887,56,1],[890,13,901,15,1],[903,13,903,78,1],[903,78,903,111,1],[903,111,903,113,1],[904,9,904,10,1],[908,9,908,10,1],[910,13,910,70,1],[911,13,911,70,1],[913,13,913,47,1],[914,13,925,15,1],[927,13,927,110,1],[930,13,930,64,1],[933,13,944,15,1],[946,13,946,78,1],[946,78,946,111,1],[946,111,946,113,1],[947,9,947,10,1],[951,9,951,10,1],[953,13,953,70,1],[954,13,954,70,1],[957,13,961,11,1],[963,13,963,90,1],[966,13,966,43,1],[969,13,970,33,1],[970,33,981,18,1],[981,18,982,27,1],[984,13,984,79,1],[984,79,984,112,1],[984,112,984,114,1],[985,9,985,10,1],[989,9,989,10,1],[991,13,991,70,1],[992,13,992,70,1],[994,13,994,231,1],[997,13,997,48,1],[1000,13,1000,92,1],[1001,9,1001,10,1],[1005,9,1005,10,1],[1007,13,1007,70,1],[1008,13,1008,70,1],[1010,13,1010,267,1],[1013,13,1013,51,1],[1016,13,1016,95,1],[1017,9,1017,10,1],[1021,9,1021,10,1],[1023,13,1023,70,1],[1024,13,1024,70,1],[1026,13,1026,42,1],[1029,13,1029,50,1],[1032,13,1032,94,1],[1033,9,1033,10,1],[1037,9,1037,10,1],[1039,13,1039,70,1],[1040,13,1040,70,1],[1042,13,1042,51,1],[1043,13,1043,100,1],[1046,13,1046,68,1],[1049,13,1049,38,1],[1050,9,1050,10,1],[1054,9,1054,10,1],[1056,13,1056,70,1],[1057,13,1057,70,1],[1060,13,1060,57,1],[1061,13,1061,104,1],[1064,13,1064,71,1],[1067,13,1067,39,1],[1068,9,1068,10,1],[1072,9,1072,10,1],[1074,13,1074,70,1],[1075,13,1075,70,1],[1077,13,1077,60,1],[1078,13,1078,94,1],[1081,13,1081,62,1],[1084,13,1084,38,1],[1085,9,1085,10,1],[1089,9,1089,10,1],[1091,13,1091,70,1],[1092,13,1092,70,1],[1094,13,1094,66,1],[1095,13,1095,98,1],[1098,13,1098,65,1],[1101,13,1101,39,1],[1102,9,1102,10,1],[1106,9,1106,10,1],[1108,13,1108,70,1],[1109,13,1109,70,1],[1111,13,1111,40,1],[1112,13,1112,96,1],[1115,13,1115,46,1],[1118,13,1118,52,1],[1119,9,1119,10,1],[1123,9,1123,10,1],[1125,13,1125,70,1],[1126,13,1126,70,1],[1128,13,1128,34,1],[1129,13,1129,40,1],[1130,13,1130,38,1],[1133,13,1133,73,1],[1136,13,1136,117,1],[1137,9,1137,10,1],[1141,9,1141,10,1],[1143,13,1143,70,1],[1144,13,1144,70,1],[1146,13,1146,34,1],[1149,13,1149,46,1],[1152,13,1152,90,1],[1153,9,1153,10,1]]);
+    </script>
+  </body>
+</html>

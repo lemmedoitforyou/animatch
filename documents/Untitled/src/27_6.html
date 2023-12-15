@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Adminnn\Desktop\папочка\унік\animatch\animatch\AniDAL\Repositories\ReviewRepository.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using AniDAL.DataBaseClasses;
+
+namespace AniDAL.Repositories
+{
+    public interface IReviewRepository: IGenericRepository&lt;Review&gt;
+    {
+        List&lt;Review&gt; GetReviewsForAnime(int animeId);
+    }
+    public class ReviewRepository : GenericRepository&lt;Review&gt;, IReviewRepository
+    {
+        public List&lt;Review&gt; GetReviewsForAnime(int animeId)
+        {
+            return _context.Review.Where(r =&gt; r.AnimeId == animeId).ToList();
+        }
+        public int GetLastUserId()
+        {
+            int lastReviewId = _context.Review.Max(u =&gt; u.Id);
+            return lastReviewId;
+        }   
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[12,9,12,10,0],[13,13,13,78,0],[14,9,14,10,0],[16,9,16,10,0],[17,13,17,63,0],[18,13,18,33,0],[19,9,19,10,0]]);
+    </script>
+  </body>
+</html>

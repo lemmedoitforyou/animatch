@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Adminnn\Desktop\папочка\унік\animatch\animatch\animatch\Program.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System;
+using Npgsql;
+using Faker;
+
+namespace Animatch
+{
+    public class Program
+    {
+        private static void Main(string[] args)
+        {
+            // DisplayAllData();
+
+            Insert();
+
+            Console.ReadLine();  
+        }
+
+        private static void Insert()
+        {
+            using (NpgsqlConnection con = GetConnection())
+            {
+                con.Open();
+
+                // Очистимо дані з усіх таблиць перед додаванням нових
+                ClearTables(con);
+
+                Random random = new Random();
+                int rowCount = 51;
+                for (int i = 1; i &lt; rowCount; i++)
+                {
+                    // Генерація випадкових даних за допомогою Faker
+                    var faker = new Bogus.Faker();
+                    var animeName = faker.Random.Word();
+                    var animeYear = faker.Random.Number(1950, 2024);
+                    var animeImdbRate = faker.Random.Double(0, 10);
+                    var animeText = faker.Lorem.Paragraph();
+                    string[] photoPaths = { &quot;https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/BungoStrayDogs.jpg?raw=true&quot;, &quot;https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/AtackOnTitanS1.jpg?raw=true&quot;, &quot;https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/SpyFamily.jpg?raw=true&quot; };
+                    var animePhoto = photoPaths[random.Next(photoPaths.Length)];
+                    var genreName = faker.Random.Word();
+
+                    var username = faker.Internet.UserName();
+                    var password = faker.Internet.Password();
+                    var email = faker.Internet.Email();
+                    var name = faker.Name.FirstName();
+                    var text = faker.Lorem.Sentence();
+                    var photo = &quot;https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/defaultUserPhoto.jpg?raw=true&quot;;
+                    var level = faker.Random.Number(1, 50);
+                    var watchedcount = faker.Random.Number(1, 50);
+
+                    var review = faker.Lorem.Paragraph();
+                    var rate = faker.Random.Number(1, 10);
+
+                    int Id = i;
+
+                    // Вставка даних у таблиці anime
+                    InsertDataIntoAnime(con, Id, animeName, animeYear, animeImdbRate, animeText, animePhoto);
+
+                    // Вставка даних у таблицю genres
+                    InsertDataIntoGenres(con, Id, genreName);
+
+                    // Вставка даних у таблицю userinfo
+                    InsertDataIntoUserInfo(con, Id, username, password, email, name, text, photo, level, watchedcount);
+
+                    // Вставка даних у таблицю review
+                    InsertDataIntoReview(con, Id, Id, Id, review, rate);
+
+                    // Вставка даних у таблицю animegenres
+                    InsertDataIntoAnimeGenres(con, Id, Id, Id);
+
+                    // Вставка даних у таблицю added
+                    InsertDataIntoAdded(con, Id, Id, Id);
+
+                    // Вставка даних у таблицю liked
+                    InsertDataIntoLiked(con, Id, Id, Id);
+
+                    // Вставка даних у таблицю disliked
+                    InsertDataIntoDisLiked(con, Id, Id, Id);
+
+                    // Вставка даних у таблицю watched
+                    InsertDataIntoWatched(con, Id, Id, Id);
+                }
+            }
+        }
+
+        private static void InsertDataIntoAnime(NpgsqlConnection connection,int id, string name, int year, double imdbrate, string text, string photo)
+        {
+            string insertQuery = &quot;INSERT INTO public.\&quot;Anime\&quot; (\&quot;Id\&quot;, \&quot;Name\&quot;, \&quot;Text\&quot;, \&quot;Imdbrate\&quot;, \&quot;Photo\&quot;, \&quot;Year\&quot;) VALUES (@id, @name, @text, @imdbrate, @photo, @year)&quot;;
+
+            using (NpgsqlCommand command = new NpgsqlCommand(insertQuery, connection))
+            {
+                command.Parameters.AddWithValue(&quot;@id&quot;, id );
+                command.Parameters.AddWithValue(&quot;@name&quot;, name);
+                command.Parameters.AddWithValue(&quot;@text&quot;, text);
+                command.Parameters.AddWithValue(&quot;@imdbrate&quot;, imdbrate);
+                command.Parameters.AddWithValue(&quot;@photo&quot;, photo);
+                command.Parameters.AddWithValue(&quot;@year&quot;, year);
+
+                command.ExecuteNonQuery();
+            }
+        }
+        private static void ClearTables(NpgsqlConnection connection)
+        {
+            // Видалення даних з усіх таблиць
+            ExecuteNonQuery(connection, &quot;DELETE FROM public.\&quot;Anime\&quot;;&quot;);
+            ExecuteNonQuery(connection, &quot;DELETE FROM public.\&quot;Genre\&quot;;&quot;);
+            ExecuteNonQuery(connection, &quot;DELETE FROM public.\&quot;UserInfo\&quot;;&quot;);
+            ExecuteNonQuery(connection, &quot;DELETE FROM public.\&quot;Review\&quot;;&quot;);
+            ExecuteNonQuery(connection, &quot;DELETE FROM public.\&quot;AnimeGenre\&quot;;&quot;);
+            ExecuteNonQuery(connection, &quot;DELETE FROM public.\&quot;AddedAnime\&quot;;&quot;);
+            ExecuteNonQuery(connection, &quot;DELETE FROM public.\&quot;LikedAnime\&quot;;&quot;);
+            ExecuteNonQuery(connection, &quot;DELETE FROM public.\&quot;DislikedAnime\&quot;;&quot;);
+            ExecuteNonQuery(connection, &quot;DELETE FROM public.\&quot;WatchedAnime\&quot;;&quot;);
+        }
+        private static void ExecuteNonQuery(NpgsqlConnection connection, string query)
+        {
+            using (NpgsqlCommand command = new NpgsqlCommand(query, connection))
+            {
+                command.ExecuteNonQuery();
+            }
+        }
+
+        private static void InsertDataIntoGenres(NpgsqlConnection connection,int id, string name)
+        {
+            string insertQuery = &quot;INSERT INTO public.\&quot;Genre\&quot; (\&quot;Id\&quot;,\&quot;Name\&quot;) VALUES (@id, @name)&quot;;
+
+            using (NpgsqlCommand command = new NpgsqlCommand(insertQuery, connection))
+            {
+                command.Parameters.AddWithValue(&quot;@id&quot;, id);
+                command.Parameters.AddWithValue(&quot;@name&quot;, name);
+
+                command.ExecuteNonQuery();
+            }
+        }
+
+        private static void InsertDataIntoUserInfo(NpgsqlConnection connection, int id, string username, string password, string email, string name, string text, string photo, int level, int watchedcount)
+        {
+            string insertQuery = &quot;INSERT INTO public.\&quot;UserInfo\&quot;(\&quot;Id\&quot;, \&quot;Username\&quot;, \&quot;Password\&quot;, \&quot;Email\&quot;, \&quot;Name\&quot;, \&quot;Level\&quot;, \&quot;Text\&quot;, \&quot;Photo\&quot;, \&quot;WatchedCount\&quot;) VALUES (@id, @username, @password, @email, @name, @level, @text, @photo, @watchedcount)&quot;;
+
+            using (NpgsqlCommand command = new NpgsqlCommand(insertQuery, connection))
+            {
+                command.Parameters.AddWithValue(&quot;@id&quot;, id);
+                command.Parameters.AddWithValue(&quot;@username&quot;, username);
+                command.Parameters.AddWithValue(&quot;@password&quot;, password);
+                command.Parameters.AddWithValue(&quot;@email&quot;, email);
+                command.Parameters.AddWithValue(&quot;@name&quot;, name);
+                command.Parameters.AddWithValue(&quot;@level&quot;, level);
+                command.Parameters.AddWithValue(&quot;@text&quot;, text);
+                command.Parameters.AddWithValue(&quot;@photo&quot;, photo);
+                command.Parameters.AddWithValue(&quot;@watchedcount&quot;, watchedcount);
+
+                command.ExecuteNonQuery();
+            }
+        }
+
+        private static void InsertDataIntoReview(NpgsqlConnection connection,int id, int userId, int animeId, string text, int rate)
+        {
+            string insertQuery = &quot;INSERT INTO public.\&quot;Review\&quot; (\&quot;Id\&quot;, \&quot;UserId\&quot;, \&quot;AnimeId\&quot;, \&quot;Text\&quot;, \&quot;Rate\&quot;) VALUES (@id, @userId, @animeId, @text, @rate)&quot;;
+
+            using (NpgsqlCommand command = new NpgsqlCommand(insertQuery, connection))
+            {
+                command.Parameters.AddWithValue(&quot;@id&quot;, id);
+                command.Parameters.AddWithValue(&quot;@userId&quot;, userId);
+                command.Parameters.AddWithValue(&quot;@animeId&quot;, animeId);
+                command.Parameters.AddWithValue(&quot;@text&quot;, text);
+                command.Parameters.AddWithValue(&quot;@rate&quot;, rate);
+
+                command.ExecuteNonQuery();
+            }
+        }
+
+        private static void InsertDataIntoAnimeGenres(NpgsqlConnection connection, int id, int animeId, int genreId)
+        {
+            string insertQuery = &quot;INSERT INTO public.\&quot;AnimeGenre\&quot; (\&quot;Id\&quot;, \&quot;AnimeId\&quot;, \&quot;GenreId\&quot;) VALUES (@id, @animeId, @genreId)&quot;;
+
+            using (NpgsqlCommand command = new NpgsqlCommand(insertQuery, connection))
+            {
+                command.Parameters.AddWithValue(&quot;@id&quot;, id);
+                command.Parameters.AddWithValue(&quot;@animeId&quot;, animeId);
+                command.Parameters.AddWithValue(&quot;@genreId&quot;, genreId);
+
+                command.ExecuteNonQuery();
+            }
+        }
+
+        private static void InsertDataIntoAdded(NpgsqlConnection connection, int id, int userId, int animeId)
+        {
+            string insertQuery = &quot;INSERT INTO public.\&quot;AddedAnime\&quot; (\&quot;Id\&quot;, \&quot;UserId\&quot;, \&quot;AnimeId\&quot;) VALUES (@id, @userId, @animeId)&quot;;
+
+            using (NpgsqlCommand command = new NpgsqlCommand(insertQuery, connection))
+            {
+                command.Parameters.AddWithValue(&quot;@id&quot;, id);
+                command.Parameters.AddWithValue(&quot;@userId&quot;, userId);
+                command.Parameters.AddWithValue(&quot;@animeId&quot;, animeId);
+
+                command.ExecuteNonQuery();
+            }
+        }
+
+        private static void InsertDataIntoLiked(NpgsqlConnection connection, int id, int userId, int animeId)
+        {
+            string insertQuery = &quot;INSERT INTO public.\&quot;LikedAnime\&quot; (\&quot;Id\&quot;, \&quot;UserId\&quot;, \&quot;AnimeId\&quot;) VALUES (@id, @userId, @animeId)&quot;;
+
+            using (NpgsqlCommand command = new NpgsqlCommand(insertQuery, connection))
+            {
+                command.Parameters.AddWithValue(&quot;@id&quot;, id);
+                command.Parameters.AddWithValue(&quot;@userId&quot;, userId);
+                command.Parameters.AddWithValue(&quot;@animeId&quot;, animeId);
+
+                command.ExecuteNonQuery();
+            }
+        }
+
+        private static void InsertDataIntoDisLiked(NpgsqlConnection connection, int id, int userId, int animeId)
+        {
+            string insertQuery = &quot;INSERT INTO public.\&quot;DislikedAnime\&quot; (\&quot;Id\&quot;, \&quot;UserId\&quot;, \&quot;AnimeId\&quot;) VALUES (@id, @userId, @animeId)&quot;;
+
+            using (NpgsqlCommand command = new NpgsqlCommand(insertQuery, connection))
+            {
+                command.Parameters.AddWithValue(&quot;@id&quot;, id);
+                command.Parameters.AddWithValue(&quot;@userId&quot;, userId);
+                command.Parameters.AddWithValue(&quot;@animeId&quot;, animeId);
+
+                command.ExecuteNonQuery();
+            }
+        }
+
+        private static void InsertDataIntoWatched(NpgsqlConnection connection, int id, int userId, int animeId)
+        {
+            string insertQuery = &quot;INSERT INTO public.\&quot;WatchedAnime\&quot; (\&quot;Id\&quot;, \&quot;UserId\&quot;, \&quot;AnimeId\&quot;) VALUES (@id, @userId, @animeId)&quot;;
+
+            using (NpgsqlCommand command = new NpgsqlCommand(insertQuery, connection))
+            {
+                command.Parameters.AddWithValue(&quot;@id&quot;, id);
+                command.Parameters.AddWithValue(&quot;@userId&quot;, userId);
+                command.Parameters.AddWithValue(&quot;@animeId&quot;, animeId);
+
+                command.ExecuteNonQuery();
+            }
+        }
+
+        private static void DisplayAllData()
+        {
+            using (NpgsqlConnection con = GetConnection())
+            {
+                con.Open();
+                DisplayAnimeData(con);
+                DisplayGenresData(con);
+                DisplayUserInfoData(con);
+                DisplayReviewData(con);
+                DisplayAnimeGenresData(con);
+                DisplayAddedData(con);
+                DisplayDislikedData(con);
+                DisplayLikedData(con);
+                DisplayWatchedData(con);
+            }
+        }
+
+        private static void DisplayAnimeData(NpgsqlConnection connection)
+        {
+            string query = &quot;SELECT * FROM public.anime&quot;;
+            using (NpgsqlCommand command = new NpgsqlCommand(query, connection))
+            {
+                using (NpgsqlDataReader reader = command.ExecuteReader())
+                {
+                    Console.WriteLine(&quot;Anime Table Data:&quot;);
+                    while (reader.Read())
+                    {
+                        Console.WriteLine($&quot;ID: {reader[&quot;id&quot;]}, Name: {reader[&quot;name&quot;]}, Year: {reader[&quot;year&quot;]}, IMDb Rate: {reader[&quot;imdbrate&quot;]}&quot;);
+                    }
+                }
+            }
+        }
+
+        private static void DisplayGenresData(NpgsqlConnection connection)
+        {
+            string query = &quot;SELECT * FROM public.genres&quot;;
+            using (NpgsqlCommand command = new NpgsqlCommand(query, connection))
+            {
+                using (NpgsqlDataReader reader = command.ExecuteReader())
+                {
+                    Console.WriteLine(&quot;\n\nGenres Table Data:&quot;);
+                    while (reader.Read())
+                    {
+                        Console.WriteLine($&quot;ID: {reader[&quot;id&quot;]}, Name: {reader[&quot;name&quot;]}&quot;);
+                    }
+                }
+            }
+        }
+
+        private static void DisplayUserInfoData(NpgsqlConnection connection)
+        {
+            string query = &quot;SELECT * FROM public.userinfo&quot;;
+            using (NpgsqlCommand command = new NpgsqlCommand(query, connection))
+            {
+                using (NpgsqlDataReader reader = command.ExecuteReader())
+                {
+                    Console.WriteLine(&quot;\n\nUserInfo Table Data:&quot;);
+                    while (reader.Read())
+                    {
+                        Console.WriteLine($&quot;ID: {reader[&quot;id&quot;]}, Username: {reader[&quot;username&quot;]}, Email: {reader[&quot;email&quot;]}, Level: {reader[&quot;level&quot;]}&quot;);
+                    }
+                }
+            }
+        }
+
+        private static void DisplayReviewData(NpgsqlConnection connection)
+        {
+            string query = &quot;SELECT * FROM public.review&quot;;
+            using (NpgsqlCommand command = new NpgsqlCommand(query, connection))
+            {
+                using (NpgsqlDataReader reader = command.ExecuteReader())
+                {
+                    Console.WriteLine(&quot;\n\nReview Table Data:&quot;);
+                    while (reader.Read())
+                    {
+                        Console.WriteLine($&quot;ID: {reader[&quot;id&quot;]}, User ID: {reader[&quot;user_id&quot;]}, Anime ID: {reader[&quot;anime_id&quot;]}, Rate: {reader[&quot;rate&quot;]}&quot;);
+                    }
+                }
+            }
+        }
+
+        private static void DisplayAddedData(NpgsqlConnection connection)
+        {
+            string query = &quot;SELECT * FROM public.added&quot;;
+            using (NpgsqlCommand command = new NpgsqlCommand(query, connection))
+            {
+                using (NpgsqlDataReader reader = command.ExecuteReader())
+                {
+                    Console.WriteLine(&quot;\n\nAdded Table Data:&quot;);
+                    while (reader.Read())
+                    {
+                        Console.WriteLine($&quot;User ID: {reader[&quot;user_id&quot;]}, Anime ID: {reader[&quot;anime_id&quot;]}&quot;);
+                    }
+                }
+            }
+        }
+
+        private static void DisplayWatchedData(NpgsqlConnection connection)
+        {
+            string query = &quot;SELECT * FROM public.watched&quot;;
+            using (NpgsqlCommand command = new NpgsqlCommand(query, connection))
+            {
+                using (NpgsqlDataReader reader = command.ExecuteReader())
+                {
+                    Console.WriteLine(&quot;\n\nWatched Table Data:&quot;);
+                    while (reader.Read())
+                    {
+                        Console.WriteLine($&quot;User ID: {reader[&quot;user_id&quot;]}, Anime ID: {reader[&quot;anime_id&quot;]}&quot;);
+                    }
+                }
+            }
+        }
+
+        private static void DisplayLikedData(NpgsqlConnection connection)
+        {
+            string query = &quot;SELECT * FROM public.liked&quot;;
+            using (NpgsqlCommand command = new NpgsqlCommand(query, connection))
+            {
+                using (NpgsqlDataReader reader = command.ExecuteReader())
+                {
+                    Console.WriteLine(&quot;\n\nLiked Table Data:&quot;);
+                    while (reader.Read())
+                    {
+                        Console.WriteLine($&quot;User ID: {reader[&quot;user_id&quot;]}, Anime ID: {reader[&quot;anime_id&quot;]}&quot;);
+                    }
+                }
+            }
+        }
+
+        private static void DisplayDislikedData(NpgsqlConnection connection)
+        {
+            string query = &quot;SELECT * FROM public.disliked&quot;;
+            using (NpgsqlCommand command = new NpgsqlCommand(query, connection))
+            {
+                using (NpgsqlDataReader reader = command.ExecuteReader())
+                {
+                    Console.WriteLine(&quot;\n\nDisliked Table Data:&quot;);
+                    while (reader.Read())
+                    {
+                        Console.WriteLine($&quot;User ID: {reader[&quot;user_id&quot;]}, Anime ID: {reader[&quot;anime_id&quot;]}&quot;);
+                    }
+                }
+            }
+        }
+
+        private static void DisplayAnimeGenresData(NpgsqlConnection connection)
+        {
+            string query = &quot;SELECT * FROM public.animegenres&quot;;
+            using (NpgsqlCommand command = new NpgsqlCommand(query, connection))
+            {
+                using (NpgsqlDataReader reader = command.ExecuteReader())
+                {
+                    Console.WriteLine(&quot;\n\nAnimeGenres Table Data:&quot;);
+                    while (reader.Read())
+                    {
+                        Console.WriteLine($&quot;Anime ID: {reader[&quot;anime_id&quot;]}, Genre ID: {reader[&quot;genre_id&quot;]}&quot;);
+                    }
+                }
+            }
+        }
+
+        //private static void Test()
+        //{
+        //    using(NpgsqlConnection con=GetConnection())
+        //    {
+        //        con.Open();
+        //        if(con.State==ConnectionState.Open) 
+        //        {
+        //            Console.WriteLine(&quot;yes&quot;);
+        //        }
+        //    }    
+        //}
+        private static NpgsqlConnection GetConnection() 
+        {
+            return new NpgsqlConnection(@&quot;Server=localhost;Port=5432;User Id=postgres;Password=13112004k;Database=animatch;&quot;);
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[10,9,10,10,0],[13,13,13,22,0],[15,13,15,32,0],[16,9,16,10,0],[19,9,19,10,0],[20,20,20,58,0],[21,13,21,14,0],[22,17,22,28,0],[25,17,25,34,0],[27,17,27,46,0],[28,17,28,35,0],[29,22,29,31,0],[29,33,29,45,0],[29,47,29,50,0],[30,17,30,18,0],[32,21,32,51,0],[33,21,33,57,0],[34,21,34,69,0],[35,21,35,68,0],[36,21,36,61,0],[37,21,37,362,0],[38,21,38,81,0],[39,21,39,57,0],[41,21,41,62,0],[42,21,42,62,0],[43,21,43,56,0],[44,21,44,55,0],[45,21,45,55,0],[46,21,46,141,0],[47,21,47,60,0],[48,21,48,67,0],[50,21,50,58,0],[51,21,51,59,0],[53,21,53,32,0],[56,21,56,110,0],[59,21,59,62,0],[62,21,62,120,0],[65,21,65,73,0],[68,21,68,64,0],[71,21,71,58,0],[74,21,74,58,0],[77,21,77,61,0],[80,21,80,60,0],[81,17,81,18,0],[82,13,82,14,0],[84,9,84,10,0],[87,9,87,10,0],[88,13,88,182,0],[90,20,90,86,0],[91,13,91,14,0],[92,17,92,61,0],[93,17,93,64,0],[94,17,94,64,0],[95,17,95,72,0],[96,17,96,66,0],[97,17,97,64,0],[99,17,99,43,0],[100,13,100,14,0],[101,9,101,10,0],[103,9,103,10,0],[105,13,105,74,0],[106,13,106,74,0],[107,13,107,77,0],[108,13,108,75,0],[109,13,109,79,0],[110,13,110,79,0],[111,13,111,79,0],[112,13,112,82,0],[113,13,113,81,0],[114,9,114,10,0],[116,9,116,10,0],[117,20,117,80,0],[118,13,118,14,0],[119,17,119,43,0],[120,13,120,14,0],[121,9,121,10,0],[124,9,124,10,0],[125,13,125,103,0],[127,20,127,86,0],[128,13,128,14,0],[129,17,129,60,0],[130,17,130,64,0],[132,17,132,43,0],[133,13,133,14,0],[134,9,134,10,0],[137,9,137,10,0],[138,13,138,263,0],[140,20,140,86,0],[141,13,141,14,0],[142,17,142,60,0],[143,17,143,72,0],[144,17,144,72,0],[145,17,145,66,0],[146,17,146,64,0],[147,17,147,66,0],[148,17,148,64,0],[149,17,149,66,0],[150,17,150,80,0],[152,17,152,43,0],[153,13,153,14,0],[154,9,154,10,0],[157,9,157,10,0],[158,13,158,166,0],[160,20,160,86,0],[161,13,161,14,0],[162,17,162,60,0],[163,17,163,68,0],[164,17,164,70,0],[165,17,165,64,0],[166,17,166,64,0],[168,17,168,43,0],[169,13,169,14,0],[170,9,170,10,0],[173,9,173,10,0],[174,13,174,138,0],[176,20,176,86,0],[177,13,177,14,0],[178,17,178,60,0],[179,17,179,70,0],[180,17,180,70,0],[182,17,182,43,0],[183,13,183,14,0],[184,9,184,10,0],[187,9,187,10,0],[188,13,188,136,0],[190,20,190,86,0],[191,13,191,14,0],[192,17,192,60,0],[193,17,193,68,0],[194,17,194,70,0],[196,17,196,43,0],[197,13,197,14,0],[198,9,198,10,0],[201,9,201,10,0],[202,13,202,136,0],[204,20,204,86,0],[205,13,205,14,0],[206,17,206,60,0],[207,17,207,68,0],[208,17,208,70,0],[210,17,210,43,0],[211,13,211,14,0],[212,9,212,10,0],[215,9,215,10,0],[216,13,216,139,0],[218,20,218,86,0],[219,13,219,14,0],[220,17,220,60,0],[221,17,221,68,0],[222,17,222,70,0],[224,17,224,43,0],[225,13,225,14,0],[226,9,226,10,0],[229,9,229,10,0],[230,13,230,138,0],[232,20,232,86,0],[233,13,233,14,0],[234,17,234,60,0],[235,17,235,68,0],[236,17,236,70,0],[238,17,238,43,0],[239,13,239,14,0],[240,9,240,10,0],[243,9,243,10,0],[244,20,244,58,0],[245,13,245,14,0],[246,17,246,28,0],[247,17,247,39,0],[248,17,248,40,0],[249,17,249,42,0],[250,17,250,40,0],[251,17,251,45,0],[252,17,252,39,0],[253,17,253,42,0],[254,17,254,39,0],[255,17,255,41,0],[256,13,256,14,0],[257,9,257,10,0],[260,9,260,10,0],[261,13,261,57,0],[262,20,262,80,0],[263,13,263,14,0],[264,24,264,73,0],[265,17,265,18,0],[266,21,266,60,0],[267,21,267,42,0],[268,21,268,22,0],[269,25,269,147,0],[270,21,270,22,0],[271,17,271,18,0],[272,13,272,14,0],[273,9,273,10,0],[276,9,276,10,0],[277,13,277,58,0],[278,20,278,80,0],[279,13,279,14,0],[280,24,280,73,0],[281,17,281,18,0],[282,21,282,65,0],[283,21,283,42,0],[284,21,284,22,0],[285,25,285,90,0],[286,21,286,22,0],[287,17,287,18,0],[288,13,288,14,0],[289,9,289,10,0],[292,9,292,10,0],[293,13,293,60,0],[294,20,294,80,0],[295,13,295,14,0],[296,24,296,73,0],[297,17,297,18,0],[298,21,298,67,0],[299,21,299,42,0],[300,21,300,22,0],[301,25,301,150,0],[302,21,302,22,0],[303,17,303,18,0],[304,13,304,14,0],[305,9,305,10,0],[308,9,308,10,0],[309,13,309,58,0],[310,20,310,80,0],[311,13,311,14,0],[312,24,312,73,0],[313,17,313,18,0],[314,21,314,65,0],[315,21,315,42,0],[316,21,316,22,0],[317,25,317,152,0],[318,21,318,22,0],[319,17,319,18,0],[320,13,320,14,0],[321,9,321,10,0],[324,9,324,10,0],[325,13,325,57,0],[326,20,326,80,0],[327,13,327,14,0],[328,24,328,73,0],[329,17,329,18,0],[330,21,330,64,0],[331,21,331,42,0],[332,21,332,22,0],[333,25,333,108,0],[334,21,334,22,0],[335,17,335,18,0],[336,13,336,14,0],[337,9,337,10,0],[340,9,340,10,0],[341,13,341,59,0],[342,20,342,80,0],[343,13,343,14,0],[344,24,344,73,0],[345,17,345,18,0],[346,21,346,66,0],[347,21,347,42,0],[348,21,348,22,0],[349,25,349,108,0],[350,21,350,22,0],[351,17,351,18,0],[352,13,352,14,0],[353,9,353,10,0],[356,9,356,10,0],[357,13,357,57,0],[358,20,358,80,0],[359,13,359,14,0],[360,24,360,73,0],[361,17,361,18,0],[362,21,362,64,0],[363,21,363,42,0],[364,21,364,22,0],[365,25,365,108,0],[366,21,366,22,0],[367,17,367,18,0],[368,13,368,14,0],[369,9,369,10,0],[372,9,372,10,0],[373,13,373,60,0],[374,20,374,80,0],[375,13,375,14,0],[376,24,376,73,0],[377,17,377,18,0],[378,21,378,67,0],[379,21,379,42,0],[380,21,380,22,0],[381,25,381,108,0],[382,21,382,22,0],[383,17,383,18,0],[384,13,384,14,0],[385,9,385,10,0],[388,9,388,10,0],[389,13,389,63,0],[390,20,390,80,0],[391,13,391,14,0],[392,24,392,73,0],[393,17,393,18,0],[394,21,394,70,0],[395,21,395,42,0],[396,21,396,22,0],[397,25,397,110,0],[398,21,398,22,0],[399,17,399,18,0],[400,13,400,14,0],[401,9,401,10,0],[415,9,415,10,0],[416,13,416,128,0],[417,9,417,10,0]]);
+    </script>
+  </body>
+</html>

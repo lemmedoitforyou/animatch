@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Adminnn\Desktop\папочка\унік\animatch\animatch\AniDAL\Repositories\GenericRepository.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System.Linq.Expressions;
+using AniDAL.DbContext;
+using Microsoft.EntityFrameworkCore;
+
+namespace AniDAL.Repositories
+{
+    public interface IGenericRepository&lt;T&gt;
+        where T : class
+    {
+        IEnumerable&lt;T&gt; GetAll();
+
+        T GetById(object id);
+
+        void Insert(T obj);
+
+        void Update(T obj);
+
+        void Delete(int id);
+
+        void Save();
+
+        int GetLastId();
+    }
+
+    public class GenericRepository&lt;T&gt; : IGenericRepository&lt;T&gt;
+        where T : class
+    {
+        protected ApplicationDbContext _context = null;
+
+        protected DbSet&lt;T&gt; table = null;
+
+        public GenericRepository()
+        {
+            this._context = new ApplicationDbContext();
+
+            table = _context.Set&lt;T&gt;();
+        }
+
+        public GenericRepository(ApplicationDbContext _context)
+        {
+            this._context = _context;
+            table = _context.Set&lt;T&gt;();
+        }
+
+        public IEnumerable&lt;T&gt; GetAll()
+        {
+            return table.ToList();
+        }
+
+        public T GetById(object id)
+        {
+            return table.Find(id);
+        }
+
+        public void Insert(T obj)
+        {
+            table.Add(obj);
+            _context.Entry(obj).State = EntityState.Added;
+
+            Save();
+        }
+
+        public void Update(T obj)
+        {
+            table.Attach(obj);
+            _context.Entry(obj).State = EntityState.Modified;
+        }
+
+        public void Delete(int id)
+        {
+            T existing = table.Find(id);
+            table.Remove(existing);
+        }
+
+        public void Save()
+        {
+            _context.SaveChanges();
+        }
+
+        public int GetLastId()
+        {
+            var dbSet = _context.Set&lt;T&gt;();
+
+            var idProperty = typeof(T).GetProperty(&quot;Id&quot;);
+
+            if (idProperty == null)
+            {
+                throw new InvalidOperationException(&quot;The entity does not have a property named &#39;Id&#39;.&quot;);
+            }
+
+            var idType = idProperty.PropertyType;
+
+            var parameter = Expression.Parameter(typeof(T), &quot;e&quot;);
+            var expression = Expression.Lambda&lt;Func&lt;T, int&gt;&gt;(Expression.Property(parameter, idProperty), parameter);
+
+            var maxIdExpression = Expression.Call(
+                typeof(Queryable),
+                &quot;Max&quot;,
+                new Type[] { typeof(T), idType },
+                Expression.Constant(dbSet),
+                expression
+            );
+
+            var maxId = Expression.Lambda&lt;Func&lt;int&gt;&gt;(maxIdExpression).Compile()();
+
+            return maxId;
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[28,9,28,56,0],[28,9,28,56,0],[30,9,30,41,0],[30,9,30,41,0],[32,9,32,35,0],[33,9,33,10,0],[34,13,34,56,0],[36,13,36,39,0],[37,9,37,10,0],[39,9,39,64,0],[40,9,40,10,0],[41,13,41,38,0],[42,13,42,39,0],[43,9,43,10,0],[46,9,46,10,0],[47,13,47,35,0],[48,9,48,10,0],[51,9,51,10,0],[52,13,52,35,0],[53,9,53,10,0],[56,9,56,10,0],[57,13,57,28,0],[58,13,58,59,0],[60,13,60,20,0],[61,9,61,10,0],[64,9,64,10,0],[65,13,65,31,0],[66,13,66,62,0],[67,9,67,10,0],[70,9,70,10,0],[71,13,71,41,0],[72,13,72,36,0],[73,9,73,10,0],[76,9,76,10,0],[77,13,77,36,0],[78,9,78,10,0],[81,9,81,10,0],[82,13,82,43,0],[84,13,84,58,0],[86,13,86,36,0],[87,13,87,14,0],[88,17,88,104,0],[91,13,91,50,0],[93,13,93,66,0],[94,13,94,117,0],[96,13,102,15,0],[104,13,104,83,0],[106,13,106,26,0],[107,9,107,10,0]]);
+    </script>
+  </body>
+</html>

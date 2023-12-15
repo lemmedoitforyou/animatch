@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Adminnn\Desktop\папочка\унік\animatch\animatch\AniWPF\LogInWindow.xaml.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System;
+using System.Windows;
+using AniBLL.Services;
+using AniWPF.StartupHelper;
+using Microsoft.Extensions.Logging;
+
+namespace AniWPF
+{
+    public partial class LogInWindow : Window, IWindowAware
+    {
+        private readonly ILogger&lt;LogInWindow&gt; logger;
+
+        private readonly IAbstractFactory&lt;MainWindow&gt; mainFactory;
+        private readonly IAbstractFactory&lt;RegistrationWindow&gt; registrationFactory;
+
+        private readonly IUserService userService;
+
+        public static int CurrentUserID { get; set; }
+        public Window ParentWindow { get; set; }
+
+        public LogInWindow(IUserService uService, IAbstractFactory&lt;MainWindow&gt; mfactory, 
+                           IAbstractFactory&lt;RegistrationWindow&gt; rfactory, ILogger&lt;LogInWindow&gt; logger)
+        {
+            mainFactory = mfactory;
+            registrationFactory = rfactory;
+
+            userService = uService;
+
+            InitializeComponent();
+            this.WindowState = WindowState.Maximized;
+
+            this.logger = logger;
+            this.logger.LogInformation(&quot;LogInWindow created&quot;);
+        }
+
+        public void ButtonEnter_Click(object sender, RoutedEventArgs e)
+        {
+            string loginValue = login.Text;
+            string passwordValue = password.Password;
+            var user = userService.GetByUsername(loginValue);
+
+            if (user != null)
+            {
+                if (user.Password == passwordValue)
+                {
+                    //MessageBox.Show(&quot;Користувача знайдено&quot;);
+                    this.logger.LogInformation(&quot;User was found, login successfully&quot;);
+                    CurrentUserID = user.Id;
+                    mainFactory.Create(this).Show(); 
+                    
+                    this.Close();
+                    
+                }
+                else
+                {
+                    this.logger.LogInformation(&quot;User was found, but the password is incorrect&quot;);
+                    MessageBox.Show(&quot;Пароль неправильний&quot;);
+                }
+            }
+            else
+            {
+                this.logger.LogInformation(&quot;User was not found&quot;);
+                MessageBox.Show(&quot;Користувача не знайдено&quot;);
+            }
+        }
+
+        public void ButtonRegister_Click(object sender, RoutedEventArgs e)
+        {
+            this.logger.LogInformation(&quot;Click Register button&quot;);
+            registrationFactory.Create(this).Show();
+            this.Close();
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[18,43,18,47,0],[18,48,18,52,0],[19,38,19,42,0],[19,43,19,47,0],[21,9,22,103,0],[23,9,23,10,0],[24,13,24,36,0],[25,13,25,44,0],[27,13,27,36,0],[29,13,29,35,0],[30,13,30,54,0],[32,13,32,34,0],[33,13,33,63,0],[34,9,34,10,0],[37,9,37,10,0],[38,13,38,44,0],[39,13,39,54,0],[40,13,40,62,0],[42,13,42,30,0],[43,13,43,14,0],[44,17,44,52,0],[45,17,45,18,0],[47,21,47,86,0],[48,21,48,45,0],[49,21,49,53,0],[51,21,51,34,0],[53,17,53,18,0],[55,17,55,18,0],[56,21,56,97,0],[57,21,57,60,0],[58,17,58,18,0],[59,13,59,14,0],[61,13,61,14,0],[62,17,62,66,0],[63,17,63,60,0],[64,13,64,14,0],[65,9,65,10,0],[68,9,68,10,0],[69,13,69,65,0],[70,13,70,53,0],[71,13,71,26,0],[72,9,72,10,0]]);
+    </script>
+  </body>
+</html>

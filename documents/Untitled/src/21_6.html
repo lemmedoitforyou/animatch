@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Adminnn\Desktop\папочка\унік\animatch\animatch\AniDAL\Repositories\AnimeGenreRepository.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using AniDAL.DataBaseClasses;
+
+namespace AniDAL.Repositories
+{
+    public interface IAnimeGenreRepository : IGenericRepository&lt;AnimeGenre&gt;
+    {
+        List&lt;string&gt; GetGenresForAnime(int animeId);
+
+        List&lt;Anime&gt; GetAnimesForGenre(int genreId);
+    }
+
+    public class AnimeGenreRepository : GenericRepository&lt;AnimeGenre&gt;, IAnimeGenreRepository
+    {
+        public List&lt;string&gt; GetGenresForAnime(int animeId)
+        {
+            var genreNames = this._context.AnimeGenre
+                .Where(ag =&gt; ag.AnimeId == animeId)
+                .Join(this._context.Genre, ag =&gt; ag.GenreId, g =&gt; g.Id, (ag, g) =&gt; g.Name)
+                .ToList();
+
+            return genreNames;
+        }
+
+        public List&lt;Anime&gt; GetAnimesForGenre(int genreId)
+        {
+            return this._context.AnimeGenre
+                .Where(ag =&gt; ag.GenreId == genreId)
+                .Join(this._context.Anime, ag =&gt; ag.AnimeId, a =&gt; a.Id, (ag, a) =&gt; a)
+                .ToList();
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[15,9,15,10,0],[16,13,19,27,0],[21,13,21,31,0],[22,9,22,10,0],[25,9,25,10,0],[26,13,29,27,0],[30,9,30,10,0]]);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Adminnn\Desktop\папочка\унік\animatch\animatch\AniBLL\Services\AnimeService.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using AniBLL.Models;
+using AniDAL.DataBaseClasses;
+using AniDAL.Repositories;
+
+namespace AniBLL.Services
+{
+    public interface IAnimeService
+    {
+        AnimeModel GetById(int id);
+
+        List&lt;AnimeModel&gt; GetAll();
+
+        void Insert(AnimeModel anime);
+
+        void Update(AnimeModel anime);
+
+        void Delete(int anime);
+    }
+
+    public class AnimeService : IAnimeService
+    {
+        private readonly IAnimeRepository _animeRepository;
+
+        public AnimeService(IAnimeRepository animeRepository)
+        {
+            this._animeRepository = animeRepository;
+        }
+
+        public List&lt;AnimeModel&gt; GetAll()
+        {
+            List&lt;Anime&gt; animeRepository = this._animeRepository.GetAll().ToList();
+            List&lt;AnimeModel&gt; anime1 = animeRepository
+                                .Select(anime =&gt; new AnimeModel
+                                {
+                                    Id = anime.Id,
+                                    Name = anime.Name,
+                                    Text = anime.Text,
+                                    Imdbrate = anime.Imdbrate,
+                                    Photo = anime.Photo,
+                                    Year = anime.Year,
+                                })
+                                .ToList();
+
+            return anime1;
+        }
+
+        public AnimeModel GetById(int animeId)
+        {
+            var anime = this._animeRepository.GetById(animeId);
+
+            if (anime == null)
+            {
+                return null;
+            }
+
+            var animeModel = new AnimeModel
+            {
+                Id = anime.Id,
+                Name = anime.Name,
+                Text = anime.Text,
+                Imdbrate = anime.Imdbrate,
+                Photo = anime.Photo,
+                Year = anime.Year,
+            };
+
+            return animeModel;
+        }
+
+        public void Insert(AnimeModel anime)
+        {
+            this._animeRepository.Insert(anime);
+        }
+
+        public void Update(AnimeModel anime)
+        {
+            this._animeRepository.Update(anime);
+        }
+
+        public void Delete(int anime)
+        {
+            this._animeRepository.Delete(anime);
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[24,9,24,62,1],[25,9,25,10,1],[26,13,26,53,1],[27,9,27,10,1],[30,9,30,10,1],[31,13,31,83,1],[32,13,33,50,1],[33,50,41,34,1],[41,34,42,43,1],[44,13,44,27,1],[45,9,45,10,1],[48,9,48,10,1],[49,13,49,64,1],[51,13,51,31,1],[52,13,52,14,1],[53,17,53,29,1],[56,13,64,15,1],[66,13,66,31,1],[67,9,67,10,1],[70,9,70,10,1],[71,13,71,49,1],[72,9,72,10,1],[75,9,75,10,1],[76,13,76,49,1],[77,9,77,10,1],[80,9,80,10,1],[81,13,81,49,1],[82,9,82,10,1]]);
+    </script>
+  </body>
+</html>

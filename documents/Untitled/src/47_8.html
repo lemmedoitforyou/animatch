@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Adminnn\Desktop\папочка\унік\animatch\animatch\AniWPF\RedactWindow.xaml.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Linq;
+using System.Windows;
+using AniBLL.Models;
+using AniBLL.Services;
+using AniWPF.StartupHelper;
+using Microsoft.Extensions.Logging;
+
+namespace AniWPF
+{
+    
+    public partial class RedactWindow : Window
+    {
+        private readonly ILogger&lt;RedactWindow&gt; logger;
+
+        private readonly IAbstractFactory&lt;RandomWindow&gt; randomFactory;
+        private readonly IAbstractFactory&lt;MainWindow&gt; mainFactory;
+        private readonly IAbstractFactory&lt;ProfileWindow&gt; profileFactory;
+
+        private readonly IUserService userService;
+        private readonly IAddedAnimeService addedAnimeService;
+        private readonly IAnimeService animeService;
+
+        private UserViewModel viewModel;
+        private int id;
+
+        public RedactWindow(IUserService userService, IAddedAnimeService addedAnimeService, 
+            IAnimeService animeService, IAbstractFactory&lt;RandomWindow&gt; randomFactory, 
+            IAbstractFactory&lt;MainWindow&gt; mainFactory, IAbstractFactory&lt;ProfileWindow&gt; profileFactory,
+            ILogger&lt;RedactWindow&gt; logger)
+        {
+            this.randomFactory = randomFactory;
+            this.mainFactory = mainFactory;
+            this.profileFactory = profileFactory;
+
+            this.userService = userService;
+            this.addedAnimeService = addedAnimeService;
+            this.animeService = animeService;
+
+            this.id = LogInWindow.CurrentUserID;
+
+            this.viewModel = new UserViewModel(this.userService, this.id);
+            this.DataContext = this.viewModel;
+            List&lt;AnimeModel&gt; temp = addedAnimeService.GetAddedAnimesForUser(this.id);
+
+            this.logger = logger;
+            this.logger.LogInformation(&quot;RedactWindow created&quot;);
+
+            this.InitializeComponent();
+            this.WindowState = WindowState.Maximized;
+            
+        }
+        public class UserViewModel : INotifyPropertyChanged
+        {
+            private readonly IUserService userService;
+            private int id;
+
+            public UserViewModel(IUserService userService, int id)
+            {
+                this.userService = userService;
+                this.id = id;
+            }
+
+            public string UserName
+            {
+                get { return this.userService.GetById(this.id).Name; }
+                set {  }
+            }
+
+            public string UserText
+            {
+                get { return this.userService.GetById(this.id).Text; }
+                set {   }
+            }
+
+            public string UserLevel
+            {
+                get
+                {
+                    int level = this.userService.GetById(this.id).Level;
+                    switch (level)
+                    {
+                        case 1:
+                            return &quot;новачок&quot;;
+                        case 2:
+                            return &quot;досвічений анімешник&quot;;
+                        case 3:
+                            return &quot;любитель конкретних жанрів&quot;;
+                        default:
+                            return &quot;лох&quot;;
+                    }
+                }
+
+                set { }
+            }
+
+            public string UserPhoto
+            {
+                get
+                {
+                    return this.userService.GetById(this.id).Photo;
+                }
+            }
+
+            public int UserWachedCount
+            {
+                get
+                {
+                    return this.userService.GetById(this.id).WatchedCount;
+                }
+                set { }
+            }
+
+            public event PropertyChangedEventHandler? PropertyChanged;
+
+            protected virtual void OnPropertyChanged(string propertyName)
+            {
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        private void Cancel_Button_Click(object sender, RoutedEventArgs e)
+        {
+            this.logger.LogInformation(&quot;Click Watched button, changes was canceled&quot;);
+            this.profileFactory.Create(this).Show();
+            this.Close();
+        }
+        
+        private void Save_Button_Click(object sender, RoutedEventArgs e)
+        {
+            this.logger.LogInformation(&quot;Click Watched button, changes was save&quot;);
+            if(name.Text == null &amp;&amp; description.Text == null)
+            {
+                this.profileFactory.Create(this).Show();
+                this.Close();
+            }
+            userService.UpdateTitleAndText(id,name.Text, description.Text);
+            this.profileFactory.Create(this).Show();
+            this.Close();
+        }
+
+        private void Main_Click(object sender, RoutedEventArgs e)
+        {
+            this.logger.LogInformation(&quot;Click Main button&quot;);
+            this.mainFactory.Create(this).Show();
+            this.Close();
+        }
+        private void SelectPhotoButton_Click(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.OpenFileDialog openFileDialog = new Microsoft.Win32.OpenFileDialog();
+            openFileDialog.Filter = &quot;Image files (*.png;*.jpeg;*.jpg)|*.png;*.jpeg;*.jpg|All files (*.*)|*.*&quot;;
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string selectedImagePath = openFileDialog.FileName;
+
+                userService.UpdatePhoto(id, selectedImagePath);
+            }
+        }
+
+
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[29,9,32,42,0],[33,9,33,10,0],[34,13,34,48,0],[35,13,35,44,0],[36,13,36,50,0],[38,13,38,44,0],[39,13,39,56,0],[40,13,40,46,0],[42,13,42,49,0],[44,13,44,75,0],[45,13,45,47,0],[46,13,46,86,0],[48,13,48,34,0],[49,13,49,64,0],[51,13,51,40,0],[52,13,52,54,0],[54,9,54,10,0],[60,13,60,67,0],[61,13,61,14,0],[62,17,62,48,0],[63,17,63,30,0],[64,13,64,14,0],[68,21,68,22,0],[68,23,68,69,0],[68,70,68,71,0],[69,21,69,22,0],[69,24,69,25,0],[74,21,74,22,0],[74,23,74,69,0],[74,70,74,71,0],[75,21,75,22,0],[75,25,75,26,0],[81,17,81,18,0],[82,21,82,73,0],[83,21,83,35,0],[86,29,86,46,0],[88,29,88,59,0],[90,29,90,65,0],[92,29,92,42,0],[94,17,94,18,0],[96,21,96,22,0],[96,23,96,24,0],[102,17,102,18,0],[103,21,103,68,0],[104,17,104,18,0],[110,17,110,18,0],[111,21,111,75,0],[112,17,112,18,0],[113,21,113,22,0],[113,23,113,24,0],[119,13,119,14,0],[120,17,120,96,0],[121,13,121,14,0],[125,9,125,10,0],[126,13,126,86,0],[127,13,127,53,0],[128,13,128,26,0],[129,9,129,10,0],[132,9,132,10,0],[133,13,133,82,0],[134,13,134,62,0],[135,13,135,14,0],[136,17,136,57,0],[137,17,137,30,0],[138,13,138,14,0],[139,13,139,76,0],[140,13,140,53,0],[141,13,141,26,0],[142,9,142,10,0],[145,9,145,10,0],[146,13,146,61,0],[147,13,147,50,0],[148,13,148,26,0],[149,9,149,10,0],[151,9,151,10,0],[152,13,152,98,0],[153,13,153,111,0],[155,13,155,53,0],[156,13,156,14,0],[157,17,157,68,0],[159,17,159,64,0],[160,13,160,14,0],[161,9,161,10,0]]);
+    </script>
+  </body>
+</html>

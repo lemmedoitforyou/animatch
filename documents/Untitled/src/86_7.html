@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Adminnn\Desktop\папочка\унік\animatch\animatch\AniBLL\Services\WatchedAnimeService.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using AniBLL.Models;
+using AniDAL.DataBaseClasses;
+using AniDAL.Repositories;
+
+namespace AniBLL.Services
+{
+    public interface IWatchedAnimeService
+    {
+        List&lt;AnimeModel&gt; GetWatchedAnimesForUser(int userId);
+
+        void Insert(WatchedAnimeModel watched);
+
+        void Delete(int watched);
+
+        int GetLastId();
+    }
+
+    public class WatchedAnimeService : IWatchedAnimeService
+    {
+        private readonly IWatchedAnimeRepository _watchedAnimeRepository;
+
+        public WatchedAnimeService(IWatchedAnimeRepository watchedAnimeRepository)
+        {
+            this._watchedAnimeRepository = watchedAnimeRepository;
+        }
+
+        public List&lt;AnimeModel&gt; GetWatchedAnimesForUser(int userId)
+        {
+            List&lt;Anime&gt; watchedAnimesFromRepository =
+                this._watchedAnimeRepository.GetWatchedAnimesForUser(userId);
+
+            List&lt;AnimeModel&gt; likedAnimes = watchedAnimesFromRepository
+                .Select(anime =&gt; new AnimeModel
+                {
+                    Id = anime.Id,
+                    Name = anime.Name,
+                    Text = anime.Text,
+                    Imdbrate = anime.Imdbrate,
+                    Photo = anime.Photo,
+                    Year = anime.Year,
+                })
+                .ToList();
+
+            return likedAnimes;
+        }
+
+        public void Insert(WatchedAnimeModel watched)
+        {
+            this._watchedAnimeRepository.Insert(watched);
+        }
+
+        public void Delete(int watched)
+        {
+            this._watchedAnimeRepository.Delete(watched);
+        }
+
+        public int GetLastId()
+        {
+            return this._watchedAnimeRepository.GetLastId();
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[22,9,22,83,1],[23,9,23,10,1],[24,13,24,67,1],[25,9,25,10,1],[28,9,28,10,1],[29,13,30,78,1],[32,13,33,34,1],[33,34,41,18,1],[41,18,42,27,1],[44,13,44,32,1],[45,9,45,10,1],[48,9,48,10,1],[49,13,49,58,1],[50,9,50,10,1],[53,9,53,10,1],[54,13,54,58,1],[55,9,55,10,1],[58,9,58,10,1],[59,13,59,61,1],[60,9,60,10,1]]);
+    </script>
+  </body>
+</html>

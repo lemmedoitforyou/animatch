@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Adminnn\Desktop\папочка\унік\animatch\animatch\AniWPF\AnimeWindow.xaml.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Windows;
+using System.Windows.Media.Imaging;
+using AniBLL.Models;
+using AniBLL.Services;
+using AniWPF.StartupHelper;
+using Microsoft.Extensions.Logging;
+
+namespace AniWPF
+{
+    public partial class AnimeWindow : Window
+    {
+        private readonly ILogger&lt;AnimeWindow&gt; logger;
+
+        public static Window ParentWindow { get; set; }
+
+        private readonly IAbstractFactory&lt;RandomWindow&gt; randomFactory;
+        private readonly IAbstractFactory&lt;ProfileWindow&gt; profileFactory;
+        private readonly IAbstractFactory&lt;LikedAnimeWindow&gt; likedFactory;
+        private readonly IAbstractFactory&lt;SearchWindow&gt; searchFactory;
+        private readonly IAbstractFactory&lt;MainWindow&gt; mainFactory;
+
+        private readonly IAddedAnimeService addedAnimeService;
+        private readonly ILikedAnimeService likedAnimeService;
+        private readonly IDislikedAnimeService dislikedAnimeService;
+        private readonly IWatchedAnimeService watchAnimeService;
+        private readonly IAnimeService animeService;
+        private readonly IUserService userService;
+        private readonly IReviewService reviewService;
+        private List&lt;ReviewForForm&gt; reviewList;
+
+        private AnimeViewModel viewModel;
+        private int id;
+
+        public static int AnimeId { get; set; }
+
+        public AnimeWindow(IAnimeService animeService, IAddedAnimeService addedAnimeService,
+            IDislikedAnimeService dislikedAnimeService, ILikedAnimeService likedAnimeService,
+            IWatchedAnimeService watchedAnimeService, IUserService userService,
+            IAbstractFactory&lt;RandomWindow&gt; rfactory, IAbstractFactory&lt;ProfileWindow&gt; profileFactory,
+            IAbstractFactory&lt;LikedAnimeWindow&gt; likedFactory, IAbstractFactory&lt;SearchWindow&gt; searchFactory,
+            IAbstractFactory&lt;MainWindow&gt; mainFactory, IReviewService reviewService, ILogger&lt;AnimeWindow&gt; logger)
+        {
+            this.InitializeComponent();
+            this.WindowState = WindowState.Maximized;
+
+            this.animeService = animeService;
+            this.randomFactory = rfactory;
+            this.likedFactory = likedFactory;
+            this.profileFactory = profileFactory;
+            this.searchFactory = searchFactory;
+            this.mainFactory = mainFactory;
+
+            this.addedAnimeService = addedAnimeService;
+            this.likedAnimeService = likedAnimeService;
+            this.dislikedAnimeService = dislikedAnimeService;
+            this.watchAnimeService = watchedAnimeService;
+            this.userService = userService;
+            this.reviewService = reviewService;
+
+            if (ParentWindow != null)
+            {
+                if (ParentWindow.GetType() == typeof(MainWindow))
+                {
+                    AnimeId = MainWindow.randomAnimeId;
+                }
+
+                else if (ParentWindow.GetType() == typeof(LikedAnimeWindow))
+                {
+                    AnimeId = LikedAnimeWindow.CurrentId;
+                }
+
+                else if (ParentWindow.GetType() == typeof(ProfileWindow))
+                {
+                    AnimeId = ProfileWindow.CurrentId;
+                }
+
+                else if (ParentWindow.GetType() == typeof(RandomWindow))
+                {
+                    AnimeId = RandomWindow.randomAnimeId;
+                }
+
+                else if (ParentWindow.GetType() == typeof(SearchWindow))
+                {
+                    AnimeId = SearchWindow.CurrentId;
+                }
+            }
+
+            this.id = LogInWindow.CurrentUserID;
+            List&lt;ReviewModel&gt; temp = reviewService.GetReviewsForAnime(AnimeId);
+            this.reviewList = new List&lt;ReviewForForm&gt;();
+            foreach (ReviewModel review in temp)
+            {
+                var reviewViewModel = new ReviewViewModel(reviewService, userService, review.Id);
+                this.reviewList.Add(new ReviewForForm(reviewViewModel));
+            }
+
+            this.RewiewListView.ItemsSource = this.reviewList;
+
+            this.viewModel = new AnimeViewModel(this.animeService, AnimeId, this.addedAnimeService);
+            this.DataContext = this.viewModel;
+
+            this.logger = logger;
+            this.logger.LogInformation(&quot;MainWindow created&quot;);
+
+            this.InitializeComponent();
+        }
+
+        public class ReviewForForm
+        {
+            public string ReviewText { get; set; }
+
+            public string ReviewUserName { get; set; }
+
+            public string ReviewUserPhoto { get; set; }
+
+            public ReviewForForm(ReviewViewModel reviewViewModel)
+            {
+                this.ReviewText = reviewViewModel.ReviewText;
+                this.ReviewUserName = reviewViewModel.UserName;
+                this.ReviewUserPhoto = reviewViewModel.UserPhoto;
+            }
+        }
+
+        public class ReviewViewModel : INotifyPropertyChanged
+        {
+            private readonly IReviewService reviewServise;
+            private readonly IUserService userService;
+            private int id;
+
+            public ReviewViewModel(IReviewService reviewService, IUserService userService, int id)
+            {
+                this.reviewServise = reviewService;
+                this.userService = userService;
+                this.id = id;
+            }
+
+            public string ReviewText
+            {
+                get { return this.reviewServise.GetById(this.id).Text; }
+            }
+
+            public string UserName
+            {
+                get { return this.userService.GetById(this.reviewServise.GetById(this.id).UserId).Name; }
+            }
+
+            public string UserPhoto
+            {
+                get { return this.userService.GetById(this.reviewServise.GetById(this.id).UserId).Photo; }
+            }
+
+            public event PropertyChangedEventHandler? PropertyChanged;
+
+            protected virtual void OnPropertyChanged(string propertyName)
+            {
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        public class AnimeViewModel : INotifyPropertyChanged
+        {
+            private readonly IAnimeService animeService;
+            private readonly IAddedAnimeService addedAnime;
+
+            private int id;
+
+            public AnimeViewModel(IAnimeService animeService, int id, IAddedAnimeService addedAnime)
+            {
+                this.addedAnime = addedAnime;
+                this.animeService = animeService;
+                this.id = id;
+            }
+
+            public string AnimeName
+            {
+                get { return this.animeService.GetById(this.id).Name; }
+            }
+
+            public string AnimeText
+            {
+                get { return this.animeService.GetById(this.id).Text; }
+            }
+
+            public double AnimeRate
+            {
+                get { return Math.Round(this.animeService.GetById(this.id).Imdbrate, 2); }
+            }
+
+            public string AnimePhoto
+            {
+                get { return this.animeService.GetById(this.id).Photo; }
+            }
+
+            public int AnimeYear
+            {
+                get { return this.animeService.GetById(this.id).Year; }
+            }
+
+            public string UserLikedAnime
+            {
+                get { return $&quot;{this.addedAnime.CountUserWhoAddAnime(this.id)} користувачів вподобали це аніме&quot;; }
+            }
+
+            public event PropertyChangedEventHandler? PropertyChanged;
+
+            protected virtual void OnPropertyChanged(string propertyName)
+            {
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        private void Random_Click(object sender, RoutedEventArgs e)
+        {
+            this.logger.LogInformation(&quot;Click Random button&quot;);
+            this.randomFactory.Create(this).Show();
+            this.Close();
+        }
+
+        private void ButtonProfile_Click(object sender, RoutedEventArgs e)
+        {
+            this.logger.LogInformation(&quot;Click Profile button&quot;);
+            this.profileFactory.Create(this).Show();
+            this.Close();
+        }
+
+        private void ButtonLiked_Click(object sender, RoutedEventArgs e)
+        {
+            this.logger.LogInformation(&quot;Click Liked button&quot;);
+            this.likedFactory.Create(this).Show();
+            this.Close();
+        }
+
+        private void ButtonSearch_Click(object sender, RoutedEventArgs e)
+        {
+            this.logger.LogInformation(&quot;Click Search button&quot;);
+            this.searchFactory.Create(this).Show();
+            this.Close();
+        }
+
+        private void LikeAnime_Click(object sender, RoutedEventArgs e)
+        {
+            this.logger.LogInformation(&quot;Click LikeAnime button&quot;);
+            this.likeUnfill.Source = new BitmapImage(new Uri(&quot;https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/LikedFillIcon.png?raw=true&quot;));
+
+            LikedAnimeModel temp = new LikedAnimeModel
+            {
+                Id = this.likedAnimeService.GetLastUserId() + 1,
+                UserId = this.id,
+                AnimeId = AnimeId,
+            };
+
+            this.likedAnimeService.Insert(temp);
+        }
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (ParentWindow != null)
+            {
+                if (ParentWindow.GetType() == typeof(MainWindow))
+                {
+                    MainWindow.ParentWindow = this;
+                    this.mainFactory.Create(this).Show();
+                    MainWindow.ParentWindow = null;
+                }
+                else if (ParentWindow.GetType() == typeof(LikedAnimeWindow))
+                {
+                    this.likedFactory.Create(this).Show();
+                }
+                else if (ParentWindow.GetType() == typeof(ProfileWindow))
+                {
+                    this.profileFactory.Create(this).Show();
+                }
+                else if (ParentWindow.GetType() == typeof(RandomWindow))
+                {
+                    RandomWindow.ParentWindow = this;
+                    this.randomFactory.Create(this).Show();
+                    RandomWindow.ParentWindow = null;
+                }
+                else if (ParentWindow.GetType() == typeof(SearchWindow))
+                {
+                    this.searchFactory.Create(this).Show();
+                }
+            }
+
+            this.Close();
+        }
+
+        private void LogoButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.mainFactory.Create(this).Show();
+            this.Close();
+        }
+
+        private void RewiewListView_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[17,45,17,49,0],[17,50,17,54,0],[37,37,37,41,0],[37,42,37,46,0],[39,9,44,113,0],[45,9,45,10,0],[46,13,46,40,0],[47,13,47,54,0],[49,13,49,46,0],[50,13,50,43,0],[51,13,51,46,0],[52,13,52,50,0],[53,13,53,48,0],[54,13,54,44,0],[56,13,56,56,0],[57,13,57,56,0],[58,13,58,62,0],[59,13,59,58,0],[60,13,60,44,0],[61,13,61,48,0],[63,13,63,38,0],[64,13,64,14,0],[65,17,65,66,0],[66,17,66,18,0],[67,21,67,56,0],[68,17,68,18,0],[70,22,70,77,0],[71,17,71,18,0],[72,21,72,58,0],[73,17,73,18,0],[75,22,75,74,0],[76,17,76,18,0],[77,21,77,55,0],[78,17,78,18,0],[80,22,80,73,0],[81,17,81,18,0],[82,21,82,58,0],[83,17,83,18,0],[85,22,85,73,0],[86,17,86,18,0],[87,21,87,54,0],[88,17,88,18,0],[89,13,89,14,0],[91,13,91,49,0],[92,13,92,80,0],[93,13,93,57,0],[94,13,94,20,0],[94,22,94,40,0],[94,41,94,43,0],[94,44,94,48,0],[95,13,95,14,0],[96,17,96,98,0],[97,17,97,73,0],[98,13,98,14,0],[100,13,100,63,0],[102,13,102,101,0],[103,13,103,47,0],[105,13,105,34,0],[106,13,106,62,0],[108,13,108,40,0],[109,9,109,10,0],[113,40,113,44,0],[113,45,113,49,0],[115,44,115,48,0],[115,49,115,53,0],[117,45,117,49,0],[117,50,117,54,0],[119,13,119,66,0],[120,13,120,14,0],[121,17,121,62,0],[122,17,122,64,0],[123,17,123,66,0],[124,13,124,14,0],[133,13,133,99,0],[134,13,134,14,0],[135,17,135,52,0],[136,17,136,48,0],[137,17,137,30,0],[138,13,138,14,0],[142,21,142,22,0],[142,23,142,71,0],[142,72,142,73,0],[147,21,147,22,0],[147,23,147,104,0],[147,105,147,106,0],[152,21,152,22,0],[152,23,152,105,0],[152,106,152,107,0],[158,13,158,14,0],[159,17,159,96,0],[160,13,160,14,0],[170,13,170,101,0],[171,13,171,14,0],[172,17,172,46,0],[173,17,173,50,0],[174,17,174,30,0],[175,13,175,14,0],[179,21,179,22,0],[179,23,179,70,0],[179,71,179,72,0],[184,21,184,22,0],[184,23,184,70,0],[184,71,184,72,0],[189,21,189,22,0],[189,23,189,89,0],[189,90,189,91,0],[194,21,194,22,0],[194,23,194,71,0],[194,72,194,73,0],[199,21,199,22,0],[199,23,199,70,0],[199,71,199,72,0],[204,21,204,22,0],[204,23,204,113,0],[204,114,204,115,0],[210,13,210,14,0],[211,17,211,96,0],[212,13,212,14,0],[216,9,216,10,0],[217,13,217,63,0],[218,13,218,52,0],[219,13,219,26,0],[220,9,220,10,0],[223,9,223,10,0],[224,13,224,64,0],[225,13,225,53,0],[226,13,226,26,0],[227,9,227,10,0],[230,9,230,10,0],[231,13,231,62,0],[232,13,232,51,0],[233,13,233,26,0],[234,9,234,10,0],[237,9,237,10,0],[238,13,238,63,0],[239,13,239,52,0],[240,13,240,26,0],[241,9,241,10,0],[244,9,244,10,0],[245,13,245,66,0],[246,13,246,169,0],[248,13,253,15,0],[255,13,255,49,0],[256,9,256,10,0],[259,9,259,10,0],[260,13,260,38,0],[261,13,261,14,0],[262,17,262,66,0],[263,17,263,18,0],[264,21,264,52,0],[265,21,265,58,0],[266,21,266,52,0],[267,17,267,18,0],[268,22,268,77,0],[269,17,269,18,0],[270,21,270,59,0],[271,17,271,18,0],[272,22,272,74,0],[273,17,273,18,0],[274,21,274,61,0],[275,17,275,18,0],[276,22,276,73,0],[277,17,277,18,0],[278,21,278,54,0],[279,21,279,60,0],[280,21,280,54,0],[281,17,281,18,0],[282,22,282,73,0],[283,17,283,18,0],[284,21,284,60,0],[285,17,285,18,0],[286,13,286,14,0],[288,13,288,26,0],[289,9,289,10,0],[292,9,292,10,0],[293,13,293,50,0],[294,13,294,26,0],[295,9,295,10,0],[298,9,298,10,0],[300,9,300,10,0]]);
+    </script>
+  </body>
+</html>

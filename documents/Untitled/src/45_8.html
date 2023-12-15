@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Adminnn\Desktop\папочка\унік\animatch\animatch\AniWPF\ProfileWindow.xaml.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Linq;
+using System.Windows;
+using AniBLL.Models;
+using AniBLL.Services;
+using AniWPF.StartupHelper;
+using AniWPF;
+using Microsoft.Extensions.Logging;
+
+namespace AniWPF
+{
+    public partial class ProfileWindow : Window
+    {
+        private readonly ILogger&lt;ProfileWindow&gt; logger;
+
+        private readonly IAbstractFactory&lt;RandomWindow&gt; randomFactory;
+        private readonly IAbstractFactory&lt;MainWindow&gt; mainFactory;
+        private readonly IAbstractFactory&lt;RedactWindow&gt; redactFactory;
+        private readonly IAbstractFactory&lt;LikedAnimeWindow&gt; likedFactory;
+        private readonly IAbstractFactory&lt;SearchWindow&gt; searchFactory;
+        private readonly IAbstractFactory&lt;AnimeWindow&gt; animeFactory;
+
+        private readonly IUserService userService;
+        private readonly IAddedAnimeService addedAnimeService;
+        private readonly IAnimeService animeService;
+
+        private UserViewModel viewModel;
+        private int id;
+        private List&lt;AnimeForForm&gt; animeList;
+
+        public static int CurrentId { get; set; }
+
+        public ProfileWindow(IUserService userService, IAddedAnimeService addedAnimeService, 
+            IAnimeService animeService, IAbstractFactory&lt;RandomWindow&gt; randomFactory,
+            IAbstractFactory&lt;MainWindow&gt; mainFactory, IAbstractFactory&lt;RedactWindow&gt; redactFactory,
+            ILogger&lt;ProfileWindow&gt; logger, IAbstractFactory&lt;LikedAnimeWindow&gt; likedFactory, 
+            IAbstractFactory&lt;SearchWindow&gt; searchFactory, IAbstractFactory&lt;AnimeWindow&gt; animeFactory)
+        {
+            this.InitializeComponent();
+            this.WindowState = WindowState.Maximized;
+
+            this.randomFactory = randomFactory;
+            this.mainFactory = mainFactory;
+            this.redactFactory = redactFactory;
+            this.searchFactory = searchFactory;
+            this.animeFactory = animeFactory;
+
+            this.userService = userService;
+            this.addedAnimeService = addedAnimeService;
+            this.animeService = animeService;
+
+            System.Random random = new System.Random();
+            this.id = LogInWindow.CurrentUserID;
+            this.viewModel = new UserViewModel(this.userService, this.id);
+            this.DataContext = this.viewModel;
+            List&lt;AnimeModel&gt; temp = addedAnimeService.GetAddedAnimesForUser(this.id);
+
+            animeList = new List&lt;AnimeForForm&gt;();
+            foreach (AnimeModel anime in temp)
+            {
+                animeList.Add(new AnimeForForm { Id = anime.Id, Title = anime.Name, ImagePath = anime.Photo });
+            }
+            animeListView.ItemsSource = animeList;
+
+
+            this.logger = logger;
+            this.logger.LogInformation(&quot;ProfileWindow created&quot;);
+            this.likedFactory = likedFactory;
+            this.searchFactory = searchFactory;
+        }
+
+        public class AnimeForForm
+        {
+            public int Id { get; set; }
+            public string Title { get; set; }
+            public string ImagePath { get; set; }
+        }
+        public class UserViewModel : INotifyPropertyChanged
+        {
+            private readonly IUserService userService;
+            private int id;
+
+            public UserViewModel(IUserService userService, int id)
+            {
+                this.userService = userService;
+                this.id = id;
+            }
+
+            public string UserName
+            {
+                get { return this.userService.GetById(this.id).Name; }
+                set { }
+            }
+
+            public string UserText
+            {
+                get { return this.userService.GetById(this.id).Text; }
+                set { }
+            }
+
+            public string UserLevel
+            {
+                get
+                {
+                    int level = this.userService.GetById(this.id).Level;
+                    switch (level)
+                    {
+                        case 1:
+                            return &quot;новачок&quot;;
+                        case 2:
+                            return &quot;досвічений анімешник&quot;;
+                        case 3:
+                            return &quot;любитель конкретних жанрів&quot;;
+                        default:
+                            return &quot;лох&quot;;
+                    }
+                }
+                set{}
+            }
+
+            public string UserPhoto
+            {
+                get
+                {
+                    return this.userService.GetById(this.id).Photo;
+                }
+            }
+
+            public int UserWachedCount
+            {
+                get
+                {
+                    return this.userService.GetById(this.id).WatchedCount;
+                }
+                set { }
+            }
+
+            public event PropertyChangedEventHandler? PropertyChanged;
+
+            protected virtual void OnPropertyChanged(string propertyName)
+            {
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        public class AnimeViewModel : INotifyPropertyChanged
+        {
+            private readonly IAnimeService animeService;
+            private readonly IAddedAnimeService addedAnimeService;
+
+            private int id;
+
+            public AnimeViewModel(IAnimeService animeService, int id, IAddedAnimeService addedAnimeService)
+            {
+                this.animeService = animeService;
+                this.id = id;
+                this.addedAnimeService = addedAnimeService;
+            }
+
+            public string AnimeName
+            {
+                get { return this.animeService.GetById(this.id).Name; }
+            }
+
+            public string AnimeText
+            {
+                get { return this.animeService.GetById(this.id).Text; }
+            }
+
+            public double AnimeRate
+            {
+                get
+                {
+                    return this.animeService.GetById(this.id).Imdbrate;
+                }
+                set
+                {
+                    this.OnPropertyChanged(nameof(this.AnimeRate));
+                }
+            }
+
+            public string AnimePhoto
+            {
+                get
+                {
+                    return this.animeService.GetById(this.id).Photo;
+                }
+            }
+
+            public int AnimeYear
+            {
+                get
+                {
+                    return this.animeService.GetById(this.id).Year;
+                }
+            }
+
+            public event PropertyChangedEventHandler? PropertyChanged;
+
+            protected virtual void OnPropertyChanged(string propertyName)
+            {
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        private void RedactClick(object sender, RoutedEventArgs e)
+        {
+            this.logger.LogInformation(&quot;Click Redact button&quot;);
+            this.redactFactory.Create(this).Show();
+            this.Close();
+        }
+        private void Random_Click(object sender, RoutedEventArgs e)
+        {
+            this.logger.LogInformation(&quot;Click Random button&quot;);
+            this.randomFactory.Create(this).Show();
+            this.Close();
+        }
+        private void Main_Click(object sender, RoutedEventArgs e)
+        {
+            this.logger.LogInformation(&quot;Click Main button&quot;);
+            this.mainFactory.Create(this).Show();
+            this.Close();
+        }
+        private void ButtonProfile_Click(object sender, RoutedEventArgs e)
+        {
+            //this.logger.LogInformation(&quot;Click Profile button&quot;);
+            //this.profileFactory.Create(this).Show();
+            //this.Close();
+        }
+
+        private void ButtonSearch_Click(object sender, RoutedEventArgs e)
+        {
+            this.logger.LogInformation(&quot;Click Search button&quot;);
+            this.searchFactory.Create(this).Show();
+            this.Close();
+        }
+
+        private void ButtonAdded_Click(object sender, RoutedEventArgs e)
+        {
+            this.logger.LogInformation(&quot;Click added button&quot;);
+            this.likedFactory.Create(this).Show();
+            this.Close();
+        }
+
+        private void AnimeButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.logger.LogInformation(&quot;Click detail about anime button&quot;);
+
+            if (sender is FrameworkElement button)
+            {
+                if (button.DataContext is AnimeForForm clickedItem)
+                {
+                    string temp = clickedItem.Title;
+                    AnimeForForm foundAnime = this.animeList.FirstOrDefault(anime =&gt; anime.Title == temp);
+                    if (foundAnime != null)
+                    {
+                        CurrentId = foundAnime.Id;
+                    }
+
+                    AnimeWindow.ParentWindow = this;
+                    this.animeFactory.Create(this).Show();
+                    this.Close();
+                }
+            }
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[33,39,33,43,0],[33,44,33,48,0],[35,9,39,102,0],[40,9,40,10,0],[41,13,41,40,0],[42,13,42,54,0],[44,13,44,48,0],[45,13,45,44,0],[46,13,46,48,0],[47,13,47,48,0],[48,13,48,46,0],[50,13,50,44,0],[51,13,51,56,0],[52,13,52,46,0],[54,13,54,56,0],[55,13,55,49,0],[56,13,56,75,0],[57,13,57,47,0],[58,13,58,86,0],[60,13,60,50,0],[61,13,61,20,0],[61,22,61,38,0],[61,39,61,41,0],[61,42,61,46,0],[62,13,62,14,0],[63,17,63,112,0],[64,13,64,14,0],[65,13,65,51,0],[68,13,68,34,0],[69,13,69,65,0],[70,13,70,46,0],[71,13,71,48,0],[72,9,72,10,0],[76,29,76,33,0],[76,34,76,38,0],[77,35,77,39,0],[77,40,77,44,0],[78,39,78,43,0],[78,44,78,48,0],[85,13,85,67,0],[86,13,86,14,0],[87,17,87,48,0],[88,17,88,30,0],[89,13,89,14,0],[93,21,93,22,0],[93,23,93,69,0],[93,70,93,71,0],[94,21,94,22,0],[94,23,94,24,0],[99,21,99,22,0],[99,23,99,69,0],[99,70,99,71,0],[100,21,100,22,0],[100,23,100,24,0],[106,17,106,18,0],[107,21,107,73,0],[108,21,108,35,0],[111,29,111,46,0],[113,29,113,59,0],[115,29,115,65,0],[117,29,117,42,0],[119,17,119,18,0],[120,20,120,21,0],[120,21,120,22,0],[126,17,126,18,0],[127,21,127,68,0],[128,17,128,18,0],[134,17,134,18,0],[135,21,135,75,0],[136,17,136,18,0],[137,21,137,22,0],[137,23,137,24,0],[143,13,143,14,0],[144,17,144,96,0],[145,13,145,14,0],[155,13,155,108,0],[156,13,156,14,0],[157,17,157,50,0],[158,17,158,30,0],[159,17,159,60,0],[160,13,160,14,0],[164,21,164,22,0],[164,23,164,70,0],[164,71,164,72,0],[169,21,169,22,0],[169,23,169,70,0],[169,71,169,72,0],[175,17,175,18,0],[176,21,176,72,0],[177,17,177,18,0],[179,17,179,18,0],[180,21,180,68,0],[181,17,181,18,0],[187,17,187,18,0],[188,21,188,69,0],[189,17,189,18,0],[195,17,195,18,0],[196,21,196,68,0],[197,17,197,18,0],[203,13,203,14,0],[204,17,204,96,0],[205,13,205,14,0],[209,9,209,10,0],[210,13,210,63,0],[211,13,211,52,0],[212,13,212,26,0],[213,9,213,10,0],[215,9,215,10,0],[216,13,216,63,0],[217,13,217,52,0],[218,13,218,26,0],[219,9,219,10,0],[221,9,221,10,0],[222,13,222,61,0],[223,13,223,50,0],[224,13,224,26,0],[225,9,225,10,0],[227,9,227,10,0],[231,9,231,10,0],[234,9,234,10,0],[235,13,235,63,0],[236,13,236,52,0],[237,13,237,26,0],[238,9,238,10,0],[241,9,241,10,0],[242,13,242,62,0],[243,13,243,51,0],[244,13,244,26,0],[245,9,245,10,0],[248,9,248,10,0],[249,13,249,75,0],[251,13,251,51,0],[252,13,252,14,0],[253,17,253,68,0],[254,17,254,18,0],[255,21,255,53,0],[256,21,256,86,0],[256,86,256,105,0],[256,105,256,107,0],[257,21,257,44,0],[258,21,258,22,0],[259,25,259,51,0],[260,21,260,22,0],[262,21,262,53,0],[263,21,263,59,0],[264,21,264,34,0],[265,17,265,18,0],[266,13,266,14,0],[267,9,267,10,0]]);
+    </script>
+  </body>
+</html>

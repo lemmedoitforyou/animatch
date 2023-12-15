@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Adminnn\Desktop\папочка\унік\animatch\animatch\AniWPF\App.xaml.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System.Windows;
+using AniBLL.Services;
+using AniDAL;
+using AniDAL.DataBaseClasses;
+using AniDAL.DbContext;
+using AniDAL.Repositories;
+using AniWPF.StartupHelper;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Serilog;
+
+namespace AniWPF;
+
+public partial class App : Application
+{
+    public static IHost? AppHost { get; private set; }
+    private readonly ILogger&lt;App&gt; _logger;
+
+    public App()
+    {
+        AppHost = Host.CreateDefaultBuilder()
+           .UseSerilog((host, loggerConfiguration) =&gt;
+           {
+               loggerConfiguration.WriteTo.File(&quot;logs\\test.txt&quot;, rollingInterval: RollingInterval.Day)
+                   .WriteTo.Debug()
+                   .MinimumLevel.Override(&quot;LoggingDemo.Commands&quot;, Serilog.Events.LogEventLevel.Debug);
+           })
+            .ConfigureServices((hostContext, services) =&gt;
+            {
+                services.AddSingleton&lt;LogInWindow&gt;();
+                services.AddFormFactory&lt;MainWindow&gt;();
+                services.AddFormFactory&lt;RegistrationWindow&gt;();
+                services.AddFormFactory&lt;LogInWindow&gt;();
+                services.AddFormFactory&lt;RandomWindow&gt;();
+                services.AddFormFactory&lt;ProfileWindow&gt;();
+                services.AddFormFactory&lt;LikedAnimeWindow&gt;();
+                services.AddFormFactory&lt;RedactWindow&gt;();
+                services.AddFormFactory&lt;SearchWindow&gt;();
+                services.AddFormFactory&lt;AnimeWindow&gt;();
+
+                services.AddTransient&lt;ApplicationDbContext&gt;();
+
+                services.AddTransient&lt;IAnimeRepository, AnimeRepository&gt;();
+                services.AddTransient&lt;IAnimeService, AnimeService&gt;();
+
+                services.AddTransient&lt;IUserInfoRepository, UserInfoRepository&gt;();
+                services.AddTransient&lt;IUserService, UserService&gt;();
+
+                services.AddTransient&lt;IAddedAnimeService, AddedAnimeService&gt;();
+                services.AddTransient&lt;IAddedAnimeRepository, AddedAnimeRepository&gt;();
+
+                services.AddTransient&lt;ILikedAnimeRepository, LikedAnimeRepository&gt;();
+                services.AddTransient&lt;ILikedAnimeService, LikedAnimeService&gt;();
+
+                services.AddTransient&lt;IDislikedAnimeRepository, DislikedAnimeRepository&gt;();
+                services.AddTransient&lt;IDislikedAnimeService, DislikedAnimeService&gt;();
+
+                services.AddTransient&lt;IGenreRepository, GenreRepository&gt;();
+                services.AddTransient&lt;IGenreService, GenreService&gt;();
+
+                services.AddTransient&lt;IWatchedAnimeRepository, WatchedAnimeRepository&gt;();
+                services.AddTransient&lt;IWatchedAnimeService, WatchedAnimeService&gt;();
+               
+                services.AddTransient&lt;IAnimeGenreRepository, AnimeGenreRepository&gt;();
+                services.AddTransient&lt;IAnimeGenreService, AnimeGenreService&gt;();
+
+                services.AddTransient&lt;IReviewRepository, ReviewRepository&gt;();
+                services.AddTransient&lt;IReviewService, ReviewService&gt;();
+            }).Build();
+
+        _logger = AppHost.Services.GetRequiredService&lt;ILogger&lt;App&gt;&gt;();
+    }
+
+    protected override async void OnStartup(StartupEventArgs e)
+    {
+        await AppHost!.StartAsync();
+
+        var startupForm = AppHost.Services.GetRequiredService&lt;LogInWindow&gt;();
+        startupForm.Show();
+
+        base.OnStartup(e);
+    }
+
+    protected override async void OnExit(ExitEventArgs e)
+    {
+        await AppHost!.StopAsync();
+        base.OnExit(e);
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[17,36,17,40,0],[17,41,17,53,0],[20,5,20,17,0],[21,5,21,6,0],[22,9,24,12,0],[24,12,24,13,0],[24,13,25,16,0],[25,16,27,103,0],[27,103,28,12,0],[28,12,28,13,0],[28,13,30,13,0],[30,13,30,14,0],[30,14,31,17,0],[31,17,31,54,0],[31,54,32,17,0],[32,17,32,55,0],[32,55,33,17,0],[33,17,33,63,0],[33,63,34,17,0],[34,17,34,56,0],[34,56,35,17,0],[35,17,35,57,0],[35,57,36,17,0],[36,17,36,58,0],[36,58,37,17,0],[37,17,37,61,0],[37,61,38,17,0],[38,17,38,57,0],[38,57,39,17,0],[39,17,39,57,0],[39,57,40,17,0],[40,17,40,56,0],[40,56,42,17,0],[42,17,42,63,0],[42,63,44,17,0],[44,17,44,76,0],[44,76,45,17,0],[45,17,45,70,0],[45,70,47,17,0],[47,17,47,82,0],[47,82,48,17,0],[48,17,48,68,0],[48,68,50,17,0],[50,17,50,80,0],[50,80,51,17,0],[51,17,51,86,0],[51,86,53,17,0],[53,17,53,86,0],[53,86,54,17,0],[54,17,54,80,0],[54,80,56,17,0],[56,17,56,92,0],[56,92,57,17,0],[57,17,57,86,0],[57,86,59,17,0],[59,17,59,76,0],[59,76,60,17,0],[60,17,60,70,0],[60,70,62,17,0],[62,17,62,90,0],[62,90,63,17,0],[63,17,63,84,0],[63,84,65,17,0],[65,17,65,86,0],[65,86,66,17,0],[66,17,66,80,0],[66,80,68,17,0],[68,17,68,78,0],[68,78,69,17,0],[69,17,69,72,0],[69,72,70,13,0],[70,13,70,14,0],[70,14,70,24,0],[72,9,72,71,0],[73,5,73,6,0],[76,5,76,6,0],[77,9,77,37,0],[79,9,79,78,0],[80,9,80,28,0],[82,9,82,27,0],[83,5,83,6,0],[86,5,86,6,0],[87,9,87,36,0],[88,9,88,24,0],[89,5,89,6,0]]);
+    </script>
+  </body>
+</html>

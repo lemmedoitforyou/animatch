@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Adminnn\Desktop\папочка\унік\animatch\animatch\AniDAL\DbContext\ApplicationDbContext.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using AniDAL.DataBaseClasses;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+
+namespace AniDAL.DbContext
+{
+    public class ApplicationDbContext : Microsoft.EntityFrameworkCore.DbContext
+    {
+        public DbSet&lt;Anime&gt; Anime { get; set; }
+
+        public DbSet&lt;Genre&gt; Genre { get; set; }
+
+        public DbSet&lt;AnimeGenre&gt; AnimeGenre { get; set; }
+
+        public DbSet&lt;UserInfo&gt; UserInfo { get; set; }
+
+        public DbSet&lt;AddedAnime&gt; AddedAnime { get; set; }
+
+        public DbSet&lt;DislikedAnime&gt; DislikedAnime { get; set; }
+
+        public DbSet&lt;LikedAnime&gt; LikedAnime { get; set; }
+
+        public DbSet&lt;WatchedAnime&gt; WatchedAnime { get; set; }
+
+        public DbSet&lt;Review&gt; Review { get; set; }
+
+        public ApplicationDbContext()
+            : base()
+        {
+        }
+
+        public ApplicationDbContext(DbContextOptions&lt;ApplicationDbContext&gt; options)
+            : base(options)
+        {
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseNpgsql(&quot;Server=localhost;Port=5432;User Id=postgres;Password=13112004k;Database=animatch;&quot;);
+            }
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[9,37,9,41,0],[9,42,9,46,0],[11,37,11,41,0],[11,42,11,46,0],[13,47,13,51,0],[13,52,13,56,0],[15,43,15,47,0],[15,48,15,52,0],[17,47,17,51,0],[17,52,17,56,0],[19,53,19,57,0],[19,58,19,62,0],[21,47,21,51,0],[21,52,21,56,0],[23,51,23,55,0],[23,56,23,60,0],[25,39,25,43,0],[25,44,25,48,0],[28,15,28,21,0],[29,9,29,10,0],[30,9,30,10,0],[33,15,33,28,0],[34,9,34,10,0],[35,9,35,10,0],[38,9,38,10,0],[39,13,39,46,0],[40,13,40,14,0],[41,17,41,127,0],[42,13,42,14,0],[43,9,43,10,0],[46,9,46,10,0],[47,13,47,48,0],[48,9,48,10,0]]);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Adminnn\Desktop\папочка\унік\animatch\animatch\AniBLL\Services\GenreService.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using AniBLL.Models;
+using AniDAL.Repositories;
+
+namespace AniBLL.Services
+{
+    public interface IGenreService
+    {
+        GenreModel GetById(int id);
+
+        List&lt;GenreModel&gt; GetAll();
+
+        void Insert(GenreModel genres);
+
+        void Update(GenreModel genres);
+
+        void Delete(int genres);
+    }
+
+    public class GenreService : IGenreService
+    {
+        private readonly IGenreRepository _genreRepository;
+
+        public GenreService(IGenreRepository genreRepository)
+        {
+            this._genreRepository = genreRepository;
+        }
+
+        public List&lt;GenreModel&gt; GetAll()
+        {
+            var genres = this._genreRepository.GetAll();
+
+            var genreModels = genres.Select(genre =&gt; new GenreModel
+            {
+                Id = genre.Id,
+                Name = genre.Name,
+            }).ToList();
+
+            return genreModels;
+        }
+
+        public GenreModel GetById(int genreId)
+        {
+            var genre = this._genreRepository.GetById(genreId);
+            var genreModel = new GenreModel
+            {
+                Id = genre.Id,
+                Name = genre.Name,
+            };
+
+            return genreModel;
+        }
+
+        public void Insert(GenreModel genres)
+        {
+            this._genreRepository.Insert(genres);
+        }
+
+        public void Update(GenreModel genres)
+        {
+            this._genreRepository.Update(genres);
+        }
+
+        public void Delete(int genres)
+        {
+            this._genreRepository.Delete(genres);
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[23,9,23,62,1],[24,9,24,10,1],[25,13,25,53,1],[26,9,26,10,1],[29,9,29,10,1],[30,13,30,57,1],[32,13,32,54,1],[32,54,36,14,1],[36,14,36,25,1],[38,13,38,32,1],[39,9,39,10,1],[42,9,42,10,1],[43,13,43,64,1],[44,13,48,15,1],[50,13,50,31,1],[51,9,51,10,1],[54,9,54,10,1],[55,13,55,50,1],[56,9,56,10,1],[59,9,59,10,1],[60,13,60,50,1],[61,9,61,10,1],[64,9,64,10,1],[65,13,65,50,1],[66,9,66,10,1]]);
+    </script>
+  </body>
+</html>

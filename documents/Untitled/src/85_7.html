@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Adminnn\Desktop\папочка\унік\animatch\animatch\AniBLL\Services\UserService.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using AniBLL.Models;
+using AniDAL.DataBaseClasses;
+using AniDAL.Repositories;
+
+namespace AniBLL.Services
+{
+    public interface IUserService
+    {
+        UserInfoModel GetById(int id);
+
+        UserInfoModel GetByUsername(string username);
+
+        List&lt;UserInfoModel&gt; GetAll();
+
+        void Insert(UserInfoModel userInfo);
+
+        void Update(UserInfoModel userInfo);
+
+        void Delete(int userInfo);
+
+        bool IsExistUsername(string username);
+
+        bool IsExistEmail(string email);
+
+        int GetLastId();
+
+        void UpdateTitleAndText(int userId, string newTitle, string newText);
+
+        void WatchAnime(int userId);
+
+        void UpdatePhoto(int userID, string photoPath);
+    }
+
+    public class UserService : IUserService
+    {
+        private readonly IUserInfoRepository _userRepository;
+
+        public UserService(IUserInfoRepository userRepository)
+        {
+            this._userRepository = userRepository;
+        }
+
+        public UserInfoModel GetById(int id)
+        {
+            var user = this._userRepository.GetById(id);
+
+            if (user == null)
+            {
+                return null;
+            }
+
+            var userInfoModel = new UserInfoModel
+            {
+                Id = user.Id,
+                Username = user.Username,
+                Password = user.Password,
+                Email = user.Email,
+                Name = user.Name,
+                Level = user.Level,
+                Text = user.Text,
+                Photo = user.Photo,
+                WatchedCount = user.WatchedCount,
+            };
+
+            return userInfoModel;
+        }
+
+        public UserInfoModel GetByUsername(string username)
+        {
+            var user = this._userRepository.GetByUsername(username);
+
+            if (user == null)
+            {
+                return null;
+            }
+
+            var userInfoModel = new UserInfoModel
+            {
+                Id = user.Id,
+                Username = user.Username,
+                Password = user.Password,
+                Email = user.Email,
+                Name = user.Name,
+                Level = user.Level,
+                Text = user.Text,
+                Photo = user.Photo,
+                WatchedCount = user.WatchedCount,
+            };
+
+            return userInfoModel;
+        }
+
+        public List&lt;UserInfoModel&gt; GetAll()
+        {
+            List&lt;UserInfo&gt; userInfos = this._userRepository.GetAll().ToList();
+
+            List&lt;UserInfoModel&gt; userInfoModels = userInfos.Select(user =&gt; new UserInfoModel
+            {
+                Id = user.Id,
+                Username = user.Username,
+                Password = user.Password,
+                Email = user.Email,
+                Name = user.Name,
+                Level = user.Level,
+                Text = user.Text,
+                Photo = user.Photo,
+                WatchedCount = user.WatchedCount,
+            }).ToList();
+
+            return userInfoModels;
+        }
+
+        public void Insert(UserInfoModel userInfo)
+        {
+            this._userRepository.Insert(userInfo);
+        }
+
+        public void Update(UserInfoModel userInfo)
+        {
+            this._userRepository.Update(userInfo);
+        }
+
+        public void Delete(int userInfo)
+        {
+            this._userRepository.Delete(userInfo);
+        }
+
+        public bool IsExistUsername(string username)
+        {
+            return this._userRepository.IsExistUsername(username);
+        }
+
+        public bool IsExistEmail(string email)
+        {
+            return this._userRepository.IsExistEmail(email);
+        }
+
+        public int GetLastId()
+        {
+            return this._userRepository.GetLastUserId();
+        }
+
+        public void UpdateTitleAndText(int userId, string newTitle, string newText)
+        {
+            this._userRepository.UpdateTitleAndText(userId, newTitle, newText);
+        }
+
+        public void WatchAnime(int userId)
+        {
+            this._userRepository.WatchAnime(userId);
+        }
+        public void UpdatePhoto(int userID, string photoPath)
+        {
+            this._userRepository.UpdatePhoto(userID, photoPath);
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[38,9,38,63,1],[39,9,39,10,1],[40,13,40,51,1],[41,9,41,10,1],[44,9,44,10,1],[45,13,45,57,1],[47,13,47,30,1],[48,13,48,14,0],[49,17,49,29,0],[52,13,63,15,1],[65,13,65,34,1],[66,9,66,10,1],[69,9,69,10,1],[70,13,70,69,1],[72,13,72,30,1],[73,13,73,14,0],[74,17,74,29,0],[77,13,88,15,1],[90,13,90,34,1],[91,9,91,10,1],[94,9,94,10,1],[95,13,95,79,1],[97,13,97,75,1],[97,75,108,14,1],[108,14,108,25,1],[110,13,110,35,1],[111,9,111,10,1],[114,9,114,10,1],[115,13,115,51,1],[116,9,116,10,1],[119,9,119,10,1],[120,13,120,51,1],[121,9,121,10,1],[124,9,124,10,1],[125,13,125,51,1],[126,9,126,10,1],[129,9,129,10,1],[130,13,130,67,1],[131,9,131,10,1],[134,9,134,10,1],[135,13,135,61,1],[136,9,136,10,1],[139,9,139,10,1],[140,13,140,57,1],[141,9,141,10,1],[144,9,144,10,1],[145,13,145,80,1],[146,9,146,10,1],[149,9,149,10,1],[150,13,150,53,1],[151,9,151,10,1],[153,9,153,10,0],[154,13,154,65,0],[155,9,155,10,0]]);
+    </script>
+  </body>
+</html>

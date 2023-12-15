@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Adminnn\Desktop\папочка\унік\animatch\animatch\AniBLL\Services\LikedAnimeService.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using AniBLL.Models;
+using AniDAL.Repositories;
+
+namespace AniBLL.Services
+{
+    public interface ILikedAnimeService
+    {
+        List&lt;AnimeModel&gt; GetLikedAnimesForUser(int userId);
+
+        void Insert(LikedAnimeModel liked);
+
+        void Delete(int liked);
+
+        int GetLastUserId();
+    }
+
+    public class LikedAnimeService : ILikedAnimeService
+    {
+        private readonly ILikedAnimeRepository _likedAnimeRepository;
+
+        public LikedAnimeService(ILikedAnimeRepository likedAnimeRepository)
+        {
+            this._likedAnimeRepository = likedAnimeRepository;
+        }
+
+        public List&lt;AnimeModel&gt; GetLikedAnimesForUser(int userId)
+        {
+            List&lt;AniDAL.DataBaseClasses.Anime&gt; likedAnimesFromRepository =
+                this._likedAnimeRepository.GetLikedAnimesForUser(userId);
+
+            List&lt;AnimeModel&gt; likedAnimes = likedAnimesFromRepository
+                .Select(anime =&gt; new AnimeModel
+                {
+                    Id = anime.Id,
+                    Name = anime.Name,
+                    Text = anime.Text,
+                    Imdbrate = anime.Imdbrate,
+                    Photo = anime.Photo,
+                    Year = anime.Year,
+                })
+                .ToList();
+
+            return likedAnimes;
+        }
+
+        public int GetLastUserId()
+        {
+            return this._likedAnimeRepository.GetLastUserId();
+        }
+
+        public void Insert(LikedAnimeModel liked)
+        {
+            this._likedAnimeRepository.Insert(liked);
+        }
+
+        public void Delete(int liked)
+        {
+            this._likedAnimeRepository.Delete(liked);
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[21,9,21,77,1],[22,9,22,10,1],[23,13,23,63,1],[24,9,24,10,1],[27,9,27,10,1],[28,13,29,74,1],[31,13,32,34,1],[32,34,40,18,1],[40,18,41,27,1],[43,13,43,32,1],[44,9,44,10,1],[47,9,47,10,1],[48,13,48,63,1],[49,9,49,10,1],[52,9,52,10,1],[53,13,53,54,1],[54,9,54,10,1],[57,9,57,10,1],[58,13,58,54,1],[59,9,59,10,1]]);
+    </script>
+  </body>
+</html>

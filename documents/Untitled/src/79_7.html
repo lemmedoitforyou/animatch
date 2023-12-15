@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Adminnn\Desktop\папочка\унік\animatch\animatch\AniBLL\Services\AnimeGenreService.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using AniBLL.Models;
+using AniDAL.DataBaseClasses;
+using AniDAL.Repositories;
+
+namespace AniBLL.Services
+{
+    public interface IAnimeGenreService
+    {
+        List&lt;string&gt; GetGenresForAnime(int animeId);
+
+        List&lt;AnimeModel&gt; GetAnimesForGenre(int genreId);
+
+        void Insert(AnimeGenreModel animeGenres);
+
+        void Delete(int animeGenres);
+    }
+
+    public class AnimeGenreService : IAnimeGenreService
+    {
+        private readonly IAnimeGenreRepository _animeGenreRepository;
+
+        public AnimeGenreService(IAnimeGenreRepository animeGenreRepository)
+        {
+            this._animeGenreRepository = animeGenreRepository;
+        }
+
+        public List&lt;string&gt; GetGenresForAnime(int animeId)
+        {
+            return this._animeGenreRepository.GetGenresForAnime(animeId);
+        }
+
+        public List&lt;AnimeModel&gt; GetAnimesForGenre(int genreId)
+        {
+            List&lt;Anime&gt; animeGenreRepository = this._animeGenreRepository.GetAnimesForGenre(genreId);
+            List&lt;AnimeModel&gt; animeForGenre = animeGenreRepository.Select(anime =&gt; new AnimeModel
+            {
+                Id = anime.Id,
+                Name = anime.Name,
+                Text = anime.Text,
+                Imdbrate = anime.Imdbrate,
+                Photo = anime.Photo,
+                Year = anime.Year,
+            }).ToList();
+
+            return animeForGenre;
+        }
+
+        public void Insert(AnimeGenreModel animeGenres)
+        {
+            this._animeGenreRepository.Insert(animeGenres);
+        }
+
+        public void Delete(int animeGenres)
+        {
+            this._animeGenreRepository.Delete(animeGenres);
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[22,9,22,77,1],[23,9,23,10,1],[24,13,24,63,1],[25,9,25,10,1],[28,9,28,10,1],[29,13,29,74,1],[30,9,30,10,1],[33,9,33,10,1],[34,13,34,102,1],[35,13,35,83,1],[35,83,43,14,1],[43,14,43,25,1],[45,13,45,34,1],[46,9,46,10,1],[49,9,49,10,1],[50,13,50,60,1],[51,9,51,10,1],[54,9,54,10,1],[55,13,55,60,1],[56,9,56,10,1]]);
+    </script>
+  </body>
+</html>

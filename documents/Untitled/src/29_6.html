@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Adminnn\Desktop\папочка\унік\animatch\animatch\AniDAL\Repositories\WatchedAnimeRepository.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using AniDAL.DataBaseClasses;
+using AniDAL.DbContext;
+
+namespace AniDAL.Repositories
+{
+    public interface IWatchedAnimeRepository: IGenericRepository&lt;WatchedAnime&gt;
+    {
+        List&lt;Anime&gt; GetWatchedAnimesForUser(int userId);
+    }
+    public class WatchedAnimeRepository : GenericRepository&lt;WatchedAnime&gt;, IWatchedAnimeRepository
+    {
+        public List&lt;Anime&gt; GetWatchedAnimesForUser(int userId)
+        {
+            var watchedAnime = _context.AddedAnime
+             .Where(a =&gt; a.UserId == userId)
+             .Join(_context.Anime, a =&gt; a.AnimeId, g =&gt; g.Id, (a, g) =&gt; g)
+             .ToList();
+
+            return watchedAnime;
+        }
+        public int GetLastId()
+        {
+            int lastId = _context.WatchedAnime.Max(w =&gt; w.Id);
+            return lastId;
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[18,9,18,10,0],[19,13,22,24,0],[24,13,24,33,0],[25,9,25,10,0],[27,9,27,10,0],[28,13,28,63,0],[29,13,29,27,0],[30,9,30,10,0]]);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Adminnn\Desktop\папочка\унік\animatch\animatch\AniDAL\Repositories\AddedAnimeRepository.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using AniDAL.DataBaseClasses;
+
+namespace AniDAL.Repositories
+{
+    public interface IAddedAnimeRepository : IGenericRepository&lt;AddedAnime&gt;
+    {
+        List&lt;Anime&gt; GetAddedAnimesForUser(int userId);
+
+        int CountUserWhoAddAnime(int animeID);
+    }
+
+    public class AddedAnimeRepository : GenericRepository&lt;AddedAnime&gt;, IAddedAnimeRepository
+    {
+        public List&lt;Anime&gt; GetAddedAnimesForUser(int userId)
+        {
+            var addedAnime = this._context.AddedAnime
+            .Where(a =&gt; a.UserId == userId)
+            .Join(this._context.Anime, a =&gt; a.AnimeId, g =&gt; g.Id, (a, g) =&gt; g)
+            .ToList();
+
+            return addedAnime;
+        }
+
+        public int CountUserWhoAddAnime(int animeID)
+        {
+            var userAdded = this._context.AddedAnime
+            .Where(a =&gt; a.AnimeId == animeID).Count();
+            return userAdded;
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[15,9,15,10,0],[16,13,19,23,0],[21,13,21,31,0],[22,9,22,10,0],[25,9,25,10,0],[26,13,27,55,0],[28,13,28,30,0],[29,9,29,10,0]]);
+    </script>
+  </body>
+</html>

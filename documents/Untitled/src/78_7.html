@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Adminnn\Desktop\папочка\унік\animatch\animatch\AniBLL\Services\AddedAnimeService.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using AniBLL.Models;
+using AniDAL.Repositories;
+
+namespace AniBLL.Services
+{
+    public interface IAddedAnimeService
+    {
+        List&lt;AnimeModel&gt; GetAddedAnimesForUser(int userId);
+
+        void Add(AddedAnimeModel added);
+
+        void Delete(int added);
+
+        int CountUserWhoAddAnime(int animeID);
+    }
+
+    public class AddedAnimeService : IAddedAnimeService
+    {
+        private readonly IAddedAnimeRepository _addedAnimeRepository;
+
+        public AddedAnimeService(IAddedAnimeRepository addedAnimeRepository)
+        {
+            this._addedAnimeRepository = addedAnimeRepository;
+        }
+
+        public List&lt;AnimeModel&gt; GetAddedAnimesForUser(int userId)
+        {
+            List&lt;AniDAL.DataBaseClasses.Anime&gt; addedAnimeRepository = this._addedAnimeRepository.GetAddedAnimesForUser(userId);
+
+            // Перетворення об&#39;єктів Anime на об&#39;єкти AnimeModel
+            List&lt;AnimeModel&gt; addedAnime = addedAnimeRepository
+                .Select(anime =&gt; new AnimeModel
+                {
+                    Id = anime.Id,
+                    Name = anime.Name,
+                    Text = anime.Text,
+                    Imdbrate = anime.Imdbrate,
+                    Photo = anime.Photo,
+                    Year = anime.Year,
+                })
+                .ToList();
+
+            return addedAnime;
+        }
+
+        public void Add(AddedAnimeModel added)
+        {
+            this._addedAnimeRepository.Insert(added);
+        }
+
+        public void Delete(int added)
+        {
+            this._addedAnimeRepository.Delete(added);
+        }
+
+        public int CountUserWhoAddAnime(int animeID)
+        {
+            return this._addedAnimeRepository.CountUserWhoAddAnime(animeID);
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[21,9,21,77,1],[22,9,22,10,1],[23,13,23,63,1],[24,9,24,10,1],[27,9,27,10,1],[28,13,28,128,1],[31,13,32,34,1],[32,34,40,18,1],[40,18,41,27,1],[43,13,43,31,1],[44,9,44,10,1],[47,9,47,10,1],[48,13,48,54,1],[49,9,49,10,1],[52,9,52,10,1],[53,13,53,54,1],[54,9,54,10,1],[57,9,57,10,0],[58,13,58,77,0],[59,9,59,10,0]]);
+    </script>
+  </body>
+</html>

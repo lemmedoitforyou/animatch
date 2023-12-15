@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Adminnn\Desktop\папочка\унік\animatch\animatch\AniDAL\DataBaseClasses\UserInfo.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System.ComponentModel.DataAnnotations;
+
+namespace AniDAL.DataBaseClasses
+{
+    public class UserInfo
+    {
+        [Key]
+        public int Id { get; set; }
+
+        [Required]
+        [MaxLength(255)]
+        public string Username { get; set; }
+
+        [Required]
+        [MaxLength(255)]
+        public string Password { get; set; }
+
+        [Required]
+        [MaxLength(255)]
+        public string Email { get; set; }
+
+        [MaxLength(255)]
+        public string Name { get; set; }
+
+        public int Level { get; set; }
+
+        public string Text { get; set; }
+
+        [MaxLength(255)]
+        public string Photo { get; set; }
+
+        public int WatchedCount { get; set; }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[8,25,8,29,1],[8,30,8,34,1],[12,34,12,38,1],[12,39,12,43,1],[16,34,16,38,1],[16,39,16,43,1],[20,31,20,35,1],[20,36,20,40,1],[23,30,23,34,1],[23,35,23,39,1],[25,28,25,32,1],[25,33,25,37,1],[27,30,27,34,1],[27,35,27,39,1],[30,31,30,35,1],[30,36,30,40,1],[32,35,32,39,1],[32,40,32,44,1]]);
+    </script>
+  </body>
+</html>

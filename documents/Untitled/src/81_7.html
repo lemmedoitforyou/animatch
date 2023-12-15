@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Adminnn\Desktop\папочка\унік\animatch\animatch\AniBLL\Services\DislikedAnimeService.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using AniBLL.Models;
+using AniDAL.Repositories;
+
+namespace AniBLL.Services
+{
+    public interface IDislikedAnimeService
+    {
+        List&lt;AnimeModel&gt; GetDislikedAnimesForUser(int userId);
+
+        void Insert(DislikedAnimeModel disliked);
+
+        void Delete(int disliked);
+
+        int GetLastId();
+    }
+
+    public class DislikedAnimeService : IDislikedAnimeService
+    {
+        private readonly IDislikedAnimeRepository _dislikedAnimeRepository;
+
+        public DislikedAnimeService(IDislikedAnimeRepository dislikedAnimeRepository)
+        {
+            this._dislikedAnimeRepository = dislikedAnimeRepository;
+        }
+
+        public List&lt;AnimeModel&gt; GetDislikedAnimesForUser(int userId)
+        {
+            List&lt;AniDAL.DataBaseClasses.Anime&gt; dislikedAnimeRepository =
+                this._dislikedAnimeRepository.GetDislikedAnimesForUser(userId);
+
+            List&lt;AnimeModel&gt; dislikedAnime = dislikedAnimeRepository
+                .Select(anime =&gt; new AnimeModel
+                {
+                    Id = anime.Id,
+                    Name = anime.Name,
+                    Text = anime.Text,
+                    Imdbrate = anime.Imdbrate,
+                    Photo = anime.Photo,
+                    Year = anime.Year,
+                })
+                .ToList();
+
+            return dislikedAnime;
+        }
+
+        public void Insert(DislikedAnimeModel disliked)
+        {
+            this._dislikedAnimeRepository.Insert(disliked);
+        }
+
+        public void Delete(int disliked)
+        {
+            this._dislikedAnimeRepository.Delete(disliked);
+        }
+
+        public int GetLastId()
+        {
+            return this._dislikedAnimeRepository.GetLastId();
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[21,9,21,86,1],[22,9,22,10,1],[23,13,23,69,1],[24,9,24,10,1],[27,9,27,10,1],[28,13,29,80,1],[31,13,32,34,1],[32,34,40,18,1],[40,18,41,27,1],[43,13,43,34,1],[44,9,44,10,1],[47,9,47,10,1],[48,13,48,60,1],[49,9,49,10,1],[52,9,52,10,1],[53,13,53,60,1],[54,9,54,10,1],[57,9,57,10,1],[58,13,58,62,1],[59,9,59,10,1]]);
+    </script>
+  </body>
+</html>
