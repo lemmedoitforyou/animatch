@@ -63,7 +63,7 @@ namespace AniWPF
             {
                 animeList.Add(new AnimeForForm { Id = anime.Id, Title = anime.Name, ImagePath = anime.Photo });
             }
-            animeListView.ItemsSource = animeList;
+            animeItemsControl.ItemsSource = animeList;
 
 
             this.logger = logger;
@@ -138,6 +138,13 @@ namespace AniWPF
                     this.Close();
                 }
             }
+        }
+
+        private void ButtonLiked_Click(object sender, RoutedEventArgs e)
+        {
+            this.logger.LogInformation("Click Liked button");
+            this.likedFactory.Create(this).Show();
+            this.Close();
         }
     }
 }

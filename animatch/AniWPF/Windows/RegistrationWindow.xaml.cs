@@ -68,9 +68,9 @@ namespace AniWPF
                 UserInfoModel newUser = new UserInfoModel()
                 {
                     Id = currentid,
-                    Name = "додати ім'я",
-                    Level = 0,
-                    Text = "додати підпис",
+                    Name = "лох",
+                    Level = 1,
+                    Text = "лалала",
                     Photo = "https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/defaultUserPhoto.jpg",
                     WatchedCount = 0,
                     Username = username,

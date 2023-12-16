@@ -4,8 +4,17 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AniWPF"
+        xmlns:global="clr-namespace:"
         mc:Ignorable="d"
         Title="LikedAnimeWindow" Height="1024" Width="1440">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <global:RateConverter x:Key="RoundConverter"/>
+        </ResourceDictionary>
+    </Window.Resources>
     <Grid >
         <Grid.Background>
             <RadialGradientBrush>
@@ -18,7 +27,7 @@
 
                 <StackPanel Orientation="Horizontal" Height="100" VerticalAlignment="Top">
                     <Rectangle Height="100" Width="90"/>
-                    <Button Click="Main_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent">
+                    <Button Click="Main_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent" IsEnabled="True" Style="{StaticResource MyButtonPhotoStyle}">
                         <Button.Template>
                             <ControlTemplate TargetType="Button">
                                 <Border CornerRadius="30" BorderBrush="Transparent" BorderThickness="1" Background="Transparent">
@@ -30,11 +39,20 @@
                     </Button>
                     <Rectangle Height="100" Width="365"/>
                     <StackPanel Height="86" Width="92">
-                        <Button Height="50" Width="50" Click="ButtonProfile_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent">
+                        <Button
+                        Height="50" Width="50"
+                        Style="{StaticResource MyButtonPhotoStyle}"
+                        Click="ButtonProfile_Click"
+                        Visibility="Visible"
+                        Background="Transparent" BorderBrush="Transparent">
                             <Button.Template>
                                 <ControlTemplate TargetType="Button">
                                     <Border CornerRadius="30" BorderBrush="Transparent" BorderThickness="1" Background="Transparent">
-                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <ContentPresenter.RenderTransform>
+                                                <ScaleTransform ScaleX="1" ScaleY="1"/>
+                                            </ContentPresenter.RenderTransform>
+                                        </ContentPresenter>
                                     </Border>
                                 </ControlTemplate>
                             </Button.Template>
@@ -44,7 +62,7 @@
                     </StackPanel>
                     <Rectangle Height="100" Width="30"/>
                     <StackPanel Height="86" Width="92">
-                        <Button Height="50" Width="50" Click="Random_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent">
+                        <Button Height="50" Width="50" IsEnabled="False" Visibility="Visible" Background="Transparent" BorderBrush="Transparent">
                             <Button.Template>
                                 <ControlTemplate TargetType="Button">
                                     <Border CornerRadius="30" BorderBrush="Transparent" BorderThickness="1" Background="Transparent">
@@ -52,13 +70,27 @@
                                     </Border>
                                 </ControlTemplate>
                             </Button.Template>
-                            <Image Height="40" Width="40" HorizontalAlignment="Center" Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/RandomIcon.png?raw=true" IsEnabled="False" />
+                            <Image Height="40" Width="40" HorizontalAlignment="Center" Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/LikedIcon.png?raw=true" IsEnabled="True" />
                         </Button>
-                        <Label Content="рандом" FontSize="20" VerticalAlignment="Top" FontFamily="Comic Sans MS" Height="36" />
+                        <Label Content="збережене" FontSize="20" VerticalAlignment="Top" FontFamily="Comic Sans MS" Height="36" />
                     </StackPanel>
                     <Rectangle Height="100" Width="30"/>
                     <StackPanel Height="86" Width="92">
-                        <Button x:Name="ButtonSearch" Height="50" Width="50" Click="ButtonSearch_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent">
+                        <Button Height="50" Width="50" Click="Random_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent" Style="{StaticResource MyButtonPhotoStyle}">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border CornerRadius="30" BorderBrush="Transparent" BorderThickness="1" Background="Transparent">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
+                            <Image Height="40" Width="40" HorizontalAlignment="Center" Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/RandomIcon.png?raw=true" IsEnabled="True" />
+                        </Button>
+                        <Label Content="рандом" FontSize="20" VerticalAlignment="Top" FontFamily="Comic Sans MS" Height="36"  />
+                    </StackPanel>
+                    <Rectangle Height="100" Width="30"/>
+                    <StackPanel Height="86" Width="92">
+                        <Button Height="50" Width="50" Click="ButtonSearch_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent" Style="{StaticResource MyButtonPhotoStyle}">
                             <Button.Template>
                                 <ControlTemplate TargetType="Button">
                                     <Border CornerRadius="30" BorderBrush="Transparent" BorderThickness="1" Background="Transparent">
@@ -68,9 +100,9 @@
                             </Button.Template>
                             <Image Height="40" Width="40" HorizontalAlignment="Center" Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/SearchIcon.png?raw=true" IsEnabled="False" />
                         </Button>
-                        <Label Content="пошук" FontSize="20" VerticalAlignment="Top" Height="36" />
+                        <Label Content="пошук" FontSize="20" VerticalAlignment="Top" FontFamily="Comic Sans MS" Height="36" />
                     </StackPanel>
-                   
+                    <Rectangle Height="100" Width="40"/>
                 </StackPanel>
                 <Rectangle Height="50"/>
                 <Grid Width="1440" HorizontalAlignment="Center">
@@ -82,25 +114,25 @@
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Border Background="#FEA1BF" CornerRadius="30" Width="354" Height="580"  Margin="0,0,0,10">
-                                    <Button BorderBrush="Transparent" x:Name="AnimeButton" Background="Transparent" Click="AnimeButton_Click" Width="350" Height="580">
-                                        <Button.Template>
-                                            <ControlTemplate TargetType="Button">
-                                                <Border CornerRadius="30" BorderBrush="Transparent" BorderThickness="1" Background="Transparent">
-                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                                </Border>
-                                            </ControlTemplate>
-                                        </Button.Template>
+                                <Button BorderBrush="Transparent" x:Name="AnimeButton" Background="Transparent" Click="AnimeButton_Click" Width="360" Height="585" Style="{StaticResource MyButtonBigPhotoStyle}" Margin="0,0,0,40">
+                                    <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border CornerRadius="30" BorderBrush="Transparent" BorderThickness="1" Background="Transparent">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                    </Button.Template>
+                                    <Border Background="#FEA1BF" CornerRadius="30" Width="354" Height="580" >
                                         <StackPanel Orientation="Vertical" VerticalAlignment="Top" Height="Auto">
-                                            <Image Source="{Binding ImagePath}" Width="350" Stretch="UniformToFill" Height="500" Margin="0,-35,0,0">
+                                            <Image Source="{Binding ImagePath}" HorizontalAlignment="Center" Width="356" Stretch="UniformToFill" Height="500" >
                                                 <Image.Clip>
-                                                    <RectangleGeometry RadiusX="30" RadiusY="30" Rect="0,0,350,530"/>
+                                                    <RectangleGeometry RadiusX="30" RadiusY="30" Rect="0,0,356,540"/>
                                                 </Image.Clip>
                                             </Image>
                                             <Label Name="AnimeTitle" Content="{Binding Title}" FontSize="20" HorizontalAlignment="Center"/>
                                         </StackPanel>
-                                    </Button>
-                                </Border>
+                                    </Border>
+                                </Button>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>

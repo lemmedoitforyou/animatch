@@ -112,13 +112,6 @@ namespace AniWPF
             this.profileFactory.Create(this).Show();
             this.Close();
         }
-
-        private void ButtonAdded_Click(object sender, RoutedEventArgs e)
-        {
-            this.logger.LogInformation("Click Added button");
-            this.likedAnimeFactory.Create(this).Show();
-            this.Close();
-        }
         private void Main_Click(object sender, RoutedEventArgs e)
         {
             this.logger.LogInformation("Click Main button");
@@ -137,6 +130,13 @@ namespace AniWPF
             this.logger.LogInformation("Click detail about anime button");
             AnimeWindow.ParentWindow = this;
             this.animeFactory.Create(this).Show();
+            this.Close();
+        }
+
+        private void ButtonLiked_Click(object sender, RoutedEventArgs e)
+        {
+            this.logger.LogInformation("Click Added button");
+            this.likedAnimeFactory.Create(this).Show();
             this.Close();
         }
     }

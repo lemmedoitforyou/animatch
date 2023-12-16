@@ -44,7 +44,7 @@ namespace Animatch
                     var name = faker.Name.FirstName();
                     var text = faker.Lorem.Sentence();
                     var photo = "https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/defaultUserPhoto.jpg?raw=true";
-                    var level = faker.Random.Number(1, 50);
+                    var level = faker.Random.Number(1, 4);
                     var watchedcount = faker.Random.Number(1, 50);
 
                     var review = faker.Lorem.Paragraph();

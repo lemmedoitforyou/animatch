@@ -146,5 +146,28 @@ namespace AniWPF
                 }
             }
         }
+        private void SearchTextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            // Очистити текст при отриманні фокусу
+            if (searchTextBox.Text == "Enter anime title")
+            {
+                searchTextBox.Text = string.Empty;
+            }
+        }
+
+        private void SearchTextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            // Встановити текст підказки при втраті фокусу, якщо користувач не ввів жоден текст
+            if (string.IsNullOrWhiteSpace(searchTextBox.Text))
+            {
+                searchTextBox.Text = "Enter anime title";
+            }
+        }
+
+        private void Main_Click(object sender, RoutedEventArgs e)
+        {
+            this.mainFactory.Create(this).Show();
+            this.Close();
+        }
     }
 }

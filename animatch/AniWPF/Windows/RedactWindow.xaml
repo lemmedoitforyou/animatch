@@ -6,6 +6,13 @@
         xmlns:local="clr-namespace:AniWPF"
         mc:Ignorable="d"
         Title="RedactWindow"  Height="1024" Width="1440">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <Grid>
         <Grid.Background>
             <RadialGradientBrush>
@@ -30,15 +37,7 @@
                             <RectangleGeometry RadiusX="20" RadiusY="20" Rect="0,0,300,300"/>
                         </Image.Clip>
                     </Image>
-                    <Button Content="Вибрати фото" Name="SelectPhotoButton" Click="SelectPhotoButton_Click" Width="150" Height="30">
-                        <Button.Template>
-                            <ControlTemplate TargetType="Button">
-                                <Border CornerRadius="30" BorderBrush="#F278A2" BorderThickness="1" Background="#FFDDE5">
-                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                            </ControlTemplate>
-                        </Button.Template>
-                    </Button>
+                    <Button Content="Вибрати фото" Name="SelectPhotoButton" Click="SelectPhotoButton_Click" Width="150" Height="30" Style="{StaticResource ButtonHoverStyle}"/>
                 </StackPanel>
                     <Rectangle Width="115" />
                 <StackPanel>
@@ -50,26 +49,9 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Rectangle Width="700"/>
-                <Button Content="скасувати" Name="Cancel_Button" Click="Cancel_Button_Click" Width="295" Height="55">
-                    <Button.Template>
-                        <ControlTemplate TargetType="Button">
-                            <Border CornerRadius="30" BorderBrush="#F278A2" BorderThickness="1" Background="#FFDDE5">
-                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            </Border>
-                        </ControlTemplate>
-                    </Button.Template>
-                </Button>
+                <Button Content="скасувати" Name="Cancel_Button" Click="Cancel_Button_Click" Width="295" Height="55" Style="{StaticResource ButtonHoverStyle}"/> 
                 <Rectangle  Width="20"/>
-                <Button Content="зберегти" Name="Save_Button" Click="Save_Button_Click" Width="295" Height="55">
-                    <Button.Template>
-                        <ControlTemplate TargetType="Button">
-                            <Border CornerRadius="30" BorderBrush="#F278A2" BorderThickness="1" Background="#FFDDE5">
-                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            </Border>
-                        </ControlTemplate>
-                    </Button.Template>
-                </Button>
-
+                <Button Content="зберегти" Name="Save_Button" Click="Save_Button_Click" Width="295" Height="55" Style="{StaticResource ButtonHoverStyle}" />
             </StackPanel>
         </StackPanel>
     </Grid>
