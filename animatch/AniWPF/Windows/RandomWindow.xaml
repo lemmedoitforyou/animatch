@@ -62,7 +62,7 @@
                 </StackPanel>
                 <Rectangle Height="100" Width="30"/>
                 <StackPanel Height="86" Width="92">
-                    <Button Height="50" Width="50" Click="ButtonLiked_Click" Visibility="Visible" Style="{StaticResource MyButtonPhotoStyle}" Background="Transparent" BorderBrush="Transparent">
+                    <Button Height="50" Width="50" Click="ButtonLiked_Click" Style="{StaticResource MyButtonPhotoStyle}" Visibility="Visible" Background="Transparent" BorderBrush="Transparent">
                         <Button.Template>
                             <ControlTemplate TargetType="Button">
                                 <Border CornerRadius="30" BorderBrush="Transparent" BorderThickness="1" Background="Transparent">
@@ -108,7 +108,6 @@
 
             <Border Background="white" CornerRadius="30" Width="876" Height="560">
                 <StackPanel Name="card" Orientation="Horizontal" Width="876" Height="560" >
-                    <Button x:Name="AnimeButton" Background="Transparent" Click="AnimeButton_Click" Width="375" Height="560" Style="{StaticResource MyButtonBigPhotoStyle}">
                     <Button x:Name="AnimeButton" Background="Transparent" Style="{StaticResource MyButtonBigPhotoStyle}" Command="{x:Static commands:AnimeCommand.AnimeButtonClickCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:RandomWindow}}}" Width="375" Height="560">
                         <Button.Template>
                             <ControlTemplate TargetType="Button">
@@ -117,7 +116,7 @@
                                 </Border>
                             </ControlTemplate>
                         </Button.Template>
-                        <Image Source="{Binding AnimePhoto}" Width="375" Height="560" Stretch="UniformToFill">
+                            <Image Source="{Binding AnimePhoto}" Width="375" Height="560" Stretch="UniformToFill">
                             <Image.Clip>
                                 <RectangleGeometry RadiusX="35" RadiusY="35" Rect="0,0,375,560"/>
                             </Image.Clip>

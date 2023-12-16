@@ -133,6 +133,7 @@ namespace AniWPF
         //    this.Close();
         //}
 
+        
         private void ButtonLiked_Click(object sender, RoutedEventArgs e)
         {
             this.logger.LogInformation("Click Added button");
@@ -140,11 +141,9 @@ namespace AniWPF
             this.Close();
         }
 
-        private void ButtonLiked_Click(object sender, RoutedEventArgs e)
+        private void AnimeButton_Click(object sender, RoutedEventArgs e)
         {
-            this.logger.LogInformation("Click Added button");
-            this.likedAnimeFactory.Create(this).Show();
-            this.Close();
+
         }
     }
 }
