@@ -27,9 +27,9 @@
                     <Image x:Name="biglogo" HorizontalAlignment="Center" Height="95" Width="375" Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/big_logo_white.png?raw=true"/>
                 </Button>
             </StackPanel>
-            <Rectangle Height="88" />
+            <Rectangle Height="34" />
             <Label Content="Редактор Профілю"  FontSize="47" FontFamily="Comic Sans MS" Height="88" Width="484" HorizontalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
-            <Rectangle Height="89"/>
+            <Rectangle Height="47"/>
             <StackPanel Orientation="Horizontal" Width="1024" Height="400">
                 <StackPanel Orientation="Vertical">
                     <Image Height="300" Width="300" Source="{Binding UserPhoto}">
@@ -42,9 +42,13 @@
                     <Rectangle Width="115" />
                 <StackPanel>
                     <Label Content="ім'я: " FontSize="47"  FontFamily="Comic Sans MS"/>
-                    <TextBox x:Name="name" Background="Transparent" TextWrapping="Wrap" Text="" Height="55" Width="375"/>
+                    <Border CornerRadius="30" BorderBrush="#F278A2" BorderThickness="1" Height="50" Width="380" Background="Transparent">
+                        <TextBox x:Name="name" Background="Transparent" BorderThickness="0,0,0,0" TextWrapping="Wrap" Text="" Margin="20,9,22,9"/>
+                    </Border>
                     <Label Content="опис: " Background="Transparent"  FontSize="23"  FontFamily="Comic Sans MS"/>
-                    <TextBox x:Name="description" TextWrapping="Wrap" Text=" " Height="80" Width="375" Background="Transparent"/>
+                    <Border CornerRadius="30" BorderBrush="#F278A2" BorderThickness="1" Height="115" Width="379" Background="Transparent">
+                        <TextBox x:Name="description" TextWrapping="Wrap" Text=" " BorderThickness="0,0,0,0" Background="Transparent" Margin="9,19,9,20"/>
+                    </Border>
                 </StackPanel>
             </StackPanel>
             <StackPanel Orientation="Horizontal">

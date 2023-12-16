@@ -231,11 +231,23 @@
                             <Rectangle Height="20"/>
                             <StackPanel Orientation="Vertical" Width="500" Height="550">
                                 <!-- Відгук -->
-                                <TextBox Name="ReviewText" Width="400" Height="100" Margin="0,50,0,0" Text="Введіть ваш відгук" Visibility="Collapsed"/>
+                                <Border Name="BorderForSendBox" CornerRadius="30" BorderBrush="#F278A2" Width="400" Height="100" Margin="0,50,0,0" BorderThickness="1" Background="Transparent" Visibility="Collapsed">
+                                    <TextBox Name="ReviewText" Width="400" Height="100"  Text="Введіть ваш відгук" Visibility="Collapsed"/>
+                                </Border>
 
                                 <!-- Оцінка -->
-                                <Slider Name="RatingSlider" Width="400" Height="30" Minimum="1" Maximum="3" Value="1" TickPlacement="Both" IsSnapToTickEnabled="True" Visibility="Collapsed"/>
-
+                                <StackPanel Name="StackPanelForRate" Orientation="Horizontal" Visibility="Collapsed">
+                                    <Button Name="SadSmileButton" Visibility="Collapsed" >
+                                        <Button.Template>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border CornerRadius="30" BorderBrush="Transparent" BorderThickness="1" Background="Transparent">
+                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Button.Template>
+                                        <Image x:Name="SadSmile" HorizontalAlignment="Center" Height="95" Width="375" Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/big_logo_white.png?raw=true"/>
+                                    </Button>
+                                </StackPanel>
 
                                 <!-- Кнопка для відправлення відгуку та оцінки -->
                                 <Button Name="SendButton" Height="25" Width="100" Content="Надіслати відгук" 

@@ -9,25 +9,30 @@ using System.Windows.Input;
 
 namespace AniWPF.Commands
 {
-    class LostFocusInputCommand
+    public class LostFocusInputCommand
     {
-        public static ICommand AnimeButtonClickCommand { get; } = new RelayCommand(ExecuteAnimeButtonClick, CanExecuteAnimeButtonClick);
+        private readonly TextBox _textBox;
+        private readonly string _text;
 
-        private static void ExecuteAnimeButtonClick(object? parameter)
+        public LostFocusInputCommand(TextBox textBox, string text)
         {
-            if (parameter is Tuple<string, TextBox> tuple)
+            _textBox = textBox;
+            _text = text;
+        }
+
+        public bool CanExecute(object? parameter)
+        {
+            return true;
+        }
+
+        public void Execute(object? parameter)
+        {
+            if (string.IsNullOrWhiteSpace(_textBox.Text))
             {
-                if (string.IsNullOrWhiteSpace(tuple.Item2.Text))
-                {
-                    tuple.Item2.Text = "Enter anime title";
-                }
+                _textBox.Text = _text;
             }
         }
 
-        private static bool CanExecuteAnimeButtonClick(object? parameter)
-        {
-            Debug.WriteLine("CanExecuteAnimeButtonClick called!");
-            return true;
-        }
+        //public event EventHandler? CanExecuteChanged;
     }
 }

@@ -154,9 +154,10 @@ namespace AniWPF
             userService.WatchAnime(this.id);
 
             SendButton.Visibility = Visibility.Visible;
-            RatingSlider.Visibility = Visibility.Visible;
+            //RatingSlider.Visibility = Visibility.Visible;
             ReviewText.Visibility = Visibility.Visible;
             AddToProfileButton.Visibility = Visibility.Visible;
+            BorderForSendBox.Visibility = Visibility.Visible;
         }
         private async void LikeAnime_Click(object sender, RoutedEventArgs e)
         {
@@ -204,24 +205,24 @@ namespace AniWPF
 
         private void SendReview_Click(object sender, RoutedEventArgs e)
         {
-            string text = ReviewText.Text;
-            int rate = (int)RatingSlider.Value;
-            ReviewModel temp = new ReviewModel()
-            {
-                Id = reviewService.GetLastId() + 1,
-                UserId = this.id,
-                AnimeId = randomAnimeId,
-                Text = text,
-                Rate = rate
-            };
-            reviewService.Insert(temp);
+            //string text = ReviewText.Text;
+            //int rate = (int)RatingSlider.Value;
+            //ReviewModel temp = new ReviewModel()
+            //{
+            //    Id = reviewService.GetLastId() + 1,
+            //    UserId = this.id,
+            //    AnimeId = randomAnimeId,
+            //    Text = text,
+            //    Rate = rate
+            //};
+            //reviewService.Insert(temp);
 
-            UploadNextAnime();
+            //UploadNextAnime();
 
-            SendButton.Visibility = Visibility.Collapsed;
-            RatingSlider.Visibility = Visibility.Collapsed;
-            ReviewText.Visibility = Visibility.Collapsed;
-            AddToProfileButton.Visibility = Visibility.Collapsed;
+            //SendButton.Visibility = Visibility.Collapsed;
+            //RatingSlider.Visibility = Visibility.Collapsed;
+            //ReviewText.Visibility = Visibility.Collapsed;
+            //AddToProfileButton.Visibility = Visibility.Collapsed;
         }
 
         //private void AnimeButton_Click(object sender, RoutedEventArgs e)

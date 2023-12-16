@@ -16,6 +16,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using AniWPF.Commands;
 
 namespace AniWPF
 {
@@ -36,7 +37,9 @@ namespace AniWPF
         private int id;
 
         public static int CurrentId { get; set; }
-        
+
+        public LostFocusInputCommand LostFocusCommand { get; set; }
+
         public SearchWindow(IAnimeService animeService, IAbstractFactory<MainWindow> mainFactory, 
             ILogger<SearchWindow> logger, IAbstractFactory<RandomWindow> randomFactory, 
             IAbstractFactory<ProfileWindow> profileFactory, IAbstractFactory<LikedAnimeWindow> likedFactory,
@@ -57,6 +60,9 @@ namespace AniWPF
 
             InitializeComponent();
             this.WindowState = WindowState.Maximized;
+
+            LostFocusCommand = new LostFocusInputCommand(searchTextBox, "Enter anime title");
+            Resources.Add("LostFocusCommand", LostFocusCommand);
         }
 
         public class AnimeForForw
