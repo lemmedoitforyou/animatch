@@ -4,8 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AniWPF"
-        xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
         xmlns:global="clr-namespace:"
+        xmlns:commands="clr-namespace:AniWPF.Commands"
         mc:Ignorable="d"
         Title="main" Height="1024" Width="1440">
     <!-- Label Style -->
@@ -169,7 +169,12 @@
 
                 <Border Background="white" CornerRadius="30" Width="876" Height="560">
                     <StackPanel Name="card" Orientation="Horizontal" Width="876" Height="560" >
-                        <Button x:Name="AnimeButton" BorderBrush="Transparent" BorderThickness="0,0,0,0" Background="Transparent" Click="AnimeButton_Click" Width="375" Height="560" Style="{StaticResource MyButtonBigPhotoStyle}">
+                        <Button x:Name="AnimeButton" BorderBrush="Transparent" 
+                                BorderThickness="0,0,0,0" Background="Transparent" 
+                                Command="{x:Static commands:AnimeCommand.AnimeButtonClickCommand}" 
+                                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" 
+                                Style="{StaticResource MyButtonBigPhotoStyle}"
+                                Width="375" Height="560">
                             <Button.Template>
                                 <ControlTemplate TargetType="Button">
                                     <Border CornerRadius="30" BorderBrush="Transparent" BorderThickness="1" Background="Transparent">
@@ -233,7 +238,9 @@
 
 
                                 <!-- Кнопка для відправлення відгуку та оцінки -->
-                                <Button Name="SendButton" Height="25" Width="100" Content="Надіслати відгук" Click="SendReview_Click" Visibility="Collapsed">
+                                <Button Name="SendButton" Height="25" Width="100" Content="Надіслати відгук" 
+                                        Click="SendReview_Click" Visibility="Collapsed"
+                                        Style="{StaticResource ButtonHoverStyle}">
                                     <Button.Template>
                                         <ControlTemplate TargetType="Button">
                                             <Border CornerRadius="30" BorderBrush="Transparent" BorderThickness="1" Background="Transparent">
@@ -241,6 +248,10 @@
                                             </Border>
                                         </ControlTemplate>
                                     </Button.Template>
+                                </Button>
+                                <Button Name="AddToProfileButton" Content="Додати в профіль" 
+                                        Click="AddToProfileButton_Click" Visibility="Collapsed"
+                                        Style="{StaticResource ButtonHoverStyle}">
                                 </Button>
                             </StackPanel>
                         </StackPanel>
@@ -250,7 +261,11 @@
                 <Rectangle Height="20"/>
                 <StackPanel Name="ButtonButton"  Orientation="Horizontal">
                     <StackPanel HorizontalAlignment="Left" Margin="440,0,0,0">
-                        <Button Style="{StaticResource MyButtonPhotoStyle}" Name="Dislike_Button" Click="Dislike_Button_Click" Height="50"  Width="50" Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Center"  VerticalAlignment="Bottom">
+                        <Button  Name="Dislike_Button" Click="Dislike_Button_Click" 
+                                 Height="50"  Width="50" Background="Transparent" 
+                                 BorderBrush="Transparent" HorizontalAlignment="Center"  
+                                 VerticalAlignment="Bottom"
+                                 Style="{StaticResource MyButtonPhotoStyle}">
                             <Button.Template>
                                 <ControlTemplate TargetType="Button">
                                     <Border CornerRadius="30" BorderBrush="Transparent" BorderThickness="1" Background="Transparent">
@@ -264,7 +279,11 @@
                     </StackPanel>
                     <Rectangle Width="347"/>
                     <StackPanel HorizontalAlignment="Center" Margin="0,0,440,0" VerticalAlignment="Center">
-                        <Button Style="{StaticResource MyButtonPhotoStyle}" Name="Watched_Button" Click="Watched_Button_Click" Height="50" Width="50" Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Center"  VerticalAlignment="Bottom">
+                        <Button Name="Watched_Button" Click="Watched_Button_Click" 
+                                Height="50" Width="50" Background="Transparent" 
+                                BorderBrush="Transparent" HorizontalAlignment="Center"  
+                                VerticalAlignment="Bottom"
+                                Style="{StaticResource MyButtonPhotoStyle}">
                             <Button.Template>
                                 <ControlTemplate TargetType="Button">
                                     <Border CornerRadius="30" BorderBrush="Transparent" BorderThickness="1" Background="Transparent">

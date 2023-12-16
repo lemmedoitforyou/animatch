@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:AniWPF"
         xmlns:global="clr-namespace:AniWPF"
         xmlns:global1="clr-namespace:"
+        xmlns:commands="clr-namespace:AniWPF.Commands"
         mc:Ignorable="d"
         Title="random" Height="1024" Width="1440">
     <Window.Resources>
@@ -25,8 +26,8 @@
         </Grid.Background>
         <StackPanel>
             <StackPanel Orientation="Horizontal" Height="100" VerticalAlignment="Top">
-                <Rectangle Height="100" Width="90"/>
-                <Button Visibility="Visible" Background="Transparent" Style="{StaticResource MyButtonPhotoStyle}" BorderBrush="Transparent" IsEnabled="True">
+            <Rectangle Height="100" Width="90"/>
+            <Button Click="Main_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent">
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
                             <Border CornerRadius="30" BorderBrush="Transparent" BorderThickness="1" Background="Transparent">
@@ -108,6 +109,7 @@
             <Border Background="white" CornerRadius="30" Width="876" Height="560">
                 <StackPanel Name="card" Orientation="Horizontal" Width="876" Height="560" >
                     <Button x:Name="AnimeButton" Background="Transparent" Click="AnimeButton_Click" Width="375" Height="560" Style="{StaticResource MyButtonBigPhotoStyle}">
+                    <Button x:Name="AnimeButton" Background="Transparent" Style="{StaticResource MyButtonBigPhotoStyle}" Command="{x:Static commands:AnimeCommand.AnimeButtonClickCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:RandomWindow}}}" Width="375" Height="560">
                         <Button.Template>
                             <ControlTemplate TargetType="Button">
                                 <Border CornerRadius="30" BorderBrush="Transparent" BorderThickness="1" Background="Transparent">

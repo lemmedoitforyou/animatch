@@ -97,7 +97,7 @@ namespace AniWPF
             animeList = new List<AnimeForForw>();
             foreach (AnimeModel anime in temp)
             {
-                if(anime.Name.Contains(searchText))
+                if(anime.Name.ToLower().Contains(searchText.ToLower()))
                 {
                     animeList.Add(new AnimeForForw { Id = anime.Id, Title = anime.Name, ImagePath = anime.Photo, IMDBRate = anime.Imdbrate});
                 }
@@ -111,6 +111,7 @@ namespace AniWPF
             this.randomFactory.Create(this).Show();
             this.Close();
         }
+
         private void ButtonProfile_Click(object sender, RoutedEventArgs e)
         {
             this.logger.LogInformation("Click Profile button");

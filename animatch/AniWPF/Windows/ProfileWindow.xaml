@@ -21,11 +21,11 @@
             </RadialGradientBrush>
         </Grid.Background>
         <ScrollViewer>
-            <StackPanel >
-                <StackPanel Orientation="Horizontal" Height="100" VerticalAlignment="Top">
-                    <Rectangle Height="100" Width="90"/>
-                    <Button Click="Main_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent" Style="{StaticResource MyButtonPhotoStyle}" IsEnabled="True">
-                        <Button.Template>
+        <StackPanel >
+            <StackPanel Orientation="Horizontal" Height="100" VerticalAlignment="Top">
+                <Rectangle Height="100" Width="90"/>
+                <Button Click="Main_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent" Style="{StaticResource MyButtonPhotoStyle}" IsEnabled="True">
+                    <Button.Template>
                             <ControlTemplate TargetType="Button">
                                 <Border CornerRadius="30" BorderBrush="Transparent" BorderThickness="1" Background="Transparent">
                                     <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
