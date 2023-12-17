@@ -37,17 +37,31 @@
                             <RectangleGeometry RadiusX="20" RadiusY="20" Rect="0,0,300,300"/>
                         </Image.Clip>
                     </Image>
-                    <Button Content="Вибрати фото" Name="SelectPhotoButton" Click="SelectPhotoButton_Click" Width="150" Height="30" Style="{StaticResource ButtonHoverStyle}"/>
+                    <Rectangle Height="20"></Rectangle>
+                    <Button Content="Вибрати фото" Name="SelectPhotoButton" Click="SelectPhotoButton_Click" Width="150" Height="40" Style="{StaticResource ButtonHoverStyle}"/>
                 </StackPanel>
                     <Rectangle Width="115" />
                 <StackPanel>
                     <Label Content="ім'я: " FontSize="47"  FontFamily="Comic Sans MS"/>
                     <Border CornerRadius="30" BorderBrush="#F278A2" BorderThickness="1" Height="50" Width="380" Background="Transparent">
-                        <TextBox x:Name="name" Background="Transparent" BorderThickness="0,0,0,0" TextWrapping="Wrap" Text="" Margin="20,9,22,9"/>
+                        <TextBox x:Name="name"
+                                 Background="Transparent" 
+                                 BorderThickness="0,0,0,0" 
+                                 TextWrapping="Wrap" Text="{Binding UserName}"
+                                 Margin="20,9,22,9"
+                                 GotFocus="Name_OnGotFocus"
+                                 LostFocus="Name_OnLostFocus"/>
                     </Border>
                     <Label Content="опис: " Background="Transparent"  FontSize="23"  FontFamily="Comic Sans MS"/>
                     <Border CornerRadius="30" BorderBrush="#F278A2" BorderThickness="1" Height="115" Width="379" Background="Transparent">
-                        <TextBox x:Name="description" TextWrapping="Wrap" Text=" " BorderThickness="0,0,0,0" Background="Transparent" Margin="9,19,9,20"/>
+                        <TextBox x:Name="description"
+                                 TextWrapping="Wrap"
+                                 Text="{Binding UserText}"
+                                 BorderThickness="0,0,0,0"
+                                 Background="Transparent"
+                                 Margin="9,19,9,20"
+                                 GotFocus="Description_OnGotFocus"
+                                 LostFocus="Description_OnLostFocus"/>
                     </Border>
                 </StackPanel>
             </StackPanel>

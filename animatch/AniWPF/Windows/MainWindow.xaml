@@ -192,7 +192,7 @@
                         <StackPanel Orientation="Vertical" Width="468" Height="560">
                             <TextBlock Text="{Binding AnimeName}" Style="{StaticResource MyTextBlockStyle}" FontSize="50"/>
                             <Rectangle Height="15" />
-                            <TextBlock Text="{Binding AnimeText}" Style="{StaticResource MyTextBlockStyle}" TextWrapping="Wrap" FontSize="20"/>
+                            <TextBlock Name ="AnimeTextBlock" Text="{Binding AnimeText}" Style="{StaticResource MyTextBlockStyle}" TextWrapping="Wrap" FontSize="20"/>
                             <Rectangle Height="15" />
                             <TextBlock FontSize="15" Style="{StaticResource MyTextBlockStyle}" Text="{Binding AnimeRate, Converter={StaticResource RoundConverter}, StringFormat='IMDB рейтинг {0}/10'}" />
                             <Rectangle Height="20"/>
@@ -229,15 +229,25 @@
                                 </Button>
                             </StackPanel>
                             <Rectangle Height="20"/>
-                            <StackPanel Orientation="Vertical" Width="500" Height="550">
+                            <StackPanel Orientation="Vertical" Width="468" Height="550">
                                 <!-- Відгук -->
                                 <Border Name="BorderForSendBox" CornerRadius="30" BorderBrush="#F278A2" Width="400" Height="100" Margin="0,50,0,0" BorderThickness="1" Background="Transparent" Visibility="Collapsed">
-                                    <TextBox Name="ReviewText" Width="400" Height="100"  Text="Введіть ваш відгук" Visibility="Collapsed"/>
+                                    <TextBox Name="ReviewText"
+                                             Width="350"
+                                             Height="70"
+                                             Background="Transparent"
+                                             BorderThickness="0,0,0,0"
+                                             Text="Введіть ваш відгук"
+                                             Visibility="Collapsed"
+                                             GotFocus="ReviewText_OnGotFocus"
+                                             LostFocus="ReviewText_OnLostFocus"/>
                                 </Border>
+                                <Rectangle Height="20"/>
 
-                                <!-- Оцінка -->
+                                    <!-- Оцінка -->
                                 <StackPanel Name="StackPanelForRate" Orientation="Horizontal" Visibility="Collapsed">
-                                    <Button Name="SadSmileButton" Visibility="Collapsed" >
+                                    <Rectangle Width="80" />
+                                    <Button Name="SadSmileButton" Visibility="Collapsed" Click="SadSmileButton_Click" Style="{StaticResource MyButtonSmileStyle}" Height="50" Width="50">
                                         <Button.Template>
                                             <ControlTemplate TargetType="Button">
                                                 <Border CornerRadius="30" BorderBrush="Transparent" BorderThickness="1" Background="Transparent">
@@ -245,26 +255,49 @@
                                                 </Border>
                                             </ControlTemplate>
                                         </Button.Template>
-                                        <Image x:Name="SadSmile" HorizontalAlignment="Center" Height="95" Width="375" Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/big_logo_white.png?raw=true"/>
+                                        <Image x:Name="SadSmile" Visibility="Collapsed" HorizontalAlignment="Center" Height="40" Width="40" Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/SadSmile.png?raw=true"/>
                                     </Button>
+                                    <Rectangle Width="80" />
+                                    <Button Name="NormSmileButton" Visibility="Collapsed" Click="NormSmileButton_OnClick" Style="{StaticResource MyButtonSmileStyle}" Height="50" Width="50">
+                                        <Button.Template>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border CornerRadius="30" BorderBrush="Transparent" BorderThickness="1" Background="Transparent">
+                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Button.Template>
+                                        <Image x:Name="NormSmile" Visibility="Collapsed" HorizontalAlignment="Center" Height="40" Width="40" Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/NormSmile.png?raw=true"/>
+                                    </Button>
+                                    <Rectangle Width="80" />
+                                    <Button Name="HappySmileButton" Visibility="Collapsed" Click="HappySmileButton_OnClick" Style="{StaticResource MyButtonSmileStyle}" Height="50" Width="50">
+                                        <Button.Template>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border CornerRadius="30" BorderBrush="Transparent" BorderThickness="1" Background="Transparent">
+                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Button.Template>
+                                        <Image x:Name="HappySmile" HorizontalAlignment="Center" Height="40" Width="40" Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/HappySmile.png?raw=true"/>
+                                    </Button>
+                                    <Rectangle Width="80" />
                                 </StackPanel>
 
+                                <Rectangle Height="20"></Rectangle>
+
                                 <!-- Кнопка для відправлення відгуку та оцінки -->
-                                <Button Name="SendButton" Height="25" Width="100" Content="Надіслати відгук" 
+                                <StackPanel Orientation="Horizontal">
+                                    <Button Name="SendButton" Height="50" Width="150" Content="Надіслати відгук"
+                                            Margin="45,0,0,0"
                                         Click="SendReview_Click" Visibility="Collapsed"
-                                        Style="{StaticResource ButtonHoverStyle}">
-                                    <Button.Template>
-                                        <ControlTemplate TargetType="Button">
-                                            <Border CornerRadius="30" BorderBrush="Transparent" BorderThickness="1" Background="Transparent">
-                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                            </Border>
-                                        </ControlTemplate>
-                                    </Button.Template>
-                                </Button>
+                                        Style="{StaticResource ButtonHoverStyle}"/>
+                                    <Rectangle Width="100"></Rectangle>
+                                
                                 <Button Name="AddToProfileButton" Content="Додати в профіль" 
+                                        Height="50" Width="150"
                                         Click="AddToProfileButton_Click" Visibility="Collapsed"
                                         Style="{StaticResource ButtonHoverStyle}">
                                 </Button>
+                                    </StackPanel>
                             </StackPanel>
                         </StackPanel>
                     </StackPanel>

@@ -11,6 +11,7 @@ using AniBLL.Models;
 using AniWPF;
 using Microsoft.Extensions.Logging;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Navigation;
 using AniWPF.ViewModels;
 
@@ -39,6 +40,8 @@ namespace AniWPF
 
         private AnimeViewModel viewModel;
         private int id;
+        private int UserRate;
+            //private bool isButtonPressed = false;
         public static int randomAnimeId { get; set; }
         private List<Genres> genreList;
 
@@ -78,6 +81,7 @@ namespace AniWPF
             this.likedanimes = likedAnimeService.GetLikedAnimesForUser(id);
             this.addedanimes = addedAnimeService.GetAddedAnimesForUser(id);
             this.watchedanimes = watchedAnimeService.GetWatchedAnimesForUser(id);
+            this.UserRate = 0;
 
             this.uniqueAnimes = animes
                 .Except(dislikedanimes)
@@ -107,6 +111,7 @@ namespace AniWPF
             this.WindowState = WindowState.Maximized;
 
             this.logger = logger;
+            UserRate = 0;
             this.logger.LogInformation("MainWindow created");
         }
         public class Genres
@@ -153,8 +158,16 @@ namespace AniWPF
             watchAnimeService.Insert(temp);
             userService.WatchAnime(this.id);
 
+            AnimeTextBlock.Visibility = Visibility.Collapsed;
             SendButton.Visibility = Visibility.Visible;
             //RatingSlider.Visibility = Visibility.Visible;
+            StackPanelForRate.Visibility = Visibility.Visible;
+            SadSmileButton.Visibility = Visibility.Visible;
+            SadSmile.Visibility = Visibility.Visible;
+            NormSmileButton.Visibility = Visibility.Visible;
+            NormSmile.Visibility = Visibility.Visible;
+            HappySmileButton.Visibility = Visibility.Visible;
+            HappySmile.Visibility = Visibility.Visible;
             ReviewText.Visibility = Visibility.Visible;
             AddToProfileButton.Visibility = Visibility.Visible;
             BorderForSendBox.Visibility = Visibility.Visible;
@@ -205,24 +218,38 @@ namespace AniWPF
 
         private void SendReview_Click(object sender, RoutedEventArgs e)
         {
-            //string text = ReviewText.Text;
-            //int rate = (int)RatingSlider.Value;
-            //ReviewModel temp = new ReviewModel()
-            //{
-            //    Id = reviewService.GetLastId() + 1,
-            //    UserId = this.id,
-            //    AnimeId = randomAnimeId,
-            //    Text = text,
-            //    Rate = rate
-            //};
-            //reviewService.Insert(temp);
+            string text = ReviewText.Text;
+            int rate = UserRate;
+            ReviewModel temp = new ReviewModel()
+            {
+                Id = reviewService.GetLastId() + 1,
+                UserId = this.id,
+                AnimeId = randomAnimeId,
+                Text = text,
+                Rate = rate
+            };
+            reviewService.Insert(temp);
+            UserRate = 0;
+            HappySmileButton.RenderTransform = new ScaleTransform(1.0, 1.0);
+            NormSmileButton.RenderTransform = new ScaleTransform(1.0, 1.0);
+            SadSmileButton.RenderTransform = new ScaleTransform(1.0, 1.0);
+            ReviewText.Text = "Введіть ваш відгук";
+            UploadNextAnime();
 
-            //UploadNextAnime();
-
-            //SendButton.Visibility = Visibility.Collapsed;
-            //RatingSlider.Visibility = Visibility.Collapsed;
-            //ReviewText.Visibility = Visibility.Collapsed;
-            //AddToProfileButton.Visibility = Visibility.Collapsed;
+            SendButton.Visibility = Visibility.Collapsed;
+            ReviewText.Visibility = Visibility.Collapsed;
+            AddToProfileButton.IsEnabled = true;
+            AddToProfileButton.Visibility = Visibility.Collapsed;
+            AddToProfileButton.Visibility = Visibility.Collapsed;
+            BorderForSendBox.Visibility = Visibility.Collapsed;
+            StackPanelForRate.Visibility = Visibility.Collapsed;
+            SadSmileButton.Visibility = Visibility.Collapsed;
+            SadSmile.Visibility = Visibility.Collapsed;
+            NormSmileButton.Visibility = Visibility.Collapsed;
+            NormSmile.Visibility = Visibility.Collapsed;
+            HappySmileButton.Visibility = Visibility.Collapsed;
+            HappySmile.Visibility = Visibility.Collapsed;
+            AnimeTextBlock.Visibility = Visibility.Visible;
         }
 
         //private void AnimeButton_Click(object sender, RoutedEventArgs e)
@@ -259,7 +286,62 @@ namespace AniWPF
             };
             addedAnimeService.Insert(temp);
 
-            AddToProfileButton.Visibility = Visibility.Collapsed;
+            AddToProfileButton.IsEnabled = false;
+        }
+
+        private void SadSmileButton_Click(object sender, RoutedEventArgs e)
+        {
+            UserRate = 1;
+            ToggleSmileButton(SadSmileButton, SadSmile);
+        }
+
+        private void NormSmileButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            UserRate = 2;
+            ToggleSmileButton(NormSmileButton, NormSmile);
+        }
+
+        private void HappySmileButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            UserRate = 3;
+            ToggleSmileButton(HappySmileButton, HappySmile);
+        }
+
+        private void ResetSmileButtonScale(Button button, Image smileImage)
+        {
+            // Скидання масштабу для заданої кнопки та зображення смайла
+            button.RenderTransform = new ScaleTransform(1.0, 1.0);
+            smileImage.RenderTransform = new ScaleTransform(1.0, 1.0);
+        }
+
+        private void ToggleSmileButton(Button button, Image smileImage)
+        {
+            // Скидання масштабу для всіх смайлів
+            ResetSmileButtonScale(SadSmileButton, SadSmile);
+            ResetSmileButtonScale(NormSmileButton, NormSmile);
+            ResetSmileButtonScale(HappySmileButton, HappySmile);
+
+            // Збільшення масштабу для вибраної кнопки та зображення смайла
+            button.RenderTransform = new ScaleTransform(1.1, 1.1);
+            smileImage.Visibility = Visibility.Visible;
+            smileImage.RenderTransform = new ScaleTransform(1.1, 1.1);
+        }
+
+        private void ReviewText_OnGotFocus(object sender, RoutedEventArgs e)
+        {
+            // Очистити текст при отриманні фокусу
+            if (ReviewText.Text == "Введіть ваш відгук")
+            {
+                ReviewText.Text = string.Empty;
+            }
+        }
+
+        private void ReviewText_OnLostFocus(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace (ReviewText.Text))
+            {
+                ReviewText.Text = "Введіть ваш відгук";
+            }
         }
     }
 }

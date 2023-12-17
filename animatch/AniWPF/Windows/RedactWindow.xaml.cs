@@ -26,6 +26,7 @@ namespace AniWPF
 
         private UserViewModel viewModel;
         private int id;
+        private string tempPath = "";
 
         public RedactWindow(IUserService userService, IAddedAnimeService addedAnimeService, 
             IAnimeService animeService, IAbstractFactory<RandomWindow> randomFactory, 
@@ -57,6 +58,10 @@ namespace AniWPF
         private void Cancel_Button_Click(object sender, RoutedEventArgs e)
         {
             this.logger.LogInformation("Click Watched button, changes was canceled");
+            if (tempPath != "")
+            {
+                userService.UpdatePhoto(id, tempPath);
+            }
             this.profileFactory.Create(this).Show();
             this.Close();
         }
@@ -84,6 +89,7 @@ namespace AniWPF
         {
             Microsoft.Win32.OpenFileDialog openFileDialog = new Microsoft.Win32.OpenFileDialog();
             openFileDialog.Filter = "Image files (*.png;*.jpeg;*.jpg)|*.png;*.jpeg;*.jpg|All files (*.*)|*.*";
+            tempPath = viewModel.UserPhoto;
 
             if (openFileDialog.ShowDialog() == true)
             {
@@ -91,9 +97,42 @@ namespace AniWPF
 
                 userService.UpdatePhoto(id, selectedImagePath);
             }
+
+            this.viewModel = new UserViewModel(this.userService, this.id);
+            this.DataContext = this.viewModel;
         }
 
 
+        private void Name_OnGotFocus(object sender, RoutedEventArgs e)
+        {
+            if (name.Text == viewModel.UserName)
+            {
+                name.Text = string.Empty;
+            }
+        }
 
+        private void Name_OnLostFocus(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(name.Text))
+            {
+                name.Text = viewModel.UserName;
+            }
+        }
+
+        private void Description_OnGotFocus(object sender, RoutedEventArgs e)
+        {
+            if (description.Text == viewModel.UserText)
+            {
+                description.Text = string.Empty;
+            }
+        }
+
+        private void Description_OnLostFocus(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(description.Text))
+            {
+                description.Text = viewModel.UserText;
+            }
+        }
     }
 }
