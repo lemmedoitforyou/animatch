@@ -160,4 +160,32 @@
             </EventTrigger>
         </Style.Triggers>
     </Style>
+    <Style TargetType="ListViewItem" x:Key="ReviewListViewItemStyle">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListViewItem">
+                    <Border Background="Transparent" BorderBrush="#FFC6D3" BorderThickness="2" CornerRadius="15" Margin="5">
+                        <Grid>
+                            <!-- Фото користувача -->
+                            <Image Source="{Binding ReviewUserPhoto}" Width="80" Height="80" Margin="10,0,0,0" HorizontalAlignment="Left"/>
+
+                            <!-- Інформація про відгук -->
+                            <StackPanel Margin="90,5,5,5" Width="450">
+                                <!-- Ім'я користувача -->
+                                <TextBlock Text="{Binding ReviewUserName}" Style="{StaticResource MyTextBlockStyle}" FontSize="18"/>
+
+                                <!-- Відгук -->
+                                <ScrollViewer>
+                                    <TextBlock Text="{Binding ReviewText}" Style="{StaticResource MyTextBlockStyle}" TextWrapping="Wrap" Width="450" FontSize="14"/>
+                                </ScrollViewer>
+                            </StackPanel>
+
+                            <!-- Оцінка (зображення) -->
+                            <Image Source="{Binding ReviewRatingImage}" Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,5,0"/>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

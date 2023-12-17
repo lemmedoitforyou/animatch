@@ -36,6 +36,29 @@ namespace AniWPF.ViewModels
             get { return this.userService.GetById(this.reviewServise.GetById(this.id).UserId).Photo; }
         }
 
+        public string ReviewImage
+        {
+            get
+            {
+                if (this.reviewServise.GetById(this.id).Rate == 1)
+                {
+                    return "https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/SadSmile.png?raw=true";
+                }
+                else if (this.reviewServise.GetById(this.id).Rate == 2)
+                {
+                    return "https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/NormSmile.png?raw=true";
+                }
+                else if (this.reviewServise.GetById(this.id).Rate == 3)
+                {
+                    return "https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/HappySmile.png?raw=true";
+                }
+                else
+                {
+                    return "";
+                }
+            }
+        }
+
         public event PropertyChangedEventHandler? PropertyChanged;
 
         protected virtual void OnPropertyChanged(string propertyName)

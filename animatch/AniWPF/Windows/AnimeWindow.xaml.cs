@@ -121,12 +121,14 @@ namespace AniWPF
             public string ReviewUserName { get; set; }
 
             public string ReviewUserPhoto { get; set; }
+            public string ReviewRatingImage { get; set; }
 
             public ReviewForForm(ReviewViewModel reviewViewModel)
             {
                 this.ReviewText = reviewViewModel.ReviewText;
                 this.ReviewUserName = reviewViewModel.UserName;
                 this.ReviewUserPhoto = reviewViewModel.UserPhoto;
+                this.ReviewRatingImage = reviewViewModel.ReviewImage;
             }
         }
 
