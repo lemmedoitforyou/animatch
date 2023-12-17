@@ -59,17 +59,11 @@ namespace AniWPF.ViewModels
             get { return $"{this.addedAnime.CountUserWhoAddAnime(this.id)} користувачів вподобали це аніме"; }
         }
 
-        public string AnimeGenres
+        public List<string> AnimeGenres
         {
             get
             {
-                List<string> temp = this.animeGenreService.GetGenresForAnime(this.id);
-                string result = "";
-                foreach (string item in temp)
-                {
-                    result += item + " ";
-                }
-                return result;
+                return this.animeGenreService.GetGenresForAnime(this.id);
             }
         }
 

@@ -162,6 +162,18 @@
                                 <Image Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/LikedIcon.png?raw=true" x:Name="likeUnfill" VerticalAlignment="Bottom" HorizontalAlignment="Center" RenderTransformOrigin="0.63,-2.001" />
                             </Button>
                         </StackPanel>
+                        <ItemsControl ItemsSource="{Binding AnimeGenres}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}" Margin="5"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
                     </StackPanel>
                 </StackPanel>
             </Border>

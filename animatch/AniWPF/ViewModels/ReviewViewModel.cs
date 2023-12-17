@@ -21,6 +21,10 @@ namespace AniWPF.ViewModels
             this.id = id;
         }
 
+        public int UserId
+        {
+            get { return this.id; }
+        }
         public string ReviewText
         {
             get { return this.reviewServise.GetById(this.id).Text; }

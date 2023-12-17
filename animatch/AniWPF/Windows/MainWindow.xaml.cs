@@ -158,6 +158,21 @@ namespace AniWPF
             watchAnimeService.Insert(temp);
             userService.WatchAnime(this.id);
 
+            UserInfoModel newUserRank = userService.GetById(this.id);
+            if (newUserRank.WatchedCount < 10)
+            {
+                newUserRank.Level = 1;
+            }
+            else if (newUserRank.WatchedCount < 30)
+            {
+                newUserRank.Level = 2;
+            }
+            else
+            {
+                newUserRank.Level = 3;
+            }
+            userService.UpdateLevel(this.id, newUserRank.Level);
+
             AnimeTextBlock.Visibility = Visibility.Collapsed;
             SendButton.Visibility = Visibility.Visible;
             //RatingSlider.Visibility = Visibility.Visible;

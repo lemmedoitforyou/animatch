@@ -9,6 +9,7 @@ namespace AniDAL.Repositories
         bool IsExistEmail(string email);
         int GetLastUserId();
         public void UpdateTitleAndText(int userId, string newTitle, string newText);
+        public void UpdateLevel(int userId, int level);
         public void WatchAnime(int userId);
         public void UpdatePhoto(int userID, string photoPath);
     }
@@ -46,6 +47,19 @@ namespace AniDAL.Repositories
                 _context.SaveChanges();
             }
         }
+
+        public void UpdateLevel(int userId, int level)
+        {
+            var userInfo = _context.UserInfo.FirstOrDefault(u => u.Id == userId);
+
+            if (userInfo != null)
+            {
+                userInfo.Level = level;
+
+                _context.SaveChanges();
+            }
+        }
+
         public void WatchAnime(int userId)
         {
             var userInfo = _context.UserInfo.FirstOrDefault(u => u.Id == userId);

@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using AniBLL.Models;
 using AniBLL.Services;
 using AniWPF.StartupHelper;
 using AniWPF.ViewModels;
+using AniWPF.Windows;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 
 namespace AniWPF
@@ -22,6 +26,7 @@ namespace AniWPF
         private readonly IAbstractFactory<LikedAnimeWindow> likedFactory;
         private readonly IAbstractFactory<SearchWindow> searchFactory;
         private readonly IAbstractFactory<MainWindow> mainFactory;
+        private readonly IAbstractFactory<ViewProfileWindow> viewProfileFactory;
 
         private readonly IAddedAnimeService addedAnimeService;
         private readonly ILikedAnimeService likedAnimeService;
@@ -37,6 +42,7 @@ namespace AniWPF
 
         private AnimeViewModel viewModel;
         private int id;
+        public static int UserId;
 
         public static int AnimeId { get; set; }
 
@@ -46,7 +52,7 @@ namespace AniWPF
             IAbstractFactory<RandomWindow> rfactory, IAbstractFactory<ProfileWindow> profileFactory,
             IAbstractFactory<LikedAnimeWindow> likedFactory, IAbstractFactory<SearchWindow> searchFactory,
             IAbstractFactory<MainWindow> mainFactory, IReviewService reviewService,
-            IAnimeGenreService animeGenreService, ILogger<AnimeWindow> logger)
+            IAnimeGenreService animeGenreService, ILogger<AnimeWindow> logger, IAbstractFactory<ViewProfileWindow> viewProfileFactory)
         {
             this.InitializeComponent();
             this.WindowState = WindowState.Maximized;
@@ -94,6 +100,7 @@ namespace AniWPF
                 }
             }
 
+
             this.id = LogInWindow.CurrentUserID;
             List<ReviewModel> temp = reviewService.GetReviewsForAnime(AnimeId);
             this.reviewList = new List<ReviewForForm>();
@@ -112,6 +119,7 @@ namespace AniWPF
             this.logger.LogInformation("MainWindow created");
 
             this.InitializeComponent();
+            this.viewProfileFactory = viewProfileFactory;
         }
 
         public class ReviewForForm
@@ -122,6 +130,7 @@ namespace AniWPF
 
             public string ReviewUserPhoto { get; set; }
             public string ReviewRatingImage { get; set; }
+            public int ReviewUserId { get; set; }
 
             public ReviewForForm(ReviewViewModel reviewViewModel)
             {
@@ -129,6 +138,7 @@ namespace AniWPF
                 this.ReviewUserName = reviewViewModel.UserName;
                 this.ReviewUserPhoto = reviewViewModel.UserPhoto;
                 this.ReviewRatingImage = reviewViewModel.ReviewImage;
+                this.ReviewUserId = reviewViewModel.UserId;
             }
         }
 
@@ -175,6 +185,7 @@ namespace AniWPF
             this.likedAnimeService.Insert(temp);
         }
 
+
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             if (ParentWindow != null)
@@ -214,9 +225,24 @@ namespace AniWPF
             this.Close();
         }
 
-        private void RewiewListView_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
-        {
 
+        private void UserProfile_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is FrameworkElement button)
+            {
+                if (button.DataContext is ReviewForForm clickedItem)
+                {
+                    string temp = clickedItem.ReviewUserName;
+                    ReviewForForm foundUser = this.reviewList.FirstOrDefault(user => user.ReviewUserName == temp);
+                    if (foundUser != null)
+                    {
+                        UserId = foundUser.ReviewUserId;
+                    }
+
+                    this.viewProfileFactory.Create(this).Show();
+                    this.Close();
+                }
+            }
         }
     }
 }

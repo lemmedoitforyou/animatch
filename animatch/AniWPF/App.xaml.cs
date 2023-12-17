@@ -5,6 +5,7 @@ using AniDAL.DataBaseClasses;
 using AniDAL.DbContext;
 using AniDAL.Repositories;
 using AniWPF.StartupHelper;
+using AniWPF.Windows;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -38,6 +39,7 @@ public partial class App : Application
                 services.AddFormFactory<RedactWindow>();
                 services.AddFormFactory<SearchWindow>();
                 services.AddFormFactory<AnimeWindow>();
+                services.AddFormFactory<ViewProfileWindow>();
 
                 services.AddTransient<ApplicationDbContext>();
 

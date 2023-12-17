@@ -1,5 +1,5 @@
-﻿<Window x:Class="AniWPF.ProfileWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+﻿<Window x:Class="AniWPF.Windows.ViewProfileWindow"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -21,11 +21,11 @@
             </RadialGradientBrush>
         </Grid.Background>
         <ScrollViewer>
-        <StackPanel >
-            <StackPanel Orientation="Horizontal" Height="100" VerticalAlignment="Top">
-                <Rectangle Height="100" Width="90"/>
-                <Button Click="Main_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent" Style="{StaticResource MyButtonPhotoStyle}" IsEnabled="True">
-                    <Button.Template>
+            <StackPanel >
+                <StackPanel Orientation="Horizontal" Height="100" VerticalAlignment="Top">
+                    <Rectangle Height="100" Width="90"/>
+                    <Button Click="Main_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent" Style="{StaticResource MyButtonPhotoStyle}" IsEnabled="True">
+                        <Button.Template>
                             <ControlTemplate TargetType="Button">
                                 <Border CornerRadius="30" BorderBrush="Transparent" BorderThickness="1" Background="Transparent">
                                     <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -119,11 +119,7 @@
                     <Run Text="Переглянуто Аніме: " />
                     <Run Text="{Binding UserWachedCount}" />
                         </TextBlock>
-                        <Rectangle Height="26" />
-                        <Button x:Name="Redact" Height ="40" Width="250" Click="RedactClick" Content="редагувати профіль" HorizontalAlignment="Left" VerticalAlignment="Bottom"  Style="{StaticResource ButtonHoverStyle}"/>
-                        <Rectangle Height="5" />
-                        <Button x:Name="Logout" Height ="40" Width="250" Click="LogoutClick" Content="вийти з аккаунту" HorizontalAlignment="Left" VerticalAlignment="Bottom"  Style="{StaticResource ButtonHoverStyle}"/>
-                    </StackPanel>
+                       </StackPanel>
 
                 </StackPanel>
                 <Rectangle Height="29" />

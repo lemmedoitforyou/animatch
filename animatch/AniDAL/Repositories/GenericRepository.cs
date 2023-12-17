@@ -62,9 +62,21 @@ namespace AniDAL.Repositories
 
         public void Update(T obj)
         {
-            table.Attach(obj);
-            _context.Entry(obj).State = EntityState.Modified;
+            var entry = _context.Entry(obj);
+
+            if (entry.State == EntityState.Detached)
+            {
+                table.Attach(obj);
+                entry.State = EntityState.Modified;
+            }
+            else
+            {
+                _context.Entry(obj).State = EntityState.Detached;
+                table.Attach(obj);
+                entry.State = EntityState.Modified;
+            }
         }
+
 
         public void Delete(int id)
         {

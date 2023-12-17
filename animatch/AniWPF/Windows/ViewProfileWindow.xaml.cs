@@ -1,20 +1,27 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Windows;
-using AniBLL.Models;
+﻿using AniBLL.Models;
 using AniBLL.Services;
 using AniWPF.StartupHelper;
-using AniWPF;
-using Microsoft.Extensions.Logging;
 using AniWPF.ViewModels;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
 
-namespace AniWPF
+namespace AniWPF.Windows
 {
-    public partial class ProfileWindow : Window
+    public partial class ViewProfileWindow : Window
     {
-        private readonly ILogger<ProfileWindow> logger;
+        private readonly ILogger<ViewProfileWindow> logger;
 
         private readonly IAbstractFactory<RandomWindow> randomFactory;
         private readonly IAbstractFactory<MainWindow> mainFactory;
@@ -30,14 +37,15 @@ namespace AniWPF
 
         private UserViewModel viewModel;
         private int id;
+        private int viewuserid;
         private List<AnimeForForm> animeList;
 
         public static int CurrentId { get; set; }
 
-        public ProfileWindow(IUserService userService, IAddedAnimeService addedAnimeService, 
+        public ViewProfileWindow(IUserService userService, IAddedAnimeService addedAnimeService,
             IAnimeService animeService, IAbstractFactory<RandomWindow> randomFactory,
             IAbstractFactory<MainWindow> mainFactory, IAbstractFactory<RedactWindow> redactFactory,
-            ILogger<ProfileWindow> logger, IAbstractFactory<LikedAnimeWindow> likedFactory, 
+            ILogger<ViewProfileWindow> logger, IAbstractFactory<LikedAnimeWindow> likedFactory,
             IAbstractFactory<SearchWindow> searchFactory, IAbstractFactory<AnimeWindow> animeFactory,
             IAbstractFactory<LogInWindow> loginFactory)
         {
@@ -57,9 +65,10 @@ namespace AniWPF
 
             System.Random random = new System.Random();
             this.id = LogInWindow.CurrentUserID;
-            this.viewModel = new UserViewModel(this.userService, this.id);
+            this.viewuserid = AnimeWindow.UserId;
+            this.viewModel = new UserViewModel(this.userService, this.viewuserid);
             this.DataContext = this.viewModel;
-            List<AnimeModel> temp = addedAnimeService.GetAddedAnimesForUser(this.id);
+            List<AnimeModel> temp = addedAnimeService.GetAddedAnimesForUser(this.viewuserid);
 
             animeList = new List<AnimeForForm>();
             foreach (AnimeModel anime in temp)
@@ -80,20 +89,6 @@ namespace AniWPF
             public int Id { get; set; }
             public string Title { get; set; }
             public string ImagePath { get; set; }
-        }
-       
-        private void RedactClick(object sender, RoutedEventArgs e)
-        {
-            this.logger.LogInformation("Click Redact button");
-            this.redactFactory.Create(this).Show();
-            this.Close();
-        }
-
-        private void LogoutClick(object sender, RoutedEventArgs e)
-        {
-            this.logger.LogInformation("Click Log out button");
-            this.loginFactory.Create(this).Show();
-            this.Close();
         }
 
         private void Random_Click(object sender, RoutedEventArgs e)
@@ -161,3 +156,4 @@ namespace AniWPF
         }
     }
 }
+

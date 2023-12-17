@@ -26,6 +26,8 @@ namespace AniBLL.Services
 
         void UpdateTitleAndText(int userId, string newTitle, string newText);
 
+        public void UpdateLevel(int userId, int level);
+
         void WatchAnime(int userId);
 
         void UpdatePhoto(int userID, string photoPath);
@@ -143,6 +145,11 @@ namespace AniBLL.Services
         public void UpdateTitleAndText(int userId, string newTitle, string newText)
         {
             this._userRepository.UpdateTitleAndText(userId, newTitle, newText);
+        }
+
+        public void UpdateLevel(int userId, int level)
+        {
+            this._userRepository.UpdateLevel(userId, level);
         }
 
         public void WatchAnime(int userId)
