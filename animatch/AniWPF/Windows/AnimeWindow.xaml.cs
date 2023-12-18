@@ -177,21 +177,6 @@ namespace AniWPF
             this.Close();
         }
 
-        private void LikeAnime_Click(object sender, RoutedEventArgs e)
-        {
-            this.logger.LogInformation("Click LikeAnime button");
-            this.likeUnfill.Source = new BitmapImage(new Uri("https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/LikedFillIcon.png?raw=true"));
-
-            LikedAnimeModel temp = new LikedAnimeModel
-            {
-                Id = this.likedAnimeService.GetLastUserId() + 1,
-                UserId = this.id,
-                AnimeId = AnimeId,
-            };
-
-            this.likedAnimeService.Insert(temp);
-        }
-
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
@@ -255,6 +240,12 @@ namespace AniWPF
                     this.Close();
                 }
             }
+        }
+
+        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        {
+            this.mainFactory.Create(this).Show();
+            this.Close();
         }
     }
 }

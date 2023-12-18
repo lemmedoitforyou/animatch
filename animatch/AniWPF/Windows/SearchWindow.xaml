@@ -62,25 +62,19 @@
                         <Label Content="профіль" FontSize="20" VerticalAlignment="Top" FontFamily="Comic Sans MS" Height="36" />
                     </StackPanel>
                     <Rectangle Height="100" Width="30"/>
-                    <StackPanel Height="86" Width="92">
-                        <Button 
-                            Height="50" 
-                            Width="50" 
-                            Click="ButtonLiked_Click"
-                            Visibility="Visible"
-                            Background="Transparent"
-                            BorderBrush="Transparent"
-                            Style="{StaticResource MyButtonPhotoStyle}">
+                    <StackPanel Height="86" Width="112">
+
+                        <Button Height="50" Width="50" Click="ButtonLiked_Click" Visibility="Visible" Style="{StaticResource MyButtonPhotoStyle}" Background="Transparent" BorderBrush="Transparent">
                             <Button.Template>
                                 <ControlTemplate TargetType="Button">
-                                    <Border CornerRadius="30" BorderBrush="Transparent"  BorderThickness="1" Background="Transparent">
+                                    <Border CornerRadius="30" BorderBrush="Transparent" BorderThickness="1" Background="Transparent">
                                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     </Border>
                                 </ControlTemplate>
                             </Button.Template>
-                            <Image Height="40" Width="40" HorizontalAlignment="Center" Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/LikedIcon.png?raw=true" IsEnabled="True" />
+                            <Image Height="40" Width="40" HorizontalAlignment="Center" Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/LikedIcon.png?raw=true" IsEnabled="True" VerticalAlignment="Center" />
                         </Button>
-                        <Label Content="збережене" FontSize="20" VerticalAlignment="Top" FontFamily="Comic Sans MS" Height="36" />
+                        <Label Content="збережене" FontSize="20" FontFamily="Comic Sans MS" Height="36" Width="114" HorizontalAlignment="Center" />
                     </StackPanel>
                     <Rectangle Height="100" Width="30"/>
                     <StackPanel Height="86" Width="92">
@@ -113,7 +107,7 @@
                                     </Border>
                                 </ControlTemplate>
                             </Button.Template>
-                            <Image Height="40" Width="40" HorizontalAlignment="Center" Source="/SearchIcon.png" IsEnabled="False" />
+                            <Image Height="40" Width="40" HorizontalAlignment="Center" Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/SearchIcon.png?raw=true" IsEnabled="False" />
                         </Button>
                         <Label Content="пошук" FontSize="20" VerticalAlignment="Top" FontFamily="Comic Sans MS" Height="36" />
                     </StackPanel>

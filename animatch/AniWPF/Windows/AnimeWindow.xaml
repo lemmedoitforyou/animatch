@@ -27,7 +27,7 @@
 
                 <StackPanel Orientation="Horizontal" Height="100" VerticalAlignment="Top" ScrollViewer.CanContentScroll="True">
                     <Rectangle Height="100" Width="90"/>
-                    <Button Visibility="Visible" Background="Transparent" BorderBrush="Transparent" IsEnabled="True" Style="{StaticResource MyButtonPhotoStyle}">
+                    <Button Visibility="Visible" Background="Transparent" BorderBrush="Transparent" IsEnabled="True" Click="ButtonBase_OnClick" Style="{StaticResource MyButtonPhotoStyle}">
                         <Button.Template>
                             <ControlTemplate TargetType="Button">
                                 <Border CornerRadius="30" BorderBrush="Transparent" BorderThickness="1" Background="Transparent">
@@ -61,7 +61,7 @@
                         <Label Content="профіль" FontSize="20" VerticalAlignment="Top" FontFamily="Comic Sans MS" Height="36" />
                     </StackPanel>
                     <Rectangle Height="100" Width="30"/>
-                    <StackPanel Height="86" Width="92">
+                    <StackPanel Height="86" Width="112">
 
                         <Button Height="50" Width="50" Click="ButtonLiked_Click" Visibility="Visible" Style="{StaticResource MyButtonPhotoStyle}" Background="Transparent" BorderBrush="Transparent">
                             <Button.Template>
@@ -71,9 +71,9 @@
                                     </Border>
                                 </ControlTemplate>
                             </Button.Template>
-                            <Image Height="40" Width="40" HorizontalAlignment="Center" Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/LikedIcon.png?raw=true" IsEnabled="True" />
+                            <Image Height="40" Width="40" HorizontalAlignment="Center" Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/LikedIcon.png?raw=true" IsEnabled="True" VerticalAlignment="Center" />
                         </Button>
-                        <Label Content="збережене" FontSize="20" VerticalAlignment="Top" FontFamily="Comic Sans MS" Height="36" />
+                        <Label Content="збережене" FontSize="20" FontFamily="Comic Sans MS" Height="36" Width="114" HorizontalAlignment="Center" />
                     </StackPanel>
                     <Rectangle Height="100" Width="30"/>
                     <StackPanel Height="86" Width="92">
@@ -101,7 +101,7 @@
                             </Button.Template>
                             <Image Height="40" Width="40" HorizontalAlignment="Center" Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/SearchIcon.png?raw=true" IsEnabled="False" />
                         </Button>
-                        <Label Content="пошук" FontSize="20" VerticalAlignment="Top" FontFamily="Comic Sans MS" Height="36" />
+                        <Label Content="пошук" FontSize="20" VerticalAlignment="Top" FontFamily="Comic Sans MS" Height="36" HorizontalAlignment="Center" />
                     </StackPanel>
                     <Rectangle Height="100" Width="40"/>
 
@@ -174,20 +174,6 @@
                                             <!-- Перша лінія - фіксована ширина -->
                                             <Line X1="0" Y1="0" X2="{Binding AnimeRateForLine, Mode=OneWay}" Y2="0" Stroke="#713E79" StrokeThickness="10" VerticalAlignment="Top" StrokeEndLineCap="Round" StrokeStartLineCap="Round" Height="10" Margin="0,12,0,0" Grid.ColumnSpan="2" />
                                         </Grid>
-                                        <Button Style="{StaticResource MyButtonPhotoStyle}" Height="25" Width="25" Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Right" Click="LikeAnime_Click" VerticalAlignment="Bottom">
-                                            <Button.Template>
-                                                <ControlTemplate TargetType="Button">
-                                                    <Border CornerRadius="30" BorderBrush="Transparent" BorderThickness="1" Background="Transparent">
-                                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center">
-                                                            <ContentPresenter.RenderTransform>
-                                                                <ScaleTransform ScaleX="1" ScaleY="1"/>
-                                                            </ContentPresenter.RenderTransform>
-                                                        </ContentPresenter>
-                                                    </Border>
-                                                </ControlTemplate>
-                                            </Button.Template>
-                                            <Image Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/LikedIcon.png?raw=true" x:Name="likeUnfill" VerticalAlignment="Bottom" HorizontalAlignment="Center" />
-                                        </Button>
                                     </StackPanel>
 
                                     <Rectangle Height="40"/>
@@ -232,9 +218,9 @@
                                                             </Border>
                                                         </ControlTemplate>
                                                     </Button.Template>
-                                                    <Image Source="{Binding ReviewUserPhoto}" Width="100" Height="100" Margin="0,0,10,0" Stretch="UniformToFill" VerticalAlignment="Center" >
+                                                    <Image Source="{Binding ReviewUserPhoto}" Width="80" Height="80" Margin="0,0,10,0" Stretch="UniformToFill" VerticalAlignment="Center" HorizontalAlignment="Center">
                                                         <Image.Clip>
-                                                            <RectangleGeometry RadiusX="10" RadiusY="10" Rect="0,0,100,100"/>
+                                                            <RectangleGeometry RadiusX="10" RadiusY="10" Rect="0,0,80,80"/>
                                                         </Image.Clip>
                                                     </Image>
                                                 </Button>

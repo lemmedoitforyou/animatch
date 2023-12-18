@@ -112,10 +112,10 @@
                     </Image>
                     <Rectangle Width="115"/>
                     <StackPanel Width="800">
-                        <TextBox Background="Transparent" BorderThickness="0,0,0,0" BorderBrush="Transparent" Text="{Binding UserName}" FontSize="40"/>
-                        <TextBox Background="Transparent" BorderThickness="0,0,0,0" BorderBrush="Transparent" Text="{Binding UserLevel}" FontSize="20"/>
-                        <TextBox Background="Transparent" BorderThickness="0,0,0,0" BorderBrush="Transparent" Text="{Binding UserText}" FontSize="25"/>
-                        <TextBlock FontSize="10" >
+                        <TextBlock Background="Transparent" Style="{StaticResource MyTextBlockStyle}"  Text="{Binding UserName}" FontSize="40"/>
+                        <TextBlock Background="Transparent" Style="{StaticResource MyTextBlockStyle}" Text="{Binding UserLevel}" FontSize="20"/>
+                        <TextBlock Background="Transparent" Style="{StaticResource MyTextBlockStyle}" Text="{Binding UserText}" FontSize="25"/>
+                        <TextBlock FontSize="10" Style="{StaticResource MyTextBlockStyle}" >
                     <Run Text="Переглянуто Аніме: " />
                     <Run Text="{Binding UserWachedCount}" />
                         </TextBlock>

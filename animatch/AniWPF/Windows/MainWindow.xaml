@@ -26,7 +26,8 @@
             </RadialGradientBrush>
         </Grid.Background>
         <Frame Name="MainFrame" NavigationUIVisibility="Hidden"/>
-        <StackPanel >
+        
+        <StackPanel>
             <StackPanel Orientation="Horizontal" Height="100" VerticalAlignment="Top">
                 <Rectangle Height="100" Width="90"/>
                 <Button Visibility="Visible" Background="Transparent" BorderBrush="Transparent" IsEnabled="False">
@@ -63,9 +64,9 @@
                     <Label Content="профіль" FontSize="20" VerticalAlignment="Top" FontFamily="Comic Sans MS" Height="36" />
                 </StackPanel>
                 <Rectangle Height="100" Width="30"/>
-                <StackPanel Height="86" Width="92">
-                    <Button Height="50" Width="50" Click="ButtonLiked_Click" Visibility="Visible" Style="{StaticResource MyButtonPhotoStyle}" Background="Transparent" BorderBrush="Transparent">
+                <StackPanel Height="86" Width="112">
 
+                    <Button Height="50" Width="50" Click="ButtonLiked_Click" Visibility="Visible" Style="{StaticResource MyButtonPhotoStyle}" Background="Transparent" BorderBrush="Transparent">
                         <Button.Template>
                             <ControlTemplate TargetType="Button">
                                 <Border CornerRadius="30" BorderBrush="Transparent" BorderThickness="1" Background="Transparent">
@@ -73,9 +74,9 @@
                                 </Border>
                             </ControlTemplate>
                         </Button.Template>
-                        <Image Height="40" Width="40" HorizontalAlignment="Center" Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/LikedIcon.png?raw=true" IsEnabled="True" />
+                        <Image Height="40" Width="40" HorizontalAlignment="Center" Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/LikedIcon.png?raw=true" IsEnabled="True" VerticalAlignment="Center" />
                     </Button>
-                    <Label Content="збережене" FontSize="20" VerticalAlignment="Top" FontFamily="Comic Sans MS" Height="36" />
+                    <Label Content="збережене" FontSize="20" FontFamily="Comic Sans MS" Height="36" Width="114" HorizontalAlignment="Center" />
                 </StackPanel>
                 <Rectangle Height="100" Width="30"/>
                 <StackPanel Height="86" Width="92">
@@ -103,7 +104,7 @@
                         </Button.Template>
                         <Image Height="40" Width="40" HorizontalAlignment="Center" Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/SearchIcon.png?raw=true" IsEnabled="False" />
                     </Button>
-                    <Label Content="пошук" FontSize="20" VerticalAlignment="Top" FontFamily="Comic Sans MS" Height="36" />
+                    <Label Content="пошук" FontSize="20" VerticalAlignment="Center" FontFamily="Comic Sans MS" Height="36" HorizontalAlignment="Center" />
                 </StackPanel>
                 <Rectangle Height="100" Width="40"/>
                 <StackPanel Height="86" Width="92" RenderTransformOrigin="0.658,0.57" HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -116,76 +117,55 @@
                             </ControlTemplate>
 
                         </Button.Template>
-                        <Image Height="60" Width="60" HorizontalAlignment="Center" Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/FilterIcon.png?raw=true" IsEnabled="False" VerticalAlignment="Top" RenderTransformOrigin="0.189,0.451" />
+                        <Image Height="60" Width="60" HorizontalAlignment="Left" Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/NewFilterIcon.png?raw=true" IsEnabled="False" VerticalAlignment="Top" RenderTransformOrigin="0.189,0.451" />
                     </Button>
                 </StackPanel>
             </StackPanel>
-            <ScrollViewer>
-                <StackPanel Name="filter" Orientation="Vertical" VerticalAlignment="Top" Background="#FFE0E0E0" Margin="0,0,10,0" Visibility="Collapsed">
+
+            <Border  Name="BorderForFilter" Background="Transparent" CornerRadius="30" BorderBrush="#F278A2" Margin="20,10,20,10" BorderThickness="2" Visibility="Collapsed">
+                <StackPanel Name="filter" Orientation="Vertical" VerticalAlignment="Top" Background="Transparent"  Visibility="Collapsed" Margin="20,10,20,10">
                     <!-- Жанри -->
                     <StackPanel Orientation="Vertical" Background="Transparent" Margin="10">
-                        <TextBlock Text="Жанри" FontSize="18" FontWeight="Bold" Margin="0,0,0,10"/>
-                        <ListView Name="genreListView" Background="Transparent">
-                            <ListView.ItemsPanel>
+                        <TextBlock Text="Жанри" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center"/>
+                        <ItemsControl Name="genreListView" ItemsSource="{Binding GenreName}">
+                            <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <UniformGrid Columns="10" Rows="5" />
+                                    <UniformGrid Columns="6"/>
                                 </ItemsPanelTemplate>
-                            </ListView.ItemsPanel>
-                            <ListView.View>
-                                <GridView>
-                                    <GridViewColumn>
-                                        <GridViewColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <StackPanel Orientation="Horizontal">
-                                                    <CheckBox IsChecked="{Binding IsSelected}" Margin="0,0,5,0"/>
-                                                    <TextBlock Text="{Binding GenreName}" />
-                                                </StackPanel>
-                                            </DataTemplate>
-                                        </GridViewColumn.CellTemplate>
-                                    </GridViewColumn>
-                                </GridView>
-                            </ListView.View>
-                        </ListView>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Background="#FFC6D3" BorderBrush="#F278A2" BorderThickness="1" CornerRadius="20" HorizontalAlignment="Center" Margin="10">
+                                        <StackPanel Orientation="Horizontal" Margin="10,5,10,5">
+                                            <CheckBox IsChecked="{Binding IsSelected}" Margin="0,0,5,0" HorizontalAlignment="Center"/>
+                                            <TextBlock Text="{Binding GenreName}" 
+                                                       Style="{StaticResource MyTextBlockStyle}" 
+                                                       FontSize="15"
+                                                       VerticalAlignment="Center"
+                                                       HorizontalAlignment="Center"/>
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
                     </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <Button
-                        Height="50" Width="50"
-                        Style="{StaticResource MyButtonPhotoStyle}"
+                        Height="50" Width="150"
+                        Style="{StaticResource ButtonHoverStyle}"
                         Click="UseFilter_Click"
                         Visibility="Visible"
-                        Background="Transparent" BorderBrush="Transparent"
                         Content="застосувати">
-                        <Button.Template>
-                            <ControlTemplate TargetType="Button">
-                                <Border CornerRadius="30" BorderBrush="Transparent" BorderThickness="1" Background="Transparent">
-                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center">
-                                        <ContentPresenter.RenderTransform>
-                                            <ScaleTransform ScaleX="1" ScaleY="1"/>
-                                        </ContentPresenter.RenderTransform>
-                                    </ContentPresenter>
-                                </Border>
-                            </ControlTemplate>
-                        </Button.Template>
                     </Button>
+                        <Rectangle Width="50"></Rectangle>
                     <Button
-                        Height="50" Width="50"
-                        Style="{StaticResource MyButtonPhotoStyle}"
+                        Height="50" Width="150"
+                        Style="{StaticResource ButtonHoverStyle}"
                         Click="CancelFilter_Click"
                         Visibility="Visible"
-                        Background="Transparent" BorderBrush="Transparent"
-                        Content="скасувати">
-                        <Button.Template>
-                            <ControlTemplate TargetType="Button">
-                                <Border CornerRadius="30" BorderBrush="Transparent" BorderThickness="1" Background="Transparent">
-                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center">
-                                        <ContentPresenter.RenderTransform>
-                                            <ScaleTransform ScaleX="1" ScaleY="1"/>
-                                        </ContentPresenter.RenderTransform>
-                                    </ContentPresenter>
-                                </Border>
-                            </ControlTemplate>
-                        </Button.Template>
-                    </Button>
-                    <!-- Рік випуску -->
+                        Content="скасувати"/>
+                    </StackPanel>
+                        <!-- Рік випуску -->
                     <!--<StackPanel Orientation="Vertical"  Background="Transparent" Margin="10">
                     <TextBlock Text="Рік випуску" FontSize="18" FontWeight="Bold" Margin="0,0,0,10"/>
                         <controls:RangeSlider  x:Name="RangeSelectorControl" Minimum="1950" Maximum="2023" StepFrequency="1"/>
@@ -199,15 +179,16 @@
                     <Slider Name="ChooseRatingSlider" Minimum="0" Maximum="10" TickPlacement="BottomRight" IsSnapToTickEnabled="True" Margin="0"/>
                 </StackPanel>-->
                 </StackPanel>
-            </ScrollViewer>
+            </Border>
+
 
 
             <StackPanel x:Name="main" >
                 <Rectangle Height="30"/>
 
 
-                <Border Background="white" CornerRadius="30" Width="876" Height="560">
-                    <StackPanel Name="card" Orientation="Horizontal" Width="876" Height="560" >
+                <Border Name="card" Background="white" CornerRadius="30" Width="876" Height="560">
+                    <StackPanel Orientation="Horizontal" Width="876" Height="560" >
                         <Button x:Name="AnimeButton" BorderBrush="Transparent" 
                                 BorderThickness="0,0,0,0" Background="Transparent" 
                                 Command="{x:Static commands:AnimeCommand.AnimeButtonClickCommand}" 
@@ -257,7 +238,7 @@
                                     <!-- Перша лінія - фіксована ширина -->
                                     <Line X1="0" Y1="0" X2="{Binding AnimeRateForLine, Mode=OneWay}" Y2="0" Stroke="#713E79" StrokeThickness="10" VerticalAlignment="Top" StrokeEndLineCap="Round" StrokeStartLineCap="Round" Height="10" Margin="0,12,0,0" Grid.ColumnSpan="2" />
                                 </Grid>
-                                <Button Style="{StaticResource MyButtonPhotoStyle}" Height="25" Width="25" Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Right" Click="LikeAnime_Click" VerticalAlignment="Bottom">
+                                <Button Name="LikeButton" Style="{StaticResource MyButtonPhotoStyle}" Height="25" Width="25" Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Right" Click="LikeAnime_Click" VerticalAlignment="Bottom">
                                     <Button.Template>
                                         <ControlTemplate TargetType="Button">
                                             <Border CornerRadius="30" BorderBrush="Transparent" BorderThickness="1" Background="Transparent">

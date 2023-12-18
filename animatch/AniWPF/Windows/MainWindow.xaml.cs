@@ -179,6 +179,7 @@ namespace AniWPF
             this.userService.UpdateLevel(this.id, newUserRank.Level);
 
             AnimeTextBlock.Visibility = Visibility.Collapsed;
+            LikeButton.Visibility = Visibility.Collapsed;
             SendButton.Visibility = Visibility.Visible;
             StackPanelForRate.Visibility = Visibility.Visible;
             SadSmileButton.Visibility = Visibility.Visible;
@@ -251,7 +252,16 @@ namespace AniWPF
 
         private void SendReview_Click(object sender, RoutedEventArgs e)
         {
-            string text = ReviewText.Text;
+            string text = "";
+            if (ReviewText.Text == "Введіть ваш відгук")
+            {
+                 text = "";
+            }
+            else
+            {
+                 text = ReviewText.Text;
+            }
+           
             int rate = UserRate;
             ReviewModel temp = new ReviewModel()
             {
@@ -289,6 +299,7 @@ namespace AniWPF
             AnimeTextBlock.Visibility = Visibility.Visible;
             CancelButton.Visibility = Visibility.Collapsed;
             GenresItems.Visibility = Visibility.Visible;
+            LikeButton.Visibility = Visibility.Visible;
         }
 
         private void CancelReview_Click(object sender, RoutedEventArgs e)
@@ -312,6 +323,7 @@ namespace AniWPF
             AnimeTextBlock.Visibility = Visibility.Visible;
             CancelButton.Visibility = Visibility.Collapsed;
             GenresItems.Visibility = Visibility.Visible;
+            LikeButton.Visibility = Visibility.Visible;
         }
 
 
@@ -335,6 +347,7 @@ namespace AniWPF
             card.Visibility = Visibility.Collapsed;
             ButtonButton.Visibility = Visibility.Collapsed;
             filter.Visibility = Visibility.Visible;
+            BorderForFilter.Visibility = Visibility.Visible;
             genreListView.ItemsSource = genreList;
             this.logger.LogInformation("List of anime was shown");
         }
@@ -434,7 +447,7 @@ namespace AniWPF
             card.Visibility = Visibility.Visible;
             ButtonButton.Visibility = Visibility.Visible;
             filter.Visibility = Visibility.Collapsed;
-
+            BorderForFilter.Visibility = Visibility.Collapsed;
             UploadNextAnime();
         }
 
@@ -457,6 +470,7 @@ namespace AniWPF
             card.Visibility = Visibility.Visible;
             ButtonButton.Visibility = Visibility.Visible;
             filter.Visibility = Visibility.Collapsed;
+            BorderForFilter.Visibility = Visibility.Collapsed;
         }
     }
 }

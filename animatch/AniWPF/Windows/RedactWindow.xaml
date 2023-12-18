@@ -32,7 +32,7 @@
             <Rectangle Height="47"/>
             <StackPanel Orientation="Horizontal" Width="1024" Height="400">
                 <StackPanel Orientation="Vertical">
-                    <Image Height="300" Width="300" Source="{Binding UserPhoto}">
+                    <Image Height="300" Width="300" Source="{Binding UserPhoto}" Stretch="UniformToFill">
                         <Image.Clip>
                             <RectangleGeometry RadiusX="20" RadiusY="20" Rect="0,0,300,300"/>
                         </Image.Clip>
