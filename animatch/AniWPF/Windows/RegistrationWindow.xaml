@@ -35,10 +35,30 @@
             <Rectangle Height="35"/>
             <Label x:Name="labelPassword" Content="пароль:" FontFamily="Comic Sans MS" FontSize="20" Margin="100,0,0,0"/>
             <Border CornerRadius="30" BorderBrush="#F278A2" BorderThickness="1" Height="50" Width="445" Background="#FFDDE5">
-                <PasswordBox x:Name="in_password" BorderBrush="Transparent" Background="Transparent"  Width="394" Height="30" RenderTransformOrigin="0.503,0.96" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <PasswordBox x:Name="in_password" BorderBrush="Transparent" Background="Transparent"  Width="394" Height="30" RenderTransformOrigin="0.503,0.96" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <PasswordBox.Style>
+                        <Style TargetType="PasswordBox">
+                            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                            <Setter Property="OverridesDefaultStyle" Value="True" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="PasswordBox">
+                                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="5">
+                                            <ScrollViewer x:Name="PART_ContentHost"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </PasswordBox.Style>
+                </PasswordBox>
             </Border>
             <Rectangle Height="70"/>
-            <Button x:Name="registration" Content="зареєструватися" Width="258" Height="53" Click="Registration_Click" FocusVisualStyle="{x:Null}" Style="{StaticResource ButtonHoverStyle}" />
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button x:Name="registration" Content="зареєструватися" Width="258" Height="53" Click="Registration_Click" FocusVisualStyle="{x:Null}" Style="{StaticResource ButtonHoverStyle}" />
+                <Rectangle Width="30"/>
+                <Button x:Name="cancel" Content="повернутись" Width="258" Height="53" Click="Cancel_OnClick" FocusVisualStyle="{x:Null}" Style="{StaticResource ButtonHoverStyle}" />
+            </StackPanel>
         </StackPanel>
     </Grid>
 </Window>

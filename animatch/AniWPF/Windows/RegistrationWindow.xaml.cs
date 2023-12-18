@@ -56,11 +56,17 @@ namespace AniWPF
             {
                 this.logger.LogInformation("User with this username already exists");
                 MessageBox.Show("користувач з таким логіном вже існує");
+                in_login.Text = String.Empty;
+                in_email.Text = String.Empty;
+                in_password.Password = String.Empty;
             }
             else if (userService.IsExistEmail(email))
             {
                 this.logger.LogInformation("User with this email already exists");
                 MessageBox.Show("користувач з такою поштою вже існує");
+                in_login.Text = String.Empty;
+                in_email.Text = String.Empty;
+                in_password.Password = String.Empty;
             }
             else
             {
@@ -80,11 +86,23 @@ namespace AniWPF
 
                 userService.Insert(newUser);
                 this.logger.LogInformation("New user was added successfully");
+                in_login.Text = String.Empty;
+                in_email.Text = String.Empty;
+                in_password.Password = String.Empty;
                 //MessageBox.Show("Реєстрація пройшла успішно!");
                 logInFactory.Create(this.ParentWindow).Show();
                 this.Close();
+
             }
         }
 
+        private void Cancel_OnClick(object sender, RoutedEventArgs e)
+        {
+            in_login.Text = String.Empty;
+            in_email.Text = String.Empty;
+            in_password.Password = String.Empty;
+            logInFactory.Create(this.ParentWindow).Show();
+            this.Close();
+        }
     }
 }

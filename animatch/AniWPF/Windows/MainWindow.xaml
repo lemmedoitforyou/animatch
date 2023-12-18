@@ -65,6 +65,7 @@
                 <Rectangle Height="100" Width="30"/>
                 <StackPanel Height="86" Width="92">
                     <Button Height="50" Width="50" Click="ButtonLiked_Click" Visibility="Visible" Style="{StaticResource MyButtonPhotoStyle}" Background="Transparent" BorderBrush="Transparent">
+
                         <Button.Template>
                             <ControlTemplate TargetType="Button">
                                 <Border CornerRadius="30" BorderBrush="Transparent" BorderThickness="1" Background="Transparent">
@@ -113,6 +114,7 @@
                                     <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
                             </ControlTemplate>
+
                         </Button.Template>
                         <Image Height="86" Width="86" HorizontalAlignment="Center" Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/FilterIcon.png?raw=true" IsEnabled="False" VerticalAlignment="Top" RenderTransformOrigin="0.189,0.451" />
                     </Button>
@@ -214,6 +216,7 @@
                                         </Line.RenderTransform>
                                     </Line>
 
+
                                     <!-- Перша лінія - фіксована ширина -->
                                     <Line X1="0" Y1="0" X2="{Binding AnimeRateForLine, Mode=OneWay}" Y2="0" Stroke="#713E79" StrokeThickness="10" VerticalAlignment="Top" StrokeEndLineCap="Round" StrokeStartLineCap="Round" Height="10" Margin="0,12,0,0" Grid.ColumnSpan="2" />
                                 </Grid>
@@ -256,7 +259,8 @@
                                 </Border>
                                 <Rectangle Height="20"/>
 
-                                    <!-- Оцінка -->
+
+                                <!-- Оцінка -->
                                 <StackPanel Name="StackPanelForRate" Orientation="Horizontal" Visibility="Collapsed">
                                     <Rectangle Width="80" />
                                     <Button Name="SadSmileButton" Visibility="Collapsed" Click="SadSmileButton_Click" Style="{StaticResource MyButtonSmileStyle}" Height="50" Width="50">
@@ -296,20 +300,24 @@
 
                                 <Rectangle Height="20"></Rectangle>
 
+
                                 <!-- Кнопка для відправлення відгуку та оцінки -->
                                 <StackPanel Orientation="Horizontal">
-                                    <Button Name="SendButton" Height="50" Width="150" Content="Надіслати відгук"
+                                    <Button Name="SendButton" Height="50" Width="100" Content="надіслати"
                                             Margin="45,0,0,0"
                                         Click="SendReview_Click" Visibility="Collapsed"
                                         Style="{StaticResource ButtonHoverStyle}"/>
-                                    <Rectangle Width="100"></Rectangle>
-                                
-                                <Button Name="AddToProfileButton" Content="Додати в профіль" 
+                                    <Rectangle Width="20"></Rectangle>
+                                    <Button Name="CancelButton" Height="50" Width="100" Content="скасувати"
+                                            Click="CancelReview_Click" Visibility="Collapsed"
+                                            Style="{StaticResource ButtonHoverStyle}"/>
+                                    <Rectangle Width="40"></Rectangle>
+                                    <Button Name="AddToProfileButton" Content="додати в профіль" 
                                         Height="50" Width="150"
                                         Click="AddToProfileButton_Click" Visibility="Collapsed"
                                         Style="{StaticResource ButtonHoverStyle}">
-                                </Button>
-                                    </StackPanel>
+                                    </Button>
+                                </StackPanel>
                             </StackPanel>
                         </StackPanel>
                     </StackPanel>
@@ -348,6 +356,7 @@
                                     </Border>
                                 </ControlTemplate>
                             </Button.Template>
+
                             <Image Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/WatchedIcon.png?raw=true" HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Button>
                         <Label Content="переглянуто" FontSize="14" HorizontalContentAlignment="Center" HorizontalAlignment="Center" />
@@ -357,5 +366,3 @@
         </StackPanel>
     </Grid>
 </Window>
-
-

@@ -47,6 +47,8 @@ namespace AniWPF
                     this.logger.LogInformation("User was found, login successfully");
                     CurrentUserID = user.Id;
                     mainFactory.Create(this).Show(); 
+                    login.Text = String.Empty;
+                    password.Password = String.Empty;
                     
                     this.Close();
                     
@@ -54,18 +56,23 @@ namespace AniWPF
                 else
                 {
                     this.logger.LogInformation("User was found, but the password is incorrect");
+                    password.Password = String.Empty;
                     MessageBox.Show("Пароль неправильний");
                 }
             }
             else
             {
                 this.logger.LogInformation("User was not found");
+                login.Text = String.Empty;
+                password.Password = String.Empty;
                 MessageBox.Show("Користувача не знайдено");
             }
         }
 
         public void ButtonRegister_Click(object sender, RoutedEventArgs e)
         {
+            login.Text = String.Empty;
+            password.Password = String.Empty;
             this.logger.LogInformation("Click Register button");
             registrationFactory.Create(this).Show();
             this.Close();

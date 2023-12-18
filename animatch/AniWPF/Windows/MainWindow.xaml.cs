@@ -21,7 +21,7 @@ namespace AniWPF
     {
         public ILogger<MainWindow> logger { get; private set; }
 
-        public  static Window? ParentWindow { get; set; }
+        public static Window? ParentWindow { get; set; }
         private readonly IAbstractFactory<RandomWindow> randomFactory;
         private readonly IAbstractFactory<ProfileWindow> profileFactory;
         private readonly IAbstractFactory<LikedAnimeWindow> likedFactory;
@@ -41,7 +41,7 @@ namespace AniWPF
         private AnimeViewModel viewModel;
         private int id;
         private int UserRate;
-            //private bool isButtonPressed = false;
+        //private bool isButtonPressed = false;
         public static int randomAnimeId { get; set; }
         private List<Genres> genreList;
 
@@ -56,7 +56,7 @@ namespace AniWPF
             IWatchedAnimeService watchedAnimeService, IUserService userService,
             IAbstractFactory<RandomWindow> rfactory, IAbstractFactory<ProfileWindow> profileFactory,
             IAbstractFactory<LikedAnimeWindow> likedFactory, IAbstractFactory<SearchWindow> searchFactory,
-            IAbstractFactory<AnimeWindow> animeWindow, IReviewService reviewService, 
+            IAbstractFactory<AnimeWindow> animeWindow, IReviewService reviewService,
             IAnimeGenreService animeGenreService, IGenreService genreService, ILogger<MainWindow> logger)
         {
             this.randomFactory = rfactory;
@@ -91,6 +91,7 @@ namespace AniWPF
 
             Random random = new Random();
 
+
             if (ParentWindow != null)
             {
                 if (ParentWindow.GetType() == typeof(AnimeWindow))
@@ -102,7 +103,7 @@ namespace AniWPF
             {
                 randomAnimeId = random.Next(uniqueAnimes.Count);
             }
-            
+
 
             this.viewModel = new AnimeViewModel(this.animeService, this.addedAnimeService, this.animeGenreService, randomAnimeId);
             this.DataContext = this.viewModel;
@@ -175,7 +176,6 @@ namespace AniWPF
 
             AnimeTextBlock.Visibility = Visibility.Collapsed;
             SendButton.Visibility = Visibility.Visible;
-            //RatingSlider.Visibility = Visibility.Visible;
             StackPanelForRate.Visibility = Visibility.Visible;
             SadSmileButton.Visibility = Visibility.Visible;
             SadSmile.Visibility = Visibility.Visible;
@@ -186,6 +186,7 @@ namespace AniWPF
             ReviewText.Visibility = Visibility.Visible;
             AddToProfileButton.Visibility = Visibility.Visible;
             BorderForSendBox.Visibility = Visibility.Visible;
+            CancelButton.Visibility = Visibility.Visible;
         }
         private async void LikeAnime_Click(object sender, RoutedEventArgs e)
         {
@@ -199,6 +200,7 @@ namespace AniWPF
                 AnimeId = randomAnimeId
             };
             likedAnimeService.Insert(temp);
+
 
             await Task.Delay(1000);
 
@@ -265,7 +267,30 @@ namespace AniWPF
             HappySmileButton.Visibility = Visibility.Collapsed;
             HappySmile.Visibility = Visibility.Collapsed;
             AnimeTextBlock.Visibility = Visibility.Visible;
+            CancelButton.Visibility = Visibility.Collapsed;
         }
+
+        private void CancelReview_Click(object sender, RoutedEventArgs e)
+        {
+            UploadNextAnime();
+
+            SendButton.Visibility = Visibility.Collapsed;
+            ReviewText.Visibility = Visibility.Collapsed;
+            AddToProfileButton.IsEnabled = true;
+            AddToProfileButton.Visibility = Visibility.Collapsed;
+            AddToProfileButton.Visibility = Visibility.Collapsed;
+            BorderForSendBox.Visibility = Visibility.Collapsed;
+            StackPanelForRate.Visibility = Visibility.Collapsed;
+            SadSmileButton.Visibility = Visibility.Collapsed;
+            SadSmile.Visibility = Visibility.Collapsed;
+            NormSmileButton.Visibility = Visibility.Collapsed;
+            NormSmile.Visibility = Visibility.Collapsed;
+            HappySmileButton.Visibility = Visibility.Collapsed;
+            HappySmile.Visibility = Visibility.Collapsed;
+            AnimeTextBlock.Visibility = Visibility.Visible;
+            CancelButton.Visibility = Visibility.Collapsed;
+        }
+
 
         //private void AnimeButton_Click(object sender, RoutedEventArgs e)
         //{
@@ -353,7 +378,7 @@ namespace AniWPF
 
         private void ReviewText_OnLostFocus(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrWhiteSpace (ReviewText.Text))
+            if (string.IsNullOrWhiteSpace(ReviewText.Text))
             {
                 ReviewText.Text = "Введіть ваш відгук";
             }
