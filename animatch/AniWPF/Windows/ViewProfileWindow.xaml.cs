@@ -79,7 +79,7 @@ namespace AniWPF.Windows
 
 
             this.logger = logger;
-            this.logger.LogInformation("ProfileWindow created");
+            this.logger.LogInformation("ViewProfileWindow created");
             this.likedFactory = likedFactory;
             this.searchFactory = searchFactory;
         }

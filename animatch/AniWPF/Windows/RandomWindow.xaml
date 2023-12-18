@@ -26,8 +26,8 @@
         </Grid.Background>
         <StackPanel>
             <StackPanel Orientation="Horizontal" Height="100" VerticalAlignment="Top">
-            <Rectangle Height="100" Width="90"/>
-            <Button Click="Main_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent">
+                <Rectangle Height="100" Width="90"/>
+                <Button Click="Main_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent">
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
                             <Border CornerRadius="30" BorderBrush="Transparent" BorderThickness="1" Background="Transparent">
@@ -64,6 +64,7 @@
                 <StackPanel Height="86" Width="92">
                     <Button Height="50" Width="50" Click="ButtonLiked_Click" Style="{StaticResource MyButtonPhotoStyle}" Visibility="Visible" Background="Transparent" BorderBrush="Transparent">
                         <Button.Template>
+
                             <ControlTemplate TargetType="Button">
                                 <Border CornerRadius="30" BorderBrush="Transparent" BorderThickness="1" Background="Transparent">
                                     <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -116,7 +117,7 @@
                                 </Border>
                             </ControlTemplate>
                         </Button.Template>
-                            <Image Source="{Binding AnimePhoto}" Width="375" Height="560" Stretch="UniformToFill">
+                        <Image Source="{Binding AnimePhoto}" Width="375" Height="560" Stretch="UniformToFill">
                             <Image.Clip>
                                 <RectangleGeometry RadiusX="35" RadiusY="35" Rect="0,0,375,560"/>
                             </Image.Clip>
@@ -162,15 +163,18 @@
                                 <Image Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/LikedIcon.png?raw=true" x:Name="likeUnfill" VerticalAlignment="Bottom" HorizontalAlignment="Center" RenderTransformOrigin="0.63,-2.001" />
                             </Button>
                         </StackPanel>
+                        <Rectangle Height="40"/>
                         <ItemsControl ItemsSource="{Binding AnimeGenres}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <WrapPanel Orientation="Horizontal"/>
+                                    <UniformGrid Columns="3"/>
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding}" Margin="5"/>
+                                    <Border Background="#FFC6D3" CornerRadius="20" HorizontalAlignment="Center" Margin="10">
+                                        <TextBlock Text="{Binding}" Margin="10,5,10,5" TextWrapping="Wrap" HorizontalAlignment="Center" Style="{StaticResource MyTextBlockStyle}" FontSize="15"/>
+                                    </Border>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>

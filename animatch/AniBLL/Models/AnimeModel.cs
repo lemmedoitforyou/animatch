@@ -4,5 +4,6 @@ namespace AniBLL.Models
 {
     public class AnimeModel : Anime
     {
+
     }
 }

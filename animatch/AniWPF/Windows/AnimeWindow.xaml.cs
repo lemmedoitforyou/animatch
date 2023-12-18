@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -247,8 +248,9 @@ namespace AniWPF
                     if (foundUser != null)
                     {
                         UserId = foundUser.ReviewUserId;
+                        
                     }
-
+                     
                     this.viewProfileFactory.Create(this).Show();
                     this.Close();
                 }

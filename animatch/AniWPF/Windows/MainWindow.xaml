@@ -107,7 +107,7 @@
                 </StackPanel>
                 <Rectangle Height="100" Width="40"/>
                 <StackPanel Height="86" Width="92" RenderTransformOrigin="0.658,0.57" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Button Height="60" Width="50" Click="ButtonFilter_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent" Style="{StaticResource MyButtonPhotoStyle}">
+                    <Button Height="80" Width="80" Click="ButtonFilter_Click" Visibility="Visible" Background="Transparent" BorderBrush="Transparent" Style="{StaticResource MyButtonPhotoStyle}">
                         <Button.Template>
                             <ControlTemplate TargetType="Button">
                                 <Border CornerRadius="30" BorderBrush="Transparent" BorderThickness="1" Background="Transparent">
@@ -116,7 +116,7 @@
                             </ControlTemplate>
 
                         </Button.Template>
-                        <Image Height="86" Width="86" HorizontalAlignment="Center" Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/FilterIcon.png?raw=true" IsEnabled="False" VerticalAlignment="Top" RenderTransformOrigin="0.189,0.451" />
+                        <Image Height="60" Width="60" HorizontalAlignment="Center" Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/FilterIcon.png?raw=true" IsEnabled="False" VerticalAlignment="Top" RenderTransformOrigin="0.189,0.451" />
                     </Button>
                 </StackPanel>
             </StackPanel>
@@ -147,7 +147,44 @@
                             </ListView.View>
                         </ListView>
                     </StackPanel>
-
+                    <Button
+                        Height="50" Width="50"
+                        Style="{StaticResource MyButtonPhotoStyle}"
+                        Click="UseFilter_Click"
+                        Visibility="Visible"
+                        Background="Transparent" BorderBrush="Transparent"
+                        Content="застосувати">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border CornerRadius="30" BorderBrush="Transparent" BorderThickness="1" Background="Transparent">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <ContentPresenter.RenderTransform>
+                                            <ScaleTransform ScaleX="1" ScaleY="1"/>
+                                        </ContentPresenter.RenderTransform>
+                                    </ContentPresenter>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    <Button
+                        Height="50" Width="50"
+                        Style="{StaticResource MyButtonPhotoStyle}"
+                        Click="CancelFilter_Click"
+                        Visibility="Visible"
+                        Background="Transparent" BorderBrush="Transparent"
+                        Content="скасувати">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border CornerRadius="30" BorderBrush="Transparent" BorderThickness="1" Background="Transparent">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <ContentPresenter.RenderTransform>
+                                            <ScaleTransform ScaleX="1" ScaleY="1"/>
+                                        </ContentPresenter.RenderTransform>
+                                    </ContentPresenter>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
                     <!-- Рік випуску -->
                     <!--<StackPanel Orientation="Vertical"  Background="Transparent" Margin="10">
                     <TextBlock Text="Рік випуску" FontSize="18" FontWeight="Bold" Margin="0,0,0,10"/>
@@ -231,15 +268,18 @@
                                     <Image Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/LikedIcon.png?raw=true" x:Name="likeUnfill" VerticalAlignment="Bottom" HorizontalAlignment="Center" />
                                 </Button>
                             </StackPanel>
-                            <ItemsControl ItemsSource="{Binding AnimeGenres}">
+                            <Rectangle Height="40"/>
+                            <ItemsControl Name="GenresItems" ItemsSource="{Binding AnimeGenres}">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
-                                        <WrapPanel Orientation="Horizontal"/>
+                                        <UniformGrid Columns="3"/>
                                     </ItemsPanelTemplate>
                                 </ItemsControl.ItemsPanel>
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding}" Margin="5"/>
+                                        <Border Background="#FFC6D3" CornerRadius="20" HorizontalAlignment="Center" Margin="10">
+                                            <TextBlock Text="{Binding}" Margin="10,5,10,5" TextWrapping="Wrap" HorizontalAlignment="Center" Style="{StaticResource MyTextBlockStyle}" FontSize="15"/>
+                                        </Border>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>

@@ -189,15 +189,19 @@
                                             <Image Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/LikedIcon.png?raw=true" x:Name="likeUnfill" VerticalAlignment="Bottom" HorizontalAlignment="Center" />
                                         </Button>
                                     </StackPanel>
+
+                                    <Rectangle Height="40"/>
                                     <ItemsControl ItemsSource="{Binding AnimeGenres}">
                                         <ItemsControl.ItemsPanel>
                                             <ItemsPanelTemplate>
-                                                <WrapPanel Orientation="Horizontal"/>
+                                                <UniformGrid Columns="3"/>
                                             </ItemsPanelTemplate>
                                         </ItemsControl.ItemsPanel>
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
-                                                <TextBlock Text="{Binding}" Margin="5"/>
+                                                <Border Background="#FFC6D3" CornerRadius="20" HorizontalAlignment="Center" Margin="10">
+                                                    <TextBlock Text="{Binding}" Margin="10,5,10,5" TextWrapping="Wrap" HorizontalAlignment="Center" Style="{StaticResource MyTextBlockStyle}" FontSize="15"/>
+                                                </Border>
                                             </DataTemplate>
                                         </ItemsControl.ItemTemplate>
                                     </ItemsControl>

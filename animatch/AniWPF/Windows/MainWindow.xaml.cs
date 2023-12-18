@@ -6,7 +6,9 @@ using System;
 using System.Windows.Media.Imaging;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using AniBLL.Models;
 using AniWPF;
 using Microsoft.Extensions.Logging;
@@ -45,11 +47,12 @@ namespace AniWPF
         public static int randomAnimeId { get; set; }
         private List<Genres> genreList;
 
+        private List<AnimeModel> animes;
         private List<AnimeModel> uniqueAnimes;
-        private List<AnimeModel> dislikedanimes;
-        private List<AnimeModel> likedanimes;
-        private List<AnimeModel> addedanimes;
-        private List<AnimeModel> watchedanimes;
+        private List<int> dislikedAnimeIds;
+        private List<int> likedAnimeIds;
+        private List<int> addedAnimeIds;
+        private List<int> watchedAnimeIds;
 
         public MainWindow(IAnimeService animeService, IAddedAnimeService addedAnimeService,
             IDislikedAnimeService dislikedAnimeService, ILikedAnimeService likedAnimeService,
@@ -76,21 +79,24 @@ namespace AniWPF
             this.animeGenreService = animeGenreService;
 
             this.id = LogInWindow.CurrentUserID;
-            List<AnimeModel> animes = animeService.GetAll();
-            this.dislikedanimes = dislikedAnimeService.GetDislikedAnimesForUser(id);
-            this.likedanimes = likedAnimeService.GetLikedAnimesForUser(id);
-            this.addedanimes = addedAnimeService.GetAddedAnimesForUser(id);
-            this.watchedanimes = watchedAnimeService.GetWatchedAnimesForUser(id);
+            animes = animeService.GetAll();
+            List<AnimeModel> dislikedanimes = dislikedAnimeService.GetDislikedAnimesForUser(id);
+            List<AnimeModel> likedanimes = likedAnimeService.GetLikedAnimesForUser(id);
+            List<AnimeModel> addedanimes = addedAnimeService.GetAddedAnimesForUser(id);
+            List<AnimeModel> watchedanimes = watchedAnimeService.GetWatchedAnimesForUser(id);
+
             this.UserRate = 0;
 
-            this.uniqueAnimes = animes
-                .Except(dislikedanimes)
-                .Except(likedanimes)
-                .Except(addedanimes)
-                .Except(watchedanimes).ToList();
+            dislikedAnimeIds = dislikedanimes.Select(anime => anime.Id).ToList();
+            likedAnimeIds = likedanimes.Select(anime => anime.Id).ToList();
+            addedAnimeIds = addedanimes.Select(anime => anime.Id).ToList();
+            watchedAnimeIds = watchedanimes.Select(anime => anime.Id).ToList();
+            this.uniqueAnimes = animes.Where(anime => !dislikedAnimeIds.Contains(anime.Id) && 
+                                                      !likedAnimeIds.Contains(anime.Id) &&
+                                                      !addedAnimeIds.Contains(anime.Id) &&
+                                                      !watchedAnimeIds.Contains(anime.Id)).ToList();
 
             Random random = new Random();
-
 
             if (ParentWindow != null)
             {
@@ -101,9 +107,8 @@ namespace AniWPF
             }
             else
             {
-                randomAnimeId = random.Next(uniqueAnimes.Count);
+                randomAnimeId = uniqueAnimes[random.Next(uniqueAnimes.Count)].Id;
             }
-
 
             this.viewModel = new AnimeViewModel(this.animeService, this.addedAnimeService, this.animeGenreService, randomAnimeId);
             this.DataContext = this.viewModel;
@@ -187,6 +192,7 @@ namespace AniWPF
             AddToProfileButton.Visibility = Visibility.Visible;
             BorderForSendBox.Visibility = Visibility.Visible;
             CancelButton.Visibility = Visibility.Visible;
+            GenresItems.Visibility = Visibility.Collapsed;
         }
         private async void LikeAnime_Click(object sender, RoutedEventArgs e)
         {
@@ -226,7 +232,7 @@ namespace AniWPF
         {
             this.uniqueAnimes.RemoveAt(randomAnimeId);
             Random random = new Random();
-            randomAnimeId = random.Next(uniqueAnimes.Count);
+            randomAnimeId = uniqueAnimes[random.Next(uniqueAnimes.Count)].Id;
             this.viewModel = new AnimeViewModel(this.animeService, this.addedAnimeService, this.animeGenreService, randomAnimeId);
 
             this.DataContext = this.viewModel;
@@ -268,6 +274,7 @@ namespace AniWPF
             HappySmile.Visibility = Visibility.Collapsed;
             AnimeTextBlock.Visibility = Visibility.Visible;
             CancelButton.Visibility = Visibility.Collapsed;
+            GenresItems.Visibility = Visibility.Visible;
         }
 
         private void CancelReview_Click(object sender, RoutedEventArgs e)
@@ -289,6 +296,7 @@ namespace AniWPF
             HappySmile.Visibility = Visibility.Collapsed;
             AnimeTextBlock.Visibility = Visibility.Visible;
             CancelButton.Visibility = Visibility.Collapsed;
+            GenresItems.Visibility = Visibility.Visible;
         }
 
 
@@ -382,6 +390,42 @@ namespace AniWPF
             {
                 ReviewText.Text = "Введіть ваш відгук";
             }
+        }
+
+        private void UseFilter_Click(object sender, RoutedEventArgs e)
+        {
+            string genre = "auxiliary";
+            this.uniqueAnimes.Clear();
+            this.uniqueAnimes = this.animes.Where(anime => !dislikedAnimeIds.Contains(anime.Id) &&
+                                                      !likedAnimeIds.Contains(anime.Id) &&
+                                                      !addedAnimeIds.Contains(anime.Id) &&
+                                                      !watchedAnimeIds.Contains(anime.Id) &&
+                                                      animeGenreService.GetGenresForAnime(anime.Id).Contains(genre)).ToList();
+           
+            Random random = new Random();
+            
+            randomAnimeId = uniqueAnimes[random.Next(uniqueAnimes.Count)].Id;
+            this.viewModel = new AnimeViewModel(this.animeService, this.addedAnimeService, this.animeGenreService, randomAnimeId);
+
+            this.DataContext = this.viewModel;
+            this.logger.LogInformation("Anime:" + animeService.GetById(randomAnimeId).Name + " was shown");
+
+            card.Visibility = Visibility.Visible;
+            ButtonButton.Visibility = Visibility.Visible;
+            filter.Visibility = Visibility.Collapsed;
+        }
+
+        private void CancelFilter_Click(object sender, RoutedEventArgs e)
+        {
+            this.uniqueAnimes.Clear();
+            this.uniqueAnimes = this.animes.Where(anime => !dislikedAnimeIds.Contains(anime.Id) &&
+                                                           !likedAnimeIds.Contains(anime.Id) &&
+                                                           !addedAnimeIds.Contains(anime.Id) &&
+                                                           !watchedAnimeIds.Contains(anime.Id)).ToList();
+
+            card.Visibility = Visibility.Visible;
+            ButtonButton.Visibility = Visibility.Visible;
+            filter.Visibility = Visibility.Collapsed;
         }
     }
 }

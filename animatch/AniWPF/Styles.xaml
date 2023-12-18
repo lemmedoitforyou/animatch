@@ -53,6 +53,7 @@
     <Style x:Key="MyTextBlockStyle" TargetType="TextBlock">
         <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="FontFamily" Value="Comic Sans MS"/>
+        <Setter Property="TextWrapping" Value="Wrap"/>
     </Style>
     <Style x:Key="MyButtonPhotoStyle" TargetType="Button">
         <Setter Property="Cursor" Value="Hand"/>
@@ -70,6 +71,7 @@
                             Storyboard.TargetProperty="RenderTransform.ScaleX"
                             To="1.1" Duration="0:0:0.2"/>
                         <DoubleAnimation
+
                             Storyboard.TargetProperty="RenderTransform.ScaleY"
 
                             To="1.1" Duration="0:0:0.2"/>
@@ -163,6 +165,7 @@
     <Style TargetType="ListViewItem" x:Key="ReviewListViewItemStyle">
         <Setter Property="Template">
             <Setter.Value>
+
                 <ControlTemplate TargetType="ListViewItem">
                     <Border Background="Transparent" BorderBrush="#FFC6D3" BorderThickness="2" CornerRadius="15" Margin="5">
                         <Grid>

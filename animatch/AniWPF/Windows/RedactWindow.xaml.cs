@@ -3,15 +3,17 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using AniBLL.Models;
 using AniBLL.Services;
+using AniWPF.Commands;
 using AniWPF.StartupHelper;
 using AniWPF.ViewModels;
 using Microsoft.Extensions.Logging;
 
 namespace AniWPF
 {
-    
+
     public partial class RedactWindow : Window
     {
         private readonly ILogger<RedactWindow> logger;
@@ -27,9 +29,12 @@ namespace AniWPF
         private UserViewModel viewModel;
         private int id;
         private string tempPath = "";
+        public LostFocusInputCommand LostFocusCommandName { get; set; }
+        public LostFocusInputCommand LostFocusCommandDescription { get; set; }
 
-        public RedactWindow(IUserService userService, IAddedAnimeService addedAnimeService, 
-            IAnimeService animeService, IAbstractFactory<RandomWindow> randomFactory, 
+
+        public RedactWindow(IUserService userService, IAddedAnimeService addedAnimeService,
+            IAnimeService animeService, IAbstractFactory<RandomWindow> randomFactory,
             IAbstractFactory<MainWindow> mainFactory, IAbstractFactory<ProfileWindow> profileFactory,
             ILogger<RedactWindow> logger)
         {
@@ -52,7 +57,11 @@ namespace AniWPF
 
             this.InitializeComponent();
             this.WindowState = WindowState.Maximized;
-            
+            LostFocusCommandName = new LostFocusInputCommand(name, viewModel.UserName);
+            Resources.Add("LostFocusCommandName", LostFocusCommandName);
+            LostFocusCommandDescription = new LostFocusInputCommand(description, viewModel.UserText);
+            Resources.Add("LostFocusInputCommand", LostFocusCommandDescription);
+
         }
 
         private void Cancel_Button_Click(object sender, RoutedEventArgs e)
@@ -65,16 +74,16 @@ namespace AniWPF
             this.profileFactory.Create(this).Show();
             this.Close();
         }
-        
+
         private void Save_Button_Click(object sender, RoutedEventArgs e)
         {
             this.logger.LogInformation("Click Watched button, changes was save");
-            if(name.Text == null && description.Text == null)
+            if (name.Text == null && description.Text == null)
             {
                 this.profileFactory.Create(this).Show();
                 this.Close();
             }
-            userService.UpdateTitleAndText(id,name.Text, description.Text);
+            userService.UpdateTitleAndText(id, name.Text, description.Text);
             this.profileFactory.Create(this).Show();
             this.Close();
         }
@@ -90,6 +99,7 @@ namespace AniWPF
             Microsoft.Win32.OpenFileDialog openFileDialog = new Microsoft.Win32.OpenFileDialog();
             openFileDialog.Filter = "Image files (*.png;*.jpeg;*.jpg)|*.png;*.jpeg;*.jpg|All files (*.*)|*.*";
             tempPath = viewModel.UserPhoto;
+
 
             if (openFileDialog.ShowDialog() == true)
             {
@@ -133,6 +143,18 @@ namespace AniWPF
             {
                 description.Text = viewModel.UserText;
             }
+        }
+
+        private void Name_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            textBox.Text = textBox.Tag?.ToString();
+        }
+
+        private void Description_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            textBox.Text = textBox.Tag?.ToString();
         }
     }
 }
