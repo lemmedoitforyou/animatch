@@ -48,7 +48,7 @@ namespace Animatch
                     var watchedcount = 1;
 
                     var review = faker.Lorem.Paragraph();
-                    var rate = faker.Random.Number(1, 10);
+                    var rate = faker.Random.Number(1, 4);
 
                     int Id = i;
 
@@ -412,7 +412,7 @@ namespace Animatch
         //}
         private static NpgsqlConnection GetConnection() 
         {
-            return new NpgsqlConnection(@"Server=localhost;Port=5432;User Id=postgres;Password=13112004k;Database=animatch;");
+            return new NpgsqlConnection(@"Server=localhost;Port=5432;User Id=postgres;Password=yuliya2005;Database=animatch;");
         }
     }
 }

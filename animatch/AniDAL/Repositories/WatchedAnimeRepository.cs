@@ -16,7 +16,7 @@ namespace AniDAL.Repositories
     {
         public List<Anime> GetWatchedAnimesForUser(int userId)
         {
-            var watchedAnime = _context.AddedAnime
+            var watchedAnime = _context.WatchedAnime
              .Where(a => a.UserId == userId)
              .Join(_context.Anime, a => a.AnimeId, g => g.Id, (a, g) => g)
              .ToList();

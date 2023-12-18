@@ -1,4 +1,5 @@
-﻿using AniBLL.Services;
+﻿using AniBLL.Models;
+using AniBLL.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -65,6 +66,22 @@ namespace AniWPF.ViewModels
             {
                 return this.animeGenreService.GetGenresForAnime(this.id);
             }
+        }
+
+        public override bool Equals(object? obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+
+            AnimeViewModel other = (AnimeViewModel)obj;
+            return id == other.id;
+        }
+
+        public override int GetHashCode()
+        {
+            return id.GetHashCode();
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

@@ -128,24 +128,24 @@ namespace AniWPF.Windows
 
         private void AnimeButton_Click(object sender, RoutedEventArgs e)
         {
-            this.logger.LogInformation("Click detail about anime button");
+            //this.logger.LogInformation("Click detail about anime button");
 
-            if (sender is FrameworkElement button)
-            {
-                if (button.DataContext is AnimeForForm clickedItem)
-                {
-                    string temp = clickedItem.Title;
-                    AnimeForForm foundAnime = this.animeList.FirstOrDefault(anime => anime.Title == temp);
-                    if (foundAnime != null)
-                    {
-                        CurrentId = foundAnime.Id;
-                    }
+            //if (sender is FrameworkElement button)
+            //{
+            //    if (button.DataContext is AnimeForForm clickedItem)
+            //    {
+            //        string temp = clickedItem.Title;
+            //        AnimeForForm foundAnime = this.animeList.FirstOrDefault(anime => anime.Title == temp);
+            //        if (foundAnime != null)
+            //        {
+            //            CurrentId = foundAnime.Id;
+            //        }
 
-                    AnimeWindow.ParentWindow = this;
-                    this.animeFactory.Create(this).Show();
-                    this.Close();
-                }
-            }
+            //        AnimeWindow.ParentWindow = this;
+            //        this.animeFactory.Create(this).Show();
+            //        this.Close();
+            //    }
+            //}
         }
 
         private void ButtonLiked_Click(object sender, RoutedEventArgs e)
