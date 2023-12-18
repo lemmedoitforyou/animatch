@@ -63,6 +63,7 @@ namespace AniWPF
             this.profileFactory = profileFactory;
             this.searchFactory = searchFactory;
             this.mainFactory = mainFactory;
+            this.viewProfileFactory = viewProfileFactory;
 
             this.addedAnimeService = addedAnimeService;
             this.likedAnimeService = likedAnimeService;
@@ -97,6 +98,11 @@ namespace AniWPF
                 else if (ParentWindow.GetType() == typeof(SearchWindow))
                 {
                     AnimeId = SearchWindow.CurrentId;
+                }
+
+                else if (ParentWindow.GetType() == typeof(ViewProfileWindow))
+                {
+                    AnimeId = ViewProfileWindow.CurrentId;
                 }
             }
 
@@ -213,6 +219,10 @@ namespace AniWPF
                 else if (ParentWindow.GetType() == typeof(SearchWindow))
                 {
                     this.searchFactory.Create(this).Show();
+                }
+                else if (ParentWindow.GetType() == typeof(ViewProfileWindow))
+                {
+                    this.viewProfileFactory.Create(this).Show();
                 }
             }
 
