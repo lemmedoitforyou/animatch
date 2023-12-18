@@ -65,7 +65,7 @@ namespace Service
             };
 
             // Act
-            service.Add(addedAnimeModel);
+            service.Insert(addedAnimeModel);
 
             // Assert
             addedAnimeRepositoryMock.Verify(repo => repo.Insert(addedAnimeModel), Times.Once);
