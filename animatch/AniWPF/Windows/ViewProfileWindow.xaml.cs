@@ -154,6 +154,13 @@ namespace AniWPF.Windows
             this.likedFactory.Create(this).Show();
             this.Close();
         }
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.logger.LogInformation("Click Close button");
+            this.animeFactory.Create(this).Show();
+            this.Close();
+        }
     }
 }
 

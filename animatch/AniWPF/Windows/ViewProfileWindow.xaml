@@ -113,6 +113,16 @@
                     <Rectangle Width="115"/>
                     <StackPanel Width="800">
                         <TextBox Background="Transparent" BorderThickness="0,0,0,0" BorderBrush="Transparent" Text="{Binding UserName}" FontSize="40"/>
+                        <Button Grid.Column="1" x:Name="closeButton" Height="25" Width="25" BorderBrush="Transparent" Click="CloseButton_Click" Background="Transparent" HorizontalAlignment="Right" Style="{StaticResource MyButtonPhotoStyle}"  BorderThickness="0,0,0,0"  VerticalAlignment="Center" >
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border CornerRadius="30" BorderBrush="Transparent" BorderThickness="0" Background="Transparent" HorizontalAlignment="Right">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
+                            <Image  Source="https://github.com/yuliiapalamar/animatch/blob/master/animatch/AniWPF/photo/CloseIcon.png?raw=true"  RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Uniform" />
+                        </Button>
                         <TextBox Background="Transparent" BorderThickness="0,0,0,0" BorderBrush="Transparent" Text="{Binding UserLevel}" FontSize="20"/>
                         <TextBox Background="Transparent" BorderThickness="0,0,0,0" BorderBrush="Transparent" Text="{Binding UserText}" FontSize="25"/>
                         <TextBlock FontSize="10" >
