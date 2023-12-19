@@ -14,7 +14,7 @@ namespace DataTable
             var idProperty = typeof(AddedAnime).GetProperty("Id");
 
             // Act
-            var keyAttribute = idProperty.GetCustomAttributes(typeof(KeyAttribute), true);
+            var keyAttribute = idProperty?.GetCustomAttributes(typeof(KeyAttribute), true);
 
             // Assert
             Assert.Single(keyAttribute);
@@ -56,7 +56,7 @@ namespace DataTable
             var idProperty = typeof(Anime).GetProperty("Id");
 
             // Act
-            var keyAttribute = idProperty.GetCustomAttributes(typeof(KeyAttribute), true);
+            var keyAttribute = idProperty?.GetCustomAttributes(typeof(KeyAttribute), true);
 
             // Assert
             Assert.Single(keyAttribute);
@@ -69,7 +69,7 @@ namespace DataTable
             var animeMock = new Mock<Anime>();
 
             // Act
-            var requiredAttribute = animeMock.Object.GetType().GetProperty("Name").GetCustomAttributes(typeof(RequiredAttribute), true);
+            var requiredAttribute = animeMock?.Object?.GetType()?.GetProperty("Name")?.GetCustomAttributes(typeof(RequiredAttribute), true);
 
             // Assert
             requiredAttribute.Should().HaveCount(1);
@@ -82,10 +82,10 @@ namespace DataTable
             var animeMock = new Mock<Anime>();
 
             // Act
-            var maxLengthAttribute = (MaxLengthAttribute)animeMock.Object.GetType().GetProperty("Name").GetCustomAttributes(typeof(MaxLengthAttribute), true)[0];
+            var maxLengthAttribute = (MaxLengthAttribute)animeMock?.Object?.GetType()?.GetProperty("Name")?.GetCustomAttributes(typeof(MaxLengthAttribute), true)[0];
 
             // Assert
-            maxLengthAttribute.Length.Should().Be(255);
+            maxLengthAttribute?.Length.Should().Be(255);
         }
 
         [Fact]
@@ -95,7 +95,7 @@ namespace DataTable
             var animeMock = new Mock<Anime>();
 
             // Act
-            var requiredAttribute = animeMock.Object.GetType().GetProperty("Text").GetCustomAttributes(typeof(RequiredAttribute), true);
+            var requiredAttribute = animeMock?.Object?.GetType()?.GetProperty("Text")?.GetCustomAttributes(typeof(RequiredAttribute), true);
 
             // Assert
             requiredAttribute.Should().BeEmpty();
@@ -108,7 +108,7 @@ namespace DataTable
             var animeMock = new Mock<Anime>();
 
             // Act
-            var propertyType = animeMock.Object.GetType().GetProperty("Imdbrate").PropertyType;
+            var propertyType = animeMock?.Object?.GetType()?.GetProperty("Imdbrate")?.PropertyType;
 
             // Assert
             propertyType.Should().Be(typeof(double));
@@ -121,10 +121,10 @@ namespace DataTable
             var animeMock = new Mock<Anime>();
 
             // Act
-            var maxLengthAttribute = (MaxLengthAttribute)animeMock.Object.GetType().GetProperty("Photo").GetCustomAttributes(typeof(MaxLengthAttribute), true)[0];
+            var maxLengthAttribute = (MaxLengthAttribute)animeMock?.Object?.GetType()?.GetProperty("Photo")?.GetCustomAttributes(typeof(MaxLengthAttribute), true)[0];
 
             // Assert
-            maxLengthAttribute.Length.Should().Be(255);
+            maxLengthAttribute?.Length.Should().Be(255);
         }
 
         [Fact]
@@ -134,7 +134,7 @@ namespace DataTable
             var animeMock = new Mock<Anime>();
 
             // Act
-            var propertyType = animeMock.Object.GetType().GetProperty("Year").PropertyType;
+            var propertyType = animeMock?.Object?.GetType()?.GetProperty("Year")?.PropertyType;
 
             // Assert
             propertyType.Should().Be(typeof(int));
@@ -151,7 +151,7 @@ namespace DataTable
             var idProperty = typeof(AnimeGenre).GetProperty("Id");
 
             // Act
-            var keyAttribute = idProperty.GetCustomAttributes(typeof(KeyAttribute), true);
+            var keyAttribute = idProperty?.GetCustomAttributes(typeof(KeyAttribute), true);
 
             // Assert
             Assert.Single(keyAttribute);
@@ -164,7 +164,7 @@ namespace DataTable
             var animeGenreMock = new Mock<AnimeGenre>();
 
             // Act
-            var propertyType = animeGenreMock.Object.GetType().GetProperty("AnimeId").PropertyType;
+            var propertyType = animeGenreMock?.Object?.GetType()?.GetProperty("AnimeId")?.PropertyType;
 
             // Assert
             propertyType.Should().Be(typeof(int));
@@ -177,7 +177,7 @@ namespace DataTable
             var animeGenreMock = new Mock<AnimeGenre>();
 
             // Act
-            var propertyType = animeGenreMock.Object.GetType().GetProperty("GenreId").PropertyType;
+            var propertyType = animeGenreMock?.Object?.GetType()?.GetProperty("GenreId")?.PropertyType;
 
             // Assert
             propertyType.Should().Be(typeof(int));
@@ -193,7 +193,7 @@ namespace DataTable
             var idProperty = typeof(DislikedAnime).GetProperty("Id");
 
             // Act
-            var keyAttribute = idProperty.GetCustomAttributes(typeof(KeyAttribute), true);
+            var keyAttribute = idProperty?.GetCustomAttributes(typeof(KeyAttribute), true);
 
             // Assert
             Assert.Single(keyAttribute);
@@ -206,7 +206,7 @@ namespace DataTable
             var dislikedAnimeMock = new Mock<DislikedAnime>();
 
             // Act
-            var propertyType = dislikedAnimeMock.Object.GetType().GetProperty("UserId").PropertyType;
+            var propertyType = dislikedAnimeMock?.Object?.GetType()?.GetProperty("UserId")?.PropertyType;
 
             // Assert
             propertyType.Should().Be(typeof(int));
@@ -219,7 +219,7 @@ namespace DataTable
             var dislikedAnimeMock = new Mock<DislikedAnime>();
 
             // Act
-            var propertyType = dislikedAnimeMock.Object.GetType().GetProperty("AnimeId").PropertyType;
+            var propertyType = dislikedAnimeMock?.Object?.GetType()?.GetProperty("AnimeId")?.PropertyType;
 
             // Assert
             propertyType.Should().Be(typeof(int));
@@ -235,7 +235,7 @@ namespace DataTable
             var idProperty = typeof(Genre).GetProperty("Id");
 
             // Act
-            var keyAttribute = idProperty.GetCustomAttributes(typeof(KeyAttribute), true);
+            var keyAttribute = idProperty?.GetCustomAttributes(typeof(KeyAttribute), true);
 
             // Assert
             Assert.Single(keyAttribute);
@@ -248,7 +248,7 @@ namespace DataTable
             var genreMock = new Mock<Genre>();
 
             // Act
-            var requiredAttribute = genreMock.Object.GetType().GetProperty("Name").GetCustomAttributes(typeof(RequiredAttribute), true);
+            var requiredAttribute = genreMock?.Object?.GetType()?.GetProperty("Name")?.GetCustomAttributes(typeof(RequiredAttribute), true);
 
             // Assert
             requiredAttribute.Should().HaveCount(1);
@@ -261,10 +261,10 @@ namespace DataTable
             var genreMock = new Mock<Genre>();
 
             // Act
-            var maxLengthAttribute = (MaxLengthAttribute)genreMock.Object.GetType().GetProperty("Name").GetCustomAttributes(typeof(MaxLengthAttribute), true)[0];
+            var maxLengthAttribute = (MaxLengthAttribute)genreMock?.Object?.GetType()?.GetProperty("Name")?.GetCustomAttributes(typeof(MaxLengthAttribute), true)[0];
 
             // Assert
-            maxLengthAttribute.Length.Should().Be(255);
+            maxLengthAttribute?.Length.Should().Be(255);
         }
     }
 
@@ -277,7 +277,7 @@ namespace DataTable
             var idProperty = typeof(LikedAnime).GetProperty("Id");
 
             // Act
-            var keyAttribute = idProperty.GetCustomAttributes(typeof(KeyAttribute), true);
+            var keyAttribute = idProperty?.GetCustomAttributes(typeof(KeyAttribute), true);
 
             // Assert
             Assert.Single(keyAttribute);
@@ -291,7 +291,7 @@ namespace DataTable
             var likedAnimeMock = new Mock<LikedAnime>();
 
             // Act
-            var propertyType = likedAnimeMock.Object.GetType().GetProperty("UserId").PropertyType;
+            var propertyType = likedAnimeMock.Object.GetType().GetProperty("UserId")?.PropertyType;
 
             // Assert
             propertyType.Should().Be(typeof(int));
@@ -304,7 +304,7 @@ namespace DataTable
             var likedAnimeMock = new Mock<LikedAnime>();
 
             // Act
-            var propertyType = likedAnimeMock.Object.GetType().GetProperty("AnimeId").PropertyType;
+            var propertyType = likedAnimeMock?.Object?.GetType()?.GetProperty("AnimeId")?.PropertyType;
 
             // Assert
             propertyType.Should().Be(typeof(int));
@@ -320,7 +320,7 @@ namespace DataTable
             var idProperty = typeof(Review).GetProperty("Id");
 
             // Act
-            var keyAttribute = idProperty.GetCustomAttributes(typeof(KeyAttribute), true);
+            var keyAttribute = idProperty?.GetCustomAttributes(typeof(KeyAttribute), true);
 
             // Assert
             Assert.Single(keyAttribute);
@@ -333,7 +333,7 @@ namespace DataTable
             var reviewMock = new Mock<Review>();
 
             // Act
-            var propertyType = reviewMock.Object.GetType().GetProperty("UserId").PropertyType;
+            var propertyType = reviewMock?.Object?.GetType()?.GetProperty("UserId")?.PropertyType;
 
             // Assert
             propertyType.Should().Be(typeof(int));
@@ -346,7 +346,7 @@ namespace DataTable
             var reviewMock = new Mock<Review>();
 
             // Act
-            var propertyType = reviewMock.Object.GetType().GetProperty("AnimeId").PropertyType;
+            var propertyType = reviewMock?.Object?.GetType()?.GetProperty("AnimeId")?.PropertyType;
 
             // Assert
             propertyType.Should().Be(typeof(int));
@@ -359,7 +359,7 @@ namespace DataTable
             var reviewMock = new Mock<Review>();
 
             // Act
-            var requiredAttribute = reviewMock.Object.GetType().GetProperty("Text").GetCustomAttributes(typeof(RequiredAttribute), true);
+            var requiredAttribute = reviewMock.Object.GetType().GetProperty("Text")?.GetCustomAttributes(typeof(RequiredAttribute), true);
 
             // Assert
             requiredAttribute.Should().BeEmpty();
@@ -372,7 +372,7 @@ namespace DataTable
             var reviewMock = new Mock<Review>();
 
             // Act
-            var propertyType = reviewMock.Object.GetType().GetProperty("Rate").PropertyType;
+            var propertyType = reviewMock.Object.GetType().GetProperty("Rate")?.PropertyType;
 
             // Assert
             propertyType.Should().Be(typeof(int));
@@ -388,7 +388,7 @@ namespace DataTable
             var idProperty = typeof(UserInfo).GetProperty("Id");
 
             // Act
-            var keyAttribute = idProperty.GetCustomAttributes(typeof(KeyAttribute), true);
+            var keyAttribute = idProperty?.GetCustomAttributes(typeof(KeyAttribute), true);
 
             // Assert
             Assert.Single(keyAttribute);
@@ -401,7 +401,7 @@ namespace DataTable
             var userInfoMock = new Mock<UserInfo>();
 
             // Act
-            var requiredAttribute = userInfoMock.Object.GetType().GetProperty("Username").GetCustomAttributes(typeof(RequiredAttribute), true);
+            var requiredAttribute = userInfoMock.Object.GetType().GetProperty("Username")?.GetCustomAttributes(typeof(RequiredAttribute), true);
 
             // Assert
             requiredAttribute.Should().HaveCount(1);
@@ -414,10 +414,10 @@ namespace DataTable
             var userInfoMock = new Mock<UserInfo>();
 
             // Act
-            var maxLengthAttribute = (MaxLengthAttribute)userInfoMock.Object.GetType().GetProperty("Username").GetCustomAttributes(typeof(MaxLengthAttribute), true)[0];
+            var maxLengthAttribute = (MaxLengthAttribute)userInfoMock.Object.GetType().GetProperty("Username")?.GetCustomAttributes(typeof(MaxLengthAttribute), true)[0];
 
             // Assert
-            maxLengthAttribute.Length.Should().Be(255);
+            maxLengthAttribute?.Length.Should().Be(255);
         }
 
         [Fact]
@@ -428,7 +428,7 @@ namespace DataTable
 
 
             // Act
-            var requiredAttribute = userInfoMock.Object.GetType().GetProperty("Password").GetCustomAttributes(typeof(RequiredAttribute), true);
+            var requiredAttribute = userInfoMock.Object.GetType().GetProperty("Password")?.GetCustomAttributes(typeof(RequiredAttribute), true);
 
             // Assert
             requiredAttribute.Should().HaveCount(1);
@@ -441,10 +441,10 @@ namespace DataTable
             var userInfoMock = new Mock<UserInfo>();
 
             // Act
-            var maxLengthAttribute = (MaxLengthAttribute)userInfoMock.Object.GetType().GetProperty("Password").GetCustomAttributes(typeof(MaxLengthAttribute), true)[0];
+            var maxLengthAttribute = (MaxLengthAttribute)userInfoMock.Object.GetType().GetProperty("Password")?.GetCustomAttributes(typeof(MaxLengthAttribute), true)[0];
 
             // Assert
-            maxLengthAttribute.Length.Should().Be(255);
+            maxLengthAttribute?.Length.Should().Be(255);
         }
 
         [Fact]
@@ -454,7 +454,7 @@ namespace DataTable
             var userInfoMock = new Mock<UserInfo>();
 
             // Act
-            var requiredAttribute = userInfoMock.Object.GetType().GetProperty("Email").GetCustomAttributes(typeof(RequiredAttribute), true);
+            var requiredAttribute = userInfoMock.Object.GetType().GetProperty("Email")?.GetCustomAttributes(typeof(RequiredAttribute), true);
 
             // Assert
             requiredAttribute.Should().HaveCount(1);
@@ -467,10 +467,10 @@ namespace DataTable
             var userInfoMock = new Mock<UserInfo>();
 
             // Act
-            var maxLengthAttribute = (MaxLengthAttribute)userInfoMock.Object.GetType().GetProperty("Email").GetCustomAttributes(typeof(MaxLengthAttribute), true)[0];
+            var maxLengthAttribute = (MaxLengthAttribute)userInfoMock.Object.GetType().GetProperty("Email")?.GetCustomAttributes(typeof(MaxLengthAttribute), true)[0];
 
             // Assert
-            maxLengthAttribute.Length.Should().Be(255);
+            maxLengthAttribute?.Length.Should().Be(255);
         }
 
         [Fact]
@@ -480,7 +480,7 @@ namespace DataTable
             var userInfoMock = new Mock<UserInfo>();
 
             // Act
-            var requiredAttribute = userInfoMock.Object.GetType().GetProperty("Name").GetCustomAttributes(typeof(RequiredAttribute), true);
+            var requiredAttribute = userInfoMock.Object.GetType().GetProperty("Name")?.GetCustomAttributes(typeof(RequiredAttribute), true);
 
             // Assert
             requiredAttribute.Should().BeEmpty();
@@ -493,7 +493,7 @@ namespace DataTable
             var userInfoMock = new Mock<UserInfo>();
 
             // Act
-            var propertyType = userInfoMock.Object.GetType().GetProperty("Level").PropertyType;
+            var propertyType = userInfoMock.Object.GetType().GetProperty("Level")?.PropertyType;
 
             // Assert
             propertyType.Should().Be(typeof(int));
@@ -506,7 +506,7 @@ namespace DataTable
             var userInfoMock = new Mock<UserInfo>();
 
             // Act
-            var requiredAttribute = userInfoMock.Object.GetType().GetProperty("Text").GetCustomAttributes(typeof(RequiredAttribute), true);
+            var requiredAttribute = userInfoMock.Object.GetType().GetProperty("Text")?.GetCustomAttributes(typeof(RequiredAttribute), true);
 
             // Assert
             requiredAttribute.Should().BeEmpty();
@@ -519,10 +519,10 @@ namespace DataTable
             var userInfoMock = new Mock<UserInfo>();
 
             // Act
-            var maxLengthAttribute = (MaxLengthAttribute)userInfoMock.Object.GetType().GetProperty("Photo").GetCustomAttributes(typeof(MaxLengthAttribute), true)[0];
+            var maxLengthAttribute = (MaxLengthAttribute)userInfoMock.Object.GetType().GetProperty("Photo")?.GetCustomAttributes(typeof(MaxLengthAttribute), true)[0];
 
             // Assert
-            maxLengthAttribute.Length.Should().Be(255);
+            maxLengthAttribute?.Length.Should().Be(255);
         }
 
         [Fact]
@@ -532,7 +532,7 @@ namespace DataTable
             var userInfoMock = new Mock<UserInfo>();
 
             // Act
-            var propertyType = userInfoMock.Object.GetType().GetProperty("WatchedCount").PropertyType;
+            var propertyType = userInfoMock.Object.GetType().GetProperty("WatchedCount")?.PropertyType;
 
             // Assert
             propertyType.Should().Be(typeof(int));
@@ -548,7 +548,7 @@ namespace DataTable
             var idProperty = typeof(WatchedAnime).GetProperty("Id");
 
             // Act
-            var keyAttribute = idProperty.GetCustomAttributes(typeof(KeyAttribute), true);
+            var keyAttribute = idProperty?.GetCustomAttributes(typeof(KeyAttribute), true);
 
             // Assert
             Assert.Single(keyAttribute);
@@ -562,7 +562,7 @@ namespace DataTable
             var watchedAnimeMock = new Mock<WatchedAnime>();
 
             // Act
-            var propertyType = watchedAnimeMock.Object.GetType().GetProperty("UserId").PropertyType;
+            var propertyType = watchedAnimeMock.Object.GetType().GetProperty("UserId")?.PropertyType;
 
             // Assert
             propertyType.Should().Be(typeof(int));
@@ -575,7 +575,7 @@ namespace DataTable
             var watchedAnimeMock = new Mock<WatchedAnime>();
 
             // Act
-            var propertyType = watchedAnimeMock.Object.GetType().GetProperty("AnimeId").PropertyType;
+            var propertyType = watchedAnimeMock.Object.GetType().GetProperty("AnimeId")?.PropertyType;
 
             // Assert
             propertyType.Should().Be(typeof(int));
