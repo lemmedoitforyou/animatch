@@ -38,7 +38,6 @@ namespace AniWPF
 
         public static int CurrentId { get; set; }
 
-        public LostFocusInputCommand LostFocusCommand { get; set; }
 
         public SearchWindow(IAnimeService animeService, IAbstractFactory<MainWindow> mainFactory, 
             ILogger<SearchWindow> logger, IAbstractFactory<RandomWindow> randomFactory, 
@@ -60,9 +59,6 @@ namespace AniWPF
 
             InitializeComponent();
             this.WindowState = WindowState.Maximized;
-
-            LostFocusCommand = new LostFocusInputCommand(searchTextBox, "Enter anime title");
-            Resources.Add("LostFocusCommand", LostFocusCommand);
         }
 
         public class AnimeForForw

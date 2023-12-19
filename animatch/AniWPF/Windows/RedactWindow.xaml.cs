@@ -29,8 +29,6 @@ namespace AniWPF
         private UserViewModel viewModel;
         private int id;
         private string tempPath = "";
-        public LostFocusInputCommand LostFocusCommandName { get; set; }
-        public LostFocusInputCommand LostFocusCommandDescription { get; set; }
 
 
         public RedactWindow(IUserService userService, IAddedAnimeService addedAnimeService,
@@ -57,10 +55,6 @@ namespace AniWPF
 
             this.InitializeComponent();
             this.WindowState = WindowState.Maximized;
-            LostFocusCommandName = new LostFocusInputCommand(name, viewModel.UserName);
-            Resources.Add("LostFocusCommandName", LostFocusCommandName);
-            LostFocusCommandDescription = new LostFocusInputCommand(description, viewModel.UserText);
-            Resources.Add("LostFocusInputCommand", LostFocusCommandDescription);
 
         }
 
