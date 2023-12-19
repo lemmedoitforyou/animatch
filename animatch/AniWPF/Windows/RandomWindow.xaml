@@ -105,7 +105,7 @@
                 </StackPanel>
                 <Rectangle Height="100" Width="40"/>
             </StackPanel>
-            <Rectangle Height="79"/>
+            <Rectangle Height="30"/>
 
             <Border Background="white" CornerRadius="30" Width="876" Height="560">
                 <StackPanel Name="card" Orientation="Horizontal" Width="876" Height="560" >
